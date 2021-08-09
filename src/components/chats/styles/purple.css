@@ -1,0 +1,8 @@
+.purple .chats li {
+  background-color: #401c32;
+}
+
+.purple .chats li:hover {
+  background-color: #7d4065 !important;
+  transition-duration: 0.5s;
+}

@@ -1,0 +1,26 @@
+.pop-up {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 20px;
+  min-width: 300px;
+  min-height: fit-content;
+  z-index: 1;
+  text-align: center;
+  border-bottom: 1px solid #80808054;
+  border-right: 1px solid #80808054;
+  border-left: 1px solid #80808054;
+}
+
+.pop-up-content {
+  padding: 5px;
+  margin-bottom: 3px;
+}
+
+.pop-up button {
+  color: white;
+  padding: 3px 15px;
+  margin: 5px;
+  cursor: pointer;
+}

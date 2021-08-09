@@ -1,0 +1,19 @@
+.aqua .input-button {
+  background-color: #285855;
+}
+
+.aqua .input-button:hover {
+  color: #1f4a47;
+}
+
+.aqua .other-message,
+.aqua .my-message {
+  background-color: #27636375;
+}
+
+.aqua .other-message:before,
+.aqua .my-message:after {
+  border-left: 11px solid #1d3f3e;
+  border-top: 1px solid #1d3f3e;
+  border-bottom: 14px solid #1d3f3e00;
+}

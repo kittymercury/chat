@@ -1,0 +1,13 @@
+.theme-menu {
+  display: block;
+  min-width: 100%;
+}
+
+.theme-menu li {
+  padding: 10px;
+}
+
+.content.settings-themes h5 {
+  margin-left: 10px;
+  font-size: 18px;
+}

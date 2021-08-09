@@ -1,0 +1,114 @@
+html, body, #app, .chat {
+  margin: 0;
+  height: 100%;
+}
+
+.content {
+  flex: 1;
+  overflow: auto;
+}
+
+.purple .content {
+  background-color: #1f0916;
+}
+
+.aqua .content {
+  background-color: #172120;
+}
+
+.violet .content {
+  background-color: #172120;
+}
+
+.chat {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  color: white;
+  font-family: sans-serif;
+  font-size: 18px;
+}
+
+.chat.purple {
+  background-color: #482332;
+}
+
+.chat.aqua {
+  background-color: #3a4042;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+input:focus-visible {
+  outline: none;
+}
+
+input {
+  border: none;
+  color: white;
+  padding: 10px;
+  border-radius: 20px;
+  position: relative;
+}
+
+.aqua input {
+  background-color: #1d3f3e;
+}
+
+.purple input {
+  background-color: #633350;
+}
+
+
+form {
+  text-align: center;
+}
+
+ form p input {
+  padding: 4px 15px 4px 3px;
+}
+
+form button {
+  padding: 5px 20px;
+}
+
+form div {
+  font-size: 13px;
+  margin: 10px;
+}
+
+form button:last-child {
+  padding: 5px 16px;
+}
+
+input#checkbox {
+  cursor: pointer;
+}
+
+.fas.fa-circle.online {
+  color: #6cad6c;
+}
+
+.fas.fa-circle.offline {
+  color: #ce5e5e;
+}
+
+ /* scrollbar styles  */
+
+ *::-webkit-scrollbar {
+   width: 7px;
+   height: 7px;
+ }
+
+ .aqua *::-webkit-scrollbar-thumb {
+   background-color: #188484bf;
+ }
+
+ .purple *::-webkit-scrollbar-thumb {
+   background-color: #633350;
+ }

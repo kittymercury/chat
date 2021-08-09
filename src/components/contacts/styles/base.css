@@ -1,0 +1,54 @@
+.contacts li {
+  padding: 10px;
+  cursor: pointer;
+  position: relative;
+  display: flex;
+  margin-bottom: 5px;
+}
+
+.contacts li:hover {
+  transition-duration: 1.2s;
+}
+
+.avatar {
+  border-radius: 50px;
+  width: 50px;
+  height: 50px;
+  vertical-align: middle;
+}
+
+.contacts li span {
+  line-height: 2em;
+  margin-left: 10px;
+}
+
+.content.contacts li .user-name {
+  flex: 1;
+  font-weight: bolder;
+  font-size: 17px;
+}
+
+.img-wrapper {
+  position: relative;
+  width: 50px;
+  height: 50px;
+  padding: 0;
+}
+
+.fas.fa-circle {
+  vertical-align: bottom;
+  padding: 0;
+  z-index: 1;
+  font-size: 7px;
+  position: absolute;
+  bottom: 0px;
+  left: 4px;
+}
+
+.fas.fa-circle.online {
+  color: #6cad6c;
+}
+
+.fas.fa-circle.offline {
+  color: #ce5e5e;
+}

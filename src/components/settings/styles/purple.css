@@ -1,0 +1,21 @@
+.purple .settings .my-info {
+  border-bottom: 1px solid #80808059;
+  background-color: #2f1625;
+}
+
+.purple .settings .my-info .my-login {
+  color: gray;
+}
+
+.purple .features li div:hover {
+  color: green;
+}
+
+.purple .features > li {
+  border-bottom: 1px solid #4e4e4e94;
+  background-color: #401c32;
+}
+
+.purple .features li:first-child {
+  border-top: 1px solid #4e4e4e94;
+}

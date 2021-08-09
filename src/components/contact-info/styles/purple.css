@@ -1,0 +1,24 @@
+.purple .user-info-wrapper {
+  background-color: #2d1223;
+}
+
+.purple .user-status.offline {
+  color: #999;
+}
+
+.purple .user-status.online {
+  color: green;
+}
+
+.purple .user-login {
+  font-size: 12px;
+  color: gray;
+}
+
+.purple .chat-with-user {
+  background-color: #4c243c;
+}
+
+.purple .chat-with-user:hover {
+  background-color: #7d4065 !important;
+}

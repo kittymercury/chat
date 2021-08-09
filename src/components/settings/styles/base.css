@@ -1,0 +1,33 @@
+.settings .my-info {
+  text-align: center;
+  padding: 15px;
+}
+
+.settings .my-info .my-name {
+  font-weight: bold;
+}
+
+.settings .my-info .my-login {
+  font-size: 12px;
+}
+
+.my-avatar-image {
+  border-radius: 50px;
+  width: 100px;
+  height: 100px;
+  margin: 2px;
+}
+
+.features {
+  margin-top: 8px;
+}
+
+.features > li {
+  padding: 8px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.space {
+  padding-top: 19px;
+}

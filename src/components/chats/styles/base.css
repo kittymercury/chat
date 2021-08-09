@@ -1,0 +1,81 @@
+.chats li {
+  display: flex;
+  padding: 15px;
+  margin-bottom: 5px;
+}
+
+.chats li .delete {
+  display: none;
+}
+
+.chats li:hover .delete {
+  display: block;
+  color: white;
+  position: absolute;
+  right: 10px;
+  cursor: pointer;
+}
+
+.text-wrapper {
+  position: relative;
+  width: 100%;
+  margin-right: 20px;
+}
+
+.text-wrapper .message-time {
+  position: absolute;
+  font-size: 10px;
+  color: gray;
+  top: 5px;
+  right: 0px;
+}
+
+.message-preview {
+  word-wrap: break-word;
+  overflow: hidden;
+  padding: 5px;
+  width: 100%;
+  max-height: 25px;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  font-size: 12px;
+  margin: 5px;
+}
+
+.chats li .name {
+  flex: 1;
+  margin-left: 10px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.chat-image {
+  width: 50px;
+  height: 50px;
+  border-radius: 50px;
+}
+
+.chat-img-wrapper {
+  display: inline-block;
+  position: relative;
+  width: 50px;
+  height: 50px;
+}
+
+.chat-img-wrapper .fas.fa-circle {
+  vertical-align: bottom;
+  padding: 0;
+  z-index: 1;
+  font-size: 9px;
+  position: absolute;
+  bottom: 3px;
+  left: 6px;
+}
+
+.found-messages-headline {
+  padding: 10px;
+  font-size: 14px;
+  color: gray;
+}
