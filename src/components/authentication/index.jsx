@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router';
 import './styles/base.css';
 import './styles/aqua.css';
 import './styles/purple.css';
@@ -63,7 +64,7 @@ export default class Authentication extends React.Component {
           <div className="buttons-wrapper">
             <div className="log-in-button" onClick={this.handleClickLogIn}>Log in</div>
             <div>Don't have an account? Sign up!</div>
-            <button onClick={this.props.onClickOpenRegistration}>Sign up</button>
+            <Link to="registration"><button>Sign up</button></Link>
           </div>
         </form>
       </div>

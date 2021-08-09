@@ -474,23 +474,26 @@ export default class App extends React.Component {
 
     return (
       <div className={`chat ${theme}`}>
-        {this.renderHeader()}
+        {/* {this.renderHeader()} */}
         {this.renderPopUp()}
 
-        {(currentPage === 'Authentication') && (
-          <Authentication
-            onClickLogIn={this.handleClickLogIn}
-            onClickOpenRegistration={() => this.changePage('Registration')}
-          />
-        )}
+        {React.Children.map(this.props.children, (child) => {
+          return React.cloneElement(child, {
+            // Authentication
+            onClickLogIn: this.handleClickLogIn,
+            // Registration
+            onClickSignUp: this.handleClickSignUp,
+            // Contact
+            onClickUserName: this.handleClickContact,
+            onClickAvatar: this.handleClickOpenContactInfo,
+            users: users,
+            isStatusVisible: isStatusVisible,
+            currentUser: currentUser,
+            // ...
+          });
+        })}
 
-        {(currentPage === 'Registration') && (
-          <Registration
-            onClickSignUp={this.handleClickSignUp}
-          />
-        )}
-
-        {(currentPage === 'Contacts') && (
+        {/* {(currentPage === 'Contacts') && (
           <Contacts
             onClickUserName={this.handleClickContact}
             onClickAvatar={this.handleClickOpenContactInfo}
@@ -571,9 +574,9 @@ export default class App extends React.Component {
             users={users}
             onConfirmDeleteAccount={this.handleConfirmDeleteAccount}
           />
-        )}
+        )} */}
 
-        {this.renderFooter()}
+        {/* {this.renderFooter()} */}
     </div>
     );
   }
