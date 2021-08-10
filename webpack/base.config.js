@@ -49,7 +49,7 @@ module.exports = {
         use: [cacheLoader('/js'), 'babel-loader'],
       },
       {
-        test: /\.css$/,
+        test: /\.(css|scss)$/,
         use:  [cacheLoader('/css'), 'style-loader', MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader']
       },
       {

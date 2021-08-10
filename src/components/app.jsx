@@ -473,7 +473,7 @@ export default class App extends React.Component {
     const user = users.find((user) => user.id === currentUser);
 
     return (
-      <div className={`chat ${theme}`}>
+      <div className={`chat theme ${theme}`}>
         {/* {this.renderHeader()} */}
         {this.renderPopUp()}
 

@@ -8,16 +8,14 @@ html, body, #app, .chat {
   overflow: auto;
 }
 
-.purple .content {
-  background-color: #1f0916;
-}
+.theme {
+  &.purple {
+    background-color: #1f0916;
+  }
 
-.aqua .content {
-  background-color: #172120;
-}
-
-.violet .content {
-  background-color: #172120;
+  &.aqua {
+    background-color: red;
+  }
 }
 
 .chat {
@@ -28,14 +26,6 @@ html, body, #app, .chat {
   color: white;
   font-family: sans-serif;
   font-size: 18px;
-}
-
-.chat.purple {
-  background-color: #482332;
-}
-
-.chat.aqua {
-  background-color: #3a4042;
 }
 
 ul {
