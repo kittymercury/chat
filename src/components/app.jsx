@@ -11,6 +11,14 @@ import jesseImg from './tg-imgs/jesse.jpg';
 import walterImg from './tg-imgs/walter.jpeg';
 import freddieImg from './tg-imgs/freddie.jpeg';
 
+// TODO:
+// 1. make edit like in telegram
+// 2. search in among all users and add to contacts
+// 3. delete from contact list
+// 4. theme to localStorage
+// 5. scss for chats
+// 6. form in auth
+
 export default class App extends React.Component {
   constructor(props) {
     super(props);

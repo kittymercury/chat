@@ -1,7 +1,7 @@
 import React from 'react';
 import { browserHistory } from 'react-router';
 
-import './styles/base.css';
+import './styles/base.scss';
 import './styles/aqua.css';
 import './styles/purple.css';
 
@@ -74,9 +74,9 @@ export default class Header extends React.Component {
               </button>
           : ''}
         {(currentPage === 'settings') && (
-          <div className="sign-out">
-            <i className="fas fa-sign-out-alt" style={{ opacity: '0' }}></i>
-          </div>
+          <button className="sign-out" style={{ opacity: '0', cursor: 'alias' }}>
+            <i className="fas fa-sign-out-alt"></i>
+          </button>
         )}
       </div>
     );
@@ -97,9 +97,9 @@ export default class Header extends React.Component {
         {['chats', 'messages'].includes(currentPage) && this.renderSearchButton(isSearch)}
 
         {(currentPage === 'settings') && (
-          <div className="sign-out" onClick={this.props.app.handleClickSignOut}>
-            <i className="display fas fa-sign-out-alt"></i>
-          </div>
+          <button className="sign-out" onClick={this.props.app.handleClickSignOut}>
+            <i className="fas fa-sign-out-alt"></i>
+          </button>
         )}
       </div>
     );

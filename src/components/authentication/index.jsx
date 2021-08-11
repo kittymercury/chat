@@ -3,7 +3,7 @@ import { Link, browserHistory } from 'react-router';
 
 import api from '../api';
 
-import './styles/base.css';
+import './styles/base.scss';
 import './styles/aqua.css';
 import './styles/purple.css';
 
@@ -84,14 +84,12 @@ export default class Authentication extends React.Component {
 
   renderInput = (type, placeholder, value, name) => {
     return (
-      <div>
-        <input
-          type={`${type}`}
-          placeholder={`${placeholder}`}
-          value={value}
-          onChange={(e) => this.changeInputValue(name, e)}
-        />
-      </div>
+      <input
+        type={`${type}`}
+        placeholder={`${placeholder}`}
+        value={value}
+        onChange={(e) => this.changeInputValue(name, e)}
+      />
     )
   }
 
@@ -100,20 +98,18 @@ export default class Authentication extends React.Component {
 
     return (
       <div className="content authentication">
-        <div className="authentication-headline">Sign in</div>
-        <form>
-          {this.renderInput('text', 'Login', login, 'login')}
-          {this.renderInput(inputType, 'Password', password, 'password')}
-          <ShowPasswordCheckbox
-            onChangeShowPassword={this.changePasswordVisibility}
-            checked={isPasswordVisible}
-          />
-          <div className="buttons-wrapper">
-            <div className="log-in-button" onClick={this.handleClickLogIn}>Log in</div>
-            <div>Don't have an account? Sign up!</div>
-            <Link to="registration"><button>Sign up</button></Link>
-          </div>
-        </form>
+        <div className="headline">Sign in</div>
+        {this.renderInput('text', 'Login', login, 'login')}
+        {this.renderInput(inputType, 'Password', password, 'password')}
+        <ShowPasswordCheckbox
+          onChangeShowPassword={this.changePasswordVisibility}
+          checked={isPasswordVisible}
+        />
+        <div className="buttons-wrapper">
+          <button onClick={this.handleClickLogIn}>Log in</button>
+          <div>Don't have an account? Sign up!</div>
+          <Link to="registration"><button>Sign up</button></Link>
+        </div>
       </div>
     )
   }

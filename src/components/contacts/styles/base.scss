@@ -1,0 +1,47 @@
+.contacts li {
+  margin-bottom: 5px;
+  padding: 10px;
+  cursor: pointer;
+
+  display: flex;
+
+  &:hover {
+    transition-duration: 1.2s;
+  }
+
+  .img-wrapper {
+    height: 50px;
+    width: 50px;
+    padding: 0;
+    position: relative;
+
+    .avatar {
+      height: 50px;
+      width: 50px;
+      border-radius: 50px;
+    }
+  }
+
+  .user-name {
+    line-height: 2em;
+    margin-left: 10px;
+    font-weight: bolder;
+    font-size: 17px;
+    flex: 1;
+  }
+}
+
+.contacts .fas.fa-circle {
+  font-size: 7px;
+  position: absolute;
+  bottom: 0px;
+  left: 4px;
+
+  &.online {
+    color: #6cad6c;
+  }
+
+  &.offline {
+    color: #ce5e5e;
+  }
+}

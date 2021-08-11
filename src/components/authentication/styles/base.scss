@@ -1,0 +1,44 @@
+.authentication {
+  margin-top: 70px;
+  text-align: center;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .headline {
+    margin-bottom: 10px;
+    font-weight: 600;
+  }
+
+  input {
+    border: none;
+    color: white;
+    margin: 0 0 10px;
+    padding-left: 20px;
+    border-radius: 20px;
+
+    &[type="password"] {
+      margin-bottom: 5px;
+    }
+  }
+
+  .checkbox-wrapper {
+    margin: 0;
+  }
+
+  .buttons-wrapper {
+
+    button {
+      padding: 5px 20px;
+      background-color:  #315655;
+      color: white;
+      cursor: pointer;
+    }
+
+    div {
+      font-size: 13px;
+      margin: 10px;
+    }
+  }
+}

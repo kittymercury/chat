@@ -3,7 +3,7 @@ import { browserHistory } from 'react-router';
 
 import ShowPasswordCheckbox from '../common/show-password-checkbox';
 
-import './styles/base.css';
+import './styles/base.scss';
 import './styles/aqua.css';
 import './styles/purple.css';
 
@@ -133,64 +133,55 @@ export default class PrivacyAndSecurity extends React.Component {
     return (
       <div className="content privacy-and-security">
 
-        <div className="show-status-wrapper">Show my status:
+        <div>Show my status:
           <input
             type="checkbox"
             id="checkbox"
             onChange={this.handleChangeInputCheckbox}
             checked={this.props.app.state.isStatusVisible}
           />
-          <button>Submit</button>
         </div>
 
-        <div className="change-password-wrapper">
+        <div>
           <h4>Change password</h4>
-            <label>
-              Current password:
-              <input
-                type={inputType}
-                value={currentPassword}
-                onChange={(e) => this.handleChangePassword('currentPassword', e)}
-              />
-            </label>
-            <label>
-              New password:
-              <input
-                type={inputType}
-                value={newPassword}
-                onChange={(e) => this.handleChangePassword('newPassword', e)}
-              />
-            </label>
-            <label>
-              Repeat new password:
-              <input
-                type={inputType}
-                value={repeatNewPassword}
-                onChange={(e) => this.handleChangePassword('repeatNewPassword', e)}
-              />
-            </label>
-            <ShowPasswordCheckbox
-              onChangeShowPassword={this.changePasswordVisibility}
-              checked={isPasswordVisible}
-            />
-            <button className="button-confirm" onClick={this.handleConfirmNewPassword}>Confirm</button>
+          <input
+            type={inputType}
+            value={currentPassword}
+            placeholder='Old password'
+            onChange={(e) => this.handleChangePassword('currentPassword', e)}
+          />
+          <input
+            type={inputType}
+            value={newPassword}
+            placeholder='New password'
+            onChange={(e) => this.handleChangePassword('newPassword', e)}
+          />
+          <input
+            type={inputType}
+            value={repeatNewPassword}
+            placeholder='Repeat new password'
+            onChange={(e) => this.handleChangePassword('repeatNewPassword', e)}
+          />
+          <ShowPasswordCheckbox
+          onChangeShowPassword={this.changePasswordVisibility}
+          checked={isPasswordVisible}
+          />
+          <button className="button-confirm" onClick={this.handleConfirmNewPassword}>Confirm</button>
         </div>
 
-        <div className="change-login-wrapper">
+        <div>
           <h4>Change login</h4>
-            <label>
-              <input
-                className="input-login"
-                type="text"
-                value={inputLogin}
-                placeholder={`@${login}`}
-                onChange={this.handleChangeLogin}
-              />
-            </label>
+            <input
+              className="input-login"
+              type="text"
+              value={inputLogin}
+              placeholder={`@${login}`}
+              onChange={this.handleChangeLogin}
+            />
             <button className="button-confirm" onClick={this.handleConfirmNewLogin}>Confirm</button>
         </div>
 
-        <div className="delete-account-wrapper">
+        <div>
           <h4>Delete account</h4>
           <span>Press the button to delete your account: </span>
           <button className="button-delete-account" onClick={this.handleClickDeleteAccount}>Delete account</button>

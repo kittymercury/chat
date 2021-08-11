@@ -3,7 +3,7 @@ import { browserHistory } from 'react-router';
 
 import api from '../api';
 
-import './styles/base.css';
+import './styles/base.scss';
 import './styles/aqua.css';
 import './styles/purple.css';
 
@@ -106,50 +106,38 @@ export default class Registration extends React.Component {
 
     return (
       <div className="content registration">
-        <form>
-          <div className="registration-headline">Sign up</div>
-          <div>
-            <input
-              type="text"
-              placeholder="Your name*"
-              value={this.state.name}
-              onChange={(e) => this.changeInputValue('name', e)}
-            />
-          </div>
-          <div>
-            <input
-              type="text"
-              placeholder="Login*"
-              value={this.state.login}
-              onChange={this.handleChangeLogin}
-            />
-          </div>
-          <div>
-            <input
-              type={inputType}
-              placeholder="Password*"
-              value={this.state.password}
-              onChange={(e) => this.changeInputValue('password', e)}
-            />
-            <ShowPasswordCheckbox
-              onChangeShowPassword={this.changePasswordVisibility}
-              checked={isPasswordVisible}
-            />
-          </div>
-          <div>
-            <input
-              className="sign-up-avatar"
-              type="file"
-              name="avatar"
-              accept="image/png, image/jpeg, image/jpg"
-              value={this.state.avatar}
-              onChange={(e) => this.changeInputValue('avatar', e)}
-            />
-          </div>
-          <div className="button-wrapper">
-            <div className="sign-up-button" onClick={this.handleClickSignUp}>Sign up</div>
-          </div>
-        </form>
+        <div className="headline">Sign up</div>
+        <input
+          type="text"
+          placeholder="Your name*"
+          value={this.state.name}
+          onChange={(e) => this.changeInputValue('name', e)}
+        />
+        <input
+          type="text"
+          placeholder="Login*"
+          value={this.state.login}
+          onChange={this.handleChangeLogin}
+        />
+        <input
+          type={inputType}
+          placeholder="Password*"
+          value={this.state.password}
+          onChange={(e) => this.changeInputValue('password', e)}
+        />
+        <ShowPasswordCheckbox
+          onChangeShowPassword={this.changePasswordVisibility}
+          checked={isPasswordVisible}
+        />
+        <input
+          className="sign-up-avatar"
+          type="file"
+          name="avatar"
+          accept="image/png, image/jpeg, image/jpg"
+          value={this.state.avatar}
+          onChange={(e) => this.changeInputValue('avatar', e)}
+        />
+        <button className="sign-up-button" onClick={this.handleClickSignUp}>Sign up</button>
       </div>
     )
   }

@@ -1,8 +1,10 @@
 import React from 'react';
 import lodash from 'lodash';
+
 import InputSearch from '../common/input-search';
 import { getImg, formatDate } from '../helpers';
-import './styles/base.css';
+
+import './styles/base.scss';
 import './styles/aqua.css';
 import './styles/purple.css';
 

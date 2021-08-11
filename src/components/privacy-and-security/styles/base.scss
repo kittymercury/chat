@@ -1,0 +1,61 @@
+.privacy-and-security {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+
+  h4 {
+    margin: 20px 5px;
+    font-size: 16px;
+  }
+
+  div {
+    padding: 0 0 10px 15px;
+    border-bottom: 1px solid #f1f1f126;
+
+    &:first-child {
+      padding-top: 15px;
+    }
+
+    &.checkbox-wrapper {
+      border: none;
+      padding: 0;
+
+      .show-password {
+        margin: 0;
+      }
+    }
+  }
+
+  button {
+    padding: 4px;
+    color: white;
+    cursor: pointer;
+
+    &.button-confirm {
+      margin: 10px 0 5px 0;
+    }
+
+    &.button-delete-account {
+      margin-left: 5px;
+    }
+  }
+
+  span {
+    font-size: 13px;
+    display: inline-block;
+  }
+
+  input {
+    margin: 10px 10px 5px 0;
+    padding: 7px 15px;
+    border-radius: 20px;
+    display: block;
+
+    &#checkbox {
+      margin: 0 10px;
+      cursor: pointer;
+      display: inline-block;
+    }
+  }
+}

@@ -1,6 +1,7 @@
 html, body, #app, .chat {
   margin: 0;
   height: 100%;
+  width: 100%;
 }
 
 a {
@@ -57,28 +58,6 @@ input {
 
 .purple input {
   background-color: #633350;
-}
-
-
-form {
-  text-align: center;
-}
-
- form p input {
-  padding: 4px 15px 4px 3px;
-}
-
-form button {
-  padding: 5px 20px;
-}
-
-form div {
-  font-size: 13px;
-  margin: 10px;
-}
-
-form button:last-child {
-  padding: 5px 16px;
 }
 
 input#checkbox {

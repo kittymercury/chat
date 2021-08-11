@@ -3,7 +3,7 @@ import { browserHistory } from 'react-router';
 
 import { getImg } from '../helpers';
 
-import './styles/base.css';
+import './styles/base.scss';
 import './styles/aqua.css';
 import './styles/purple.css';
 
@@ -13,7 +13,7 @@ export default class Contacts extends React.Component {
   }
 
   handleClickContact = (user) => {
-    const { currentChat, chats, users, currentUser } = this.props.app.state;
+    const {  chats, users, currentUser } = this.props.app.state;
 
     const isChatExist = chats.find((chat) => {
       if (chat.participants.includes(user.id) && chat.participants.includes(currentUser)) {

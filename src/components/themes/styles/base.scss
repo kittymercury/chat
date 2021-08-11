@@ -1,0 +1,15 @@
+.settings-themes {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+
+  h5 {
+    margin: 15px;
+    font-size: 18px;
+  }
+
+  li {
+    padding: 10px;
+  }
+}

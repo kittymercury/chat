@@ -1,5 +1,6 @@
 import React from 'react';
-import './styles/base.css';
+
+import './styles/base.scss';
 import './styles/aqua.css';
 import './styles/purple.css';
 import noAvatar from '../tg-imgs/no-avatar.png';
@@ -52,14 +53,14 @@ export default class Profile extends React.Component {
           </div>
           <div>
             <input
+              id="file"
               type="file"
               name="avatar"
               accept="image/png, image/jpeg, image/jpg"
               onChange={this.handleChangeAvatar}
             />
-            <p>
-              <button onClick={this.handleClickAvatarSubmit}>Submit</button>
-            </p>
+            <label for="file">Choose a file</label>
+            <button className="submit-avatar" onClick={this.handleClickAvatarSubmit}>Submit</button>
           </div>
         </div>
       </div>

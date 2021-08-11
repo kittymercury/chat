@@ -1,0 +1,15 @@
+// banana
+body.banana {
+  --header-footer-bg: #fcc700;
+  --header-footer-color: black;
+}
+.banana.header,
+.banana.footer {
+  background-color: var(--header-footer-bg);
+  color: var(--header-footer-color);
+}
+
+// aqua
+
+
+// purple
