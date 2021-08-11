@@ -4,13 +4,13 @@ import './styles/aqua.css';
 import './styles/purple.css';
 import noAvatar from '../tg-imgs/no-avatar.png';
 
-export default class SettingsEdit extends React.Component {
+export default class Profile extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      name: props.user.name,
-      avatar: props.user.avatar,
+      name: this.props.app.state.currentUser.name,
+      avatar: this.props.app.state.currentUser.avatar,
     }
   }
 
@@ -19,15 +19,15 @@ export default class SettingsEdit extends React.Component {
   }
 
   handleClickChangeName = () => {
-    this.props.onSubmitUser({ name: this.state.name });
+    this.props.app.handleSubmitUser({ name: this.state.name });
   }
 
   handleClickRemoveAvatar = () => {
-    this.props.onSubmitUser({ avatar: '' });
+    this.props.app.handleSubmitUser({ avatar: null });
   }
 
   handleClickAvatarSubmit = () => {
-    this.props.onSubmitUser({ avatar: this.state.avatar });
+    this.props.app.handleSubmitUser({ avatar: this.state.avatar });
   }
 
   render () {

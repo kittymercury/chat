@@ -3,6 +3,11 @@ html, body, #app, .chat {
   height: 100%;
 }
 
+a {
+  color: inherit;
+  text-decoration: inherit;
+}
+
 .content {
   flex: 1;
   overflow: auto;
@@ -14,7 +19,7 @@ html, body, #app, .chat {
   }
 
   &.aqua {
-    background-color: red;
+    background-color: #306d67;;
   }
 }
 

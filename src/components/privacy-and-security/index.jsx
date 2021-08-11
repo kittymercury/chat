@@ -1,4 +1,6 @@
 import React from 'react';
+import { browserHistory } from 'react-router';
+
 import ShowPasswordCheckbox from '../common/show-password-checkbox';
 
 import './styles/base.css';
@@ -10,8 +12,8 @@ export default class PrivacyAndSecurity extends React.Component {
     super(props);
 
     this.state = {
-      login: props.user.login,
-      password: props.user.password,
+      login: props.app.state.currentUser.login,
+      password: props.app.state.currentUser.password,
       currentPassword: '',
       newPassword: '',
       repeatNewPassword: '',
@@ -21,8 +23,14 @@ export default class PrivacyAndSecurity extends React.Component {
     }
   }
 
+  handleConfirmDeleteAccount = () => {
+    this.props.app.setState({ users: [], currentUser: null });
+    localStorage.removeItem('user');
+    browserHistory.push('/authentication');
+  }
+
   handleChangeInputCheckbox = (e) => {
-    this.props.onChangeStatus(e.target.checked);
+    this.props.app.setState({ isStatusVisible: e.target.checked });
   }
 
   handleChangePassword = (name, e) => {
@@ -46,15 +54,15 @@ export default class PrivacyAndSecurity extends React.Component {
     } = this.state;
 
     if ((password === currentPassword) && (newPassword === repeatNewPassword)) {
-      this.props.onSubmitUser({ password: this.state.repeatNewPassword });
-      this.props.onOpenPopUp({ message: 'Password was changed!' });
+      this.props.app.handleSubmitUser({ password: this.state.repeatNewPassword });
+      this.props.app.handleOpenPopUp({ message: 'Password was changed!' });
       this.setState({
         currentPassword: '',
         newPassword: '',
         repeatNewPassword: ''
       });
     } else {
-      this.props.onOpenPopUp({ message: 'Ooops, wrong credentials! Try again :)' });
+      this.props.app.handleOpenPopUp({ message: 'Ooops, wrong credentials! Try again :)' });
       this.setState({
         currentPassword: '',
         newPassword: '',
@@ -72,7 +80,7 @@ export default class PrivacyAndSecurity extends React.Component {
   }
 
   handleConfirmNewLogin = () => {
-    const { users } = this.props;
+    const { users } = this.props.app.state;
     const { inputLogin, login } = this.state;
 
     const isLoginExist = users.find((user) => user.login === inputLogin);
@@ -82,36 +90,35 @@ export default class PrivacyAndSecurity extends React.Component {
     const isAlreadyMine = (inputLogin === login);
 
     if (isLoginAppropriate) {
-      this.props.onSubmitUser({ login: this.state.inputLogin });
-      this.props.onOpenPopUp({ message: 'Successfully changed!' });
+      this.props.app.handleSubmitUser({ login: this.state.inputLogin });
+      this.props.app.handleOpenPopUp({ message: 'Successfully changed!' });
     }
 
     if (isLoginShort) {
-      this.props.onOpenPopUp({ message: 'Too short login!' });
+      this.props.app.handleOpenPopUp({ message: 'Too short login!' });
     }
 
     if (isLoginEmpty) {
-      this.props.onOpenPopUp({ message: 'Login cannot be empty!' });
+      this.props.app.handleOpenPopUp({ message: 'Login cannot be empty!' });
     }
 
     if (isLoginExist) {
       if (isAlreadyMine) {
-        this.props.onOpenPopUp({ message: 'You have already had such login :)' });
+        this.props.app.handleOpenPopUp({ message: 'You have already had such login :)' });
       } else {
-        this.props.onOpenPopUp({ message: 'This login is already taken' });
+        this.props.app.handleOpenPopUp({ message: 'This login is already taken' });
       }
     }
   }
 
   handleClickDeleteAccount = () => {
-    this.props.onOpenPopUp({
+    this.props.app.handleOpenPopUp({
       message: 'All your data will be deleted and it won\'t be possible to restore it. Do you want to continue?',
-      onConfirm: this.props.onConfirmDeleteAccount
+      onConfirm: this.props.app.handleConfirmDeleteAccount
     });
   }
 
   render () {
-    const { onClickSubmit, isStatusVisible } = this.props;
     const {
       login,
       inputLogin,
@@ -131,9 +138,9 @@ export default class PrivacyAndSecurity extends React.Component {
             type="checkbox"
             id="checkbox"
             onChange={this.handleChangeInputCheckbox}
-            checked={isStatusVisible}
+            checked={this.props.app.state.isStatusVisible}
           />
-          <button onClick={onClickSubmit}>Submit</button>
+          <button>Submit</button>
         </div>
 
         <div className="change-password-wrapper">

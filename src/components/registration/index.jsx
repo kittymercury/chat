@@ -1,4 +1,8 @@
 import React from 'react';
+import { browserHistory } from 'react-router';
+
+import api from '../api';
+
 import './styles/base.css';
 import './styles/aqua.css';
 import './styles/purple.css';
@@ -20,6 +24,59 @@ export default class Registration extends React.Component {
     }
   }
 
+  handleClickSignUp = async () => {
+    const data = await api('sign_up', {
+      name: this.state.name,
+      login: this.state.login,
+      password: this.state.password
+    });
+
+    if (data.user) {
+      const usersData = await api('get_users');
+
+      this.setState({ currentUser: data.user.id, users: usersData.users });
+
+      browserHistory.push('/settings');
+      localStorage.setItem('user', JSON.stringify(data.user));
+    }
+
+    if (data.error) {
+      this.props.app.handleOpenPopUp({
+        message: data.error.description
+      });
+    }
+
+
+    // const isName = newUser.name && newUser.name.trim();
+    // const isLogin = newUser.login && newUser.login.trim();
+    // const isPassword = newUser.password && newUser.password.trim();
+    // const isLoginExist = users.find((user) => user.login === state.login);
+    // const isLoginShort = newUser.login.length < 3;
+    //
+    // if (isName && isLogin && isPassword) {
+    //   if (!isLoginExist) {
+    //     if (!isLoginShort) {
+    //       const newUsers = users.concat(newUser);
+    //
+    //       this.changePage('Chats');
+    //       this.setState({ currentUser: newUser.id, users: newUsers });
+    //     } else {
+    //       this.handleOpenPopUp({
+    //         message: 'Login cannot be shorter than 4 symbols!'
+    //       });
+    //     }
+    //   } else {
+    //     this.handleOpenPopUp({
+    //       message: 'Oops, this name is already taken'
+    //     });
+    //   }
+    // } else {
+    //   this.handleOpenPopUp({
+    //     message: 'Inputs with * cannot be empty!'
+    //   });
+    // }
+  }
+
   handleChangeLogin = (e) => {
     const allowedSymbols = /^[0-9a-z]+$/;
 
@@ -34,10 +91,6 @@ export default class Registration extends React.Component {
 
   changeInputValue = (name, e) => {
     this.setState({ [name]: e.target.value })
-  }
-
-  handleClickSignUp = (e) => {
-    this.props.onClickSignUp(this.state);
   }
 
   changePasswordVisibility = (e) => {

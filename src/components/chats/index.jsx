@@ -16,10 +16,10 @@ export default class Chats extends React.Component {
   }
 
   handleClickFoundMessage = (message) => {
-    const { chats } = this.props;
+    const { chats } = this.props.app.state;
     const chat = chats.find((chat) => chat.id === message.chatId);
-    this.props.changeState({ foundMessage: message, currentChat: chat });
-    this.props.changePage();
+    this.props.app.setState({ foundMessage: message });
+    browserHistory.push(`/messages/${chat.id}`);
   }
 
   tryHighlight = (content) => {
@@ -37,6 +37,31 @@ export default class Chats extends React.Component {
     this.setState({ inputSearch: e.target.value });
   }
 
+  handleClickChat = (chat) => {
+    const { messageToForward, messages, isEditMessages } = this.props.app.state;
+
+    if (messageToForward) {
+      const message = {
+        id: +new Date(),
+        userId: this.props.app.state.currentUser.id,
+        chatId: chat.id,
+        time: +new Date(),
+        forward: messageToForward
+      };
+      const newMessages = messages.concat(message);
+      this.props.app.setState({ messages: newMessages, messageToForward: null, isEditMessages: false });
+    }
+
+    browserHistory.push(`/messages/${chat.id}`);
+  }
+
+  handleClickDeleteChat = (chat) => {
+    const { chats } = this.props.app.state;
+    const filteredChats = chats.filter((c) => c !== chat);
+
+    this.props.app.setState({ chats: filteredChats });
+  }
+
   renderMessagePreview = (message) => {
     if (message) {
       if (message.forward) {
@@ -49,7 +74,7 @@ export default class Chats extends React.Component {
   }
 
   renderStatus = (user) => {
-    if (this.props.isStatusVisible) {
+    if (this.props.app.state.isStatusVisible) {
       return <i className={`fas fa-circle ${user.status}`}></i>
     }
   }
@@ -104,7 +129,7 @@ export default class Chats extends React.Component {
       isSearch,
       isStatusVisible,
       messages
-    } = this.props;
+    } = this.props.app.state;
 
     const currentUsersChats = chats.filter((chat) => {
       return chat.participants.includes(currentUser);
@@ -113,7 +138,7 @@ export default class Chats extends React.Component {
     let foundChats = [];
     if (isSearch && inputSearch) {
       currentUsersChats.forEach((chat) => {
-        const participant = users.find((user) => user.id === chat.participants.find((id) => id !== currentUser));
+        const participant = users.find((user) => user.id === chat.participants.find((id) => id !== currentUser.id));
         if (participant.name.toLowerCase().includes(inputSearch.toLowerCase())) {
           foundChats.push(chat);
         }
@@ -160,9 +185,9 @@ export default class Chats extends React.Component {
 
         <ul>
           {sortedChats.map((chat) => {
-            const onClick = () => this.props.onClick(chat);
-            const onDelete = () => this.props.onDelete(chat);
-            const participant = users.find((user) => user.id === chat.participants.find((id) => id !== currentUser));
+            const onClick = () => this.handleClickChat(chat);
+            const onDelete = () => this.handleClickDeleteChat(chat);
+            const participant = users.find((user) => user.id === chat.participants.find((id) => id !== currentUser.id));
 
             const chatMessages = messages.filter((m) => m.chatId === chat.id);
             const lastMessage = lodash.last(chatMessages);
@@ -177,7 +202,7 @@ export default class Chats extends React.Component {
               {foundMessages.map((m) => {
                 const participant = users.find((user) => user.id === m.userId);
                 const foundMessageChat = chats.find((chat) => chat.id === m.chatId);
-                const onClick = () => this.props.onClick(foundMessageChat);
+                const onClick = () => this.handleClickChat(foundMessageChat);
 
                 return this.renderMessage(m, participant, onClick)
               })}

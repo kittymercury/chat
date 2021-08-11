@@ -1,20 +1,9 @@
 import React from 'react';
-import lodash from 'lodash';
 
 import api from './api';
 
-import Authentication from './authentication';
-import Registration from './registration';
 import Header from './header';
 import Footer from './footer';
-import Contacts from './contacts';
-import ContactInfo from './contact-info';
-import Chats from './chats';
-import Messages from './messages';
-import Settings from './settings';
-import SettingsThemes from './settings-themes';
-import SettingsEdit from './settings-edit';
-import PrivacyAndSecurity from './privacy-and-security';
 import PopUp from './pop-up';
 
 import cornersImg from './tg-imgs/corners.jpeg';
@@ -25,14 +14,14 @@ import freddieImg from './tg-imgs/freddie.jpeg';
 export default class App extends React.Component {
   constructor(props) {
     super(props);
+
     const currentUser = JSON.parse(localStorage.getItem('user') || '{}');
-    const currentPage = currentUser.id ? 'Contacts' : 'Authentication';
+    const currentPage = window.location.pathname;
 
     this.state = {
-      currentUser: currentUser.id,
-      currentPage: 'Registration',
-      currentChat: '',
-      userProfile: '',
+      currentUser: currentUser,
+      currentPage: currentPage,
+
       theme: 'aqua',
 
       isStatusVisible: true,
@@ -80,293 +69,23 @@ export default class App extends React.Component {
   }
 
   componentDidMount = async () => {
-    if (['Authentication', 'Registration'].includes(this.state.currentPage)) return;
+    const currentPage = window.location.pathname;
+
+    if (['/authentication', '/registration'].includes(currentPage)) {
+      return;
+    }
 
     const data = await api('get_users');
     this.setState({ users: data.users });
   }
 
-  changePage = (page) => {
-    this.setState({ currentPage: page, isSearch: false });
-  }
-
-  changeState = (state) => {
-    this.setState(state);
-  }
-
-  clickBack = () => {
-    const { currentPage } = this.state;
-
-    switch (currentPage) {
-      case 'Privacy and security':
-      case 'Edit profile':
-      case 'Themes':
-        this.changePage('Settings');
-        break;
-      case 'Contact info':
-        this.changePage('Contacts');
-        break;
-      case 'Registration':
-        this.changePage('Authentication');
-        break;
-    }
-  }
-
-  // handlers for Header
-
-  handleClickEditMessages = (condition) => {
-    this.setState({ isEditMessages: condition });
-  }
-
-  handleClickSearch = (condition) => {
-    this.setState({ isSearch: condition });
-  }
-
-  handleCancelForwarding = () => {
-    this.setState({ messageToForward: null });
-  }
-
-  // ---------------------------------------
-
-  // handlers for Contacts
-
-  handleClickContact = (user) => {
-    const { currentChat, chats, users, currentUser } = this.state;
-
-    const isChatExist = chats.find((chat) => {
-      if (chat.participants.includes(user.id) && chat.participants.includes(currentUser)) {
-        return true;
-      } else {
-        return false;
-      }
-    })
-
-    if (isChatExist) return;
-
-    const newChat = {
-      id: +new Date(),
-      name: user.name,
-      participants: [ currentUser, user.id ]
-    }
-    const newChats = chats.concat(newChat);
-
-    this.changePage('Messages');
-    this.setState({ currentChat: newChat, chats: newChats });
-  }
-
-  handleClickOpenContactInfo = (user) => {
-    this.changePage('Contact info');
-    this.setState({ userProfile: user });
-  }
-
-  // -----------------------------------------
-
-  // handlers for Chats
-
-  handleClickChat = (chat) => {
-    const { messageToForward, messages, isEditMessages } = this.state;
-
-    this.setState({ currentChat: chat });
-
-    if (messageToForward) {
-      const message = {
-        id: +new Date(),
-        userId: this.state.currentUser,
-        chatId: chat.id,
-        time: +new Date(),
-        forward: messageToForward
-      };
-      const newMessages = messages.concat(message);
-      this.setState({ messages: newMessages, messageToForward: null, isEditMessages: false });
-      this.changePage('Messages');
-    } else {
-      this.changePage('Messages');
-    }
-  }
-
-  handleClickDeleteChat = (chat) => {
-    const { chats } = this.state;
-    const filteredChats = chats.filter((c) => c !== chat);
-
-    this.setState({ chats: filteredChats });
-  }
-
-
-  // ----------------------------------------------------
-
-
-  //  Themes
-
-  handleClickTheme = (theme) => {
-    this.setState({ theme });
-  }
-
-  // Authentication
-
-  // handleClickLogIn = (state) => {
-  //   const { users } = this.state;
-  //
-  //   const currentUser = users.find((user) => {
-  //     if ((user.login === state.login) && (user.password === state.password)) {
-  //       return true;
-  //     } else {
-  //       return false;
-  //     }
-  //   });
-  //   if (currentUser) {
-  //     this.changePage('Chats');
-  //     this.setState({
-  //       currentUser: currentUser.id,
-  //     });
-  //   } else {
-  //     this.handleOpenPopUp({
-  //       message: 'No users with such data!'
-  //     });
-  //     this.setState({ currentPage: 'Authentication' });
-  //   }
-  // }
-
-  handleClickLogIn = async (state) => {
-    const data = await api('login', {
-      password: state.password,
-      login: state.login
-    });
-
-    if (data.error) {
-      this.handleOpenPopUp({
-        message: data.error.description,
-      });
-    }
-
-    if (data.user) {
-      const usersData = await api('get_users');
-
-      this.changePage('Chats');
-      this.setState({
-        users: usersData.users,
-        currentUser: data.user.id,
-      });
-
-      localStorage.setItem('user', JSON.stringify(data.user));
-    }
-  }
-
-  // -----------------------------------
-
-  // Registration
+  // --------------------------------
 
   handleSubmitUser = (user) => {
-    const { currentUser, users } = this.state;
+    const newCurrentUser = { ...this.state.currentUser, ...user };
 
-    const newUsers = users.map((u) => {
-      if (u.id === currentUser) {
-        return { ...u, ...user };
-      } else {
-        return u;
-      }
-    });
-
-    this.setState({ users: newUsers });
-  }
-
-  handleClickSignUp = async (state) => {
-    const { users } = this.state;
-    const data = await api('sign_up', {
-      name: state.name,
-      login: state.login,
-      password: state.password
-    });
-
-    if (data.user) {
-      const usersData = await api('get_users');
-
-      this.changePage('Chats');
-      this.setState({ currentUser: data.user.id, users: usersData.users });
-      localStorage.setItem('user', JSON.stringify(data.user));
-    }
-
-    if (data.error) {
-      this.handleOpenPopUp({
-        message: data.error.description
-      });
-    }
-
-
-    // const isName = newUser.name && newUser.name.trim();
-    // const isLogin = newUser.login && newUser.login.trim();
-    // const isPassword = newUser.password && newUser.password.trim();
-    // const isLoginExist = users.find((user) => user.login === state.login);
-    // const isLoginShort = newUser.login.length < 3;
-    //
-    // if (isName && isLogin && isPassword) {
-    //   if (!isLoginExist) {
-    //     if (!isLoginShort) {
-    //       const newUsers = users.concat(newUser);
-    //
-    //       this.changePage('Chats');
-    //       this.setState({ currentUser: newUser.id, users: newUsers });
-    //     } else {
-    //       this.handleOpenPopUp({
-    //         message: 'Login cannot be shorter than 4 symbols!'
-    //       });
-    //     }
-    //   } else {
-    //     this.handleOpenPopUp({
-    //       message: 'Oops, this name is already taken'
-    //     });
-    //   }
-    // } else {
-    //   this.handleOpenPopUp({
-    //     message: 'Inputs with * cannot be empty!'
-    //   });
-    // }
-  }
-
-  // -------------------------------------------------------
-
-  // Contact Info
-
-  handleClickOpenChat = () => {
-    const { chats, userProfile } = this.state;
-    console.log({chats});
-    const chat = chats.find((chat) => chat.participants.includes(userProfile.id));
-
-    if (chat) {
-      this.setState({ currentChat: chat });
-      this.changePage('Messages');
-    } else {
-      const { currentUser } = this.state;
-      const newChat = {
-        id: +new Date(),
-        name: userProfile.name,
-        participants: [ currentUser, userProfile.id ]
-      }
-
-      const newChats = chats.concat(newChat);
-      this.setState({ currentChat: newChat, chats: newChats });
-      this.changePage('Messages');
-    }
-  };
-
-  // Privacy and security
-
-  handleChangeInputCheckbox = (condition) => {
-    this.setState({ isStatusVisible: condition });
-  }
-
-  handleConfirmDeleteAccount = () => {
-    const { users, currentUser } = this.state;
-    const newUsers = users.filter((user) => user.id !== currentUser);
-    this.changePage('Authentication');
-    this.setState({ users: newUsers, currentUser: '' });
-  }
-
-  // -------------------------------------
-
-  // Pop-up
-
-  handleClickClosePopup = () => {
-    this.setState({ isPopUpVisible: false });
+    this.setState({ currentUser: newCurrentUser });
+    localStorage.setItem('user', JSON.stringify(newCurrentUser));
   }
 
   handleOpenPopUp = (popUp) => {
@@ -377,55 +96,23 @@ export default class App extends React.Component {
     this.setState({ popUp: null });
   }
 
-  // ----------------------------
-
-  // Settings (sign out)
-
-  handleClickSignOut = () => {
-    this.handleOpenPopUp({
-      message: 'Do you want to sign out?',
-      onConfirm: this.handleClickConfirmSignOut,
-      onClose: this.handleClosePopUp
-    });
-  }
-
-  handleClickConfirmSignOut = () => {
-    localStorage.removeItem('user');
-    this.changePage('Authentication');
-    this.setState({ currentUser: null });
-  }
-
   // --------------------------------
 
   renderHeader = () => {
-    const {
-      currentUser,
-      currentPage,
-      currentChat,
-      isEditMessages,
-      isSearch,
-      messageToForward,
-      users,
-      chats,
-    } = this.state;
-
     return (
-      <Header
-        currentPage={currentPage}
-        onClickCreateChat={() => this.changePage('Contacts')}
-        onClickEditMessages={this.handleClickEditMessages}
-        onClickSearch={this.handleClickSearch}
-        onClickSignOut={this.handleClickSignOut}
-        onClickButtonBack={this.clickBack}
-        isEditMessages={isEditMessages}
-        isSearch={isSearch}
-        users={users}
-        currentChat={currentChat}
-        chats={chats}
-        currentUser={currentUser}
-        messageToForward={messageToForward}
-        onClickCancelForwarding={this.handleCancelForwarding}
-      />
+      <Header app={this} />
+    )
+  }
+
+  renderFooter = () => {
+    return <Footer app={this} />
+  }
+
+  renderContent = () => {
+    return (
+      React.Children.map(this.props.children, (child) => {
+        return React.cloneElement(child, { app: this });
+      })
     )
   }
 
@@ -444,140 +131,15 @@ export default class App extends React.Component {
     }
   }
 
-  renderFooter = () => {
-    const { currentPage } = this.state;
-
-    if (![ 'Authentication', 'Registration' ].includes(currentPage)) {
-      return <Footer onButtonClick={(page) => this.changePage(page)} />
-    }
-  }
-
   render() {
-    const {
-      currentUser,
-      currentPage,
-      currentChat,
-      userProfile,
-      theme,
-      isEditMessages,
-      isSearch,
-      isStatusVisible,
-      popUp,
-      messageToForward,
-      users,
-      chats,
-      messages,
-      foundMessage
-    } = this.state;
-
-    const user = users.find((user) => user.id === currentUser);
-
     return (
-      <div className={`chat theme ${theme}`}>
-        {/* {this.renderHeader()} */}
+      <div className={`chat theme ${this.state.theme}`}>
+        {this.renderHeader()}
+        {this.renderContent()}
+        {this.renderFooter()}
+
         {this.renderPopUp()}
-
-        {React.Children.map(this.props.children, (child) => {
-          return React.cloneElement(child, {
-            // Authentication
-            onClickLogIn: this.handleClickLogIn,
-            // Registration
-            onClickSignUp: this.handleClickSignUp,
-            // Contact
-            onClickUserName: this.handleClickContact,
-            onClickAvatar: this.handleClickOpenContactInfo,
-            users: users,
-            isStatusVisible: isStatusVisible,
-            currentUser: currentUser,
-            // ...
-          });
-        })}
-
-        {/* {(currentPage === 'Contacts') && (
-          <Contacts
-            onClickUserName={this.handleClickContact}
-            onClickAvatar={this.handleClickOpenContactInfo}
-            users={users}
-            isStatusVisible={isStatusVisible}
-            currentUser={currentUser}
-          />
-        )}
-
-        {(currentPage === 'Contact info') && (
-          <ContactInfo
-            user={userProfile}
-            onClickOpenChat={this.handleClickOpenChat}
-            isStatusVisible={isStatusVisible}
-          />
-        )}
-
-        {(currentPage === 'Chats') && (
-          <Chats
-            currentUser={currentUser}
-            currentChat={currentChat}
-            onClick={this.handleClickChat}
-            onDelete={this.handleClickDeleteChat}
-            isSearch={isSearch}
-            isStatusVisible={isStatusVisible}
-            users={users}
-            chats={chats}
-            messages={lodash.sortBy(messages, ['time'])}
-            changeState={this.changeState}
-            changePage={() => this.changePage('Messages')}
-          />
-        )}
-
-        {(currentPage === 'Settings') && (
-          <Settings
-            user={user}
-            isStatusVisible={isStatusVisible}
-            onClickEditProfile={() => this.changePage('Edit profile')}
-            onClickThemes={() => this.changePage('Themes')}
-            onClickPrivacyAndSecurity={() => this.changePage('Privacy and security')}
-          />
-        )}
-
-        {(currentPage === 'Messages') && (
-          <Messages
-            users={users}
-            messages={messages}
-            currentChat={currentChat}
-            currentUser={currentUser}
-            isEditMessages={isEditMessages}
-            isSearch={isSearch}
-            isStatusVisible={isStatusVisible}
-            changePage={this.changePage}
-            changeState={this.changeState}
-            foundMessage={foundMessage}
-          />
-        )}
-
-        {(currentPage === 'Themes') && (
-          <SettingsThemes onClick={this.handleClickTheme} />
-        )}
-
-        {(currentPage === 'Edit profile') && (
-          <SettingsEdit
-            user={user}
-            onSubmitUser={this.handleSubmitUser}
-          />
-        )}
-
-        {(currentPage === 'Privacy and security') && (
-          <PrivacyAndSecurity
-            onClickSubmit={() => this.changePage('Settings')}
-            onChangeStatus={this.handleChangeInputCheckbox}
-            isStatusVisible={isStatusVisible}
-            onSubmitUser={this.handleSubmitUser}
-            onOpenPopUp={this.handleOpenPopUp}
-            user={user}
-            users={users}
-            onConfirmDeleteAccount={this.handleConfirmDeleteAccount}
-          />
-        )} */}
-
-        {/* {this.renderFooter()} */}
-    </div>
+      </div>
     );
   }
 };

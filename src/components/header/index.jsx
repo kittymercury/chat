@@ -1,20 +1,45 @@
 import React from 'react';
+import { browserHistory } from 'react-router';
+
 import './styles/base.css';
 import './styles/aqua.css';
 import './styles/purple.css';
 
 export default class Header extends React.Component {
+  handleClickSignOut = () => {
+    this.props.app.handleOpenPopUp({
+      message: 'Do you want to sign out?',
+      onConfirm: this.handleClickConfirmSignOut,
+      onClose: this.props.app.handleClosePopUp
+    });
+  }
+
+  handleClickConfirmSignOut = () => {
+    this.setState({ currentUser: null });
+    localStorage.removeItem('user');
+    browserHistory.push('/authentication');
+  }
+
+  handleClickEditMessages = (condition) => {
+    this.props.app.setState({ isEditMessages: condition });
+  }
+
+  handleClickSearch = (condition) => {
+    this.props.app.setState({ isSearch: condition });
+  }
+
+  handleCancelForwarding = () => {
+    this.props.app.setState({ messageToForward: null });
+  }
 
   renderSearchButton = (condition) => {
-    const { onClickSearch } = this.props;
-
     if (condition) {
       return (
-        <button onClick={() => onClickSearch(false)}>Cancel</button>
+        <button onClick={() => this.handleClickSearch(false)}>Cancel</button>
       )
     } else {
       return (
-        <button onClick={() => onClickSearch(true)}>
+        <button onClick={() => this.handleClickSearch(true)}>
           <i className="fas fa-search"></i>
         </button>
       )
@@ -23,35 +48,32 @@ export default class Header extends React.Component {
 
   renderButtonsLeft = () => {
     const {
-      currentPage,
       isEditMessages,
-      onClickCreateChat,
-      onClickEditMessages,
-      onClickButtonBack,
       messageToForward,
-      onClickCancelForwarding
-    } = this.props;
+    } = this.props.app.state;
+
+    const [ currentPage ] = window.location.pathname.slice(1).split('/');
 
     return (
       <div>
-        {(currentPage === 'Chats')
+        {(currentPage === 'chats')
           ? messageToForward
-            ? <button onClick={onClickCancelForwarding}>Cancel</button>
-            :  <button onClick={onClickCreateChat}><i className="fas fa-plus"></i></button>
+            ? <button onClick={this.handleCancelForwarding}>Cancel</button>
+            :  <button onClick={() => browserHistory.push('/contacts')}><i className="fas fa-plus"></i></button>
           : ''}
-        {[ 'Registration', 'Privacy and security', 'Themes', 'Edit profile', 'Contact info'].includes(currentPage) && (
-          <button onClick={onClickButtonBack}>
+        {[ 'registration', 'privacy-and-security', 'themes', 'profile', 'contact-info'].includes(currentPage) && (
+          <button onClick={() => browserHistory.goBack()}>
             <i className="fas fa-long-arrow-alt-left"></i>
           </button>
         )}
-        {(currentPage === 'Messages')
+        {(currentPage === 'messages')
           ? isEditMessages
-            ? <button onClick={() => onClickEditMessages(false)}>Cancel</button>
-            : <button onClick={() => onClickEditMessages(true)}>
+            ? <button onClick={() => this.handleClickEditMessages(false)}>Cancel</button>
+            : <button onClick={() => this.handleClickEditMessages(true)}>
                 <i className="far fa-edit"></i>
               </button>
           : ''}
-        {(currentPage === 'Settings') && (
+        {(currentPage === 'settings') && (
           <div className="sign-out">
             <i className="fas fa-sign-out-alt" style={{ opacity: '0' }}></i>
           </div>
@@ -61,20 +83,21 @@ export default class Header extends React.Component {
   }
 
   renderButtonsRight = () => {
-    const { currentPage, isSearch, onClickSignOut } = this.props;
+    const { isSearch } = this.props.app.state;
+    const [ currentPage ] = window.location.pathname.slice(1).split('/');
 
     return (
       <div>
-        {[ 'Registration', 'Privacy and security', 'Themes', 'Edit profile', 'Contact info'].includes(currentPage) && (
+        {[ 'registration', 'privacy-and-security', 'themes', 'profile', 'contact-info'].includes(currentPage) && (
           <button>
             <i className="fas fa-long-arrow-alt-left" style={{ display: 'none', cursor: 'initial' }}></i>
           </button>
         )}
 
-        {['Chats', 'Messages'].includes(currentPage) && this.renderSearchButton(isSearch)}
+        {['chats', 'messages'].includes(currentPage) && this.renderSearchButton(isSearch)}
 
-        {(currentPage === 'Settings') && (
-          <div className="sign-out" onClick={onClickSignOut}>
+        {(currentPage === 'settings') && (
+          <div className="sign-out" onClick={this.props.app.handleClickSignOut}>
             <i className="display fas fa-sign-out-alt"></i>
           </div>
         )}
@@ -83,11 +106,12 @@ export default class Header extends React.Component {
   }
 
   renderMessagesTitle = () => {
-    const { currentUser, currentChat, users, chats } = this.props;
+    const { currentUser, users, chats } = this.props.app.state;
+    const currentChat = Number(this.props.params.chatId);
     if (!currentChat) return;
 
-    const chat = chats.find((c) => c.id === currentChat.id);
-    const participant = chat.participants.find((id) => id !== currentUser);
+    const chat = chats.find((c) => c.id === currentChat);
+    const participant = chat.participants.find((id) => id !== currentUser.id);
     const title = users.find((user) => user.id === participant).name;
 
     return (
@@ -96,16 +120,25 @@ export default class Header extends React.Component {
   }
 
   renderTitle = () => {
-    const { currentPage } = this.props;
+    const [ currentPage ] = window.location.pathname.slice(1).split('/');
+    const titleByPathname = {
+      'chats': 'Chats',
+      'settings': 'Settings',
+      'contacts': 'Contacts',
+      'privacy-and-security': 'Privacy and security',
+      'themes': 'Themes',
+      'profile': 'Profile',
+    }
+    const title = titleByPathname[currentPage];
 
     return (
       <div className="title">
-        {(currentPage === 'Messages') && (
+        {(currentPage === 'messages') && (
            this.renderMessagesTitle()
         )}
 
-        {['Chats', 'Settings', 'Contacts', 'Privacy and security', 'Themes', 'Edit profile' ].includes(currentPage) && (
-          <div>{currentPage}</div>
+        {Object.keys(titleByPathname).includes(currentPage) && (
+          <div>{title}</div>
         )}
       </div>
     )

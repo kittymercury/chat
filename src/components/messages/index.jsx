@@ -27,7 +27,7 @@ export default class Messages extends React.Component {
     const list = document.querySelector('.messages ul');
     list.style['scroll-behavior'] = 'none';
     this.setScroll(this.props, true);
-    const { foundMessage } = this.props;
+    const { foundMessage } = this.props.app.state;
     if (foundMessage) {
       const foundM = document.getElementById(`m-${foundMessage.id}`);
       foundM.scrollIntoView({ block: "start", behavior: "smooth" });
@@ -35,7 +35,7 @@ export default class Messages extends React.Component {
   }
 
   setScroll = (props, force) => {
-    if (force ? props.messages.length : (props.messages.length !== this.props.messages.length)) {
+    if (force ? props.app.state.messages.length : (props.app.state.messages.length !== this.props.app.state.messages.length)) {
       const $messages = document.querySelector("#app > div > div.content.messages > ul");
       $messages.scrollTop = $messages.scrollHeight;
     }
@@ -57,8 +57,8 @@ export default class Messages extends React.Component {
   }
 
   handleClickDeleteMessage = (message) => {
-    const newMessages = this.props.messages.filter((m) => m.id !== message.id);
-    this.props.changeState({ messages: newMessages })
+    const newMessages = this.props.app.state.messages.filter((m) => m.id !== message.id);
+    this.props.app.setState({ messages: newMessages })
   }
 
   handleClickReply = (message) => {
@@ -66,8 +66,8 @@ export default class Messages extends React.Component {
   }
 
   handleClickForward = (message) => {
-    this.props.changePage('Chats');
-    this.props.changeState({ messageToForward: message });
+    this.props.app.setState({ messageToForward: message });
+    browserHistory.push('/chats');
   }
 
   handlePressEnter = (e) => {
@@ -77,27 +77,27 @@ export default class Messages extends React.Component {
   }
 
   handleClickButtonSend = () => {
-    const { currentChat, currentUser, messages } = this.props;
+    const { currentUser, messages } = this.props.app.state;
     const { inputMessage, messageToReply } = this.state;
 
     if (inputMessage && inputMessage.trim()) {
       const newMessage = {
         id: +new Date(),
-        userId: currentUser,
-        chatId: currentChat.id,
+        userId: currentUser.id,
+        chatId: Number(this.props.params.chatId),
         time: +new Date(),
         content: inputMessage,
         reply: messageToReply,
       };
       const newMessages = messages.concat(newMessage);
 
-      this.props.changeState({ messages: newMessages })
+      this.props.app.setState({ messages: newMessages })
       this.setState({
         inputMessage: '',
         messageToReply: null,
       });
     } else {
-      this.props.changeState({ messages })
+      this.props.app.setState({ messages });
     }
   }
 
@@ -108,7 +108,7 @@ export default class Messages extends React.Component {
   handleClickButtonEditOk = () => {
     const { inputMessage, messageToEdit } = this.state;
 
-    const newMessages = this.props.messages.map((m) => {
+    const newMessages = this.props.app.state.messages.map((m) => {
       if ((m.id === messageToEdit.id) && (messageToEdit.content !== inputMessage)) {
         return { ...m, content: inputMessage, edited: 'Edited' }
       } else {
@@ -116,7 +116,7 @@ export default class Messages extends React.Component {
       }
     });
 
-    this.props.changeState({ messages: newMessages })
+    this.props.app.setState({ messages: newMessages });
     this.setState({ inputMessage: '', messageToEdit: null });
   }
 
@@ -125,17 +125,19 @@ export default class Messages extends React.Component {
   }
 
   renderStatus = (user) => {
-    if (this.props.isStatusVisible) {
+    if (this.props.app.state.isStatusVisible) {
       return <i className={`fas fa-circle ${user.status}`}></i>
     }
   }
 
   renderMessageReply = (users, message) => {
     if (message.reply) {
+      const user = users.find((u) => u.id === message.reply.userId);
+
       return (
         <div className="message-reply">
             <div className="reply-wrapper">
-              <div className="to-user">Reply for: {users.find((user) => user.id === message.reply.userId).name}</div>
+              <div className="to-user">Reply for: {user.name}</div>
               <div className="text-for-replying">{message.reply.content}</div>
             </div>
         </div>
@@ -145,9 +147,11 @@ export default class Messages extends React.Component {
 
   renderMessageForward = (users, message) => {
     if (message.forward) {
+      const user = users.find((u) => u.id === message.forward.userId);
+
       return (
         <div className="message-forward">
-          <div className="forwarded-from">Forwarded from: {users.find((user) => user.id === message.forward.userId).name}</div>
+          <div className="forwarded-from">Forwarded from: {user.name}</div>
           <div className="forwarded-text">{message.forward.content}</div>
         </div>
       )
@@ -172,11 +176,13 @@ export default class Messages extends React.Component {
 
   renderInputMessageToReply = (users, message) => {
     if (message) {
+      const user = users.find((u) => u.id === message.userId);
+
       return (
         <div className="reply-to">
           <i className="fas fa-reply"></i><br/>
           <span className="cancel-replying" onClick={this.handleCancelReplying}>x</span>
-          <span>{users.find((user) => user.id === message.userId).name} </span><br/>
+          <span>{user.name} </span><br/>
           <span className="message-to-reply-content">{message.content}</span>
         </div>
       )
@@ -203,22 +209,24 @@ export default class Messages extends React.Component {
     const {
       users,
       currentUser,
-      currentChat,
       isEditMessages,
       isStatusVisible,
       isSearch,
-      messages
-    } = this.props;
+      messages,
+      foundMessage
+    } = this.props.app.state;
+
+    const chatId = Number(this.props.params.chatId);
 
     let foundMessages = [];
     if (isSearch && inputSearch) {
-      messages.filter((message) => message.chatId === currentChat.id).forEach((message) => {
+      messages.filter((message) => message.chatId === chatId).forEach((message) => {
         if (message.content && message.content.toLowerCase().includes(inputSearch.toLowerCase())) {
           foundMessages.push(message);
         }
       });
     } else {
-      foundMessages = messages.filter((message) => message.chatId === currentChat.id);
+      foundMessages = messages.filter((message) => message.chatId === chatId);
     }
 
     return (
@@ -233,11 +241,11 @@ export default class Messages extends React.Component {
         <ul>
           {foundMessages.map((message) => {
             let className = "message-data-content";
-            if (this.props.foundMessage && (message.id === this.props.foundMessage.id)) {
+            if (foundMessage && (message.id === foundMessage.id)) {
               className = "message-data-content highlight";
             };
             const user = users.find((user) => user.id === message.userId);
-            const isCurrentUsersMessage = message.userId === currentUser;
+            const isCurrentUsersMessage = message.userId === currentUser.id;
 
             const textALign = { textAlign: isCurrentUsersMessage ? 'right' : 'left' };
             const flexDirection = { flexDirection: isCurrentUsersMessage ? 'row-reverse' : 'row' };
@@ -245,7 +253,7 @@ export default class Messages extends React.Component {
             return (
               <li key={message.id} className="message-item" style={textALign} id={`m-${message.id}`}>
 
-                {(message.userId === currentUser) && (
+                {(message.userId === currentUser.id) && (
                   <div className="my-message" style={textALign, flexDirection}>
                     <div>
                       <span className="edited">{message.edited}</span>
@@ -258,7 +266,7 @@ export default class Messages extends React.Component {
                   </div>
                 )}
 
-                {(message.userId !== currentUser) && (
+                {(message.userId !== currentUser.id) && (
                   <div className="other-message" style={textALign, flexDirection}>
                     <div>
                       {this.renderStatus(user)}
