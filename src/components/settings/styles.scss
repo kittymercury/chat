@@ -4,7 +4,7 @@
   justify-content: flex-start;
 
   .my-info {
-    padding: 15px;
+    padding: 25px;
     position: relative;
 
     display: flex;
@@ -39,6 +39,7 @@
 
     li {
       padding: 10px;
+      margin-bottom: 5px;
       text-align: center;
       cursor: pointer;
     }

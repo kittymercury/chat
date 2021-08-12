@@ -3,9 +3,7 @@ import { browserHistory } from 'react-router';
 
 import ShowPasswordCheckbox from '../common/show-password-checkbox';
 
-import './styles/base.scss';
-import './styles/aqua.css';
-import './styles/purple.css';
+import './styles.scss';
 
 export default class PrivacyAndSecurity extends React.Component {
   constructor(props) {

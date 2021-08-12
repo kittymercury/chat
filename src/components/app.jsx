@@ -18,6 +18,8 @@ import freddieImg from './tg-imgs/freddie.jpeg';
 // 4. theme to localStorage
 // 5. scss for chats
 // 6. form in auth
+// 7. styles for input search
+// 8. js for pop-up
 
 export default class App extends React.Component {
   constructor(props) {
@@ -30,7 +32,7 @@ export default class App extends React.Component {
       currentUser: currentUser,
       currentPage: currentPage,
 
-      theme: 'aqua',
+      theme: 'dark',
 
       isStatusVisible: true,
       isEditMessages: false,

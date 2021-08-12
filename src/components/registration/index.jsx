@@ -3,9 +3,7 @@ import { browserHistory } from 'react-router';
 
 import api from '../api';
 
-import './styles/base.scss';
-import './styles/aqua.css';
-import './styles/purple.css';
+import './styles.scss';
 
 import noAvatar from '../tg-imgs/no-avatar.png';
 import ShowPasswordCheckbox from '../common/show-password-checkbox';
@@ -131,12 +129,14 @@ export default class Registration extends React.Component {
         />
         <input
           className="sign-up-avatar"
+          id="file"
           type="file"
           name="avatar"
           accept="image/png, image/jpeg, image/jpg"
           value={this.state.avatar}
           onChange={(e) => this.changeInputValue('avatar', e)}
         />
+        <label for="file">Load avatar</label>
         <button className="sign-up-button" onClick={this.handleClickSignUp}>Sign up</button>
       </div>
     )

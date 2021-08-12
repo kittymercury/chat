@@ -1,10 +1,8 @@
 import React from 'react';
 import { Link, browserHistory } from 'react-router';
 
+import './styles.scss';
 import { getImg } from '../helpers';
-import './styles/base.scss';
-import './styles/aqua.css';
-import './styles/purple.css';
 
 export default class Settings extends React.Component {
   render () {

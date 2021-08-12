@@ -1,8 +1,0 @@
-.aqua .chats li {
-  background-color: #3d777780;
-}
-
-.aqua .chats li:hover {
-  background-color: #68dede80 !important;
-  transition-duration: 0.5s;
-}

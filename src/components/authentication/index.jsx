@@ -3,9 +3,7 @@ import { Link, browserHistory } from 'react-router';
 
 import api from '../api';
 
-import './styles/base.scss';
-import './styles/aqua.css';
-import './styles/purple.css';
+import './styles.scss';
 
 import ShowPasswordCheckbox from '../common/show-password-checkbox';
 

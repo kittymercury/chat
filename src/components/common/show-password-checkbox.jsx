@@ -1,5 +1,6 @@
 import React from 'react';
-import './styles/base.css';
+
+import './styles.scss';
 
 export default class ShowPasswordCheckbox extends React.Component {
   render () {

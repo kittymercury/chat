@@ -1,9 +1,7 @@
 import React from 'react';
 import { browserHistory } from 'react-router';
 
-import './styles/base.scss';
-import './styles/aqua.css';
-import './styles/purple.css';
+import './styles.scss';
 
 export default class Header extends React.Component {
   handleClickSignOut = () => {

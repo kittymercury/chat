@@ -4,9 +4,7 @@ import lodash from 'lodash';
 import InputSearch from '../common/input-search';
 import { getImg, formatDate } from '../helpers';
 
-import './styles/base.scss';
-import './styles/aqua.css';
-import './styles/purple.css';
+import './styles.scss';
 
 export default class Chats extends React.Component {
   constructor(props) {

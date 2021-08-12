@@ -2,9 +2,7 @@ import React from 'react';
 import { browserHistory } from 'react-router';
 
 import { getImg } from '../helpers';
-import './styles/base.css';
-import './styles/aqua.css';
-import './styles/purple.css';
+import './styles.scss';
 
 export default class ContactInfo extends React.Component {
   handleClickOpenChat = (user) => {
@@ -35,7 +33,7 @@ export default class ContactInfo extends React.Component {
 
   render () {
     const user = this.props.app.state.users.find((user) => user.id === Number(this.props.params.userId));
-    
+
     if (!user) {
       return (
         <div className="content contact-info">
@@ -46,16 +44,16 @@ export default class ContactInfo extends React.Component {
 
     return (
       <div className="content contact-info">
-        <div className="user-info">
-          <div className="user-info-wrapper">
+        <div className="info-wrapper">
+          <div>
             <img className="user-avatar-image" src={getImg(user.avatar)} />
             {this.renderStatus(user)}
-            <div className="user-name">{user.name}</div>
-            <div className="user-login">@{user.login}</div>
           </div>
-          <div>
-            <div className="chat-with-user" onClick={() => this.handleClickOpenChat(user)}>Open chat</div>
-          </div>
+          <div className="user-name">{user.name}</div>
+          <div className="user-login">@{user.login}</div>
+        </div>
+        <div className="chat-with-user-wrapper">
+          <div className="chat-with-user" onClick={() => this.handleClickOpenChat(user)}>Open chat</div>
         </div>
       </div>
     )

@@ -1,7 +1,6 @@
 import React from 'react';
-import './styles/base.css';
-import './styles/aqua.css';
-import './styles/purple.css';
+
+import './styles.scss';
 
 export default class PopUp extends React.Component {
   render () {
