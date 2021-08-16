@@ -1,61 +1,126 @@
+// .privacy-and-security {
+//   display: flex;
+//   flex-direction: column;
+//   align-items: stretch;
+//   justify-content: flex-start;
+//
+//   h4 {
+//     margin: 20px 5px;
+//     font-size: 16px;
+//   }
+//
+//   div {
+//     padding: 0 0 10px 15px;
+//     border-bottom: 1px solid #f1f1f126;
+//
+//     &:first-child {
+//       padding-top: 15px;
+//     }
+//
+//     &.checkbox-wrapper {
+//       border: none;
+//       padding: 0;
+//
+//       .show-password {
+//         margin: 0;
+//       }
+//     }
+//   }
+//
+//   button {
+//     padding: 4px;
+//     color: white;
+//     cursor: pointer;
+//
+//     &.button-confirm {
+//       margin: 10px 0 5px 0;
+//     }
+//
+//     &.button-delete-account {
+//       margin-left: 5px;
+//     }
+//   }
+//
+//   span {
+//     font-size: 13px;
+//     display: inline-block;
+//   }
+//
+//   input {
+//     margin: 10px 10px 5px 0;
+//     padding: 7px 15px;
+//     border-radius: 20px;
+//     display: block;
+//
+//     &#checkbox {
+//       margin: 0 10px;
+//       cursor: pointer;
+//       display: inline-block;
+//     }
+//   }
+// }
+
 .privacy-and-security {
+  height: 100%;
+  width: 100%;
+
   display: flex;
   flex-direction: column;
-  align-items: stretch;
-  justify-content: flex-start;
+  align-items: center;
 
-  h4 {
-    margin: 20px 5px;
-    font-size: 16px;
+  .headline {
+    width: 100%;
+    padding: 13px 0;
+    cursor: pointer;
+    text-align: center;
+    box-shadow: inset 0 -1px 0 0 #efefef12;
   }
 
-  div {
-    padding: 0 0 10px 15px;
-    border-bottom: 1px solid #f1f1f126;
+  .wrapper {
+    width: 100%;
+    padding: 20px 0;
+    text-align: center;
+    box-shadow: inset 0 -1px 0 0 #efefef12;
+  }
 
-    &:first-child {
-      padding-top: 15px;
-    }
+  .submenu {
+    height: 0;
+    overflow: hidden;
+    transition: height 0.2s;
+    z-index: -1;
 
-    &.checkbox-wrapper {
-      border: none;
-      padding: 0;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
 
-      .show-password {
-        margin: 0;
+    .change-password {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      align-items: center;
+
+      input {
+        margin-top: 8px;
+      }
+
+      button {
+        margin-top: 10px;
+        cursor: pointer;
       }
     }
-  }
 
-  button {
-    padding: 4px;
-    color: white;
-    cursor: pointer;
-
-    &.button-confirm {
-      margin: 10px 0 5px 0;
-    }
-
-    &.button-delete-account {
-      margin-left: 5px;
+    .delete-account.wrapper span {
+      font-size: 14px;
     }
   }
 
-  span {
-    font-size: 13px;
-    display: inline-block;
-  }
-
-  input {
-    margin: 10px 10px 5px 0;
-    padding: 7px 15px;
-    border-radius: 20px;
-    display: block;
-
-    &#checkbox {
-      margin: 0 10px;
-      cursor: pointer;
-      display: inline-block;
+  &.active {
+    .submenu {
+      height: 425px;
+      z-index: 1;
+      overflow: visible;
     }
   }
 }

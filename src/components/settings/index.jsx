@@ -2,6 +2,7 @@ import React from 'react';
 import { Link, browserHistory } from 'react-router';
 
 import Themes from '../themes';
+import PrivacyAndSecurity from '../privacy-and-security';
 import './styles.scss';
 import './change-avatar-menu.scss';
 import { getImg } from '../helpers';
@@ -94,8 +95,8 @@ export default class Settings extends React.Component {
     if (condition) {
       return (
         <div className="dynamic my-info-wrapper">
-          <div className={`change-avatar ${this.state.activeMenuItem === 'change-avatar' ? 'active' : ''}`} onClick={() => this.handleClickMenuItem('change-avatar')}>
-            <div className="headline">Change avatar</div>
+          <div className={`change-avatar ${this.state.activeMenuItem === 'change-avatar' ? 'active' : ''}`}>
+            <div className="headline" onClick={() => this.handleClickMenuItem('change-avatar')}>Change avatar</div>
             <div className="submenu">
               <input
                 id="file"
@@ -148,11 +149,11 @@ export default class Settings extends React.Component {
               activeMenuItem={this.state.activeMenuItem}
               app={this.props.app}
             />
-            <div>
-              <Link to="/privacy-and-security">Privacy and security
-                <i className="fas fa-angle-down"></i>
-              </Link>
-            </div>
+            <PrivacyAndSecurity
+              onClick={this.handleClickMenuItem}
+              activeMenuItem={this.state.activeMenuItem}
+              app={this.props.app}
+            />
           </div>
         </div>
       )

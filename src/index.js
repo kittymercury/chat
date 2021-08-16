@@ -22,7 +22,6 @@ ReactDOM.render(
       <Route path="/registration" component={Registration} />
       <Route path="/authentication" component={Authentication} />
       <Route path="/settings" component={Settings} />
-      <Route path="/privacy-and-security" component={PrivacyAndSecurity} />
       <Route path="/contacts" component={Contacts} />
       <Route path="/contact-info/:userId" component={ContactInfo} />
       <Route path="/messages/:chatId" component={Messages} />

@@ -125,48 +125,52 @@ export default class PrivacyAndSecurity extends React.Component {
     } = this.state;
 
     return (
-      <div className="content privacy-and-security">
-
-        <div>Show my status:
-          <input
-            type="checkbox"
-            id="checkbox"
-            onChange={this.handleChangeInputCheckbox}
-            checked={this.props.app.state.isStatusVisible}
-          />
+      <div className={`privacy-and-security ${this.props.activeMenuItem === 'privacy-and-security' ? 'active' : ''}`}>
+        <div className="headline" onClick={() => this.props.onClick('privacy-and-security')}>Privacy and security
+          <i className="fas fa-angle-down"></i>
         </div>
+        <div className="submenu">
+          <div className="wrapper">Show my status:
+            <input
+              type="checkbox"
+              id="checkbox"
+              onChange={this.handleChangeInputCheckbox}
+              checked={this.props.app.state.isStatusVisible}
+            />
+          </div>
 
-        <div>
-          <h4>Change password</h4>
-          <input
-            type={inputType}
-            value={currentPassword}
-            placeholder='Old password'
-            onChange={(e) => this.handleChangePassword('currentPassword', e)}
-          />
-          <input
-            type={inputType}
-            value={newPassword}
-            placeholder='New password'
-            onChange={(e) => this.handleChangePassword('newPassword', e)}
-          />
-          <input
-            type={inputType}
-            value={repeatNewPassword}
-            placeholder='Repeat new password'
-            onChange={(e) => this.handleChangePassword('repeatNewPassword', e)}
-          />
-          <ShowPasswordCheckbox
-          onChangeShowPassword={this.changePasswordVisibility}
-          checked={isPasswordVisible}
-          />
-          <button className="button-confirm" onClick={this.handleConfirmNewPassword}>Confirm</button>
-        </div>
+          <div className="change-password wrapper">
+            <div style={{ padding: '0 10px 10px' }}>Change password</div>
+            <input
+              type={inputType}
+              value={currentPassword}
+              placeholder='Old password'
+              onChange={(e) => this.handleChangePassword('currentPassword', e)}
+            />
+            <input
+              type={inputType}
+              value={newPassword}
+              placeholder='New password'
+              onChange={(e) => this.handleChangePassword('newPassword', e)}
+            />
+            <input
+              type={inputType}
+              value={repeatNewPassword}
+              placeholder='Repeat new password'
+              onChange={(e) => this.handleChangePassword('repeatNewPassword', e)}
+            />
+            <ShowPasswordCheckbox
+            onChangeShowPassword={this.changePasswordVisibility}
+            checked={isPasswordVisible}
+            />
+            <button className="button-confirm" onClick={this.handleConfirmNewPassword}>Confirm</button>
+          </div>
 
-        <div>
-          <h4>Delete account</h4>
-          <span>Press the button to delete your account: </span>
-          <button className="button-delete-account" onClick={this.handleClickDeleteAccount}>Delete account</button>
+          <div className="delete-account wrapper">
+            <div style={{ padding: '0 10px 10px' }}>Delete account</div>
+            <span>Press the button to delete your account: </span>
+            <button className="button-delete-account" onClick={this.handleClickDeleteAccount}>Delete account</button>
+          </div>
         </div>
       </div>
     )
