@@ -79,6 +79,7 @@ body {
 button {
   background-color: var(--button-bg);
   color: var(--button-txt-color);
+  font-family: inherit !important;
 }
 
 .footer button {
@@ -166,6 +167,25 @@ li {
     background-color: var(--li-hov);
     transition: 0.3s;
   }
+}
+
+.options .up div,
+.options .down div,
+.features div {
+  background-color: var(--li-bg);
+}
+
+.features div:hover,
+.options .down div:hover {
+  background-color: var(--li-hov);
+  transition: 0.3s;
+}
+
+
+.settings input[type="text"] {
+  margin-right: 10px;
+  background: none;
+  font-size: 16px;
 }
 
 .info-wrapper {

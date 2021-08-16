@@ -13,14 +13,6 @@ export default class Profile extends React.Component {
     }
   }
 
-  handleChangeName = (e) => {
-    this.setState({ name: e.target.value })
-  }
-
-  handleClickChangeName = () => {
-    this.props.app.handleSubmitUser({ name: this.state.name });
-  }
-
   handleClickRemoveAvatar = () => {
     this.props.app.handleSubmitUser({ avatar: null });
   }

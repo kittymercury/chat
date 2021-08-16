@@ -10,14 +10,12 @@ export default class PrivacyAndSecurity extends React.Component {
     super(props);
 
     this.state = {
-      login: props.app.state.currentUser.login,
       password: props.app.state.currentUser.password,
       currentPassword: '',
       newPassword: '',
       repeatNewPassword: '',
       isPasswordVisible: false,
       inputType: 'password',
-      inputLogin: ''
     }
   }
 
@@ -69,45 +67,45 @@ export default class PrivacyAndSecurity extends React.Component {
     }
   }
 
-  handleChangeLogin = (e) => {
-    const allowedSymbols = /^[0-9a-z]+$/;
-
-    if (e.target.value === '' || allowedSymbols.test(e.target.value)) {
-      this.setState({ inputLogin: e.target.value });
-    }
-  }
-
-  handleConfirmNewLogin = () => {
-    const { users } = this.props.app.state;
-    const { inputLogin, login } = this.state;
-
-    const isLoginExist = users.find((user) => user.login === inputLogin);
-    const isLoginShort = (inputLogin.length < 3);
-    const isLoginAppropriate = (!isLoginExist && inputLogin && !isLoginShort);
-    const isLoginEmpty = (!inputLogin || !inputLogin.trim());
-    const isAlreadyMine = (inputLogin === login);
-
-    if (isLoginAppropriate) {
-      this.props.app.handleSubmitUser({ login: this.state.inputLogin });
-      this.props.app.handleOpenPopUp({ message: 'Successfully changed!' });
-    }
-
-    if (isLoginShort) {
-      this.props.app.handleOpenPopUp({ message: 'Too short login!' });
-    }
-
-    if (isLoginEmpty) {
-      this.props.app.handleOpenPopUp({ message: 'Login cannot be empty!' });
-    }
-
-    if (isLoginExist) {
-      if (isAlreadyMine) {
-        this.props.app.handleOpenPopUp({ message: 'You have already had such login :)' });
-      } else {
-        this.props.app.handleOpenPopUp({ message: 'This login is already taken' });
-      }
-    }
-  }
+  // handleChangeLogin = (e) => {
+  //   const allowedSymbols = /^[0-9a-z]+$/;
+  //
+  //   if (e.target.value === '' || allowedSymbols.test(e.target.value)) {
+  //     this.setState({ inputLogin: e.target.value });
+  //   }
+  // }
+  //
+  // handleConfirmNewLogin = () => {
+  //   const { users } = this.props.app.state;
+  //   const { inputLogin, login } = this.state;
+  //
+  //   const isLoginExist = users.find((user) => user.login === inputLogin);
+  //   const isLoginShort = (inputLogin.length < 3);
+  //   const isLoginAppropriate = (!isLoginExist && inputLogin && !isLoginShort);
+  //   const isLoginEmpty = (!inputLogin || !inputLogin.trim());
+  //   const isAlreadyMine = (inputLogin === login);
+  //
+  //   if (isLoginAppropriate) {
+  //     this.props.app.handleSubmitUser({ login: this.state.inputLogin });
+  //     this.props.app.handleOpenPopUp({ message: 'Successfully changed!' });
+  //   }
+  //
+  //   if (isLoginShort) {
+  //     this.props.app.handleOpenPopUp({ message: 'Too short login!' });
+  //   }
+  //
+  //   if (isLoginEmpty) {
+  //     this.props.app.handleOpenPopUp({ message: 'Login cannot be empty!' });
+  //   }
+  //
+  //   if (isLoginExist) {
+  //     if (isAlreadyMine) {
+  //       this.props.app.handleOpenPopUp({ message: 'You have already had such login :)' });
+  //     } else {
+  //       this.props.app.handleOpenPopUp({ message: 'This login is already taken' });
+  //     }
+  //   }
+  // }
 
   handleClickDeleteAccount = () => {
     this.props.app.handleOpenPopUp({
@@ -118,8 +116,6 @@ export default class PrivacyAndSecurity extends React.Component {
 
   render () {
     const {
-      login,
-      inputLogin,
       isPasswordVisible,
       password,
       currentPassword,
@@ -165,18 +161,6 @@ export default class PrivacyAndSecurity extends React.Component {
           checked={isPasswordVisible}
           />
           <button className="button-confirm" onClick={this.handleConfirmNewPassword}>Confirm</button>
-        </div>
-
-        <div>
-          <h4>Change login</h4>
-            <input
-              className="input-login"
-              type="text"
-              value={inputLogin}
-              placeholder={`@${login}`}
-              onChange={this.handleChangeLogin}
-            />
-            <button className="button-confirm" onClick={this.handleConfirmNewLogin}>Confirm</button>
         </div>
 
         <div>

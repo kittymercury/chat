@@ -1,5 +1,5 @@
 import 'babel-polyfill';
-import './themes.scss';
+import './styles.scss';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -9,7 +9,6 @@ import App from './components/app';
 import Registration from './components/registration';
 import Authentication from './components/authentication';
 import Settings from './components/settings';
-import Profile from './components/profile';
 import Themes from './components/themes';
 import PrivacyAndSecurity from './components/privacy-and-security';
 import Contacts from './components/contacts';
@@ -23,7 +22,6 @@ ReactDOM.render(
       <Route path="/registration" component={Registration} />
       <Route path="/authentication" component={Authentication} />
       <Route path="/settings" component={Settings} />
-      <Route path="/profile" component={Profile} />
       <Route path="/themes" component={Themes} />
       <Route path="/privacy-and-security" component={PrivacyAndSecurity} />
       <Route path="/contacts" component={Contacts} />

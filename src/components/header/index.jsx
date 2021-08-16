@@ -4,20 +4,6 @@ import { browserHistory } from 'react-router';
 import './styles.scss';
 
 export default class Header extends React.Component {
-  handleClickSignOut = () => {
-    this.props.app.handleOpenPopUp({
-      message: 'Do you want to sign out?',
-      onConfirm: this.handleClickConfirmSignOut,
-      onClose: this.props.app.handleClosePopUp
-    });
-  }
-
-  handleClickConfirmSignOut = () => {
-    this.setState({ currentUser: null });
-    localStorage.removeItem('user');
-    browserHistory.push('/authentication');
-  }
-
   handleClickEditMessages = (condition) => {
     this.props.app.setState({ isEditMessages: condition });
   }
@@ -71,11 +57,6 @@ export default class Header extends React.Component {
                 <i className="far fa-edit"></i>
               </button>
           : ''}
-        {(currentPage === 'settings') && (
-          <button className="sign-out" style={{ opacity: '0', cursor: 'alias' }}>
-            <i className="fas fa-sign-out-alt"></i>
-          </button>
-        )}
       </div>
     );
   }
@@ -93,12 +74,6 @@ export default class Header extends React.Component {
         )}
 
         {['chats', 'messages'].includes(currentPage) && this.renderSearchButton(isSearch)}
-
-        {(currentPage === 'settings') && (
-          <button className="sign-out" onClick={this.props.app.handleClickSignOut}>
-            <i className="fas fa-sign-out-alt"></i>
-          </button>
-        )}
       </div>
     );
   }
