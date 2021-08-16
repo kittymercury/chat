@@ -1,16 +1,57 @@
-.settings-themes {
+.change-theme {
+  height: 100%;
+  width: 100%;
+
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  align-items: stretch;
+  align-items: center;
 
-  h5 {
-    margin: 15px;
-    font-size: 18px;
+  .headline {
+    width: 100%;
+    padding: 13px 0;
+    cursor: pointer;
+    text-align: center;
+    box-shadow: inset 0 -1px 0 0 #efefef12;
   }
 
-  li {
-    padding: 10px 20px;
-    margin-bottom: 5px;
+  .fas.fa-angle-down {
+    font-size: 10px;
+    margin-left: 10px;
+  }
+
+  .submenu {
+    height: 0;
+    overflow: hidden;
+    transition: height 0.2s;
+    z-index: -1;
+
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+
+    .theme {
+      width: 100%;
+      padding: 13px 0;
+      cursor: pointer;
+      text-align: center;
+      box-shadow: inset 0 -1px 0 0 #efefef12;
+
+      &.active {
+        background-color: #efefef12;
+      }
+    }
+  }
+}
+
+.change-theme.active {
+  .submenu {
+    height: 145px;
+    z-index: 1;
+    overflow: visible;
+  }
+
+  .fas {
+    transform: rotate(180deg);
   }
 }

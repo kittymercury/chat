@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, browserHistory } from 'react-router';
 
+import Themes from '../themes';
 import './styles.scss';
 import './change-avatar-menu.scss';
 import { getImg } from '../helpers';
@@ -8,7 +9,7 @@ import noAvatar from '../tg-imgs/no-avatar.png';
 
 // TODO:
 // 1. delete taken handlers from header, PrivacyAndSecurity and all Profile component.
-// 2. handles for confirming new info in handleClickDoneEditing
+// 2. handles for confirming new info in handleClicksaveEditing
 
 
 
@@ -43,7 +44,7 @@ export default class Settings extends React.Component {
     this.setState({ isOptionsVisible: true });
   }
 
-  // sign out
+  // log out
 
   handleClickLogOut = () => {
     this.props.app.handleOpenPopUp({
@@ -59,8 +60,18 @@ export default class Settings extends React.Component {
     browserHistory.push('/authentication');
   }
 
-  handleChangeName = (e) => {
-    this.setState({ name: e.target.value })
+  handleInputChange = (name, e) => {
+    switch (name) {
+      case 'name':
+        this.setState({ [name]: e.target.value });
+
+      case 'login':
+      const allowedSymbols = /^[0-9a-z]+$/;
+
+      if (e.target.value === '' || allowedSymbols.test(e.target.value)) {
+        this.setState({ [name]: e.target.value });
+      }
+    }
   }
 
   // avatar
@@ -78,14 +89,6 @@ export default class Settings extends React.Component {
   }
 
   // --------------------
-
-  handleChangeLogin = (e) => {
-    const allowedSymbols = /^[0-9a-z]+$/;
-
-    if (e.target.value === '' || allowedSymbols.test(e.target.value)) {
-      this.setState({ login: e.target.value });
-    }
-  }
 
   renderMainOptions = (condition) => {
     if (condition) {
@@ -121,13 +124,13 @@ export default class Settings extends React.Component {
     if (condition) {
       return (
         <div className="dynamic options">
-          <div className="up">
+          <div className="input-menu">
             <div>
               <input
                 className="name-input"
                 type="text"
                 value={this.state.name}
-                onChange={this.handleChangeName}
+                onChange={(e) => this.handleInputChange('name', e)}
               />
             </div>
             <div>
@@ -135,19 +138,27 @@ export default class Settings extends React.Component {
                 className="input-login"
                 type="text"
                 placeholder={`@${this.props.app.state.currentUser.login}`}
-                onChange={this.handleChangeLogin}
+                onChange={(e) => this.handleInputChange('login', e)}
               />
             </div>
           </div>
-          <div className="down">
-            <div><Link to="/themes">Themes</Link></div>
+          <div className="menu">
+            <Themes
+              onClick={this.handleClickMenuItem}
+              activeMenuItem={this.state.activeMenuItem}
+              app={this.props.app}
+            />
+            <div>
+              <Link to="/privacy-and-security">Privacy and security
+                <i className="fas fa-angle-down"></i>
+              </Link>
+            </div>
           </div>
         </div>
       )
     } else {
       return (
         <div className="dynamic features">
-          <div><Link to="/privacy-and-security">Privacy and security</Link></div>
           <div className="log-out" onClick={this.handleClickLogOut}>
             Log out
           </div>
@@ -159,7 +170,7 @@ export default class Settings extends React.Component {
   renderButtonEdit = (condition) => {
     if (condition) {
       return (
-        <span className="done" onClick={this.handleSubmit}>Done</span>
+        <span className="save" onClick={this.handleSubmit}>Save</span>
       )
     } else {
       return (

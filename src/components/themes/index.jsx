@@ -3,15 +3,29 @@ import React from 'react';
 import './styles.scss';
 
 export default class Themes extends React.Component {
-  render () {
+  constructor(props) {
+    super(props);
+
+    this.state = { active: null }
+  }
+
+  handleSelectTheme = (id) => {
+    this.props.app.setState({ theme: id });
+    this.setState({ active: id });
+  }
+
+  render() {
+    const { active } = this.state;
     return (
-      <div className="content settings-themes">
-        <h5>Choose theme</h5>
-        <ul className="theme-menu">
-          <li onClick={() => this.props.app.setState({ theme: 'purple' })}>purple</li>
-          <li onClick={() => this.props.app.setState({ theme: 'dark' })}>dark</li>
-          <li onClick={() => this.props.app.setState({ theme: 'banana' })}>banana</li>
-        </ul>
+      <div className={`change-theme ${this.props.activeMenuItem === 'change-theme' ? 'active' : ''}`} onClick={() => this.props.onClick('change-theme')}>
+        <div className="headline">Themes
+          <i className="fas fa-angle-down"></i>
+        </div>
+        <div className="submenu">
+          <div className={`theme ${this.state.active === 'dark' ? 'active' : ''}`} onClick={() => this.handleSelectTheme('dark')}>Dark</div>
+          <div className={`theme ${this.state.active === 'purple' ? 'active' : ''}`} onClick={() => this.handleSelectTheme('purple')}>Purple</div>
+          <div className={`theme ${this.state.active === 'new' ? 'active' : ''}`} onClick={() => this.handleSelectTheme('new')}>New</div>
+        </div>
       </div>
     )
   }

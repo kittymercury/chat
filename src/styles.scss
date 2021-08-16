@@ -169,14 +169,19 @@ li {
   }
 }
 
-.options .up div,
-.options .down div,
+.options {
+  background-color: var(--li-bg);
+}
+
+// .options .input-menu div,
+// .options .menu div,
+
 .features div {
   background-color: var(--li-bg);
 }
 
-.features div:hover,
-.options .down div:hover {
+// .options .menus div:hover,
+.features div:hover {
   background-color: var(--li-hov);
   transition: 0.3s;
 }
