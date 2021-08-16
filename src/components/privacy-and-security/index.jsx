@@ -67,46 +67,6 @@ export default class PrivacyAndSecurity extends React.Component {
     }
   }
 
-  // handleChangeLogin = (e) => {
-  //   const allowedSymbols = /^[0-9a-z]+$/;
-  //
-  //   if (e.target.value === '' || allowedSymbols.test(e.target.value)) {
-  //     this.setState({ inputLogin: e.target.value });
-  //   }
-  // }
-  //
-  // handleConfirmNewLogin = () => {
-  //   const { users } = this.props.app.state;
-  //   const { inputLogin, login } = this.state;
-  //
-  //   const isLoginExist = users.find((user) => user.login === inputLogin);
-  //   const isLoginShort = (inputLogin.length < 3);
-  //   const isLoginAppropriate = (!isLoginExist && inputLogin && !isLoginShort);
-  //   const isLoginEmpty = (!inputLogin || !inputLogin.trim());
-  //   const isAlreadyMine = (inputLogin === login);
-  //
-  //   if (isLoginAppropriate) {
-  //     this.props.app.handleSubmitUser({ login: this.state.inputLogin });
-  //     this.props.app.handleOpenPopUp({ message: 'Successfully changed!' });
-  //   }
-  //
-  //   if (isLoginShort) {
-  //     this.props.app.handleOpenPopUp({ message: 'Too short login!' });
-  //   }
-  //
-  //   if (isLoginEmpty) {
-  //     this.props.app.handleOpenPopUp({ message: 'Login cannot be empty!' });
-  //   }
-  //
-  //   if (isLoginExist) {
-  //     if (isAlreadyMine) {
-  //       this.props.app.handleOpenPopUp({ message: 'You have already had such login :)' });
-  //     } else {
-  //       this.props.app.handleOpenPopUp({ message: 'This login is already taken' });
-  //     }
-  //   }
-  // }
-
   handleClickDeleteAccount = () => {
     this.props.app.handleOpenPopUp({
       message: 'All your data will be deleted and it won\'t be possible to restore it. Do you want to continue?',

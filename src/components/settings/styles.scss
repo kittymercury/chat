@@ -13,6 +13,7 @@
 
     .edit-my-profile, .save {
       font-size: 14px;
+      cursor: pointer;
       position: absolute;
       top: 10px;
       right: 10px;
@@ -47,7 +48,6 @@
   }
 }
 
-
 .my-info-wrapper {
   display: flex;
   flex-direction: column;
@@ -66,13 +66,19 @@
       background: none;
       font-size: 16px;
     }
-    
+
     div {
       padding: 5px 5px 5px 15px;
       box-shadow: inset 0 -1px 0 0 #efefef12;
 
       display: flex;
-      align-items: center;
+      flex-direction: column;
+
+      .change-login-message {
+        font-size: 10px;
+        padding-left: 8px;
+        color: rgba(255,255,255,0.3);
+      }
     }
   }
 

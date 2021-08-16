@@ -1,45 +1,51 @@
 @import url('https://fonts.googleapis.com/css?family=Lato');
 
-:root {
-  --header-footer-bg: #060606;
-  --header-footer-txt-color: #fff;
-  --body-bg: var(--header-footer-bg);
+:root{
+  --base-bg: #060606;
+  --base-txt-color: #fff;
   --content-bg: #1e1f25;
-  --button-bg: var(--header-footer-bg);
-  --button-txt-color: var(--header-footer-txt-color);
+  --button-bg: var(--base-bg);
+  --button-txt-color: var(--base-txt-color);
   --input-txt-color: white;
   --input-bg: #444444;
-  --search-wrapper-bg: var(--input-search-bg);
   --input-search-bg: #504f4f;
-  --li-bg: #00000063;
-  --li-hov: #5a5a6354;
+  --search-wrapper-bg: var(--input-search-bg);
+  --wrapper-bg: #00000063;
+  --wrapper-hov: #5a5a6354;
+  --scrollbar-bg: #3b3b3b;
+  --scrollbar-thumb-bg: #666666;
 }
 
 .chat.purple {
-  --header-footer-bg: #4c203b;
-  --header-footer-txt-color: #fff;
-  --body-bg: var(--header-footer-bg);
+  --base-bg: #4c203b;
+  --base-txt-color: #fff;
   --content-bg: #251124;
-  --button-bg: var(--header-footer-bg);
-  --button-txt-color: var(--header-footer-txt-color);
+  --button-bg: var(--base-bg);
+  --button-txt-color: var(--base-txt-color);
   --input-txt-color: #fff;
   --input-bg: #633350;
-  --search-wrapper-bg: var(--input-search-bg);
   --input-search-bg: #633350;
-  --li-bg: #632b4c;
-  --li-hov: #88476d;
+  --search-wrapper-bg: var(--input-search-bg);
+  --wrapper-bg: #632b4c;
+  --wrapper-hov: #88476d;
+  --scrollbar-bg: #6d3958;
+  --scrollbar-thumb-bg: #441632;
 }
 
-// banana
-body.banana {
-  --header-footer-bg: #fcc700;
-  --header-footer-color: black;
+.chat.banana {
+  --base-bg: #b7ad37;
+  --base-txt-color: #fff;
+  --content-bg: #7b7821;
+  --wrapper-bg: #54520d;
+  --input-bg: #f9e93a;
+  --input-txt-color: var(--base-txt-color);
+  --button-bg: #5f5a27;
+  --button-txt-color: #fff;
+  --input-search-bg: #948f00;
+  --search-wrapper-bg: var(--input-search-bg);
+  --scrollbar-bg: #8e8734;
+  --scrollbar-thumb-bg: #c1b630;
 }
-
-// aqua
-
-// purple
-
 
 html, body, #app, .chat {
   margin: 0;
@@ -49,7 +55,7 @@ html, body, #app, .chat {
 }
 
 body {
-  background-color: var(--body-bg);
+  background-color: var(--base-bg);
 }
 
 .chat {
@@ -62,8 +68,8 @@ body {
 }
 
 .header, .footer {
-  background-color: var(--header-footer-bg);
-  color: var(--header-footer-txt-color);
+  background-color: var(--base-bg);
+  color: var(--base-txt-color);
 }
 
 .content {
@@ -72,7 +78,7 @@ body {
   overflow: auto;
 
   .my-info {
-    background-color: var(--li-bg);
+    background-color: var(--wrapper-bg);
   }
 }
 
@@ -86,11 +92,11 @@ button {
   border: none;
 
   &:first-child {
-    border-right: 1px solid #807d7da6;
+    border-right: 1px solid #ffffff3b;
   }
 
   &:nth-child(2) {
-    border-right: 1px solid #807d7da6;
+    border-right: 1px solid #ffffff3b;
   }
 }
 
@@ -161,49 +167,49 @@ ul {
 }
 
 li {
-  background-color: var(--li-bg);
+  background-color: var(--wrapper-bg);
 
   &:hover {
-    background-color: var(--li-hov);
+    background-color: var(--wrapper-hov);
     transition: 0.3s;
   }
 }
 
 .options {
-  background-color: var(--li-bg);
+  background-color: var(--wrapper-bg);
 }
 
 // .options .input-menu div,
 // .options .menu div,
 
 .features div {
-  background-color: var(--li-bg);
+  background-color: var(--wrapper-bg);
 }
 
 // .options .menus div:hover,
 .features div:hover {
-  background-color: var(--li-hov);
+  background-color: var(--wrapper-hov);
   transition: 0.3s;
 }
 
 .info-wrapper {
-  background-color: var(--li-bg);
+  background-color: var(--wrapper-bg);
 }
 
 .chat-with-user {
-  background-color: var(--li-bg);
+  background-color: var(--wrapper-bg);
 
   &:hover {
-    background-color: var(--li-hov);
+    background-color: var(--wrapper-hov);
   }
 }
 
 .pop-up {
   background-color: var(--content-bg);
-  border-top: 20px solid var(--header-footer-bg);
+  border-top: 20px solid var(--base-bg);
 
   button {
-    background-color: var(--li-bg);
+    background-color: var(--wrapper-bg);
   }
 }
 
@@ -217,9 +223,9 @@ li {
 
 *::-webkit-scrollbar {
   width: 5px;
-  background-color: #1e1f25 !important;
+  background-color: var(--scrollbar-bg);
 }
 
 *::-webkit-scrollbar-thumb {
-  background-color: #544f4f !important;
+  background-color: var(--scrollbar-thumb-bg);
 }

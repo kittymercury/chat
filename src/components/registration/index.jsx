@@ -134,9 +134,9 @@ export default class Registration extends React.Component {
           name="avatar"
           accept="image/png, image/jpeg, image/jpg"
           value={this.state.avatar}
-          onChange={(e) => this.changeInputValue('avatar', e)}
+          onChange={this.handleChangeAvatar}
         />
-        <label for="file">Load avatar</label>
+        <label htmlFor="file">Load avatar</label>
         <button className="sign-up-button" onClick={this.handleClickSignUp}>Sign up</button>
       </div>
     )

@@ -128,7 +128,6 @@ export default class App extends React.Component {
 
   renderPopUp = () => {
     const { popUp } = this.state;
-    console.log(popUp);
 
     if (popUp) {
       return (

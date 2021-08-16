@@ -12,8 +12,6 @@ import noAvatar from '../tg-imgs/no-avatar.png';
 // 1. delete taken handlers from header, PrivacyAndSecurity and all Profile component.
 // 2. handles for confirming new info in handleClicksaveEditing
 
-
-
 export default class Settings extends React.Component {
   constructor(props) {
     super(props);
@@ -22,6 +20,8 @@ export default class Settings extends React.Component {
       name: this.props.app.state.currentUser.name,
       avatar: this.props.app.state.currentUser.avatar,
       login: this.props.app.state.currentUser.login,
+      errorMessage: '',
+      messageColor: 'red',
 
       isOptionsVisible: true,
       activeMenuItem: null
@@ -61,21 +61,37 @@ export default class Settings extends React.Component {
     browserHistory.push('/authentication');
   }
 
-  handleInputChange = (name, e) => {
-    switch (name) {
-      case 'name':
-        this.setState({ [name]: e.target.value });
+  handleChangeName = (e) => {
+    this.setState({ name: e.target.value });
+  }
 
-      case 'login':
-      const allowedSymbols = /^[0-9a-z]+$/;
+  handleChangeLogin = (e) => {
+    const allowedSymbols = /^[0-9a-z]+$/;
 
-      if (e.target.value === '' || allowedSymbols.test(e.target.value)) {
-        this.setState({ [name]: e.target.value });
-      }
+    if (e.target.value === '' || allowedSymbols.test(e.target.value)) {
+      this.setState({ login: e.target.value });
+
+      const { users } = this.props.app.state;
+      const currentLogin = this.props.app.state.currentUser.login;
+
+      const isLoginExist = users.find((user) => user.login === e.target.value);
+      const isLoginShort = (e.target.value.length < 3);
+      const isLoginAppropriate = (!isLoginExist && e.target.value && !isLoginShort);
+      const isLoginEmpty = (!e.target.value || !e.target.value.trim());
+      const isAlreadyMine = (e.target.value === currentLogin);
+
+      if (isAlreadyMine) return this.setState({ errorMessage: 'You have already had such login!', messageColor: 'red' });
+      if (isLoginExist) return this.setState({ errorMessage: 'This login is already taken!', messageColor: 'red' });
+      if (isLoginAppropriate) return this.setState({ errorMessage: 'Allowed login', messageColor: 'green' })
+      if (isLoginShort) return this.setState({ errorMessage: 'Too short login!', messageColor: 'red' });
+      if (isLoginEmpty) return this.setState({ errorMessage: 'Login cannot be empty!', messageColor: 'red' });
     }
   }
 
   // avatar
+  // handleChangeAvatar = (e) => {
+  //   this.setState({ avatar: e.target.files[0].name })
+  // }
 
   handleConfirmRemoveAvatar = () => {
     this.props.app.handleSubmitUser({ avatar: null });
@@ -131,16 +147,18 @@ export default class Settings extends React.Component {
                 className="name-input"
                 type="text"
                 value={this.state.name}
-                onChange={(e) => this.handleInputChange('name', e)}
+                onChange={this.handleChangeName}
               />
             </div>
             <div>
               <input
                 className="input-login"
+                value={this.state.login}
                 type="text"
                 placeholder={`@${this.props.app.state.currentUser.login}`}
-                onChange={(e) => this.handleInputChange('login', e)}
+                onChange={this.handleChangeLogin}
               />
+              <span className="change-login-message" style={{ color: this.state.messageColor }}>{this.state.errorMessage}</span>
             </div>
           </div>
           <div className="menu">
@@ -179,7 +197,6 @@ export default class Settings extends React.Component {
       )
     }
   }
-
 
   render () {
     const { currentUser } = this.props.app.state;

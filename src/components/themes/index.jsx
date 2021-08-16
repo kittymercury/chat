@@ -25,7 +25,7 @@ export default class Themes extends React.Component {
         <div className="submenu">
           <div className={`theme ${this.state.active === 'dark' ? 'active' : ''}`} onClick={() => this.handleSelectTheme('dark')}>Dark</div>
           <div className={`theme ${this.state.active === 'purple' ? 'active' : ''}`} onClick={() => this.handleSelectTheme('purple')}>Purple</div>
-          <div className={`theme ${this.state.active === 'new' ? 'active' : ''}`} onClick={() => this.handleSelectTheme('new')}>New</div>
+          <div className={`theme ${this.state.active === 'banana' ? 'active' : ''}`} onClick={() => this.handleSelectTheme('banana')}>Banana</div>
         </div>
       </div>
     )

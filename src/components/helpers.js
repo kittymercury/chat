@@ -1,4 +1,5 @@
 export function getImg(fileName) {
+  console.log(fileName);
   return fileName
     ? require(`./tg-imgs/${fileName}`)
     : require(`./tg-imgs/no-avatar.png`);
