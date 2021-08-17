@@ -10,8 +10,7 @@
   --input-bg: #444444;
   --input-search-bg: #504f4f;
   --search-wrapper-bg: var(--input-search-bg);
-  --wrapper-bg: #00000063;
-  --wrapper-hov: #5a5a6354;
+  --wrapper-bg: #121317;
   --scrollbar-bg: #3b3b3b;
   --scrollbar-thumb-bg: #666666;
 }
@@ -27,7 +26,6 @@
   --input-search-bg: #633350;
   --search-wrapper-bg: var(--input-search-bg);
   --wrapper-bg: #632b4c;
-  --wrapper-hov: #88476d;
   --scrollbar-bg: #6d3958;
   --scrollbar-thumb-bg: #441632;
 }
@@ -38,7 +36,7 @@
   --content-bg: #7b7821;
   --wrapper-bg: #54520d;
   --input-bg: #f9e93a;
-  --input-txt-color: var(--base-txt-color);
+  --input-txt-color: black;
   --button-bg: #5f5a27;
   --button-txt-color: #fff;
   --input-search-bg: #948f00;
@@ -63,23 +61,22 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  color: white;
   font-size: 18px;
+  color: var(--base-txt-color);
 }
 
 .header, .footer {
   background-color: var(--base-bg);
-  color: var(--base-txt-color);
 }
 
 .content {
   background-color: var(--content-bg);
   flex: 1;
   overflow: auto;
-
-  .my-info {
-    background-color: var(--wrapper-bg);
-  }
+}
+  // settings
+.settings .info {
+  background-color: var(--wrapper-bg);
 }
 
 button {
@@ -87,34 +84,19 @@ button {
   color: var(--button-txt-color);
   font-family: inherit !important;
 }
-
-.footer button {
-  border: none;
-
-  &:first-child {
-    border-right: 1px solid #ffffff3b;
-  }
-
-  &:nth-child(2) {
-    border-right: 1px solid #ffffff3b;
-  }
-}
-
+  // search wraper --> common
 .search-wrapper {
   background-color: var(--search-wrapper-bg);
 }
 
 input {
-  border: none;
   padding: 10px;
+  border: none;
   border-radius: 20px;
-  position: relative;
-  color: var(--input-txt-color);
   background-color: var(--input-bg);
-
-  &:focus-visible {
-    outline: none;
-  }
+  color: var(--input-txt-color);
+  outline: none;
+  position: relative;
 
   #checkbox {
     cursor: pointer;
@@ -170,26 +152,22 @@ li {
   background-color: var(--wrapper-bg);
 
   &:hover {
-    background-color: var(--wrapper-hov);
+    background-color: rgba(255,255,255,0.1);
     transition: 0.3s;
   }
 }
-
+  // settings
 .options {
   background-color: var(--wrapper-bg);
 }
 
-// .options .input-menu div,
-// .options .menu div,
-
-.features div {
+.log-out {
   background-color: var(--wrapper-bg);
-}
 
-// .options .menus div:hover,
-.features div:hover {
-  background-color: var(--wrapper-hov);
-  transition: 0.3s;
+  &:hover {
+    background-color: rgba(255,255,255,0.1);
+    transition: 0.3s;
+  }
 }
 
 .info-wrapper {
@@ -200,7 +178,7 @@ li {
   background-color: var(--wrapper-bg);
 
   &:hover {
-    background-color: var(--wrapper-hov);
+    background-color: rgba(255,255,255,0.1);
   }
 }
 

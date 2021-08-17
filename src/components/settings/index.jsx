@@ -110,28 +110,26 @@ export default class Settings extends React.Component {
   renderMainOptions = (condition) => {
     if (condition) {
       return (
-        <div className="dynamic my-info-wrapper">
-          <div className={`change-avatar ${this.state.activeMenuItem === 'change-avatar' ? 'active' : ''}`}>
-            <div className="headline" onClick={() => this.handleClickMenuItem('change-avatar')}>Change avatar</div>
-            <div className="submenu">
-              <input
-                id="file"
-                type="file"
-                name="avatar"
-                accept="image/png, image/jpeg, image/jpg"
-                onChange={this.handleChangeAvatar}
-              />
-              <label htmlFor="file">Load avatar</label>
-              <button className="remove-avatar" onClick={this.handleClickRemoveAvatar}>Remove avatar</button>
-            </div>
+        <div className={`avatar-menu ${this.state.activeMenuItem === 'avatar-menu' ? 'active' : ''}`}>
+          <div className="menu-name" onClick={() => this.handleClickMenuItem('avatar-menu')}>Change avatar</div>
+          <div className="submenu">
+            <input
+              id="file"
+              type="file"
+              name="avatar"
+              accept="image/png, image/jpeg, image/jpg"
+              onChange={this.handleChangeAvatar}
+            />
+            <label htmlFor="file">Load avatar</label>
+            <button onClick={this.handleClickRemoveAvatar}>Remove avatar</button>
           </div>
         </div>
       )
     } else {
       return (
-        <div className="my-info-wrapper">
-          <div className="my-name">{this.state.name}</div>
-          <div className="my-login">@{this.state.login}</div>
+        <div className="data-wrapper">
+          <div className="name">{this.state.name}</div>
+          <div className="login">@{this.state.login}</div>
         </div>
       )
     }
@@ -140,11 +138,10 @@ export default class Settings extends React.Component {
   renderFeatures = (condition) => {
     if (condition) {
       return (
-        <div className="dynamic options">
+        <div className="options">
           <div className="input-menu">
             <div>
               <input
-                className="name-input"
                 type="text"
                 value={this.state.name}
                 onChange={this.handleChangeName}
@@ -152,13 +149,12 @@ export default class Settings extends React.Component {
             </div>
             <div>
               <input
-                className="input-login"
-                value={this.state.login}
                 type="text"
+                value={this.state.login}
                 placeholder={`@${this.props.app.state.currentUser.login}`}
                 onChange={this.handleChangeLogin}
               />
-              <span className="change-login-message" style={{ color: this.state.messageColor }}>{this.state.errorMessage}</span>
+              <span style={{ color: this.state.messageColor, fontSize: '10px', paddingLeft: '8px' }}>{this.state.errorMessage}</span>
             </div>
           </div>
           <div className="menu">
@@ -177,10 +173,8 @@ export default class Settings extends React.Component {
       )
     } else {
       return (
-        <div className="dynamic features">
-          <div className="log-out" onClick={this.handleClickLogOut}>
-            Log out
-          </div>
+        <div className="log-out" onClick={this.handleClickLogOut}>
+          Log out
         </div>
       )
     }
@@ -188,13 +182,9 @@ export default class Settings extends React.Component {
 
   renderButtonEdit = (condition) => {
     if (condition) {
-      return (
-        <span className="save" onClick={this.handleSubmit}>Save</span>
-      )
+      return <span onClick={this.handleSubmit}>Save</span>
     } else {
-      return (
-        <span className="edit-my-profile" onClick={this.handleClickEditProfile}>Edit</span>
-      )
+      return <span onClick={this.handleClickEditProfile}>Edit</span>
     }
   }
 
@@ -204,11 +194,9 @@ export default class Settings extends React.Component {
 
     return (
       <div className="content settings">
-        <div className="my-info">
+        <div className="info">
           {this.renderButtonEdit(isOptionsVisible)}
-          <div className="my-avatar">
-            <img className="my-avatar-image" src={getImg(currentUser.avatar)} />
-          </div>
+          <img src={getImg(currentUser.avatar)} />
           {this.renderMainOptions(isOptionsVisible)}
         </div>
         {this.renderFeatures(isOptionsVisible)}

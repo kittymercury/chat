@@ -1,19 +1,19 @@
-.change-avatar {
+.avatar-menu {
   height: 100%;
 
   display: flex;
   align-items: center;
   flex-direction: column;
 
-  &:hover .headline{
+  &:hover .menu-name{
     text-decoration: underline;
   }
 
-  &.active .headline{
+  &.active .menu-name{
     text-decoration: underline;
   }
 
-  .headline {
+  .menu-name {
     padding: 10px 10px 5px;
     cursor: pointer;
 
@@ -33,7 +33,7 @@
   }
 }
 
-.change-avatar.active .submenu {
+.avatar-menu.active .submenu {
   height: 65px;
   z-index: 1;
   overflow: visible;

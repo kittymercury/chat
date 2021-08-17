@@ -15,7 +15,7 @@ export default class PrivacyAndSecurity extends React.Component {
       newPassword: '',
       repeatNewPassword: '',
       isPasswordVisible: false,
-      inputType: 'password',
+      inputType: 'password'
     }
   }
 
@@ -85,8 +85,8 @@ export default class PrivacyAndSecurity extends React.Component {
     } = this.state;
 
     return (
-      <div className={`privacy-and-security ${this.props.activeMenuItem === 'privacy-and-security' ? 'active' : ''}`}>
-        <div className="headline" onClick={() => this.props.onClick('privacy-and-security')}>Privacy and security
+      <div className={`security ${this.props.activeMenuItem === 'privacy-and-security' ? 'active' : ''}`}>
+        <div className="menu-name" onClick={() => this.props.onClick('privacy-and-security')}>Privacy and security
           <i className="fas fa-angle-down"></i>
         </div>
         <div className="submenu">
@@ -123,13 +123,13 @@ export default class PrivacyAndSecurity extends React.Component {
             onChangeShowPassword={this.changePasswordVisibility}
             checked={isPasswordVisible}
             />
-            <button className="button-confirm" onClick={this.handleConfirmNewPassword}>Confirm</button>
+            <button onClick={this.handleConfirmNewPassword}>Confirm</button>
           </div>
 
           <div className="delete-account wrapper">
             <div style={{ padding: '0 10px 10px' }}>Delete account</div>
             <span>Press the button to delete your account: </span>
-            <button className="button-delete-account" onClick={this.handleClickDeleteAccount}>Delete account</button>
+            <button onClick={this.handleClickDeleteAccount}>Delete account</button>
           </div>
         </div>
       </div>
