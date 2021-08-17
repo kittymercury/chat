@@ -85,14 +85,16 @@ export default class Chats extends React.Component {
 
     return (
       <li key={chat.id} onClick={onClick}>
-        <div className="chat-img-wrapper">
+        <div className="img-wrapper">
           {this.renderStatus(user)}
-          <img className="chat-image" src={getImg(user.avatar)} />
+          <img src={getImg(user.avatar)} />
         </div>
-        <div className="text-wrapper">
-          <div className="name">{user.name}</div>
-          <span className="message-time">{message ? formatDate(message.time) : ''}</span>
-          <div className="message-preview">
+        <div className="chat-data">
+          <div className="data">
+            <div className="name">{user.name}</div>
+            <span className="time">{message ? formatDate(message.time) : ''}</span>
+          </div>
+          <div className="text">
             {this.renderMessagePreview(message)}
           </div>
         </div>
@@ -106,13 +108,13 @@ export default class Chats extends React.Component {
   renderMessage = (message, user) => {
     return (
       <li key={message.id} onClick={() => this.handleClickFoundMessage(message)}>
-        <div className="chat-img-wrapper">
-          <img className="chat-image" src={getImg(user.avatar)} />
+        <div className="img-wrapper">
+          <img src={getImg(user.avatar)} />
         </div>
-        <div className="text-wrapper">
+        <div className="chat-data">
           <div className="name">{user.name}</div>
-          <span className="message-time">{formatDate(message.time)}</span>
-          <div className="message-preview">
+          <span className="time">{formatDate(message.time)}</span>
+          <div className="text">
             <div dangerouslySetInnerHTML={this.tryHighlight(message.content)} />
           </div>
         </div>
