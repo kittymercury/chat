@@ -80,7 +80,8 @@ export default class Header extends React.Component {
 
   renderMessagesTitle = () => {
     const { currentUser, users, chats } = this.props.app.state;
-    const currentChat = Number(this.props.params.chatId);
+    
+    const currentChat = +window.location.pathname.split('/')[2];
     if (!currentChat) return;
 
     const chat = chats.find((c) => c.id === currentChat);

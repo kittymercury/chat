@@ -1,4 +1,5 @@
 import React from 'react';
+import { browserHistory } from 'react-router';
 
 import api from './api';
 
@@ -20,12 +21,14 @@ import freddieImg from './tg-imgs/freddie.jpeg';
 // 6. form in auth
 // 7. styles for input search
 // 8. js for pop-up
+// 9. flex 0.9 improve css for chats
 
 export default class App extends React.Component {
   constructor(props) {
     super(props);
 
-    const currentUser = JSON.parse(localStorage.getItem('user') || '{}');
+    const user = localStorage.getItem('user');
+    const currentUser = user ? JSON.parse(user) : null;
     const currentPage = window.location.pathname;
 
     this.state = {
@@ -85,8 +88,14 @@ export default class App extends React.Component {
       return;
     }
 
-    const data = await api('get_users');
-    this.setState({ users: data.users });
+    if (!this.state.currentUser) {
+      return browserHistory.push('/authentication');
+    }
+
+    const dataUsers = await api('get_users');
+    const dataChats = await api('get_chats', this.state.currentUser);
+
+    this.setState({ users: dataUsers.users, chats: dataChats.chats });
   }
 
   // --------------------------------

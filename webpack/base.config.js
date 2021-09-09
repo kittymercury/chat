@@ -39,6 +39,7 @@ module.exports = {
     new MiniCssExtractPlugin({ filename: 'style.[contenthash].css' }),
     new DefinePlugin({
       __VERSION__: JSON.stringify('0.1.0'),
+      'process.env.NODE_TLS_REJECT_UNAUTHORIZED': 0
     }),
   ],
   module: {

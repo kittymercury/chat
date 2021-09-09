@@ -1,6 +1,8 @@
 import React from 'react';
 import lodash from 'lodash';
+import { browserHistory } from 'react-router';
 
+import api from '../api';
 import InputSearch from '../common/input-search';
 import { getImg, formatDate } from '../helpers';
 
@@ -55,9 +57,22 @@ export default class Chats extends React.Component {
     browserHistory.push(`/messages/${chat.id}`);
   }
 
-  handleClickDeleteChat = (chat) => {
+  handleClickDeleteChat = async (chat) => {
+    const data = await api('delete_chat', chat);
+
+    if (data.error) {
+      this.props.app.handleOpenPopUp({
+        message: data.error.description,
+      });
+    } else {
+      const { chats } = this.props.app.state;
+      const filteredChats = chats.filter((c) => c.id !== chat.id);
+
+      this.props.app.setState({ chats: filteredChats });
+    }
+
     const { chats } = this.props.app.state;
-    const filteredChats = chats.filter((c) => c !== chat);
+    const filteredChats = chats.filter((c) => c.id !== chat.id);
 
     this.props.app.setState({ chats: filteredChats });
   }
@@ -80,16 +95,16 @@ export default class Chats extends React.Component {
   }
 
   renderChat = (chat, user, message) => {
-    const onClick = () => this.props.onClick(chat);
-    const onDelete = () => this.props.onDelete(chat);
+    const onClick = () => this.handleClickChat(chat);
+    const onDelete = () => this.handleClickDeleteChat(chat);
 
     return (
-      <li key={chat.id} onClick={onClick}>
-        <div className="img-wrapper">
+      <li key={chat.id}>
+        <div className="img-wrapper" onClick={onClick}>
           {this.renderStatus(user)}
           <img src={getImg(user.avatar)} />
         </div>
-        <div className="chat-data">
+        <div className="chat-data" onClick={onClick}>
           <div className="data">
             <div className="name">{user.name}</div>
             <span className="time">{message ? formatDate(message.time) : ''}</span>
@@ -125,16 +140,16 @@ export default class Chats extends React.Component {
   render () {
     const { inputSearch } = this.state;
     const {
-      chats,
       users,
       currentUser,
       isSearch,
       isStatusVisible,
-      messages
+      messages,
+      chats
     } = this.props.app.state;
 
     const currentUsersChats = chats.filter((chat) => {
-      return chat.participants.includes(currentUser);
+      return chat.participants.includes(currentUser.id);
     });
 
     let foundChats = [];
@@ -187,8 +202,6 @@ export default class Chats extends React.Component {
 
         <ul>
           {sortedChats.map((chat) => {
-            const onClick = () => this.handleClickChat(chat);
-            const onDelete = () => this.handleClickDeleteChat(chat);
             const participant = users.find((user) => user.id === chat.participants.find((id) => id !== currentUser.id));
 
             const chatMessages = messages.filter((m) => m.chatId === chat.id);
