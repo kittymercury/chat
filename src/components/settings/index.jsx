@@ -23,7 +23,7 @@ export default class Settings extends React.Component {
       errorMessage: '',
       messageColor: 'red',
 
-      isOptionsVisible: true,
+      isOptionsVisible: false,
       activeMenuItem: null
     }
   }

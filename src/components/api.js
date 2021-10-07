@@ -17,3 +17,88 @@ export default async (action, payload) => {
   });
   return response.data;
 }
+
+// yaml
+
+// actions:
+
+//   login:
+//     request params:
+//       login
+//       password
+//     response:
+//       user || error
+//
+//   sign_up:
+//     request params:
+//       name
+//       login
+//       password
+//     response:
+//       user || error
+//
+//   get_users:
+//     request params:
+//     response:
+//       users || error
+//
+//   get_chats:
+//     request params:
+//       user           // currentUser
+//     response:
+//       chats || error
+//
+//   create_chat:
+//     request params:
+//       chat:
+//         participants:
+//           - currentUserId
+//           - userId
+//     response:
+//       chat || error
+//
+//   delete_chat:
+//     request params:
+//       chat
+//     response:
+//       deleted || error
+
+// add api actions:
+//   create_message:
+//     request params:
+//       userId
+//       chatId
+//       content
+//       reply
+//     response:
+//       created || error
+//
+//   get_messages:
+//     request params:
+//       chatId
+//       userId       // currentUser.idea
+//     response:
+//       messages || error
+//
+//   delete_message:
+//     request params:
+//       message
+//     response:
+//       deleted || error
+//
+//   update_message:
+//     request params:
+//       messageId
+//       content
+//     response:
+//       edited || error   // look at updated_at
+
+  // update_user:
+  //   request params:
+  //     id
+  //     login
+  //     password
+  //     name
+  //     avatar
+  //   response:
+  //     user || error

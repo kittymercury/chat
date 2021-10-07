@@ -22,6 +22,7 @@ import freddieImg from './tg-imgs/freddie.jpeg';
 // 7. styles for input search
 // 8. js for pop-up
 // 9. flex 0.9 improve css for chats
+// 10. initial name in messages
 
 export default class App extends React.Component {
   constructor(props) {
@@ -32,6 +33,7 @@ export default class App extends React.Component {
     const currentPage = window.location.pathname;
 
     this.state = {
+      loaded: false,
       currentUser: currentUser,
       currentPage: currentPage,
 
@@ -95,7 +97,7 @@ export default class App extends React.Component {
     const dataUsers = await api('get_users');
     const dataChats = await api('get_chats', this.state.currentUser);
 
-    this.setState({ users: dataUsers.users, chats: dataChats.chats });
+    this.setState({ loaded: true, users: dataUsers.users, chats: dataChats.chats });
   }
 
   // --------------------------------
@@ -151,6 +153,10 @@ export default class App extends React.Component {
   }
 
   render() {
+    console.log(this.state);
+
+    if (!this.state.loaded) return null;
+
     return (
       <div className={`chat theme ${this.state.theme}`}>
         {this.renderHeader()}

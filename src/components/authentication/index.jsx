@@ -36,7 +36,7 @@ export default class Authentication extends React.Component {
   //   if (currentUser) {
   //     this.changePage('Chats');
   //     this.setState({
-  //       currentUser: currentUser.id,
+  //       currentUser: currentUser,
   //     });
   //   } else {
   //     this.handleOpenPopUp({
@@ -63,7 +63,7 @@ export default class Authentication extends React.Component {
 
       this.props.app.setState({
         users: usersData.users,
-        currentUser: data.user.id,
+        currentUser: data.user,
       });
 
       this.setState({ login: '', password: '' });

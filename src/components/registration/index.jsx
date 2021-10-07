@@ -32,10 +32,10 @@ export default class Registration extends React.Component {
     if (data.user) {
       const usersData = await api('get_users');
 
-      this.setState({ currentUser: data.user.id, users: usersData.users });
+      this.props.app.setState({ currentUser: data.user, users: usersData.users });
 
-      browserHistory.push('/settings');
       localStorage.setItem('user', JSON.stringify(data.user));
+      browserHistory.push('/settings');
     }
 
     if (data.error) {
@@ -57,7 +57,7 @@ export default class Registration extends React.Component {
     //       const newUsers = users.concat(newUser);
     //
     //       this.changePage('Chats');
-    //       this.setState({ currentUser: newUser.id, users: newUsers });
+    //       this.setState({ currentUser: newUser, users: newUsers });
     //     } else {
     //       this.handleOpenPopUp({
     //         message: 'Login cannot be shorter than 4 symbols!'
