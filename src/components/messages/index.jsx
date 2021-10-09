@@ -1,4 +1,7 @@
 import React from 'react';
+
+import api from '../api';
+
 import InputSearch from '../common/input-search';
 import { formatDate } from '../helpers';
 import './styles/base.css';
@@ -56,9 +59,16 @@ export default class Messages extends React.Component {
     this.setState({ [name]: e.target.value })
   }
 
-  handleClickDeleteMessage = (message) => {
-    const newMessages = this.props.app.state.messages.filter((m) => m.id !== message.id);
-    this.props.app.setState({ messages: newMessages })
+  handleClickDeleteMessage = async (message) => {
+    const data = await api('delete_message', message);
+    if (data.error) {
+      this.props.app.handleOpenPopUp({
+        message: data.error.description,
+      });
+    } else if (data.deleted) {
+      const newMessages = this.props.app.state.messages.filter((m) => m.id !== message.id);
+      this.props.app.setState({ messages: newMessages })
+    }
   }
 
   handleClickReply = (message) => {
@@ -76,28 +86,39 @@ export default class Messages extends React.Component {
     }
   }
 
-  handleClickButtonSend = () => {
+  handleClickButtonSend = async () => {
     const { currentUser, messages } = this.props.app.state;
     const { inputMessage, messageToReply } = this.state;
 
     if (inputMessage && inputMessage.trim()) {
       const newMessage = {
-        id: +new Date(),
-        userId: currentUser.id,
-        chatId: Number(this.props.params.chatId),
-        time: +new Date(),
-        content: inputMessage,
-        reply: messageToReply,
+        user: currentUser.id,
+        chat: Number(this.props.params.chatId),
+        content: inputMessage
       };
-      const newMessages = messages.concat(newMessage);
 
-      this.props.app.setState({ messages: newMessages })
-      this.setState({
-        inputMessage: '',
-        messageToReply: null,
-      });
-    } else {
-      this.props.app.setState({ messages });
+      if (messageToReply) {
+        newMessage.reply_to = messageToReply.id;
+      }
+
+      const data = await api('create_message', newMessage);
+
+      if (data.error) {
+        this.props.app.handleOpenPopUp({
+          message: data.error.description,
+        });
+      } else {
+        const newMessages = messages.concat(data.message);
+
+
+        console.log({newMessages});
+
+        this.props.app.setState({ messages: newMessages })
+        this.setState({
+          inputMessage: '',
+          messageToReply: null,
+        });
+      }
     }
   }
 
@@ -110,7 +131,7 @@ export default class Messages extends React.Component {
 
     const newMessages = this.props.app.state.messages.map((m) => {
       if ((m.id === messageToEdit.id) && (messageToEdit.content !== inputMessage)) {
-        return { ...m, content: inputMessage, edited: 'Edited' }
+        return { ...m, content: inputMessage }
       } else {
         return m;
       }
@@ -131,14 +152,15 @@ export default class Messages extends React.Component {
   }
 
   renderMessageReply = (users, message) => {
-    if (message.reply) {
-      const user = users.find((u) => u.id === message.reply.userId);
+    if (message.reply_to) {
+      const messageReplyTo = this.props.app.state.messages.find((m) => m.id === message.reply_to);
+      const user = users.find((u) => u.id === messageReplyTo.user);
 
       return (
         <div className="message-reply">
             <div className="reply-wrapper">
               <div className="to-user">Reply for: {user.name}</div>
-              <div className="text-for-replying">{message.reply.content}</div>
+              <div className="text-for-replying">{messageReplyTo.content}</div>
             </div>
         </div>
       )
@@ -147,7 +169,7 @@ export default class Messages extends React.Component {
 
   renderMessageForward = (users, message) => {
     if (message.forward) {
-      const user = users.find((u) => u.id === message.forward.userId);
+      const user = users.find((u) => u.id === message.forward.user);
 
       return (
         <div className="message-forward">
@@ -176,7 +198,7 @@ export default class Messages extends React.Component {
 
   renderInputMessageToReply = (users, message) => {
     if (message) {
-      const user = users.find((u) => u.id === message.userId);
+      const user = users.find((u) => u.id === message.user);
 
       return (
         <div className="reply-to">
@@ -220,13 +242,13 @@ export default class Messages extends React.Component {
 
     let foundMessages = [];
     if (isSearch && inputSearch) {
-      messages.filter((message) => message.chatId === chatId).forEach((message) => {
+      messages.filter((message) => message.chat === chatId).forEach((message) => {
         if (message.content && message.content.toLowerCase().includes(inputSearch.toLowerCase())) {
           foundMessages.push(message);
         }
       });
     } else {
-      foundMessages = messages.filter((message) => message.chatId === chatId);
+      foundMessages = messages.filter((message) => message.chat === chatId);
     }
 
     return (
@@ -244,8 +266,8 @@ export default class Messages extends React.Component {
             if (foundMessage && (message.id === foundMessage.id)) {
               className = "message-data-content highlight";
             };
-            const user = users.find((user) => user.id === message.userId);
-            const isCurrentUsersMessage = message.userId === currentUser.id;
+            const user = users.find((user) => user.id === message.user);
+            const isCurrentUsersMessage = message.user === currentUser.id;
 
             const textALign = { textAlign: isCurrentUsersMessage ? 'right' : 'left' };
             const flexDirection = { flexDirection: isCurrentUsersMessage ? 'row-reverse' : 'row' };
@@ -253,12 +275,12 @@ export default class Messages extends React.Component {
             return (
               <li key={message.id} className="message-item" style={textALign} id={`m-${message.id}`}>
 
-                {(message.userId === currentUser.id) && (
+                {(message.user === currentUser.id) && (
                   <div className="my-message" style={textALign, flexDirection}>
                     <div>
-                      <span className="edited">{message.edited}</span>
+                      <span className="edited">{message.updated_at}</span>
                       <span className="message-data-my-name">{user.name}</span>
-                      <span className="message-data-time">{formatDate(message.time)}</span>
+                      <span className="message-data-time">{formatDate(message.created_at)}</span>
                     </div>
                     {this.renderMessageReply(users, message)}
                     {this.renderMessageForward(users, message)}
@@ -266,13 +288,13 @@ export default class Messages extends React.Component {
                   </div>
                 )}
 
-                {(message.userId !== currentUser.id) && (
+                {(message.user !== currentUser.id) && (
                   <div className="other-message" style={textALign, flexDirection}>
                     <div>
                       {this.renderStatus(user)}
                       <span className="message-data-name">{user.name}</span>
-                      <span className="message-data-time">{formatDate(message.time)}</span>
-                      <span className="edited">{message.edited}</span>
+                      <span className="message-data-time">{formatDate(message.created_at)}</span>
+                      <span className="edited">{message.updated_at}</span>
                     </div>
                     {this.renderMessageReply(users, message)}
                     {this.renderMessageForward(users, message)}

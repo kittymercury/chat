@@ -60,21 +60,21 @@ export default class App extends React.Component {
       //   { id: 4, participants: [ 1, 3 ] },
       // ],
       // messages: [
-      //   { id: 1, userId: 1, chatId: 1, time: +new Date('2020', '7', '25', '1', '1'), content: 'I love you <3', edited: '' },
-      //   { id: 2, userId: 7, chatId: 1, time: +new Date('2020', '6', '25', '1', '2'), content: 'I love you too <3', edited: '' },
-      //   { id: 3, userId: 6, chatId: 2, time: +new Date('2020', '7', '25', '1', '3'), content: 'Віта, в тебе є черешні?', edited: '' },
-      //   { id: 4, userId: 7, chatId: 2, time: +new Date('2020', '7', '25', '1', '4'), content: 'нажаль уже немає', edited: '' },
-      //   { id: 5, userId: 3, chatId: 3, time: +new Date('2020', '7', '25', '1', '5'), content: 'I know that you are the one who knocks and always make', edited: '' },
-      //   { id: 6, userId: 7, chatId: 3, time: +new Date('2020', '7', '25', '1', '6'), content: 'You are goddamn right', edited: '' },
-      //   { id: 7, userId: 7, chatId: 3, time: +new Date('2020', '7', '25', '1', '7'), content: 'You', edited: '' },
-      //   { id: 8, userId: 7, chatId: 3, time: +new Date('2020', '7', '25', '1', '8'), content: 'are', edited: '' },
-      //   { id: 9, userId: 7, chatId: 3, time: +new Date('2020', '7', '25', '1', '9'), content: 'goddamn', edited: '' },
-      //   { id: 10, userId: 7, chatId: 3, time: +new Date('2020', '7', '25', '1', '10'), content: 'right', edited: '' },
-      //   { id: 11, userId: 7, chatId: 3, time: +new Date('2020', '7', '25', '1', '11'), content: 'wooooow', edited: '' },
-      //   { id: 12, userId: 7, chatId: 3, time: +new Date('2020', '7', '25', '1', '12'), content: 'w a a aw', edited: '' },
-      //   { id: 13, userId: 7, chatId: 3, time: +new Date('2020', '7', '25', '1', '13'), content: 'We already know that emojis are these tiny colorful icons. While this may give you the impression that they are images in the traditional sense, they aren\'t. They are more like the letters, numbers, punctuation marks, and weird symbols that we tend to bucket as text', edited: '' },
-      //   {id: 14, userId: 1, chatId: 4, time: +new Date('2020', '7', '25', '1', '14'), content: 'lol', edited: '' },
-      //   {id: 15, userId: 3, chatId: 4, time: +new Date('2020', '7', '25', '1', '15'), content: 'lol lol', edited: '' },
+      //   { id: 1, user: 1, chat: 1, created_at: +new Date('2020', '7', '25', '1', '1'), content: 'I love you <3' },
+      //   { id: 2, user: 7, chat: 1, created_at: +new Date('2020', '6', '25', '1', '2'), content: 'I love you too <3' },
+      //   { id: 3, user: 6, chat: 2, created_at: +new Date('2020', '7', '25', '1', '3'), content: 'Віта, в тебе є черешні?' },
+      //   { id: 4, user: 7, chat: 2, created_at: +new Date('2020', '7', '25', '1', '4'), content: 'нажаль уже немає' },
+      //   { id: 5, user: 3, chat: 3, created_at: +new Date('2020', '7', '25', '1', '5'), content: 'I know that you are the one who knocks and always make' },
+      //   { id: 6, user: 7, chat: 3, created_at: +new Date('2020', '7', '25', '1', '6'), content: 'You are goddamn right' },
+      //   { id: 7, user: 7, chat: 3, created_at: +new Date('2020', '7', '25', '1', '7'), content: 'You' },
+      //   { id: 8, user: 7, chat: 3, created_at: +new Date('2020', '7', '25', '1', '8'), content: 'are' },
+      //   { id: 9, user: 7, chat: 3, created_at: +new Date('2020', '7', '25', '1', '9'), content: 'goddamn' },
+      //   { id: 10, user: 7, chat: 3, created_at: +new Date('2020', '7', '25', '1', '10'), content: 'right' },
+      //   { id: 11, user: 7, chat: 3, created_at: +new Date('2020', '7', '25', '1', '11'), content: 'wooooow' },
+      //   { id: 12, user: 7, chat: 3, created_at: +new Date('2020', '7', '25', '1', '12'), content: 'w a a aw' },
+      //   { id: 13, user: 7, chat: 3, created_at: +new Date('2020', '7', '25', '1', '13'), content: 'We already know that emojis are these tiny colorful icons. While this may give you the impression that they are images in the traditional sense, they aren\'t. They are more like the letters, numbers, punctuation marks, and weird symbols that we tend to bucket as text' },
+      //   {id: 14, user: 1, chat: 4, created_at: +new Date('2020', '7', '25', '1', '14'), content: 'lol' },
+      //   {id: 15, user: 3, chat: 4, created_at: +new Date('2020', '7', '25', '1', '15'), content: 'lol lol' },
       // ]
 
       users: [],
@@ -96,8 +96,16 @@ export default class App extends React.Component {
 
     const dataUsers = await api('get_users');
     const dataChats = await api('get_chats', this.state.currentUser);
+    const dataMessages = await api('get_messages', this.state.currentUser);
 
-    this.setState({ loaded: true, users: dataUsers.users, chats: dataChats.chats });
+    this.setState({
+      loaded: true,
+      users: dataUsers.users,
+      chats: dataChats.chats,
+      messages: dataMessages.messages
+    });
+
+    // browserHistory.push('/chats');
   }
 
   // --------------------------------

@@ -63,7 +63,11 @@ export default async (action, payload) => {
 //     response:
 //       deleted || error
 
+
+
+
 // add api actions:
+
 //   create_message:
 //     request params:
 //       userId
@@ -71,7 +75,7 @@ export default async (action, payload) => {
 //       content
 //       reply
 //     response:
-//       created || error
+//       message || error
 //
 //   get_messages:
 //     request params:
