@@ -39,19 +39,28 @@ export default class Chats extends React.Component {
     this.setState({ inputSearch: e.target.value });
   }
 
-  handleClickChat = (chat) => {
+  handleClickChat = async (chat) => {
     const { messageToForward, messages, isEditMessages } = this.props.app.state;
 
     if (messageToForward) {
       const message = {
-        id: +new Date(),
-        userId: this.props.app.state.currentUser.id,
-        chatId: chat.id,
-        time: +new Date(),
-        forward: messageToForward
+        user: this.props.app.state.currentUser.id,
+        chat: chat.id,
+        forward_to: messageToForward.id
       };
-      const newMessages = messages.concat(message);
-      this.props.app.setState({ messages: newMessages, messageToForward: null, isEditMessages: false });
+
+      const data = await api('create_message', message);
+
+      if (data.error) {
+        this.props.app.handleOpenPopUp({
+          message: data.error.description,
+        });
+      }
+
+      if (data.message) {
+        const newMessages = messages.concat(data.message);
+        this.props.app.setState({ messages: newMessages, messageToForward: null, isEditMessages: false });
+      }
     }
 
     browserHistory.push(`/messages/${chat.id}`);

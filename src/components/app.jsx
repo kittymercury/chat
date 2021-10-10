@@ -110,11 +110,24 @@ export default class App extends React.Component {
 
   // --------------------------------
 
-  handleSubmitUser = (user) => {
-    const newCurrentUser = { ...this.state.currentUser, ...user };
+  handleSubmitUser = async (user) => {
+    const data = await api('update_user', {
+      ...this.state.currentUser,
+      ...user
+    });
 
-    this.setState({ currentUser: newCurrentUser });
-    localStorage.setItem('user', JSON.stringify(newCurrentUser));
+    if (data.error) {
+      this.handleOpenPopUp({
+        message: data.error.description
+      })
+    }
+
+    if (data.user) {
+      const newCurrentUser = { ...this.state.currentUser, ...data.user };
+
+      this.setState({ currentUser: newCurrentUser });
+      localStorage.setItem('user', JSON.stringify(newCurrentUser));
+    }
   }
 
   handleOpenPopUp = (popUp) => {
