@@ -4,9 +4,7 @@ import { browserHistory } from 'react-router';
 import api from '../api';
 import InputSearch from '../common/input-search';
 import { formatDate } from '../helpers';
-import './styles/base.css';
-import './styles/aqua.css';
-import './styles/purple.css';
+import './styles.scss';
 
 export default class Messages extends React.Component {
   constructor(props) {
@@ -110,9 +108,6 @@ export default class Messages extends React.Component {
       } else {
         const newMessages = messages.concat(data.message);
 
-
-        console.log({newMessages});
-
         this.props.app.setState({ messages: newMessages })
         this.setState({
           inputMessage: '',
@@ -187,16 +182,24 @@ export default class Messages extends React.Component {
   renderMessageForward = (users, message) => {
     if (message.forward_to) {
       const forwardedMessage = this.props.app.state.messages.find((m) => m.id === message.forward_to);
-      const user = this.props.app.state.currentUser.id === forwardedMessage.user
-        ? this.props.app.state.currentUser
-        : users.find((user) => user.id === forwardedMessage.user);
 
-      return (
-        <div className="message-forward">
-          <div className="forwarded-from">Forwarded from: {user.name}</div>
-          <div className="forwarded-text">{forwardedMessage.content}</div>
-        </div>
-      )
+      if (forwardedMessage) {
+        const user = this.props.app.state.currentUser.id === forwardedMessage.user
+          ? this.props.app.state.currentUser
+          : users.find((user) => user.id === forwardedMessage.user);
+        return (
+          <div className="message-forward">
+            <div className="forwarded-from">Forwarded from: {user.name}</div>
+            <div className="forwarded-text">{forwardedMessage.content}</div>
+          </div>
+        )
+      } else {
+        return (
+          <div className="message-forward">
+            <div className="forwarded-from deleted">Forwarded message was deleted</div>
+          </div>
+        )
+      }
     }
   }
 
@@ -259,6 +262,7 @@ export default class Messages extends React.Component {
       messages,
       foundMessage
     } = this.props.app.state;
+    console.log({messages});
 
     const chatId = Number(this.props.params.chatId);
 

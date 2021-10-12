@@ -73,7 +73,7 @@ export default class Header extends React.Component {
           </button>
         )}
 
-        {['chats', 'messages'].includes(currentPage) && this.renderSearchButton(isSearch)}
+        {['chats', 'messages', 'contacts'].includes(currentPage) && this.renderSearchButton(isSearch)}
       </div>
     );
   }
@@ -83,9 +83,7 @@ export default class Header extends React.Component {
 
     const currentChat = +window.location.pathname.split('/')[2];
     if (!currentChat) return;
-    console.log({ chats });
     const chat = chats.find((c) => c.id === currentChat);
-    console.log({ chat, currentChat });
     const participant = chat.participants.find((id) => id !== currentUser.id);
     const title = users.find((user) => user.id === participant).name;
 

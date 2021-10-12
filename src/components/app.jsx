@@ -13,16 +13,12 @@ import walterImg from './tg-imgs/walter.jpeg';
 import freddieImg from './tg-imgs/freddie.jpeg';
 
 // TODO:
-// 1. make edit like in telegram
-// 2. search in among all users and add to contacts
+// 2. search among all users and add to contacts
 // 3. delete from contact list
 // 4. theme to localStorage
-// 5. scss for chats
-// 6. form in auth
-// 7. styles for input search
-// 8. js for pop-up
-// 9. flex 0.9 improve css for chats
-// 10. initial name in messages
+// 11. make it possible to load avatar
+// 12. autoscroll in messages
+// 13. click on contact with existed chat
 
 export default class App extends React.Component {
   constructor(props) {
@@ -33,7 +29,6 @@ export default class App extends React.Component {
     const currentPage = window.location.pathname;
 
     this.state = {
-      loaded: false,
       currentUser: currentUser,
       currentPage: currentPage,
 
@@ -84,37 +79,34 @@ export default class App extends React.Component {
   }
 
   componentDidMount = async () => {
-    const currentPage = window.location.pathname;
+    const currentPage = window.location.pathname.slice(1);
+    console.log(this.state.users);
 
-    if (['/authentication', '/registration'].includes(currentPage)) {
-      return;
+    if (this.state.currentUser) {
+      const dataUsers = await api('get_users', { id: this.state.currentUser.contacts || [] });
+      const dataChats = await api('get_chats', this.state.currentUser);
+      const dataMessages = await api('get_messages', this.state.currentUser);
+
+      this.setState({
+        users: dataUsers.users,
+        chats: dataChats.chats,
+        messages: dataMessages.messages
+      });
+
+      if (!currentPage) {
+        browserHistory.push('/chats');
+      }
+    } else {
+      if (!currentPage) {
+        browserHistory.push('/authentication');
+      }
     }
-
-    if (!this.state.currentUser) {
-      return browserHistory.push('/authentication');
-    }
-
-    const dataUsers = await api('get_users');
-    const dataChats = await api('get_chats', this.state.currentUser);
-    const dataMessages = await api('get_messages', this.state.currentUser);
-
-    this.setState({
-      loaded: true,
-      users: dataUsers.users,
-      chats: dataChats.chats,
-      messages: dataMessages.messages
-    });
-
-    // browserHistory.push('/chats');
   }
 
   // --------------------------------
 
   handleSubmitUser = async (user) => {
-    const data = await api('update_user', {
-      ...this.state.currentUser,
-      ...user
-    });
+    const data = await api('update_user', { id: this.state.currentUser.id, ...user });
 
     if (data.error) {
       this.handleOpenPopUp({
@@ -174,10 +166,6 @@ export default class App extends React.Component {
   }
 
   render() {
-    console.log(this.state);
-
-    if (!this.state.loaded) return null;
-
     return (
       <div className={`chat theme ${this.state.theme}`}>
         {this.renderHeader()}

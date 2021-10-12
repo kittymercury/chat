@@ -5,6 +5,7 @@
 
   .info-wrapper {
     padding: 15px;
+    background-color: var(--wrapper-bg);
 
     display: flex;
     flex-direction: column;
@@ -38,22 +39,24 @@
     }
   }
 
-  .chat-with-user-wrapper {
+  .button-contact-info-wrapper {
     display: flex;
     justify-content: center;
 
-    .chat-with-user {
+    .button-contact-info {
       margin: 15px;
       padding: 16px;
+      background-color: var(--wrapper-bg);
       border-radius: 35px;
       cursor: pointer;
-      width: 115px;
+      // width: 115px;
 
       display: flex;
       justify-content: center;
 
       &:hover {
         transition-duration: 1.2s;
+        background-color: rgba(255,255,255,0.1);
       }
     }
   }

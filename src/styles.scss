@@ -74,19 +74,11 @@ body {
   flex: 1;
   overflow: auto;
 }
-  // settings
-.settings .info {
-  background-color: var(--wrapper-bg);
-}
 
 button {
   background-color: var(--button-bg);
   color: var(--button-txt-color);
   font-family: inherit !important;
-}
-  // search wraper --> common
-.search-wrapper {
-  background-color: var(--search-wrapper-bg);
 }
 
 input {
@@ -100,10 +92,6 @@ input {
 
   #checkbox {
     cursor: pointer;
-  }
-
-  &.search {
-    background-color: var(--input-search-bg);
   }
 }
 
@@ -154,40 +142,6 @@ li {
   &:hover {
     background-color: rgba(255,255,255,0.1);
     transition: 0.3s;
-  }
-}
-  // settings
-.options {
-  background-color: var(--wrapper-bg);
-}
-
-.log-out {
-  background-color: var(--wrapper-bg);
-
-  &:hover {
-    background-color: rgba(255,255,255,0.1);
-    transition: 0.3s;
-  }
-}
-
-.info-wrapper {
-  background-color: var(--wrapper-bg);
-}
-
-.chat-with-user {
-  background-color: var(--wrapper-bg);
-
-  &:hover {
-    background-color: rgba(255,255,255,0.1);
-  }
-}
-
-.pop-up {
-  background-color: var(--content-bg);
-  border-top: 20px solid var(--base-bg);
-
-  button {
-    background-color: var(--wrapper-bg);
   }
 }
 

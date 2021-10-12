@@ -1,10 +1,32 @@
 import React from 'react';
 import { browserHistory } from 'react-router';
 
+import api from '../api';
 import { getImg } from '../helpers';
 import './styles.scss';
 
 export default class ContactInfo extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = { user: null, loaded: false }
+  }
+
+  componentDidMount = async () => {
+    const userId = Number(this.props.params.userId);
+    const data = await api('get_users', { id: userId });
+
+    if (data.error) {
+      this.props.app.handleOpenPopUp({
+        message: data.error.description,
+      });
+    }
+
+    if (data.users) {
+      this.setState({ user: data.users[0], loaded: true })
+    }
+  }
+
   handleClickOpenChat = (user) => {
     const { chats } = this.props.app.state;
     const chat = chats.find((chat) => chat.participants.includes(user.id));
@@ -23,7 +45,11 @@ export default class ContactInfo extends React.Component {
       this.setState({ chats: newChats });
       browserHistory.push(`/messages/${newChat.id}`);
     }
-  };
+  }
+
+  handleClickAddToContacts = (user) => {
+    this.props.app.handleSubmitUser({ contacts: this.props.app.state.currentUser.contacts.concat(user.id) });
+  }
 
   renderStatus = (user) => {
     if (this.props.app.state.isStatusVisible) {
@@ -32,7 +58,10 @@ export default class ContactInfo extends React.Component {
   }
 
   render () {
-    const user = this.props.app.state.users.find((user) => user.id === Number(this.props.params.userId));
+    const user = this.state.user;
+    const currentUser = this.props.app.state.currentUser;
+
+    if (!this.state.loaded) return null;
 
     if (!user) {
       return (
@@ -52,8 +81,14 @@ export default class ContactInfo extends React.Component {
           <div className="user-name">{user.name}</div>
           <div className="user-login">@{user.login}</div>
         </div>
-        <div className="chat-with-user-wrapper">
-          <div className="chat-with-user" onClick={() => this.handleClickOpenChat(user)}>Open chat</div>
+        <div className="button-contact-info-wrapper">
+          {currentUser.contacts.includes(user.id)
+            ? (
+                <div className="button-contact-info" onClick={() => this.handleClickOpenChat(user)}>Open chat</div>
+            )
+            : (
+                <div className="button-contact-info" onClick={() => this.handleClickAddToContacts(user)}>Add to contacts</div>
+            )}
         </div>
       </div>
     )

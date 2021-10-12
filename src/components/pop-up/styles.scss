@@ -1,4 +1,6 @@
 .pop-up {
+  background-color: var(--content-bg);
+  border-top: 20px solid var(--base-bg);
   position: absolute;
   top: 50%;
   left: 50%;
@@ -19,6 +21,7 @@
 }
 
 .pop-up button {
+  background-color: var(--wrapper-bg);
   color: white;
   padding: 3px 15px;
   margin: 5px;

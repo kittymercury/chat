@@ -4,8 +4,10 @@
   padding-left: 20px;
   margin: 5px;
   border-radius: 25px;
+  background-color: var(--search-wrapper-bg);
 
   input {
+    background-color: var(--input-search-bg);
     border: none;
     padding: 2px;
     margin: 2px;
