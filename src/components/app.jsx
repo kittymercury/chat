@@ -13,12 +13,13 @@ import walterImg from './tg-imgs/walter.jpeg';
 import freddieImg from './tg-imgs/freddie.jpeg';
 
 // TODO:
-// 2. search among all users and add to contacts
+// 2. search among all users and add to contacts +
+// 4. theme to localStorage +
 // 3. delete from contact list
-// 4. theme to localStorage
 // 11. make it possible to load avatar
 // 12. autoscroll in messages
 // 13. click on contact with existed chat
+// 14. handleclickdeleteuser from contacts
 
 export default class App extends React.Component {
   constructor(props) {
@@ -27,12 +28,13 @@ export default class App extends React.Component {
     const user = localStorage.getItem('user');
     const currentUser = user ? JSON.parse(user) : null;
     const currentPage = window.location.pathname;
+    const theme = JSON.parse(localStorage.getItem('theme'));
 
     this.state = {
       currentUser: currentUser,
       currentPage: currentPage,
 
-      theme: 'dark',
+      theme: theme,
 
       isStatusVisible: true,
       isEditMessages: false,
@@ -76,6 +78,10 @@ export default class App extends React.Component {
       chats: [],
       messages: [],
     };
+  }
+
+  componentDidUpdate = () => {
+    localStorage.setItem('theme', JSON.stringify(this.state.theme));
   }
 
   componentDidMount = async () => {

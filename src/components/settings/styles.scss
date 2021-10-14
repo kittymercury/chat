@@ -51,6 +51,12 @@
   padding: 10px;
   text-align: center;
   cursor: pointer;
+  background-color: var(--wrapper-bg);
+
+  &:hover {
+    background-color: rgba(255,255,255,0.1);
+    transition: 0.3s;
+  }
 }
 
 .options {
@@ -74,15 +80,6 @@
         font-size: 16px;
         color: white;
       }
-    }
-  }
-
-  .log-out {
-    background-color: var(--wrapper-bg);
-
-    &:hover {
-      background-color: rgba(255,255,255,0.1);
-      transition: 0.3s;
     }
   }
 

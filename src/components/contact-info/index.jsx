@@ -51,6 +51,21 @@ export default class ContactInfo extends React.Component {
     this.props.app.handleSubmitUser({ contacts: this.props.app.state.currentUser.contacts.concat(user.id) });
   }
 
+  // handleClickRemoveContact = () => {
+  //   this.props.app.handleOpenPopUp({
+  //     message: `Do you want to remove ${this.state.user.name} from your Contacts?`,
+  //     onConfirm: this.handleConfirmRemoveContact
+  //   });
+  // }
+
+  // handleConfirmRemoveContact = async () => {
+  //   const index = this.props.app.state.currentUser.contacts.indexOf(contact);
+  //
+  //   this.props.app.handleSubmitUser({ contacts: this.props.app.state.currentUser.contacts.splice(index, 1) });
+  //   this.props.app.setState({ popUp: null });
+  //   browserHistory.push(`/contacts`);
+  // }
+
   renderStatus = (user) => {
     if (this.props.app.state.isStatusVisible) {
       return <i className={`fas fa-circle ${user.status}`}></i>
@@ -74,6 +89,9 @@ export default class ContactInfo extends React.Component {
     return (
       <div className="content contact-info">
         <div className="info-wrapper">
+          <div className="remove-from-contacts">
+            <span onClick={this.handleClickRemoveContact(user)}>Remove</span>
+          </div>
           <div>
             <img className="user-avatar-image" src={getImg(user.avatar)} />
             {this.renderStatus(user)}

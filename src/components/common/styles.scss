@@ -7,16 +7,16 @@
   background-color: var(--search-wrapper-bg);
 
   input {
-    background-color: var(--input-search-bg);
     border: none;
     padding: 2px;
     margin: 2px;
   }
 }
 
-.chats .search-wrapper {
+.search-wrapper {
   padding: 2px;
   padding-left: 20px;
+  background-color: var(--input-bg);
 
   input {
     margin: 2px;
