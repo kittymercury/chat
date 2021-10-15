@@ -49,6 +49,7 @@ export default class ContactInfo extends React.Component {
 
   handleClickAddToContacts = (user) => {
     this.props.app.handleSubmitUser({ contacts: this.props.app.state.currentUser.contacts.concat(user.id) });
+    // this.props.app.setState({ users: this.props.app.state.users.concat(user) })
   }
 
   handleClickRemoveContact = (user) => {

@@ -158,7 +158,7 @@ export default class Chats extends React.Component {
     } = this.props.app.state;
 
     const currentUsersChats = chats.filter((chat) => {
-      return chat.participants.includes(currentUser.id) && lodash.some(users, (user) => chat.participants.includes(user.id));
+      return chat.participants.includes(currentUser.id);
     });
 
     let foundChats = [];

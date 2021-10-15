@@ -30,6 +30,7 @@ export default class Contacts extends React.Component {
   }
 
   handleClickOpenContactInfo = (user) => {
+    this.props.app.setState({ isSearch: false })
     browserHistory.push(`/contact-info/${user.id}`);
   }
 
@@ -37,33 +38,41 @@ export default class Contacts extends React.Component {
     const { chats, users, currentUser, isSearch } = this.props.app.state;
 
     if (isSearch) {
+      this.props.app.setState({ isSearch: false })
       return browserHistory.push(`/contact-info/${user.id}`)
     }
 
     const isChatExist = chats.find((chat) => {
-      if (chat.participants.includes(user.id) && chat.participants.includes(currentUser)) {
+      if (chat.participants.includes(user.id) && chat.participants.includes(currentUser.id)) {
         return true;
       } else {
         return false;
       }
     })
 
-    if (isChatExist) return;
+    // if (isChatExist) return;
+    if (isChatExist) {
+      const chatId = chats.find((chat) => (chat.participants.includes(user.id) && chat.participants.includes(currentUser.id))).id;
 
-    const newChat = {
-      participants: [ currentUser.id, user.id ]
-    }
-    const data = await api('create_chat', newChat);
-
-    if (data.chat) {
-      this.props.app.setState({ chats: this.props.app.state.chats.concat(data.chat) });
-      browserHistory.push(`/messages/${data.chat.id}`);
+      return browserHistory.push(`/messages/${chatId}`);
     }
 
-    if (data.error) {
-      this.props.app.handleOpenPopUp({
-        message: data.error.description,
-      });
+    if (!isChatExist) {
+      const newChat = {
+        participants: [ currentUser.id, user.id ]
+      }
+      const data = await api('create_chat', newChat);
+
+      if (data.chat) {
+        this.props.app.setState({ chats: this.props.app.state.chats.concat(data.chat) });
+        return browserHistory.push(`/messages/${data.chat.id}`);
+      }
+
+      if (data.error) {
+        this.props.app.handleOpenPopUp({
+          message: data.error.description,
+        });
+      }
     }
   }
 
@@ -85,10 +94,14 @@ export default class Contacts extends React.Component {
 
   render () {
     const { currentUser, isSearch } = this.props.app.state;
+    const contacts = this.props.app.state.users.filter((user) => {
+      return currentUser.contacts.includes(user.id);
+    });
     const users = isSearch
       ? this.state.users
-      : this.props.app.state.users;
+      : contacts;
     const filteredUsers = users.filter((user) => user.id !== currentUser.id);
+
 
     return (
         <div className="content contacts">
