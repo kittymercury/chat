@@ -15,11 +15,11 @@ import freddieImg from './tg-imgs/freddie.jpeg';
 // TODO:
 // 2. search among all users and add to contacts +
 // 4. theme to localStorage +
-// 3. delete from contact list
+// 13. click on contact with existed chat +
+// 3. delete from contact list +
 // 11. make it possible to load avatar
 // 12. autoscroll in messages
-// 13. click on contact with existed chat
-// 14. handleclickdeleteuser from contacts
+// 14. delete user from contacts
 
 export default class App extends React.Component {
   constructor(props) {
@@ -86,7 +86,6 @@ export default class App extends React.Component {
 
   componentDidMount = async () => {
     const currentPage = window.location.pathname.slice(1);
-    console.log(this.state.users);
 
     if (this.state.currentUser) {
       const dataUsers = await api('get_users', { id: this.state.currentUser.contacts || [] });
@@ -172,6 +171,7 @@ export default class App extends React.Component {
   }
 
   render() {
+    console.log(this.state);
     return (
       <div className={`chat theme ${this.state.theme}`}>
         {this.renderHeader()}

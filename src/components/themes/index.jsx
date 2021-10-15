@@ -16,7 +16,8 @@ export default class Themes extends React.Component {
   render() {
     return (
       <div className={`change-theme ${this.props.activeMenuItem === 'change-theme' ? 'active' : ''}`}>
-        <div className="headline" onClick={() => this.props.onClick('change-theme')}>Themes
+        <div className="headline" onClick={() => this.props.onClick('change-theme')}>
+          <span>Themes</span>
           <i className="fas fa-angle-down"></i>
         </div>
         <div className="submenu">

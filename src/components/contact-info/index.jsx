@@ -51,20 +51,19 @@ export default class ContactInfo extends React.Component {
     this.props.app.handleSubmitUser({ contacts: this.props.app.state.currentUser.contacts.concat(user.id) });
   }
 
-  // handleClickRemoveContact = () => {
-  //   this.props.app.handleOpenPopUp({
-  //     message: `Do you want to remove ${this.state.user.name} from your Contacts?`,
-  //     onConfirm: this.handleConfirmRemoveContact
-  //   });
-  // }
+  handleClickRemoveContact = (user) => {
+    this.props.app.handleOpenPopUp({
+      message: `Do you want to remove ${this.state.user.name} from your Contacts?`,
+      onConfirm: () => this.handleConfirmRemoveContact(user)
+    });
+  }
 
-  // handleConfirmRemoveContact = async () => {
-  //   const index = this.props.app.state.currentUser.contacts.indexOf(contact);
-  //
-  //   this.props.app.handleSubmitUser({ contacts: this.props.app.state.currentUser.contacts.splice(index, 1) });
-  //   this.props.app.setState({ popUp: null });
-  //   browserHistory.push(`/contacts`);
-  // }
+  handleConfirmRemoveContact = (user) => {
+    const contacts = this.props.app.state.currentUser.contacts.filter((id) => id !== user.id)
+
+    this.props.app.handleSubmitUser({ contacts });
+    this.props.app.setState({ popUp: null });
+  }
 
   renderStatus = (user) => {
     if (this.props.app.state.isStatusVisible) {
@@ -89,9 +88,13 @@ export default class ContactInfo extends React.Component {
     return (
       <div className="content contact-info">
         <div className="info-wrapper">
-          <div className="remove-from-contacts">
-            <span onClick={this.handleClickRemoveContact(user)}>Remove</span>
-          </div>
+          {currentUser.contacts.includes(user.id)
+            ? (
+              <div className="remove-from-contacts">
+                <span onClick={() => this.handleClickRemoveContact(user)}>Remove</span>
+              </div>
+            )
+            : ''}
           <div>
             <img className="user-avatar-image" src={getImg(user.avatar)} />
             {this.renderStatus(user)}
