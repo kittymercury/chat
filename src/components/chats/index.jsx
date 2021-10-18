@@ -19,7 +19,7 @@ export default class Chats extends React.Component {
 
   handleClickFoundMessage = (message) => {
     const { chats } = this.props.app.state;
-    const chat = chats.find((chat) => chat.id === message.chatId);
+    const chat = chats.find((chat) => chat.id === message.chat);
     this.props.app.setState({ foundMessage: message });
     browserHistory.push(`/messages/${chat.id}`);
   }
@@ -88,8 +88,8 @@ export default class Chats extends React.Component {
 
   renderMessagePreview = (message) => {
     if (message) {
-      if (message.forward) {
-        return <div>Forwarded message</div>
+      if (message.forward_to) {
+        return <div style={{ color: 'gray' }}>Forwarded message</div>
       }
       if (message.content) {
         return <div>{message.content}</div>
@@ -116,7 +116,7 @@ export default class Chats extends React.Component {
         <div className="chat-data" onClick={onClick}>
           <div className="data">
             <div className="name">{user.name}</div>
-            <span className="time">{message ? formatDate(message.time) : ''}</span>
+            <span className="time">{message ? formatDate(message.created_at) : ''}</span>
           </div>
           <div className="text">
             {this.renderMessagePreview(message)}
@@ -136,8 +136,10 @@ export default class Chats extends React.Component {
           <img src={getImg(user.avatar)} />
         </div>
         <div className="chat-data">
-          <div className="name">{user.name}</div>
-          <span className="time">{formatDate(message.time)}</span>
+          <div className="data">
+            <div className="name">{user.name}</div>
+            <span className="time">{message ? formatDate(message.created_at) : ''}</span>
+          </div>
           <div className="text">
             <div dangerouslySetInnerHTML={this.tryHighlight(message.content)} />
           </div>
@@ -174,7 +176,7 @@ export default class Chats extends React.Component {
     }
 
     const currentUsersChatMessages = currentUsersChats.map((chat) => {
-      return messages.filter((m) => m.chatId === chat.id);
+      return messages.filter((m) => m.chat === chat.id);
     })
 
     let foundMessages = [];
@@ -190,8 +192,8 @@ export default class Chats extends React.Component {
     }
 
     const sortedChats = foundChats.sort((a, b) => {
-      const chatMessagesA = messages.filter((message) => message.chatId === a.id);
-      const chatMessagesB = messages.filter((message) => message.chatId === b.id);
+      const chatMessagesA = messages.filter((message) => message.chat === a.id);
+      const chatMessagesB = messages.filter((message) => message.chat === b.id);
       const lastMessageA = lodash.last(chatMessagesA);
       const lastMessageB = lodash.last(chatMessagesB);
 
@@ -209,11 +211,11 @@ export default class Chats extends React.Component {
           />
         )}
 
-        <ul>
+        <ul className="users-chats">
           {sortedChats.map((chat) => {
             const participant = users.find((user) => user.id === chat.participants.find((id) => id !== currentUser.id));
 
-            const chatMessages = messages.filter((m) => m.chatId === chat.id);
+            const chatMessages = messages.filter((m) => m.chat === chat.id);
             const lastMessage = lodash.last(chatMessages);
 
             return this.renderChat(chat, participant, lastMessage)
@@ -221,16 +223,18 @@ export default class Chats extends React.Component {
         </ul>
         {foundMessages.length
           ? (
-            <ul>
+            <div className="found-messages-chats">
               <div className="found-messages-headline">Messages</div>
-              {foundMessages.map((m) => {
-                const participant = users.find((user) => user.id === m.userId);
-                const foundMessageChat = chats.find((chat) => chat.id === m.chatId);
-                const onClick = () => this.handleClickChat(foundMessageChat);
+              <ul>
+                {foundMessages.map((m) => {
+                  const participant = users.find((user) => user.id === m.created_by);
+                  const foundMessageChat = chats.find((chat) => chat.id === m.chat);
+                  const onClick = () => this.handleClickChat(foundMessageChat);
 
-                return this.renderMessage(m, participant, onClick)
-              })}
-            </ul>
+                  return this.renderMessage(m, participant, onClick)
+                })}
+              </ul>
+            </div>
           )
           : ''
         }

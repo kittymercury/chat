@@ -36,7 +36,7 @@ export default class Header extends React.Component {
       messageToForward,
     } = this.props.app.state;
 
-    const [ currentPage ] = window.location.pathname.slice(1).split('/');
+    const currentPage = this.props.app.getPage();
 
     return (
       <div>
@@ -45,12 +45,12 @@ export default class Header extends React.Component {
             ? <button onClick={this.handleCancelForwarding}>Cancel</button>
             :  <button onClick={() => browserHistory.push('/contacts')}><i className="fas fa-plus"></i></button>
           : ''}
-        {[ 'registration', 'privacy-and-security', 'themes', 'profile', 'contact-info'].includes(currentPage) && (
+        {[ 'registration', 'settings', 'contact-info'].includes(currentPage) && (
           <button onClick={() => browserHistory.goBack()}>
             <i className="fas fa-long-arrow-alt-left"></i>
           </button>
         )}
-        {(currentPage === 'messages')
+        {(currentPage.includes('messages'))
           ? isEditMessages
             ? <button onClick={() => this.handleClickEditMessages(false)}>Cancel</button>
             : <button onClick={() => this.handleClickEditMessages(true)}>
@@ -63,17 +63,17 @@ export default class Header extends React.Component {
 
   renderButtonsRight = () => {
     const { isSearch } = this.props.app.state;
-    const [ currentPage ] = window.location.pathname.slice(1).split('/');
+    const currentPage = this.props.app.getPage();
 
     return (
       <div>
-        {[ 'registration', 'privacy-and-security', 'themes', 'profile', 'contact-info'].includes(currentPage) && (
+        {[ 'registration', 'settings', 'contact-info'].includes(currentPage) && (
           <button>
             <i className="fas fa-long-arrow-alt-left" style={{ display: 'none', cursor: 'initial' }}></i>
           </button>
         )}
 
-        {['chats', 'messages', 'contacts'].includes(currentPage) && this.renderSearchButton(isSearch)}
+        {(['chats', 'contacts'].includes(currentPage) || currentPage.includes('messages')) && this.renderSearchButton(isSearch)}
       </div>
     );
   }
@@ -82,6 +82,7 @@ export default class Header extends React.Component {
     const { currentUser, users, chats } = this.props.app.state;
 
     const currentChat = +window.location.pathname.split('/')[2];
+    console.log({ chatId: currentChat });
     if (!currentChat) return;
     const chat = chats.find((c) => c.id === currentChat);
     const participant = chat.participants.find((id) => id !== currentUser.id);
@@ -93,20 +94,17 @@ export default class Header extends React.Component {
   }
 
   renderTitle = () => {
-    const [ currentPage ] = window.location.pathname.slice(1).split('/');
+    const currentPage = this.props.app.getPage();
     const titleByPathname = {
       'chats': 'Chats',
       'settings': 'Settings',
       'contacts': 'Contacts',
-      'privacy-and-security': 'Privacy and security',
-      'themes': 'Themes',
-      'profile': 'Profile',
     }
     const title = titleByPathname[currentPage];
 
     return (
       <div className="title">
-        {(currentPage === 'messages') && (
+        {(currentPage.includes('messages')) && (
            this.renderMessagesTitle()
         )}
 
@@ -118,6 +116,7 @@ export default class Header extends React.Component {
   }
 
   render () {
+    console.log(this.renderTitle().props.children[1].props);
     return (
       <div className="header">
         {this.renderButtonsLeft()}

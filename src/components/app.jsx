@@ -2,7 +2,6 @@ import React from 'react';
 import { browserHistory } from 'react-router';
 
 import api from './api';
-
 import Header from './header';
 import Footer from './footer';
 import PopUp from './pop-up';
@@ -18,9 +17,11 @@ import freddieImg from './tg-imgs/freddie.jpeg';
 // 13. click on contact with existed chat +
 // 3. delete from contact list +
 // 14. delete user from contacts +
+// 13. preview of last message +
 // 11. make it possible to load avatar
 // 12. autoscroll in messages
-// 13. preview of last message
+// 15. show real status of user
+// 16. not showing messages from another user
 
 export default class App extends React.Component {
   constructor(props) {
@@ -28,12 +29,12 @@ export default class App extends React.Component {
 
     const user = localStorage.getItem('user');
     const currentUser = user ? JSON.parse(user) : null;
-    const currentPage = window.location.pathname;
+    // const currentPage = window.location.pathname.slice(1);
     const theme = JSON.parse(localStorage.getItem('theme'));
 
     this.state = {
       currentUser: currentUser,
-      currentPage: currentPage,
+      // currentPage: currentPage,
 
       theme: theme,
 
@@ -60,20 +61,6 @@ export default class App extends React.Component {
       // messages: [
       //   { id: 1, user: 1, chat: 1, created_at: +new Date('2020', '7', '25', '1', '1'), content: 'I love you <3' },
       //   { id: 2, user: 7, chat: 1, created_at: +new Date('2020', '6', '25', '1', '2'), content: 'I love you too <3' },
-      //   { id: 3, user: 6, chat: 2, created_at: +new Date('2020', '7', '25', '1', '3'), content: 'Віта, в тебе є черешні?' },
-      //   { id: 4, user: 7, chat: 2, created_at: +new Date('2020', '7', '25', '1', '4'), content: 'нажаль уже немає' },
-      //   { id: 5, user: 3, chat: 3, created_at: +new Date('2020', '7', '25', '1', '5'), content: 'I know that you are the one who knocks and always make' },
-      //   { id: 6, user: 7, chat: 3, created_at: +new Date('2020', '7', '25', '1', '6'), content: 'You are goddamn right' },
-      //   { id: 7, user: 7, chat: 3, created_at: +new Date('2020', '7', '25', '1', '7'), content: 'You' },
-      //   { id: 8, user: 7, chat: 3, created_at: +new Date('2020', '7', '25', '1', '8'), content: 'are' },
-      //   { id: 9, user: 7, chat: 3, created_at: +new Date('2020', '7', '25', '1', '9'), content: 'goddamn' },
-      //   { id: 10, user: 7, chat: 3, created_at: +new Date('2020', '7', '25', '1', '10'), content: 'right' },
-      //   { id: 11, user: 7, chat: 3, created_at: +new Date('2020', '7', '25', '1', '11'), content: 'wooooow' },
-      //   { id: 12, user: 7, chat: 3, created_at: +new Date('2020', '7', '25', '1', '12'), content: 'w a a aw' },
-      //   { id: 13, user: 7, chat: 3, created_at: +new Date('2020', '7', '25', '1', '13'), content: 'We already know that emojis are these tiny colorful icons. While this may give you the impression that they are images in the traditional sense, they aren\'t. They are more like the letters, numbers, punctuation marks, and weird symbols that we tend to bucket as text' },
-      //   {id: 14, user: 1, chat: 4, created_at: +new Date('2020', '7', '25', '1', '14'), content: 'lol' },
-      //   {id: 15, user: 3, chat: 4, created_at: +new Date('2020', '7', '25', '1', '15'), content: 'lol lol' },
-      // ]
 
       users: [],
       chats: [],
@@ -86,8 +73,7 @@ export default class App extends React.Component {
   }
 
   componentDidMount = async () => {
-    const currentPage = window.location.pathname.slice(1);
-
+    const currentPage = this.getPage();
     if (this.state.currentUser) {
       const knownUsers = [ ...(this.state.currentUser.contacts || []) ];
       const dataChats = await api('get_chats', this.state.currentUser);
@@ -113,10 +99,12 @@ export default class App extends React.Component {
         browserHistory.push('/chats');
       }
     } else {
-      if (!currentPage) {
-        browserHistory.push('/authentication');
-      }
+      browserHistory.push('/authentication');
     }
+  }
+
+  getPage = () => {
+    return window.location.pathname.slice(1);
   }
 
   // --------------------------------
@@ -161,7 +149,14 @@ export default class App extends React.Component {
   renderContent = () => {
     return (
       React.Children.map(this.props.children, (child) => {
-        return React.cloneElement(child, { app: this });
+        console.log(this.state);
+        if (this.state.currentUser) {
+          return React.cloneElement(child, { app: this });
+        }
+
+        if (['registration', 'authentication'].includes(this.getPage())) {
+          return React.cloneElement(child, { app: this });
+        }
       })
     )
   }

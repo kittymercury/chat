@@ -15,18 +15,26 @@ import noAvatar from '../tg-imgs/no-avatar.png';
 export default class Settings extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {
-      name: this.props.app.state.currentUser.name,
-      avatar: this.props.app.state.currentUser.avatar,
-      login: this.props.app.state.currentUser.login,
       errorMessage: '',
       messageColor: 'red',
 
       isOptionsVisible: false,
       activeMenuItem: null
     }
+
+    if (this.props.app.state.currentUser) {
+      this.state.name = this.props.app.state.currentUser.name;
+      this.state.avatar = this.props.app.state.currentUser.avatar;
+      this.state.login = this.props.app.state.currentUser.login;
+    }
   }
+
+  // componentDidMount = () => {
+  //   if (!this.props.app.state.currentUser) {
+  //     return browserHistory.push()
+  //   }
+  // }
 
   handleSubmit = () => {
     this.setState({ isOptionsVisible: false });
@@ -191,6 +199,8 @@ export default class Settings extends React.Component {
   render () {
     const { currentUser } = this.props.app.state;
     const { isOptionsVisible } = this.state;
+
+    if (!currentUser) return null;
 
     return (
       <div className="content settings">
