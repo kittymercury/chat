@@ -262,7 +262,6 @@ export default class Messages extends React.Component {
       messages,
       foundMessage
     } = this.props.app.state;
-    console.log({messages});
 
     const chatId = Number(this.props.params.chatId);
 

@@ -86,6 +86,11 @@ export default class Chats extends React.Component {
     this.props.app.setState({ chats: filteredChats });
   }
 
+  toTimestamp = (strDate) => {
+    var datum = Date.parse(strDate);
+    return datum/1000;
+  }
+
   renderMessagePreview = (message) => {
     if (message) {
       if (message.forward_to) {
@@ -194,11 +199,11 @@ export default class Chats extends React.Component {
     const sortedChats = foundChats.sort((a, b) => {
       const chatMessagesA = messages.filter((message) => message.chat === a.id);
       const chatMessagesB = messages.filter((message) => message.chat === b.id);
-      const lastMessageA = lodash.last(chatMessagesA);
-      const lastMessageB = lodash.last(chatMessagesB);
+      const lastMessageA = this.toTimestamp(lodash.last(chatMessagesA).created_at);
+      const lastMessageB = this.toTimestamp(lodash.last(chatMessagesB).created_at);
 
       if (lastMessageA && lastMessageB) {
-        return lastMessageB.time - lastMessageA.time;
+        return lastMessageB - lastMessageA;
       }
     });
 

@@ -27,23 +27,31 @@ export default class ContactInfo extends React.Component {
     }
   }
 
-  handleClickOpenChat = (user) => {
+  handleClickOpenChat = async (user) => {
     const { chats } = this.props.app.state;
     const chat = chats.find((chat) => chat.participants.includes(user.id));
 
     if (chat) {
       browserHistory.push(`/messages/${chat.id}`)
-    } else {
+    }
+
+    if (!chat) {
       const { currentUser } = this.props.app.state;
       const newChat = {
-        id: +new Date(),
-        name: user.name,
         participants: [ currentUser.id, user.id ]
       }
+      const data = await api('create_chat', newChat);
 
-      const newChats = chats.concat(newChat);
-      this.setState({ chats: newChats });
-      browserHistory.push(`/messages/${newChat.id}`);
+      if (data.chat) {
+        this.props.app.setState({ chats: this.props.app.state.chats.concat(data.chat) });
+        return browserHistory.push(`/messages/${data.chat.id}`);
+      }
+
+      if (data.error) {
+        this.props.app.handleOpenPopUp({
+          message: data.error.description,
+        });
+      }
     }
   }
 

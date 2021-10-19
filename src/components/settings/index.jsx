@@ -8,10 +8,6 @@ import './change-avatar-menu.scss';
 import { getImg } from '../helpers';
 import noAvatar from '../tg-imgs/no-avatar.png';
 
-// TODO:
-// 1. delete taken handlers from header, PrivacyAndSecurity and all Profile component.
-// 2. handles for confirming new info in handleClicksaveEditing
-
 export default class Settings extends React.Component {
   constructor(props) {
     super(props);
@@ -29,12 +25,6 @@ export default class Settings extends React.Component {
       this.state.login = this.props.app.state.currentUser.login;
     }
   }
-
-  // componentDidMount = () => {
-  //   if (!this.props.app.state.currentUser) {
-  //     return browserHistory.push()
-  //   }
-  // }
 
   handleSubmit = () => {
     this.setState({ isOptionsVisible: false });

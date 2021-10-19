@@ -79,18 +79,19 @@ export default class Header extends React.Component {
   }
 
   renderMessagesTitle = () => {
-    const { currentUser, users, chats } = this.props.app.state;
-
+    const { currentUser, users = [], chats = [] } = this.props.app.state;
+    if (!chats) return;
     const currentChat = +window.location.pathname.split('/')[2];
-    console.log({ chatId: currentChat });
     if (!currentChat) return;
     const chat = chats.find((c) => c.id === currentChat);
+    if (!chat) return;
     const participant = chat.participants.find((id) => id !== currentUser.id);
     const title = users.find((user) => user.id === participant).name;
 
     return (
       <div>{title}</div>
     )
+
   }
 
   renderTitle = () => {
@@ -116,7 +117,6 @@ export default class Header extends React.Component {
   }
 
   render () {
-    console.log(this.renderTitle().props.children[1].props);
     return (
       <div className="header">
         {this.renderButtonsLeft()}

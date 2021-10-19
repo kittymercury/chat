@@ -6,10 +6,10 @@ import Header from './header';
 import Footer from './footer';
 import PopUp from './pop-up';
 
-import cornersImg from './tg-imgs/corners.jpeg';
-import jesseImg from './tg-imgs/jesse.jpg';
-import walterImg from './tg-imgs/walter.jpeg';
-import freddieImg from './tg-imgs/freddie.jpeg';
+// import cornersImg from './tg-imgs/corners.jpeg';
+// import jesseImg from './tg-imgs/jesse.jpg';
+// import walterImg from './tg-imgs/walter.jpeg';
+// import freddieImg from './tg-imgs/freddie.jpeg';
 
 // TODO:
 // 2. search among all users and add to contacts +
@@ -18,10 +18,12 @@ import freddieImg from './tg-imgs/freddie.jpeg';
 // 3. delete from contact list +
 // 14. delete user from contacts +
 // 13. preview of last message +
+// 16. not showing messages from another user +
+// 17. do not load messages because of participants +
+// 16. sort chats by message time +
 // 11. make it possible to load avatar
 // 12. autoscroll in messages
 // 15. show real status of user
-// 16. not showing messages from another user
 
 export default class App extends React.Component {
   constructor(props) {
@@ -47,16 +49,10 @@ export default class App extends React.Component {
 
       // users: [
       //   { id: 1, name: 'Cut Corners', status: 'online', avatar: 'corners.jpeg', login: 'cutcorners', password: '1' },
-      //   { id: 2, name: 'Jesse Pinkman', status: 'online', avatar: 'jesse.jpg', login: 'mrdriscoll' },
-      //   { id: 3, name: 'Walter White', status: 'offline' ,avatar: 'walter.jpeg', login: 'thedanger' },
-      //   { id: 6, name: 'Olga Tkachuk', status: 'offline', avatar: '', login: 'cherry' },
       //   { id: 7, name: 'Mercury', status: 'online', avatar: 'freddie.jpeg', login: 'mercury', password: '2' },
       // ],
       // chats: [
       //   { id: 1, participants: [ 7, 1 ] },
-      //   { id: 2, participants: [ 7, 6 ] },
-      //   { id: 3, participants: [ 7, 3 ] },
-      //   { id: 4, participants: [ 1, 3 ] },
       // ],
       // messages: [
       //   { id: 1, user: 1, chat: 1, created_at: +new Date('2020', '7', '25', '1', '1'), content: 'I love you <3' },
@@ -74,25 +70,36 @@ export default class App extends React.Component {
 
   componentDidMount = async () => {
     const currentPage = this.getPage();
-    if (this.state.currentUser) {
-      const knownUsers = [ ...(this.state.currentUser.contacts || []) ];
+    const { currentUser } = this.state;
+
+    if (currentUser) {
+      const knownUsers = [ ...(currentUser.contacts || []) ];
       const dataChats = await api('get_chats', this.state.currentUser);
       dataChats.chats.forEach((c) => {
         c.participants.forEach((id) => {
-          if (id === this.state.currentUser.id) return;
+          if (id === currentUser.id) return;
           if (knownUsers.includes(id)) return;
           if (!knownUsers.includes(id)) {
             knownUsers.push(id)
           }
         })
       });
+
       const dataUsers = await api('get_users', { id: knownUsers });
-      const dataMessages = await api('get_messages', this.state.currentUser);
+      const currentUserChats = [];
+
+      dataChats.chats.forEach((c) => {
+        if (c.participants.includes(currentUser.id)) {
+          currentUserChats.push(c.id);
+        }
+      })
+
+      const dataMessages = await api('get_messages', { id: currentUserChats } );
 
       this.setState({
         users: dataUsers.users,
         chats: dataChats.chats,
-        messages: dataMessages.messages
+        messages: dataMessages.messages,
       });
 
       if (!currentPage) {
@@ -106,8 +113,6 @@ export default class App extends React.Component {
   getPage = () => {
     return window.location.pathname.slice(1);
   }
-
-  // --------------------------------
 
   handleSubmitUser = async (user) => {
     const data = await api('update_user', { id: this.state.currentUser.id, ...user });
@@ -149,7 +154,6 @@ export default class App extends React.Component {
   renderContent = () => {
     return (
       React.Children.map(this.props.children, (child) => {
-        console.log(this.state);
         if (this.state.currentUser) {
           return React.cloneElement(child, { app: this });
         }
