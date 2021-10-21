@@ -29,15 +29,40 @@
     max-width: 300px;
   }
 
-  .other-message:before,
+  // .other-message:before,
+  // .my-message:after {
+  //   content: "";
+  //   width: 0px;
+  //   height: 0px;
+  //   position: absolute;
+  //   border-left: 11px solid var(--wrapper-bg);
+  //   border-top: 1px solid var(--wrapper-bg);
+  //   border-bottom: 14px solid var(--content-bg);
+  // }
   .my-message:after {
     content: "";
     width: 0px;
     height: 0px;
     position: absolute;
-    border-left: 11px solid var(--wrapper-bg);
-    border-top: 1px solid var(--wrapper-bg);
-    border-bottom: 14px solid var(--content-bg);
+    border-right: 8px solid var(--content-bg);
+    border-left: 5px solid var(--wrapper-bg);
+    border-top: 11px solid var(--wrapper-bg);
+    right: 0;
+    bottom: 0;
+    transform: rotate(62deg);
+  }
+
+  .other-message:before {
+    content: "";
+    width: 0px;
+    height: 0px;
+    position: absolute;
+    border-left: 10px solid var(--wrapper-bg);
+    border-top: 12px solid var(--wrapper-bg);
+    border-bottom: 8px solid var(--content-bg);
+    left: 0;
+    bottom: 0;
+    transform: rotate(25deg);
   }
 
   .other-message i.fas.fa-circle {
@@ -45,17 +70,6 @@
     top: 24px;
     font-size: 5px;
     left: 12px;
-  }
-
-  .other-message:before {
-    left: 0;
-    bottom: 0;
-    transform: rotate(11deg);
-  }
-
-  .my-message:after {
-    right: 0;
-    transform: rotate(-37deg);
   }
 }
 
