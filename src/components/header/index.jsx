@@ -45,7 +45,7 @@ export default class Header extends React.Component {
             ? <button onClick={this.handleCancelForwarding}>Cancel</button>
             :  <button onClick={() => browserHistory.push('/contacts')}><i className="fas fa-plus"></i></button>
           : ''}
-        {[ 'registration', 'settings', 'contact-info'].includes(currentPage) && (
+        {[ 'registration', 'contact-info'].includes(currentPage) && (
           <button onClick={() => browserHistory.goBack()}>
             <i className="fas fa-long-arrow-alt-left"></i>
           </button>

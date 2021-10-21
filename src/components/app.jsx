@@ -21,9 +21,14 @@ import PopUp from './pop-up';
 // 16. not showing messages from another user +
 // 17. do not load messages because of participants +
 // 16. sort chats by message time +
+// 19. message reply deleted +
+// 20. if chat is empty +
+// 21. cancel editing in settings +
 // 11. make it possible to load avatar
 // 12. autoscroll in messages
 // 15. show real status of user
+// 18. click on name in Messages
+// 19. click on forwarded message
 
 export default class App extends React.Component {
   constructor(props) {
@@ -31,12 +36,10 @@ export default class App extends React.Component {
 
     const user = localStorage.getItem('user');
     const currentUser = user ? JSON.parse(user) : null;
-    // const currentPage = window.location.pathname.slice(1);
     const theme = JSON.parse(localStorage.getItem('theme'));
 
     this.state = {
       currentUser: currentUser,
-      // currentPage: currentPage,
 
       theme: theme,
 

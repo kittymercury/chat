@@ -23,29 +23,6 @@ export default class Authentication extends React.Component {
     this.setState({ [name]: e.target.value })
   }
 
-  // handleClickLogIn = (state) => {
-  //   const { users } = this.state;
-  //
-  //   const currentUser = users.find((user) => {
-  //     if ((user.login === state.login) && (user.password === state.password)) {
-  //       return true;
-  //     } else {
-  //       return false;
-  //     }
-  //   });
-  //   if (currentUser) {
-  //     this.changePage('Chats');
-  //     this.setState({
-  //       currentUser: currentUser,
-  //     });
-  //   } else {
-  //     this.handleOpenPopUp({
-  //       message: 'No users with such data!'
-  //     });
-  //     this.setState({ currentPage: 'Authentication' });
-  //   }
-  // }
-
   handleClickLogIn = async (state) => {
     const data = await api('login', {
       password: this.state.password,

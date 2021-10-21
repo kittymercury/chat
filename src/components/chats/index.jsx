@@ -123,9 +123,9 @@ export default class Chats extends React.Component {
             <div className="name">{user.name}</div>
             <span className="time">{message ? formatDate(message.created_at) : ''}</span>
           </div>
-          <div className="text">
-            {this.renderMessagePreview(message)}
-          </div>
+            <div className="text">
+              {this.renderMessagePreview(message)}
+            </div>
         </div>
         <div className="delete" onClick={onDelete}>
           <i className="fas fa-trash-alt"></i>
@@ -135,6 +135,7 @@ export default class Chats extends React.Component {
   }
 
   renderMessage = (message, user) => {
+    if (!message) return;
     return (
       <li key={message.id} onClick={() => this.handleClickFoundMessage(message)}>
         <div className="img-wrapper">
@@ -196,7 +197,16 @@ export default class Chats extends React.Component {
       });
     }
 
-    const sortedChats = foundChats.sort((a, b) => {
+    let chatsWithMessages = [];
+
+    foundChats.forEach((chat) => {
+      if (messages.find((m) => m.chat === chat.id)) {
+        chatsWithMessages.push(chat)
+      }
+    })
+
+
+    const sortedChats = chatsWithMessages.sort((a, b) => {
       const chatMessagesA = messages.filter((message) => message.chat === a.id);
       const chatMessagesB = messages.filter((message) => message.chat === b.id);
       const lastMessageA = this.toTimestamp(lodash.last(chatMessagesA).created_at);

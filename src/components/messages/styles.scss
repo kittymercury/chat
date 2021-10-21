@@ -78,6 +78,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    background: var(--input-bg);
 
     &:hover {
       transition-duration: 1s;
@@ -163,12 +164,12 @@
   flex-direction: row-reverse;
 }
 
+.deleted {
+  color: red;
+}
+
 .forwarded-from {
   font-size: 11px;
-
-  &.deleted {
-    color: red;
-  }
 }
 
 .forwarded-text {
@@ -232,5 +233,16 @@
 .highlight {
   background-color: #ffffff00;
   animation-name: highlight;
+  animation-duration: 5s;
+}
+
+@keyframes marked {
+  from {background: #ffffff0a;}
+  to {background-color: none;}
+}
+
+.marked {
+  background-color: #ffffff0a;
+  animation-name: marked;
   animation-duration: 5s;
 }

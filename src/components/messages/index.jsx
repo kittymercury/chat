@@ -42,6 +42,13 @@ export default class Messages extends React.Component {
     }
   }
 
+  scrollToMessage = (message) => {
+    if (!message) return;
+    let element = document.getElementById(`m-${message.id}`);
+    element.scrollIntoView({ block: "start", behavior: "smooth" });
+    element = element.classList.add('marked');
+  }
+
   tryHighlight = (content) => {
     let html = content;
     const { inputSearch } = this.state;
@@ -164,18 +171,28 @@ export default class Messages extends React.Component {
   renderMessageReply = (users, message) => {
     if (message.reply_to) {
       const messageReplyTo = this.props.app.state.messages.find((m) => m.id === message.reply_to);
-      const user = this.props.app.state.currentUser.id === messageReplyTo.user
-        ? this.props.app.state.currentUser
-        : users.find((user) => user.id === messageReplyTo.user);
 
-      return (
-        <div className="message-reply">
-            <div className="reply-wrapper">
-              <div className="to-user">Reply for: {user.name}</div>
-              <div className="text-for-replying">{messageReplyTo.content}</div>
-            </div>
-        </div>
-      )
+      if (messageReplyTo) {
+        const user = this.props.app.state.currentUser.id === messageReplyTo.user
+          ? this.props.app.state.currentUser
+          : users.find((user) => user.id === messageReplyTo.user);
+        return (
+          <div className="message-reply" onClick={() => this.scrollToMessage(messageReplyTo)}>
+              <div className="reply-wrapper">
+                <div className="to-user">Reply for: {user.name}</div>
+                <div className="text-for-replying">{messageReplyTo.content}</div>
+              </div>
+          </div>
+        )
+      } else {
+        return (
+          <div className="message-reply">
+              <div className="reply-wrapper">
+                <div className="text-for-replying deleted">Message was deleted</div>
+              </div>
+          </div>
+        )
+      }
     }
   }
 
@@ -188,7 +205,7 @@ export default class Messages extends React.Component {
           ? this.props.app.state.currentUser
           : users.find((user) => user.id === forwardedMessage.user);
         return (
-          <div className="message-forward">
+          <div className="message-forward" onClick={() => this.scrollToMessage(forwardedMessage)}>
             <div className="forwarded-from">Forwarded from: {user.name}</div>
             <div className="forwarded-text">{forwardedMessage.content}</div>
           </div>
@@ -252,6 +269,8 @@ export default class Messages extends React.Component {
   }
 
   render () {
+    console.log(this.props.app.state.messages);
+
     const { inputSearch, inputMessage, messageToReply, messageToEdit } = this.state;
     const {
       users,

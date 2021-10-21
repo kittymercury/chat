@@ -43,6 +43,10 @@ export default class Settings extends React.Component {
     this.setState({ isOptionsVisible: true });
   }
 
+  handleClickCancelEditProfile = () => {
+    this.setState({ isOptionsVisible: false });
+  }
+
   // log out
 
   handleClickLogOut = () => {
@@ -126,8 +130,8 @@ export default class Settings extends React.Component {
     } else {
       return (
         <div className="data-wrapper">
-          <div className="name">{this.state.name}</div>
-          <div className="login">@{this.state.login}</div>
+          <div className="name">{this.props.app.state.currentUser.name}</div>
+          <div className="login">@{this.props.app.state.currentUser.login}</div>
         </div>
       )
     }
@@ -178,13 +182,24 @@ export default class Settings extends React.Component {
     }
   }
 
-  renderButtonEdit = (condition) => {
+  renderButtons = (condition) => {
     if (condition) {
-      return <span onClick={this.handleSubmit}>Save</span>
+      return (
+        <div className="settings-btns">
+          <span onClick={this.handleClickCancelEditProfile}>Cancel</span>
+          <span onClick={this.handleSubmit}>Save</span>
+        </div>
+      )
     } else {
-      return <span onClick={this.handleClickEditProfile}>Edit</span>
+      return (
+        <div className="edit-btn-settings">
+          <span onClick={this.handleClickEditProfile}>Edit</span>
+        </div>
+      )
     }
   }
+
+
 
   render () {
     const { currentUser } = this.props.app.state;
@@ -195,7 +210,7 @@ export default class Settings extends React.Component {
     return (
       <div className="content settings">
         <div className="info">
-          {this.renderButtonEdit(isOptionsVisible)}
+          {this.renderButtons(isOptionsVisible)}
           <img src={getImg(currentUser.avatar)} />
           {this.renderMainOptions(isOptionsVisible)}
         </div>
