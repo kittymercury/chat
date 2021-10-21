@@ -9,12 +9,15 @@ const api = axios.create({
 });
 
 export default async (action, payload) => {
-  const response = await api.get(API_URL, {
-    params: {
-      action: action,
-      payload: payload
-    }
-  });
+  const params = {
+    action: action,
+    payload: payload
+  }
+  const user = localStorage.getItem('user');
+  if (user) {
+    params.user = JSON.parse(user).id;
+  }
+  const response = await api.get(API_URL, { params });
   return response.data;
 }
 

@@ -24,11 +24,12 @@ import PopUp from './pop-up';
 // 19. message reply deleted +
 // 20. if chat is empty +
 // 21. cancel editing in settings +
+// 19. click on forwarded message +
+// 18. click on name in Messages
 // 11. make it possible to load avatar
 // 12. autoscroll in messages
-// 15. show real status of user
-// 18. click on name in Messages
-// 19. click on forwarded message
+// 15. show real status of user / typing
+// 22. css for edited in other msg
 
 export default class App extends React.Component {
   constructor(props) {
@@ -67,11 +68,29 @@ export default class App extends React.Component {
     };
   }
 
+  setWS = () => {
+    const ws = new WebSocket(`ws://51.15.244.70/ws?channels[]=chat`);
+    ws.onopen = this.handleWSOpen;
+    ws.onclose = this.handleWSClose;
+    ws.onerror = this.handleWSError;
+    ws.onmessage = this.handleWSMessage;
+  }
+
   componentDidUpdate = () => {
     localStorage.setItem('theme', JSON.stringify(this.state.theme));
   }
 
-  componentDidMount = async () => {
+  componentDidMount = () => {
+    this.setWS();
+  }
+
+  getPage = () => {
+    return window.location.pathname.slice(1);
+  }
+
+  handleWSOpen = async () => {
+    console.log('WS: Open');
+
     const currentPage = this.getPage();
     const { currentUser } = this.state;
 
@@ -113,8 +132,46 @@ export default class App extends React.Component {
     }
   }
 
-  getPage = () => {
-    return window.location.pathname.slice(1);
+  handleWSMessage = async (e = {}) => {
+    const { action, payload, response } = JSON.parse(e.data).payload;
+    const { users, messages, currentUser } = this.state;
+    console.log({response});
+
+    if (currentUser.id !== response.user) {
+      switch (action) {
+        case 'create_message':
+          return this.setState({ messages: messages.concat(response.data.message)});
+
+        case 'delete_message':
+          return this.setState({ messages: messages.filter((m) => m.id !== payload.id) });
+
+        case 'update_message':
+          return this.updateMessages(response.data.message);
+      }
+    }
+  }
+
+  updateMessages = (message) => {
+    const messages = this.state.messages.map((m) => {
+      if (m.id === message.id) {
+        return message;
+      } else {
+        return m;
+      }
+    });
+
+    this.setState({ messages });
+  }
+
+  // const data = await api('update_message', {
+  //   id: messageToEdit.id,
+  //   content: inputMessage
+  // });
+
+  handleWSError = (e) => {
+    console.log('WS: Error', e);
+
+    setTimeout(this.setWS, 10000);
   }
 
   handleSubmitUser = async (user) => {

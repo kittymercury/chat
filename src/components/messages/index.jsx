@@ -87,7 +87,11 @@ export default class Messages extends React.Component {
 
   handlePressEnter = (e) => {
     if (e.keyCode === 13) {
-      this.handleClickButtonSend();
+      if (this.state.messageToEdit) {
+        this.handleClickButtonEditOk()
+      } else {
+        this.handleClickButtonSend();
+      }
     }
   }
 
@@ -145,15 +149,7 @@ export default class Messages extends React.Component {
     }
 
     if (data.message) {
-      const newMessages = this.props.app.state.messages.map((m) => {
-        if (m.id === data.message.id) {
-          return data.message;
-        } else {
-          return m;
-        }
-      });
-
-      this.props.app.setState({ messages: newMessages });
+      this.props.app.updateMessages(data.message);
       this.setState({ inputMessage: '', messageToEdit: null });
     }
   }
@@ -269,8 +265,6 @@ export default class Messages extends React.Component {
   }
 
   render () {
-    console.log(this.props.app.state.messages);
-
     const { inputSearch, inputMessage, messageToReply, messageToEdit } = this.state;
     const {
       users,
