@@ -1,6 +1,7 @@
 import React from 'react';
 import { browserHistory } from 'react-router';
 
+import { DELETED_USERNAME } from '../constants';
 import './styles.scss';
 
 export default class Header extends React.Component {
@@ -86,11 +87,9 @@ export default class Header extends React.Component {
     const chat = chats.find((c) => c.id === currentChat);
     if (!chat) return;
     const participant = chat.participants.find((id) => id !== currentUser.id);
-    const title = users.find((user) => user.id === participant).name;
+    const user = users.find((u) => u.id === participant) || {};
 
-    return (
-      <div>{title}</div>
-    )
+    return <div>{user.name || DELETED_USERNAME}</div>
 
   }
 

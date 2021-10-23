@@ -25,11 +25,17 @@ import PopUp from './pop-up';
 // 20. if chat is empty +
 // 21. cancel editing in settings +
 // 19. click on forwarded message +
-// 18. click on name in Messages
-// 11. make it possible to load avatar
-// 12. autoscroll in messages
-// 15. show real status of user / typing
-// 22. css for edited in other msg
+// 22. css for edited in other msg +
+// 18. click on name in Messages +
+
+// 1. if user deleted , render messages +
+// 2. delete acc +
+// 3. delete deleted user from currentUser.contacts (may be with update_user api)
+
+// 1. make it possible to load avatar
+// 2. autoscroll in messages
+// 5. show real status of user / typing
+// 4. load all info immidiately after opening page
 
 export default class App extends React.Component {
   constructor(props) {
@@ -92,7 +98,7 @@ export default class App extends React.Component {
     console.log('WS: Open');
 
     const currentPage = this.getPage();
-    const { currentUser } = this.state;
+    const { currentUser, users } = this.state;
 
     if (currentUser) {
       const knownUsers = [ ...(currentUser.contacts || []) ];
@@ -135,7 +141,6 @@ export default class App extends React.Component {
   handleWSMessage = async (e = {}) => {
     const { action, payload, response } = JSON.parse(e.data).payload;
     const { users, messages, currentUser } = this.state;
-    console.log({response});
 
     if (currentUser.id !== response.user) {
       switch (action) {
@@ -241,6 +246,7 @@ export default class App extends React.Component {
   }
 
   render() {
+    // console.log({ co: this.state.currentUser.contacts, us: this.state.users })
     return (
       <div className={`chat theme ${this.state.theme}`}>
         {this.renderHeader()}

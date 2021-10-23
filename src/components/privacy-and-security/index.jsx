@@ -1,6 +1,7 @@
 import React from 'react';
 import { browserHistory } from 'react-router';
 
+import api from '../api';
 import ShowPasswordCheckbox from '../common/show-password-checkbox';
 
 import './styles.scss';
@@ -19,10 +20,28 @@ export default class PrivacyAndSecurity extends React.Component {
     }
   }
 
-  handleConfirmDeleteAccount = () => {
-    this.props.app.setState({ users: [], currentUser: null });
-    localStorage.removeItem('user');
-    browserHistory.push('/authentication');
+  handleClickDeleteAccount = () => {
+    this.props.app.handleOpenPopUp({
+      message: 'All your data will be deleted and it won\'t be possible to restore it. Do you want to continue?',
+      onConfirm: this.handleConfirmDeleteAccount
+    });
+  }
+
+  handleConfirmDeleteAccount = async () => {
+    const { currentUser, users, messages, chats } = this.props.app.state;
+    const data = await api('delete_user', currentUser);
+
+    if (data.error) {
+      this.handleOpenPopUp({
+        message: data.error.description
+      })
+    }
+
+    if (data.deleted) {
+      this.props.app.setState({ currentUser: null });
+      localStorage.removeItem('user');
+      browserHistory.push('/authentication');
+    }
   }
 
   handleChangeInputCheckbox = (e) => {
@@ -65,13 +84,6 @@ export default class PrivacyAndSecurity extends React.Component {
         repeatNewPassword: ''
       })
     }
-  }
-
-  handleClickDeleteAccount = () => {
-    this.props.app.handleOpenPopUp({
-      message: 'All your data will be deleted and it won\'t be possible to restore it. Do you want to continue?',
-      onConfirm: this.props.app.handleConfirmDeleteAccount
-    });
   }
 
   render () {

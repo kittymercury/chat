@@ -4,6 +4,7 @@ import { browserHistory } from 'react-router';
 import api from '../api';
 import InputSearch from '../common/input-search';
 import { formatDate } from '../helpers';
+import { DELETED_USERNAME } from '../constants';
 import './styles.scss';
 
 export default class Messages extends React.Component {
@@ -70,7 +71,9 @@ export default class Messages extends React.Component {
       this.props.app.handleOpenPopUp({
         message: data.error.description,
       });
-    } else if (data.deleted) {
+    }
+
+    if (data.deleted) {
       const newMessages = this.props.app.state.messages.filter((m) => m.id !== message.id);
       this.props.app.setState({ messages: newMessages })
     }
@@ -154,13 +157,20 @@ export default class Messages extends React.Component {
     }
   }
 
+  handleClickName = (id) => {
+    const user = this.props.app.state.users.find((u) => u.id === id);
+    if (user) {
+      browserHistory.push(`/contact-info/${user.id}`);
+    }
+  }
+
   handleCancelReplying = () => {
     this.setState({ inputMessage: '', messageToReply: null });
   }
 
-  renderStatus = (user) => {
+  renderStatus = (user = {}) => {
     if (this.props.app.state.isStatusVisible) {
-      return <i className={`fas fa-circle ${user.status}`}></i>
+      return <i className={`fas fa-circle ${user.status || 'offline'}`}></i>
     }
   }
 
@@ -171,11 +181,11 @@ export default class Messages extends React.Component {
       if (messageReplyTo) {
         const user = this.props.app.state.currentUser.id === messageReplyTo.user
           ? this.props.app.state.currentUser
-          : users.find((user) => user.id === messageReplyTo.user);
+          : users.find((user) => user.id === messageReplyTo.user) || {};
         return (
           <div className="message-reply" onClick={() => this.scrollToMessage(messageReplyTo)}>
               <div className="reply-wrapper">
-                <div className="to-user">Reply for: {user.name}</div>
+                <div className="to-user">Reply for: {user.name || DELETED_USERNAME}</div>
                 <div className="text-for-replying">{messageReplyTo.content}</div>
               </div>
           </div>
@@ -199,10 +209,10 @@ export default class Messages extends React.Component {
       if (forwardedMessage) {
         const user = this.props.app.state.currentUser.id === forwardedMessage.user
           ? this.props.app.state.currentUser
-          : users.find((user) => user.id === forwardedMessage.user);
+          : users.find((user) => user.id === forwardedMessage.user) || {};
         return (
           <div className="message-forward" onClick={() => this.scrollToMessage(forwardedMessage)}>
-            <div className="forwarded-from">Forwarded from: {user.name}</div>
+            <div className="forwarded-from">Forwarded from: {user.name || DELETED_USERNAME}</div>
             <div className="forwarded-text">{forwardedMessage.content}</div>
           </div>
         )
@@ -307,7 +317,7 @@ export default class Messages extends React.Component {
 
             const user = currentUser.id === message.user
               ? currentUser
-              : users.find((user) => user.id === message.user);
+              : users.find((user) => user.id === message.user) || {};
             const isCurrentUsersMessage = message.user === currentUser.id;
 
             const textALign = { textAlign: isCurrentUsersMessage ? 'right' : 'left' };
@@ -333,7 +343,14 @@ export default class Messages extends React.Component {
                   <div className="other-message" style={textALign, flexDirection}>
                     <div>
                       {this.renderStatus(user)}
-                      <span className="message-data-name">{user.name}</span>
+                      {users.find((u) => u.id === user.id)
+                        ? (
+                            <span className="message-data-name" onClick={() => this.handleClickName(user.id)}>{user.name}</span>
+                        )
+                        : (
+                          <span className="message-data-name" >{DELETED_USERNAME}</span>
+                        )}
+
                       <span className="message-data-time">{formatDate(message.created_at)}</span>
                       <span className="edited">{message.updated_at ? 'Edited' : ''}</span>
                     </div>

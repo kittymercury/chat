@@ -5,6 +5,7 @@ import { browserHistory } from 'react-router';
 import api from '../api';
 import InputSearch from '../common/input-search';
 import { getImg, formatDate } from '../helpers';
+import { DELETED_USERNAME } from '../constants';
 
 import './styles.scss';
 
@@ -102,13 +103,13 @@ export default class Chats extends React.Component {
     }
   }
 
-  renderStatus = (user) => {
+  renderStatus = (user = {}) => {
     if (this.props.app.state.isStatusVisible) {
-      return <i className={`fas fa-circle ${user.status}`}></i>
+      return <i className={`fas fa-circle ${user.status || 'offline'}`}></i>
     }
   }
 
-  renderChat = (chat, user, message) => {
+  renderChat = (chat, user = {}, message) => {
     const onClick = () => this.handleClickChat(chat);
     const onDelete = () => this.handleClickDeleteChat(chat);
 
@@ -120,7 +121,7 @@ export default class Chats extends React.Component {
         </div>
         <div className="chat-data" onClick={onClick}>
           <div className="data">
-            <div className="name">{user.name}</div>
+            <div className="name">{user.name || DELETED_USERNAME}</div>
             <span className="time">{message ? formatDate(message.created_at) : ''}</span>
           </div>
             <div className="text">
@@ -134,7 +135,7 @@ export default class Chats extends React.Component {
     )
   }
 
-  renderMessage = (message, user) => {
+  renderMessage = (message, user = {}) => {
     if (!message) return;
     return (
       <li key={message.id} onClick={() => this.handleClickFoundMessage(message)}>
@@ -143,7 +144,7 @@ export default class Chats extends React.Component {
         </div>
         <div className="chat-data">
           <div className="data">
-            <div className="name">{user.name}</div>
+            <div className="name">{user.name || DELETED_USERNAME}</div>
             <span className="time">{message ? formatDate(message.created_at) : ''}</span>
           </div>
           <div className="text">
@@ -172,8 +173,10 @@ export default class Chats extends React.Component {
     let foundChats = [];
     if (isSearch && inputSearch) {
       currentUsersChats.forEach((chat) => {
-        const participant = users.find((user) => user.id === chat.participants.find((id) => id !== currentUser.id));
-        if (participant.name.toLowerCase().includes(inputSearch.toLowerCase())) {
+        const participant = chat.participants.find((id) => id !== currentUser.id);
+        const user = users.find((u) => u.id === participant) || {};
+
+        if (user.name.toLowerCase().includes(inputSearch.toLowerCase())) {
           foundChats.push(chat);
         }
       });
@@ -229,7 +232,6 @@ export default class Chats extends React.Component {
         <ul className="users-chats">
           {sortedChats.map((chat) => {
             const participant = users.find((user) => user.id === chat.participants.find((id) => id !== currentUser.id));
-
             const chatMessages = messages.filter((m) => m.chat === chat.id);
             const lastMessage = lodash.last(chatMessages);
 
