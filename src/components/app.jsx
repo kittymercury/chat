@@ -30,7 +30,7 @@ import PopUp from './pop-up';
 
 // 1. if user deleted , render messages +
 // 2. delete acc +
-// 3. delete deleted user from currentUser.contacts (may be with update_user api)
+// 3. delete deleted user from currentUser.contacts (may be with update_user api) +
 
 // 1. make it possible to load avatar
 // 2. autoscroll in messages
@@ -144,8 +144,8 @@ export default class App extends React.Component {
 
   handleWSMessage = async (e = {}) => {
     const { action, payload, response } = JSON.parse(e.data).payload;
-    const { users, messages, currentUser } = this.state;
-
+    const { users, messages, currentUser, chats } = this.state;
+    console.log({ response });
     if (currentUser.id !== response.user) {
       switch (action) {
         case 'create_message':
@@ -156,6 +156,12 @@ export default class App extends React.Component {
 
         case 'update_message':
           return this.updateMessages(response.data.message);
+
+        case 'create_chat':
+          return this.setState({ chats: chats.concat(response.data.chat)});
+
+        case 'delete_chat':
+          return this.setState({ chats: chats.filter((c) => c.id !== payload.id) });
       }
     }
   }
@@ -250,7 +256,6 @@ export default class App extends React.Component {
   }
 
   render() {
-    console.log(this.state);
     return (
       <div className={`chat theme ${this.state.theme}`}>
         {this.renderHeader()}
