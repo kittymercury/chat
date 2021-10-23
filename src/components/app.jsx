@@ -34,7 +34,7 @@ import PopUp from './pop-up';
 
 // 1. make it possible to load avatar
 // 2. autoscroll in messages
-// 5. show real status of user / typing
+// 3. show real status of user / typing
 // 4. load all info immidiately after opening page
 
 export default class App extends React.Component {
@@ -101,34 +101,7 @@ export default class App extends React.Component {
     const { currentUser, users } = this.state;
 
     if (currentUser) {
-      const knownUsers = [ ...(currentUser.contacts || []) ];
-      const dataChats = await api('get_chats', this.state.currentUser);
-      dataChats.chats.forEach((c) => {
-        c.participants.forEach((id) => {
-          if (id === currentUser.id) return;
-          if (knownUsers.includes(id)) return;
-          if (!knownUsers.includes(id)) {
-            knownUsers.push(id)
-          }
-        })
-      });
-
-      const dataUsers = await api('get_users', { id: knownUsers });
-      const currentUserChats = [];
-
-      dataChats.chats.forEach((c) => {
-        if (c.participants.includes(currentUser.id)) {
-          currentUserChats.push(c.id);
-        }
-      })
-
-      const dataMessages = await api('get_messages', { id: currentUserChats } );
-
-      this.setState({
-        users: dataUsers.users,
-        chats: dataChats.chats,
-        messages: dataMessages.messages,
-      });
+      await this.init(currentUser);
 
       if (!currentPage) {
         browserHistory.push('/chats');
@@ -136,6 +109,37 @@ export default class App extends React.Component {
     } else {
       browserHistory.push('/authentication');
     }
+  }
+
+  init = async (user) => {
+    const knownUsers = [ ...(user.contacts || []) ];
+    const dataChats = await api('get_chats', user);
+    dataChats.chats.forEach((c) => {
+      c.participants.forEach((id) => {
+        if (id === user.id) return;
+        if (knownUsers.includes(id)) return;
+        if (!knownUsers.includes(id)) {
+          knownUsers.push(id)
+        }
+      })
+    });
+
+    const dataUsers = await api('get_users', { id: knownUsers });
+    const currentUserChats = [];
+
+    dataChats.chats.forEach((c) => {
+      if (c.participants.includes(user.id)) {
+        currentUserChats.push(c.id);
+      }
+    })
+
+    const dataMessages = await api('get_messages', { id: currentUserChats } );
+
+    this.setState({
+      users: dataUsers.users,
+      chats: dataChats.chats,
+      messages: dataMessages.messages,
+    });
   }
 
   handleWSMessage = async (e = {}) => {
@@ -246,7 +250,7 @@ export default class App extends React.Component {
   }
 
   render() {
-    // console.log({ co: this.state.currentUser.contacts, us: this.state.users })
+    console.log(this.state);
     return (
       <div className={`chat theme ${this.state.theme}`}>
         {this.renderHeader()}

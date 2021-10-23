@@ -36,10 +36,9 @@ export default class Authentication extends React.Component {
     }
 
     if (data.user) {
-      const usersData = await api('get_users', { id: data.user.contacts });
+      await this.props.app.init(data.user);
 
       this.props.app.setState({
-        users: usersData.users,
         currentUser: data.user,
       });
 
