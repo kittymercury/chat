@@ -68,7 +68,7 @@ export default class Header extends React.Component {
 
     return (
       <div>
-        {[ 'registration', 'settings', 'contact-info'].includes(currentPage) && (
+        {[ 'registration', 'contact-info'].includes(currentPage) && (
           <button>
             <i className="fas fa-long-arrow-alt-left" style={{ display: 'none', cursor: 'initial' }}></i>
           </button>

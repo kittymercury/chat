@@ -19,27 +19,14 @@ export default class Messages extends React.Component {
     };
   }
 
-  componentDidUpdate = (prevProps, prevState) => {
-    const list = document.querySelector('.messages ul');
-    list.style['scroll-behavior'] = 'smooth';
-    this.setScroll(prevProps);
-  }
-
   componentDidMount = () => {
     const list = document.querySelector('.messages ul');
     list.style['scroll-behavior'] = 'none';
-    this.setScroll(this.props, true);
+    this.props.app.setScroll();
     const { foundMessage } = this.props.app.state;
     if (foundMessage) {
       const foundM = document.getElementById(`m-${foundMessage.id}`);
       foundM.scrollIntoView({ block: "start", behavior: "smooth" });
-    }
-  }
-
-  setScroll = (props, force) => {
-    if (force ? props.app.state.messages.length : (props.app.state.messages.length !== this.props.app.state.messages.length)) {
-      const $messages = document.querySelector("#app > div > div.content.messages > ul");
-      $messages.scrollTop = $messages.scrollHeight;
     }
   }
 

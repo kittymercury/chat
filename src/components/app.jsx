@@ -32,10 +32,13 @@ import PopUp from './pop-up';
 // 2. delete acc +
 // 3. delete deleted user from currentUser.contacts (may be with update_user api) +
 
+// 6. load all info immidiately after opening page +
+// 2. autoscroll in messages +
 // 1. make it possible to load avatar
-// 2. autoscroll in messages
-// 3. show real status of user / typing
-// 4. load all info immidiately after opening page
+// 3. show real status of user
+// 4. show if typing
+// 5. seen / unseen messages
+// 7. click on forwarded message from another chat
 
 export default class App extends React.Component {
   constructor(props) {
@@ -82,7 +85,21 @@ export default class App extends React.Component {
     ws.onmessage = this.handleWSMessage;
   }
 
-  componentDidUpdate = () => {
+  componentDidUpdate = (prevProps, prevState) => {
+    const page = this.getPage();
+
+    if (page.includes('messages')) {
+      const chat = +page.split('/')[1];
+      const chatMessages = this.state.messages.filter((m) => m.chat === chat);
+      const prevChatMessages = prevState.messages.filter((m) => m.chat === chat);
+      console.log({ prevChatM: prevChatMessages, chatM: chatMessages });
+      if (chatMessages.length > prevChatMessages.length) {
+        const list = document.querySelector('.messages ul');
+        list.style['scroll-behavior'] = 'smooth';
+        this.setScroll();
+      }
+    }
+
     localStorage.setItem('theme', JSON.stringify(this.state.theme));
   }
 
@@ -92,6 +109,11 @@ export default class App extends React.Component {
 
   getPage = () => {
     return window.location.pathname.slice(1);
+  }
+
+  setScroll = () => {
+    const $messages = document.querySelector("#app > div > div.content.messages > ul");
+    $messages.scrollTop = $messages.scrollHeight;
   }
 
   handleWSOpen = async () => {
