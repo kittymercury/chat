@@ -15,7 +15,7 @@ export default class Authentication extends React.Component {
       login: '',
       password: '',
       inputType: 'password',
-      isPasswordVisible: false,
+      isPasswordVisible: false
     }
   }
 
@@ -82,7 +82,9 @@ export default class Authentication extends React.Component {
         <div className="buttons-wrapper">
           <button onClick={this.handleClickLogIn}>Log in</button>
           <div>Don't have an account? Sign up!</div>
-          <Link to="registration"><button>Sign up</button></Link>
+          <Link to="registration">
+            <button>Sign up</button>
+          </Link>
         </div>
       </div>
     )

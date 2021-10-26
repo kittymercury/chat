@@ -32,6 +32,8 @@ export default class Messages extends React.Component {
 
   scrollToMessage = (message) => {
     if (!message) return;
+    const chatId = Number(this.props.params.chatId);
+    if (message.chat !== chatId) return;
     let element = document.getElementById(`m-${message.id}`);
     element.scrollIntoView({ block: "start", behavior: "smooth" });
     element = element.classList.add('marked');
@@ -261,9 +263,31 @@ export default class Messages extends React.Component {
     }
   }
 
+  renderSeenCheck = (condition) => {
+    if (condition) {
+      return (
+        <span className="seen">
+          <i className="fas fa-check"></i>
+        </span>
+      )
+    }
+  }
+
+  renderUserTyping = (condition, user) => {
+    if (condition) {
+      return (
+        <div className="user-is-typing">
+          <i className="fas fa-pen-fancy"></i>
+          <span>{user.name} is typing...</span>
+        </div>
+      )
+    }
+  }
+
   render () {
     const { inputSearch, inputMessage, messageToReply, messageToEdit } = this.state;
     const {
+      chats,
       users,
       currentUser,
       isEditMessages,
@@ -319,10 +343,12 @@ export default class Messages extends React.Component {
                       <span className="edited">{message.updated_at ? 'Edited' : ''}</span>
                       <span className="message-data-my-name">{user.name}</span>
                       <span className="message-data-time">{formatDate(message.created_at)}</span>
+                      {/* {this.renderSeenCheck(true)} */}
                     </div>
                     {this.renderMessageReply(users, message)}
                     {this.renderMessageForward(users, message)}
                     <div className={className} dangerouslySetInnerHTML={this.tryHighlight(message.content)} />
+                    {this.renderSeenCheck(true)}
                   </div>
                 )}
 
@@ -354,6 +380,7 @@ export default class Messages extends React.Component {
         </ul>
 
         <div style={{ display: 'block' }}>
+          {this.renderUserTyping()}
           {this.renderInputMessageToReply(users, messageToReply)}
 
           <div className="input-wrapper" style={{ display: 'flex' }}>
