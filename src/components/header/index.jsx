@@ -44,9 +44,11 @@ export default class Header extends React.Component {
         {(currentPage === 'chats')
           ? messageToForward
             ? <button onClick={this.handleCancelForwarding}>Cancel</button>
-            :  <button onClick={() => browserHistory.push('/contacts')}><i className="fas fa-plus"></i></button>
+            : <button onClick={() => browserHistory.push('/contacts')}>
+              <i className="fas fa-plus"></i>
+            </button>
           : ''}
-        {[ 'registration', 'contact-info'].includes(currentPage) && (
+        {(currentPage.includes('contact-info') || currentPage === 'registration') && (
           <button onClick={() => browserHistory.goBack()}>
             <i className="fas fa-long-arrow-alt-left"></i>
           </button>
@@ -68,12 +70,6 @@ export default class Header extends React.Component {
 
     return (
       <div>
-        {[ 'registration', 'contact-info'].includes(currentPage) && (
-          <button>
-            <i className="fas fa-long-arrow-alt-left" style={{ display: 'none', cursor: 'initial' }}></i>
-          </button>
-        )}
-
         {(['chats', 'contacts'].includes(currentPage) || currentPage.includes('messages')) && this.renderSearchButton(isSearch)}
       </div>
     );
@@ -103,13 +99,13 @@ export default class Header extends React.Component {
     const title = titleByPathname[currentPage];
 
     return (
-      <div className="title">
+      <div className={`title ${currentPage === 'contacts' ? currentPage : '' }`}>
         {(currentPage.includes('messages')) && (
            this.renderMessagesTitle()
         )}
 
         {Object.keys(titleByPathname).includes(currentPage) && (
-          <div>{title}</div>
+          <div >{title}</div>
         )}
       </div>
     )
