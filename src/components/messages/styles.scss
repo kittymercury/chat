@@ -99,6 +99,20 @@
   }
 }
 
+.user-is-typing {
+  margin-left: 15px;
+  color: #b3b3b3;
+
+  i {
+    margin-right: 5px;
+    font-size: 10px;
+  }
+
+  span {
+    font-size: 12px;
+  }
+}
+
 .messages .input-wrapper {
   padding: 8px 13px 8px;
 

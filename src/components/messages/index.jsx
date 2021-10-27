@@ -273,12 +273,12 @@ export default class Messages extends React.Component {
     }
   }
 
-  renderUserTyping = (condition, user) => {
+  renderUserTyping = (condition) => {
     if (condition) {
       return (
         <div className="user-is-typing">
           <i className="fas fa-pen-fancy"></i>
-          <span>{user.name} is typing...</span>
+          <span>user is typing...</span>
         </div>
       )
     }
@@ -343,7 +343,6 @@ export default class Messages extends React.Component {
                       <span className="edited">{message.updated_at ? 'Edited' : ''}</span>
                       <span className="message-data-my-name">{user.name}</span>
                       <span className="message-data-time">{formatDate(message.created_at)}</span>
-                      {/* {this.renderSeenCheck(true)} */}
                     </div>
                     {this.renderMessageReply(users, message)}
                     {this.renderMessageForward(users, message)}
@@ -380,7 +379,7 @@ export default class Messages extends React.Component {
         </ul>
 
         <div style={{ display: 'block' }}>
-          {this.renderUserTyping()}
+          {this.renderUserTyping(true)}
           {this.renderInputMessageToReply(users, messageToReply)}
 
           <div className="input-wrapper" style={{ display: 'flex' }}>

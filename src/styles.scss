@@ -30,6 +30,21 @@
   --scrollbar-thumb-bg: #441632;
 }
 
+.chat.banana {
+  --base-bg: #b7ad37;
+  --base-txt-color: #fff;
+  --content-bg: #7b7821;
+  --wrapper-bg: #54520d;
+  --input-bg: var(--base-bg);
+  --input-txt-color: black;
+  --button-bg: #5f5a27;
+  --button-txt-color: #fff;
+  --input-search-bg: #948f00;
+  --search-wrapper-bg: var(--input-search-bg);
+  --scrollbar-bg: #8e8734;
+  --scrollbar-thumb-bg: #c1b630;
+}
+
 html, body, #app, .chat {
   margin: 0;
   height: 100%;

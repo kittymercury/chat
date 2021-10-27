@@ -55,11 +55,26 @@ export default class Header extends React.Component {
         )}
         {(currentPage.includes('messages'))
           ? isEditMessages
-            ? <button onClick={() => this.handleClickEditMessages(false)}>Cancel</button>
-            : <button onClick={() => this.handleClickEditMessages(true)}>
+            ? (
+              <button onClick={() => this.handleClickEditMessages(false)}>Cancel</button>
+            )
+            : (
+              <button onClick={() => this.handleClickEditMessages(true)}>
                 <i className="far fa-edit"></i>
               </button>
+            )
           : ''}
+          {currentPage === 'contacts'
+            ? this.props.app.state.isSearch
+              ? (
+                <button style={{ color: 'transparent', cursor: 'initial' }}>Cancel</button>
+              )
+              : (
+                <button>
+                  <i style={{ color: 'transparent', cursor: 'initial' }} className="fas fa-search"></i>
+                </button>
+              )
+            : ''}
       </div>
     );
   }
@@ -86,7 +101,6 @@ export default class Header extends React.Component {
     const user = users.find((u) => u.id === participant) || {};
 
     return <div>{user.name || DELETED_USERNAME}</div>
-
   }
 
   renderTitle = () => {
@@ -99,7 +113,7 @@ export default class Header extends React.Component {
     const title = titleByPathname[currentPage];
 
     return (
-      <div className={`title ${currentPage === 'contacts' ? currentPage : '' }`}>
+      <div className="title">
         {(currentPage.includes('messages')) && (
            this.renderMessagesTitle()
         )}

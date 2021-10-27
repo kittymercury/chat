@@ -67,7 +67,19 @@ export default class Chats extends React.Component {
     browserHistory.push(`/messages/${chat.id}`);
   }
 
-  handleClickDeleteChat = async (chat) => {
+  handleClickDeleteChat = (chat) => {
+    const { users, currentUser } = this.props.app.state;
+    console.log({chat, users});
+    const participant = chat.participants.find((p) => p !== currentUser.id);
+    console.log({participant});
+    const user = users.find((u) => u.id === participant);
+    this.props.app.handleOpenPopUp({
+      message: `Do you want to delete chat with ${user.name}? Chat history with will be cleared.`,
+      onConfirm: () => this.handleConfirmDeleteChat(chat)
+    });
+  }
+
+  handleConfirmDeleteChat = async (chat) => {
     const data = await api('delete_chat', chat);
 
     if (data.error) {

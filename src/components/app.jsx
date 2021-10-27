@@ -34,11 +34,12 @@ import PopUp from './pop-up';
 
 // 6. load all info immidiately after opening page +
 // 2. autoscroll in messages +
+// 7. click on forwarded message from another chat +
 // 1. make it possible to load avatar
 // 3. show real status of user
 // 4. show if typing
 // 5. seen / unseen messages
-// 7. click on forwarded message from another chat
+// 8. show number of unseen messages in chats
 
 export default class App extends React.Component {
   constructor(props) {
@@ -92,7 +93,7 @@ export default class App extends React.Component {
       const chat = +page.split('/')[1];
       const chatMessages = this.state.messages.filter((m) => m.chat === chat);
       const prevChatMessages = prevState.messages.filter((m) => m.chat === chat);
-      console.log({ prevChatM: prevChatMessages, chatM: chatMessages });
+
       if (chatMessages.length > prevChatMessages.length) {
         const list = document.querySelector('.messages ul');
         list.style['scroll-behavior'] = 'smooth';
@@ -167,7 +168,7 @@ export default class App extends React.Component {
   handleWSMessage = async (e = {}) => {
     const { action, payload, response } = JSON.parse(e.data).payload;
     const { users, messages, currentUser, chats } = this.state;
-    console.log({ response });
+    console.log({ response, payload });
     if (currentUser.id !== response.user) {
       switch (action) {
         case 'create_message':
