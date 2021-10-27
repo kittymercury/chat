@@ -78,7 +78,7 @@ export default class App extends React.Component {
   }
 
   setWS = () => {
-    const ws = new WebSocket(`ws://51.15.244.70/ws?channels[]=chat`);
+    const ws = new WebSocket(`wss://beatmeat.plasticine.ml/ws?channels[]=chat`);
     ws.onopen = this.handleWSOpen;
     ws.onclose = this.handleWSClose;
     ws.onerror = this.handleWSError;

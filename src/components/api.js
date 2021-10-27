@@ -1,7 +1,7 @@
 import axios from 'axios';
 import * as https from 'https';
 
-const API_URL = 'http://51.15.244.70/api/v1/web_service/call/tgc';
+const API_URL = 'https://beatmeat.plasticine.ml/api/v1/web_service/call/tgc';
 const api = axios.create({
   httpsAgent: new https.Agent({
     rejectUnauthorized: false,
