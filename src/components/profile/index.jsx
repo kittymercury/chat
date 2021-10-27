@@ -1,7 +1,7 @@
 import React from 'react';
 
 import './styles.scss';
-import noAvatar from '../tg-imgs/no-avatar.png';
+import noAvatar from '../images/no-avatar.png';
 
 export default class Profile extends React.Component {
   constructor(props) {

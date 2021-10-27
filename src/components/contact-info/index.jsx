@@ -1,8 +1,8 @@
 import React from 'react';
 import { browserHistory } from 'react-router';
 
-import api from '../api';
-import { getImg } from '../helpers';
+import api from '../../api';
+import { getImg } from '../../helpers';
 import './styles.scss';
 
 export default class ContactInfo extends React.Component {

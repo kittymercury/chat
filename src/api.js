@@ -1,14 +1,15 @@
 import axios from 'axios';
 import * as https from 'https';
 
-const API_URL = 'https://beatmeat.plasticine.ml/api/v1/web_service/call/tgc';
-const api = axios.create({
+const API_BASE_URL = 'https://beatmeat.plasticine.ml';
+const API_URL = `${API_BASE_URL}/api/v1/web_service/call/tgc`;
+export const apiInstance = axios.create({
   httpsAgent: new https.Agent({
     rejectUnauthorized: false,
   })
 });
 
-export default async (action, payload) => {
+export default async function api(action, payload) {
   const params = {
     action: action,
     payload: payload
@@ -17,8 +18,30 @@ export default async (action, payload) => {
   if (user) {
     params.user = JSON.parse(user).id;
   }
-  const response = await api.get(API_URL, { params });
+  const response = await apiInstance.get(API_URL, { params });
   return response.data;
+}
+
+// export default api
+
+export function uploadAttachments(model, record, files) {
+  const config = {
+    headers: {
+      'content-type': 'multipart/form-data'
+    }
+  };
+  const data = new FormData();
+  files.forEach((file, i) => {
+    const blob = window.blobStore.get(file.fileName);
+    if (blob) {
+      if (blob.context && blob.context.field) {
+        data.append(`context[${i}][field]`, blob.context.field.id);
+      }
+      data.append(`files[${i}]`, blob.file, file.fileName);
+      window.blobStore.remove(file.fileName);
+    }
+  });
+  return apiInstance.post(`${API_BASE_URL}/api/storage/${model.alias}/${record.id}`, data, config);
 }
 
 // yaml

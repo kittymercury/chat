@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, browserHistory } from 'react-router';
 
-import api from '../api';
+import api from '../../api';
 
 import './styles.scss';
 

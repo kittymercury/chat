@@ -1,7 +1,7 @@
 import React from 'react';
 import { browserHistory } from 'react-router';
 
-import api from '../api';
+import api from '../../api';
 import ShowPasswordCheckbox from '../common/show-password-checkbox';
 
 import './styles.scss';

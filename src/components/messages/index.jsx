@@ -1,10 +1,10 @@
 import React from 'react';
 import { browserHistory } from 'react-router';
 
-import api from '../api';
+import api from '../../api';
 import InputSearch from '../common/input-search';
-import { formatDate } from '../helpers';
-import { DELETED_USERNAME } from '../constants';
+import { formatDate } from '../../helpers';
+import { DELETED_USERNAME } from '../../constants';
 import './styles.scss';
 
 export default class Messages extends React.Component {

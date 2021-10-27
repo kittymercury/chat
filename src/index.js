@@ -16,6 +16,10 @@ import Messages from './components/messages';
 import Chats from './components/chats';
 import Themes from './components/themes';
 
+import BlobStore from './store/blob'
+
+window.blobStore = new BlobStore();
+
 ReactDOM.render(
   <Router history={browserHistory}>
     <Route path="/" component={App}>

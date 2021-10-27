@@ -1,11 +1,11 @@
 import React from 'react';
 import { browserHistory } from 'react-router';
 
-import api from '../api';
+import api from '../../api';
 
 import './styles.scss';
 
-import noAvatar from '../tg-imgs/no-avatar.png';
+import noAvatar from '../../images/no-avatar.png';
 import ShowPasswordCheckbox from '../common/show-password-checkbox';
 
 export default class Registration extends React.Component {

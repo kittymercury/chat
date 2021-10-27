@@ -1,15 +1,15 @@
 import React from 'react';
 import { browserHistory } from 'react-router';
 
-import api from './api';
+import api from '../api';
 import Header from './header';
 import Footer from './footer';
 import PopUp from './pop-up';
 
-// import cornersImg from './tg-imgs/corners.jpeg';
-// import jesseImg from './tg-imgs/jesse.jpg';
-// import walterImg from './tg-imgs/walter.jpeg';
-// import freddieImg from './tg-imgs/freddie.jpeg';
+// import cornersImg from './images/corners.jpeg';
+// import jesseImg from './images/jesse.jpg';
+// import walterImg from './images/walter.jpeg';
+// import freddieImg from './images/freddie.jpeg';
 
 // TODO:
 // 2. search among all users and add to contacts +
@@ -40,6 +40,8 @@ import PopUp from './pop-up';
 // 4. show if typing
 // 5. seen / unseen messages
 // 8. show number of unseen messages in chats
+// 9. fix message item width
+// 10. align left message content
 
 export default class App extends React.Component {
   constructor(props) {

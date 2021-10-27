@@ -2,10 +2,10 @@ import React from 'react';
 import lodash from 'lodash';
 import { browserHistory } from 'react-router';
 
-import api from '../api';
+import api from '../../api';
 import InputSearch from '../common/input-search';
-import { getImg, formatDate } from '../helpers';
-import { DELETED_USERNAME } from '../constants';
+import { getImg, formatDate } from '../../helpers';
+import { DELETED_USERNAME } from '../../constants';
 
 import './styles.scss';
 

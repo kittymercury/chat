@@ -1,7 +1,7 @@
 import React from 'react';
 import { browserHistory } from 'react-router';
 
-import { DELETED_USERNAME } from '../constants';
+import { DELETED_USERNAME } from '../../constants';
 import './styles.scss';
 
 export default class Header extends React.Component {

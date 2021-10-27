@@ -5,8 +5,8 @@ import Themes from '../themes';
 import PrivacyAndSecurity from '../privacy-and-security';
 import './styles.scss';
 import './change-avatar-menu.scss';
-import { getImg } from '../helpers';
-import noAvatar from '../tg-imgs/no-avatar.png';
+import { getImg, openFileDialog } from '../../helpers';
+import noAvatar from '../../images/no-avatar.png';
 
 export default class Settings extends React.Component {
   constructor(props) {
@@ -90,10 +90,9 @@ export default class Settings extends React.Component {
     }
   }
 
-  // avatar
-  // handleChangeAvatar = (e) => {
-  //   this.setState({ avatar: e.target.files[0].name })
-  // }
+  handleClickLoadAvatar = () => {
+    openFileDialog({ alias: 'tgc_user' }, this.props.app.state.currentUser);
+  }
 
   handleConfirmRemoveAvatar = () => {
     this.props.app.handleSubmitUser({ avatar: null });
@@ -115,14 +114,7 @@ export default class Settings extends React.Component {
         <div className={`avatar-menu ${this.state.activeMenuItem === 'avatar-menu' ? 'active' : ''}`}>
           <div className="menu-name" onClick={() => this.handleClickMenuItem('avatar-menu')}>Change avatar</div>
           <div className="submenu">
-            <input
-              id="file"
-              type="file"
-              name="avatar"
-              accept="image/png, image/jpeg, image/jpg"
-              onChange={this.handleChangeAvatar}
-            />
-            <label htmlFor="file">Load avatar</label>
+            <div className="input-avatar" onClick={this.handleClickLoadAvatar}>Load avatar</div>
             <button onClick={this.handleClickRemoveAvatar}>Remove avatar</button>
           </div>
         </div>
