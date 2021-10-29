@@ -75,6 +75,7 @@ export default class Messages extends React.Component {
   handleClickForward = (message) => {
     this.props.app.setState({ messageToForward: message });
     browserHistory.push('/chats');
+    console.log({mf: this.props.app.state.messageToForward});
   }
 
   handlePressEnter = (e) => {
@@ -146,12 +147,12 @@ export default class Messages extends React.Component {
     }
   }
 
-  handleClickName = (id) => {
-    const user = this.props.app.state.users.find((u) => u.id === id);
-    if (user) {
-      browserHistory.push(`/contact-info/${user.id}`);
-    }
-  }
+  // handleClickName = (id) => {
+  //   const user = this.props.app.state.users.find((u) => u.id === id);
+  //   if (user) {
+  //     browserHistory.push(`/contact-info/${user.id}`);
+  //   }
+  // }
 
   handleCancelReplying = () => {
     this.setState({ inputMessage: '', messageToReply: null });
@@ -174,7 +175,10 @@ export default class Messages extends React.Component {
         return (
           <div className="message-reply" onClick={() => this.scrollToMessage(messageReplyTo)}>
               <div className="reply-wrapper">
-                <div className="to-user">Reply for: {user.name || DELETED_USERNAME}</div>
+                <div className="to-user">
+                  <span style={{ color: '#dbdbdb' }}>Reply to </span>
+                  <span>{user.name || DELETED_USERNAME}</span>
+                </div>
                 <div className="text-for-replying">{messageReplyTo.content}</div>
               </div>
           </div>
@@ -239,8 +243,10 @@ export default class Messages extends React.Component {
 
       return (
         <div className="reply-to">
-          <i className="fas fa-reply"></i><br/>
-          <span className="cancel-replying" onClick={this.handleCancelReplying}>x</span>
+          <div className="cancel-wrapper">
+            <i className="fas fa-reply"></i>
+            <span className="cancel-replying" onClick={this.handleCancelReplying}>Cancel</span>
+          </div>
           <span>{user.name} </span><br/>
           <span className="message-to-reply-content">{message.content}</span>
         </div>
@@ -339,21 +345,27 @@ export default class Messages extends React.Component {
 
                 {(message.user === currentUser.id) && (
                   <div className="my-message" style={textALign, flexDirection}>
-                    <div>
+                    {/* <div>
                       <span className="edited">{message.updated_at ? 'Edited' : ''}</span>
                       <span className="message-data-my-name">{user.name}</span>
                       <span className="message-data-time">{formatDate(message.created_at)}</span>
-                    </div>
+                    </div> */}
                     {this.renderMessageReply(users, message)}
                     {this.renderMessageForward(users, message)}
-                    <div className={className} dangerouslySetInnerHTML={this.tryHighlight(message.content)} />
-                    {this.renderSeenCheck(true)}
+                    <div className="message-data">
+                      <div className={className} dangerouslySetInnerHTML={this.tryHighlight(message.content)} />
+                      <div className="data-wrapper">
+                        <span className="edited">{message.updated_at ? 'Edited' : ''}</span>
+                        <span className="message-data-time">{formatDate(message.created_at)}</span>
+                        {this.renderSeenCheck(true)}
+                      </div>
+                    </div>
                   </div>
                 )}
 
                 {(message.user !== currentUser.id) && (
                   <div className="other-message" style={textALign, flexDirection}>
-                    <div>
+                    {/* <div>
                       {this.renderStatus(user)}
                       {users.find((u) => u.id === user.id)
                         ? (
@@ -362,13 +374,16 @@ export default class Messages extends React.Component {
                         : (
                           <span className="message-data-name" >{DELETED_USERNAME}</span>
                         )}
-
-                      <span className="message-data-time">{formatDate(message.created_at)}</span>
-                      <span className="edited">{message.updated_at ? 'Edited' : ''}</span>
-                    </div>
+                    </div> */}
                     {this.renderMessageReply(users, message)}
                     {this.renderMessageForward(users, message)}
-                    <div className={className} dangerouslySetInnerHTML={this.tryHighlight(message.content)} />
+                    <div className="message-data">
+                      <div className={className} dangerouslySetInnerHTML={this.tryHighlight(message.content)} />
+                      <div className="data-wrapper">
+                        <span className="message-data-time">{formatDate(message.created_at)}</span>
+                        <span className="edited">{message.updated_at ? 'Edited' : ''}</span>
+                      </div>
+                    </div>
                   </div>
                 )}
 

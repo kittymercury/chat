@@ -42,6 +42,7 @@ import PopUp from './pop-up';
 // 8. show number of unseen messages in chats
 // 9. fix message item width
 // 10. align left message content
+// 11. fix forwarding messages
 
 export default class App extends React.Component {
   constructor(props) {
