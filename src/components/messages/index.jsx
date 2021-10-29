@@ -14,6 +14,7 @@ export default class Messages extends React.Component {
     this.state = {
       inputSearch: '',
       inputMessage: '',
+      messageWithFeatures: null,
       messageToEdit: null,
       messageToReply: null
     };
@@ -54,7 +55,47 @@ export default class Messages extends React.Component {
     this.setState({ [name]: e.target.value })
   }
 
-  handleClickDeleteMessage = async (message) => {
+  handleClickMessage = (id) => {
+    const { messageWithFeatures } = this.state;
+
+    if (messageWithFeatures === id) {
+      this.setState({ messageWithFeatures: null })
+    }
+
+    if (messageWithFeatures !== id || !messageWithFeatures) {
+      this.setState({ messageWithFeatures: id });
+    }
+  }
+
+  renderEditMessageFeatures = () => {
+    const { messages, currentUser } = this.props.app.state;
+    const { messageWithFeatures } = this.state;
+
+    if (messageWithFeatures) {
+      const message = messages.find((m) => m.id === messageWithFeatures);
+      const isMsgMine = message.user === currentUser.id;
+
+      return (
+        <div className="edit-messages-features">
+          <span onClick={() => this.handleClickReply(message)}>Reply</span>
+          <span onClick={() => this.handleClickForward(message)}>Forward</span>
+          <span onClick={() => this.handleClickDeleteMessage(message)}>Delete</span>
+          {(isMsgMine && !message.forward_to) && (
+            <span onClick={() => this.handleClickEditMessage(message)}>Edit</span>
+          )}
+        </div>
+      )
+    }
+  }
+
+  handleClickDeleteMessage = (message) => {
+    this.props.app.handleOpenPopUp({
+      message: `Do you want to delete message?`,
+      onConfirm: () => this.handleConfirmDeleteMessage(message)
+    });
+  }
+
+  handleConfirmDeleteMessage = async (message) => {
     const data = await api('delete_message', message);
     if (data.error) {
       this.props.app.handleOpenPopUp({
@@ -63,17 +104,24 @@ export default class Messages extends React.Component {
     }
 
     if (data.deleted) {
+      this.setState({ messageWithFeatures: null })
       const newMessages = this.props.app.state.messages.filter((m) => m.id !== message.id);
       this.props.app.setState({ messages: newMessages })
     }
   }
 
   handleClickReply = (message) => {
-    this.setState({ messageToReply: message })
+    this.setState({
+      messageToReply: message,
+      messageWithFeatures: null
+    })
   }
 
   handleClickForward = (message) => {
-    this.props.app.setState({ messageToForward: message });
+    this.props.app.setState({
+      messageToForward: message,
+      messageWithFeatures: null
+    });
     browserHistory.push('/chats');
     console.log({mf: this.props.app.state.messageToForward});
   }
@@ -122,7 +170,11 @@ export default class Messages extends React.Component {
   }
 
   handleClickEditMessage = (message) => {
-    this.setState({ messageToEdit: message, inputMessage: message.content });
+    this.setState({
+      messageToEdit: message,
+      inputMessage: message.content,
+      messageWithFeatures: null
+    });
   }
 
   handleClickButtonEditOk = async () => {
@@ -173,7 +225,7 @@ export default class Messages extends React.Component {
           ? this.props.app.state.currentUser
           : users.find((user) => user.id === messageReplyTo.user) || {};
         return (
-          <div className="message-reply" onClick={() => this.scrollToMessage(messageReplyTo)}>
+          <div className="message-reply" onDoubleClick={() => this.scrollToMessage(messageReplyTo)}>
               <div className="reply-wrapper">
                 <div className="to-user">
                   <span style={{ color: '#dbdbdb' }}>Reply to </span>
@@ -204,7 +256,7 @@ export default class Messages extends React.Component {
           ? this.props.app.state.currentUser
           : users.find((user) => user.id === forwardedMessage.user) || {};
         return (
-          <div className="message-forward" onClick={() => this.scrollToMessage(forwardedMessage)}>
+          <div className="message-forward" onDoubleClick={() => this.scrollToMessage(forwardedMessage)}>
             <div className="forwarded-from">Forwarded from: {user.name || DELETED_USERNAME}</div>
             <div className="forwarded-text">{forwardedMessage.content}</div>
           </div>
@@ -254,21 +306,6 @@ export default class Messages extends React.Component {
     }
   }
 
-  renderEditMessageFeatures = (condition, isMyMessage, message) => {
-    if (condition) {
-      return (
-        <div className="edit-messages-features">
-          <span onClick={() => this.handleClickReply(message)}><i className="fas fa-reply"></i> </span>
-          <span onClick={() => this.handleClickForward(message)}> <i className="fas fa-share"></i></span>
-          <span onClick={() => this.handleClickDeleteMessage(message)}><i className="fas fa-trash-alt"></i></span>
-          {(isMyMessage && !message.forward_to) && (
-            <span onClick={() => this.handleClickEditMessage(message)}><i className="far fa-edit"></i></span>
-          )}
-        </div>
-      )
-    }
-  }
-
   renderSeenCheck = (condition) => {
     if (condition) {
       return (
@@ -291,7 +328,7 @@ export default class Messages extends React.Component {
   }
 
   render () {
-    const { inputSearch, inputMessage, messageToReply, messageToEdit } = this.state;
+    const { inputSearch, inputMessage, messageToReply, messageToEdit, messageWithFeatures } = this.state;
     const {
       chats,
       users,
@@ -302,6 +339,8 @@ export default class Messages extends React.Component {
       messages,
       foundMessage
     } = this.props.app.state;
+
+    console.log({messageWithFeatures});
 
     const chatId = Number(this.props.params.chatId);
 
@@ -344,7 +383,7 @@ export default class Messages extends React.Component {
               <li key={message.id} className="message-item" style={textALign} id={`m-${message.id}`}>
 
                 {(message.user === currentUser.id) && (
-                  <div className="my-message" style={textALign, flexDirection}>
+                  <div className="my-message" style={textALign, flexDirection} onClick={() => this.handleClickMessage(message.id)}>
                     {/* <div>
                       <span className="edited">{message.updated_at ? 'Edited' : ''}</span>
                       <span className="message-data-my-name">{user.name}</span>
@@ -364,7 +403,7 @@ export default class Messages extends React.Component {
                 )}
 
                 {(message.user !== currentUser.id) && (
-                  <div className="other-message" style={textALign, flexDirection}>
+                  <div className="other-message" style={textALign, flexDirection} onClick={() => this.handleClickMessage(message.id)}>
                     {/* <div>
                       {this.renderStatus(user)}
                       {users.find((u) => u.id === user.id)
@@ -387,7 +426,9 @@ export default class Messages extends React.Component {
                   </div>
                 )}
 
-                {this.renderEditMessageFeatures(isEditMessages, isCurrentUsersMessage, message)}
+                {(message.id === messageWithFeatures) &&
+                this.renderEditMessageFeatures()}
+                {/* {this.renderEditMessageFeatures(isEditMessages, isCurrentUsersMessage, message)} */}
               </li>
             )
           })}

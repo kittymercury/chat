@@ -259,23 +259,19 @@
 }
 
 .edit-messages-features {
+  margin-left: 5px;
   font-size: 10px;
   color: gray;
-  margin-top: 10px;
-}
 
-.edit-messages-features span {
-  margin-right: 20px;
-  cursor: pointer;
-}
+  span {
+    padding: 0 5px;
+    cursor: pointer;
 
-.edit-messages-features span:first-child {
-  margin-left: 20px;
-}
-
-.edit-messages-features span:hover {
-  color: white;
-  transition-duration: 0.5s;
+    &:hover {
+      color: white;
+      transition-duration: 0.5s;
+    }
+  }
 }
 
 @keyframes highlight {

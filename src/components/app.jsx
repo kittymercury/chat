@@ -40,9 +40,12 @@ import PopUp from './pop-up';
 // 4. show if typing
 // 5. seen / unseen messages
 // 8. show number of unseen messages in chats
-// 9. fix message item width
-// 10. align left message content
+// 9. fix message item width +
+// 10. align left message content +
 // 11. fix forwarding messages
+// 12. fix appearance and logics for EditMessageFeatures +
+// 13. delete msg for me and everybody
+// 14. scrollintoview for features
 
 export default class App extends React.Component {
   constructor(props) {

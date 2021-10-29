@@ -53,7 +53,7 @@ export default class Header extends React.Component {
             <i className="fas fa-long-arrow-alt-left"></i>
           </button>
         )}
-        {(currentPage.includes('messages'))
+        {/* {(currentPage.includes('messages'))
           ? isEditMessages
             ? (
               <button onClick={() => this.handleClickEditMessages(false)}>Cancel</button>
@@ -63,7 +63,12 @@ export default class Header extends React.Component {
                 <i className="far fa-edit"></i>
               </button>
             )
-          : ''}
+          : ''} */}
+          {currentPage.includes('messages') && (
+            <button className="messages-menu">
+              <i className="fas fa-ellipsis-v"></i>
+            </button>
+          )}
           {currentPage === 'contacts'
             ? this.props.app.state.isSearch
               ? (
