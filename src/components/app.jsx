@@ -61,7 +61,7 @@ export default class App extends React.Component {
       theme: theme,
 
       isStatusVisible: true,
-      isEditMessages: false,
+      isMsgMenuActive: false,
       isSearch: false,
       popUp: null,
       messageToForward: null,

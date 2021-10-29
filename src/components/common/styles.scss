@@ -1,26 +1,21 @@
-.messages .search-wrapper {
-  width: 50%;
-  padding: 2px;
-  padding-left: 20px;
-  margin: 5px;
-  border-radius: 25px;
-  background-color: var(--search-wrapper-bg);
+.search-wrapper {
+  padding: 15px;
+  background-color: var(--base-bg);
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 
   input {
-    border: none;
     padding: 2px;
     margin: 2px;
+    background-color: var(--base-bg);
+    border: none;
   }
-}
 
-.search-wrapper {
-  padding: 2px;
-  padding-left: 20px;
-  background-color: var(--input-bg);
-
-  input {
-    margin: 2px;
-    padding: 8px;
+  .cancel-searching {
+    font-size: 14px;
+    cursor: pointer;
   }
 }
 

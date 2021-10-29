@@ -41,7 +41,7 @@ export default class Chats extends React.Component {
   }
 
   handleClickChat = async (chat) => {
-    const { messageToForward, messages, isEditMessages } = this.props.app.state;
+    const { messageToForward, messages, isMsgMenuActive } = this.props.app.state;
 
     if (messageToForward) {
       const message = {
@@ -60,7 +60,7 @@ export default class Chats extends React.Component {
 
       if (data.message) {
         const newMessages = messages.concat(data.message);
-        this.props.app.setState({ messages: newMessages, messageToForward: null, isEditMessages: false });
+        this.props.app.setState({ messages: newMessages, messageToForward: null, isMsgMenuActive: false });
       }
     }
 
@@ -69,9 +69,7 @@ export default class Chats extends React.Component {
 
   handleClickDeleteChat = (chat) => {
     const { users, currentUser } = this.props.app.state;
-    console.log({chat, users});
     const participant = chat.participants.find((p) => p !== currentUser.id);
-    console.log({participant});
     const user = users.find((u) => u.id === participant);
     this.props.app.handleOpenPopUp({
       message: `Do you want to delete chat with ${user.name}? Chat history with will be cleared.`,
@@ -238,6 +236,7 @@ export default class Chats extends React.Component {
           <InputSearch
             value={inputSearch}
             onChange={this.handleChangeInputSearch}
+            onCancel={() => this.props.app.setState({ isSearch: false })}
           />
         )}
 

@@ -123,7 +123,6 @@ export default class Messages extends React.Component {
       messageWithFeatures: null
     });
     browserHistory.push('/chats');
-    console.log({mf: this.props.app.state.messageToForward});
   }
 
   handlePressEnter = (e) => {
@@ -327,21 +326,32 @@ export default class Messages extends React.Component {
     }
   }
 
+  renderMessagesMenu = () => {
+    const { isMsgMenuActive } = this.props.app.state;
+    return (
+      <div className={`submenu ${isMsgMenuActive ? 'active' : ''}`}>
+        <div className="submenu-item" onClick={() => this.props.app.setState({ isSearch: true, isMsgMenuActive: false })}>
+          <i className="fas fa-search"></i>
+          <span>Search</span>
+        </div>
+        <div className="submenu-item">item</div>
+        <div className="submenu-item">item</div>
+      </div>
+    )
+  }
+
   render () {
     const { inputSearch, inputMessage, messageToReply, messageToEdit, messageWithFeatures } = this.state;
     const {
       chats,
       users,
       currentUser,
-      isEditMessages,
+      isMsgMenuActive,
       isStatusVisible,
       isSearch,
       messages,
       foundMessage
     } = this.props.app.state;
-
-    console.log({messageWithFeatures});
-
     const chatId = Number(this.props.params.chatId);
 
     let foundMessages = [];
@@ -357,10 +367,12 @@ export default class Messages extends React.Component {
 
     return (
       <div className="content messages">
+        {this.renderMessagesMenu()}
         {isSearch && (
           <InputSearch
             value={inputSearch}
             onChange={(e) => this.changeInputValue('inputSearch', e)}
+            onCancel={() => this.props.app.setState({ isSearch: false })}
           />
         )}
 
@@ -428,7 +440,7 @@ export default class Messages extends React.Component {
 
                 {(message.id === messageWithFeatures) &&
                 this.renderEditMessageFeatures()}
-                {/* {this.renderEditMessageFeatures(isEditMessages, isCurrentUsersMessage, message)} */}
+                {/* {this.renderEditMessageFeatures(isMsgMenuActive, isCurrentUsersMessage, message)} */}
               </li>
             )
           })}

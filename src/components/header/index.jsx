@@ -6,7 +6,7 @@ import './styles.scss';
 
 export default class Header extends React.Component {
   handleClickEditMessages = (condition) => {
-    this.props.app.setState({ isEditMessages: condition });
+    this.props.app.setState({ isMsgMenuActive: condition });
   }
 
   handleClickSearch = (condition) => {
@@ -15,6 +15,14 @@ export default class Header extends React.Component {
 
   handleCancelForwarding = () => {
     this.props.app.setState({ messageToForward: null });
+  }
+
+  handleClickMsgMenu = () => {
+    this.props.app.setState({
+      isMsgMenuActive: this.props.app.state.isMsgMenuActive
+        ? false
+        : true
+    });
   }
 
   renderSearchButton = (condition) => {
@@ -33,8 +41,8 @@ export default class Header extends React.Component {
 
   renderButtonsLeft = () => {
     const {
-      isEditMessages,
       messageToForward,
+      isMsgMenuActive
     } = this.props.app.state;
 
     const currentPage = this.props.app.getPage();
@@ -53,19 +61,8 @@ export default class Header extends React.Component {
             <i className="fas fa-long-arrow-alt-left"></i>
           </button>
         )}
-        {/* {(currentPage.includes('messages'))
-          ? isEditMessages
-            ? (
-              <button onClick={() => this.handleClickEditMessages(false)}>Cancel</button>
-            )
-            : (
-              <button onClick={() => this.handleClickEditMessages(true)}>
-                <i className="far fa-edit"></i>
-              </button>
-            )
-          : ''} */}
           {currentPage.includes('messages') && (
-            <button className="messages-menu">
+            <button className="msg-menu-button" onClick={() => this.handleClickMsgMenu()}>
               <i className="fas fa-ellipsis-v"></i>
             </button>
           )}
@@ -119,9 +116,7 @@ export default class Header extends React.Component {
 
     return (
       <div className="title">
-        {(currentPage.includes('messages')) && (
-           this.renderMessagesTitle()
-        )}
+        {currentPage.includes('messages') && this.renderMessagesTitle()}
 
         {Object.keys(titleByPathname).includes(currentPage) && (
           <div >{title}</div>
@@ -131,11 +126,20 @@ export default class Header extends React.Component {
   }
 
   render () {
+    console.log({active: this.props.app.state.isMsgMenuActive});
+    const { isSearch } = this.props.app.state;
+
     return (
       <div className="header">
-        {this.renderButtonsLeft()}
-        {this.renderTitle()}
-        {this.renderButtonsRight()}
+        {isSearch
+          ? ''
+          : (
+            <div className="header-info-wrapper">
+              {this.renderButtonsLeft()}
+              {this.renderTitle()}
+              {this.renderButtonsRight()}
+            </div>
+          )}
       </div>
     )
   }
