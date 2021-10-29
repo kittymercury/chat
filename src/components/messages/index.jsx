@@ -198,13 +198,6 @@ export default class Messages extends React.Component {
     }
   }
 
-  // handleClickName = (id) => {
-  //   const user = this.props.app.state.users.find((u) => u.id === id);
-  //   if (user) {
-  //     browserHistory.push(`/contact-info/${user.id}`);
-  //   }
-  // }
-
   handleCancelReplying = () => {
     this.setState({ inputMessage: '', messageToReply: null });
   }

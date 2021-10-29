@@ -6,6 +6,11 @@
   display: flex;
   text-align: center;
   justify-content: space-between;
+  align-items: center;
+
+  &.in-messages {
+    padding: 5px;
+  }
 
   button {
     padding: 2px 10px;
@@ -15,7 +20,32 @@
     cursor: pointer;
   }
 
+  .msg-menu-button {
+    padding: 10px 15px;
+  }
+
   .title {
     flex: 1;
+  }
+
+  .user-data-header {
+    display: flex;
+    flex-direction: column;
+
+    span {
+      font-size: 15px;
+
+      &.status {
+        color: gray;
+        font-size: 12px;
+      }
+    }
+  }
+
+  .user-avatar-small {
+    width: 32px;
+    border-radius: 32px;
+    cursor: pointer;
+    margin-right: 10px;
   }
 }

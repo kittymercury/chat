@@ -1,14 +1,11 @@
 import React from 'react';
 import { browserHistory } from 'react-router';
 
+import { getImg } from '../../helpers';
 import { DELETED_USERNAME } from '../../constants';
 import './styles.scss';
 
 export default class Header extends React.Component {
-  handleClickEditMessages = (condition) => {
-    this.props.app.setState({ isMsgMenuActive: condition });
-  }
-
   handleClickSearch = (condition) => {
     this.props.app.setState({ isSearch: condition });
   }
@@ -25,18 +22,19 @@ export default class Header extends React.Component {
     });
   }
 
-  renderSearchButton = (condition) => {
-    if (condition) {
-      return (
-        <button onClick={() => this.handleClickSearch(false)}>Cancel</button>
-      )
-    } else {
-      return (
-        <button onClick={() => this.handleClickSearch(true)}>
-          <i className="fas fa-search"></i>
-        </button>
-      )
+  handleClickAvatar = (id) => {
+    const user = this.props.app.state.users.find((u) => u.id === id);
+    if (user) {
+      browserHistory.push(`/contact-info/${user.id}`);
     }
+  }
+
+  renderSearchButton = () => {
+    return (
+      <button onClick={() => this.handleClickSearch(true)}>
+        <i className="fas fa-search"></i>
+      </button>
+    )
   }
 
   renderButtonsLeft = () => {
@@ -61,11 +59,6 @@ export default class Header extends React.Component {
             <i className="fas fa-long-arrow-alt-left"></i>
           </button>
         )}
-          {currentPage.includes('messages') && (
-            <button className="msg-menu-button" onClick={() => this.handleClickMsgMenu()}>
-              <i className="fas fa-ellipsis-v"></i>
-            </button>
-          )}
           {currentPage === 'contacts'
             ? this.props.app.state.isSearch
               ? (
@@ -87,13 +80,14 @@ export default class Header extends React.Component {
 
     return (
       <div>
-        {(['chats', 'contacts'].includes(currentPage) || currentPage.includes('messages')) && this.renderSearchButton(isSearch)}
+        {['chats', 'contacts'].includes(currentPage) && this.renderSearchButton()}
       </div>
     );
   }
 
-  renderMessagesTitle = () => {
-    const { currentUser, users = [], chats = [] } = this.props.app.state;
+  renderMessagesHeader = () => {
+    const currentPage = this.props.app.getPage();
+    const { isMsgMenuActive, currentUser, users = [], chats = [] } = this.props.app.state;
     if (!chats) return;
     const currentChat = +window.location.pathname.split('/')[2];
     if (!currentChat) return;
@@ -102,7 +96,22 @@ export default class Header extends React.Component {
     const participant = chat.participants.find((id) => id !== currentUser.id);
     const user = users.find((u) => u.id === participant) || {};
 
-    return <div>{user.name || DELETED_USERNAME}</div>
+    return (
+      <div className="header-info-wrapper in-messages">
+        <button className="msg-menu-button" onClick={() => this.props.app.setState({ isMsgMenuActive: isMsgMenuActive ? false : true })}>
+          <i className="fas fa-ellipsis-v"></i>
+        </button>
+        <div className="title">
+          <div className="user-data-header">
+            <span>{user.name || DELETED_USERNAME}</span>
+            <span className="status">{user.status}</span>
+          </div>
+        </div>
+        <div onClick={() => this.handleClickAvatar(user.id)}>
+          <img className="user-avatar-small" src={getImg(user.avatar)} />
+        </div>
+      </div>
+    )
   }
 
   renderTitle = () => {
@@ -116,8 +125,6 @@ export default class Header extends React.Component {
 
     return (
       <div className="title">
-        {currentPage.includes('messages') && this.renderMessagesTitle()}
-
         {Object.keys(titleByPathname).includes(currentPage) && (
           <div >{title}</div>
         )}
@@ -125,21 +132,28 @@ export default class Header extends React.Component {
     )
   }
 
-  render () {
-    console.log({active: this.props.app.state.isMsgMenuActive});
-    const { isSearch } = this.props.app.state;
+  renderHeader = (condition) => {
+    if (condition) return;
+    if (!condition) {
+      const currentPage = this.props.app.getPage();
+      if (currentPage.includes('messages')) {
+        return this.renderMessagesHeader()
+      } else {
+        return (
+          <div className="header-info-wrapper">
+            {this.renderButtonsLeft()}
+            {this.renderTitle()}
+            {this.renderButtonsRight()}
+          </div>
+        )
+      }
+    }
+  }
 
+  render () {
     return (
       <div className="header">
-        {isSearch
-          ? ''
-          : (
-            <div className="header-info-wrapper">
-              {this.renderButtonsLeft()}
-              {this.renderTitle()}
-              {this.renderButtonsRight()}
-            </div>
-          )}
+        {this.renderHeader(this.props.app.state.isSearch)}
       </div>
     )
   }
