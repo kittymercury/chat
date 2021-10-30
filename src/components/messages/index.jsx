@@ -4,7 +4,7 @@ import { browserHistory } from 'react-router';
 import api from '../../api';
 import InputSearch from '../common/input-search';
 import { formatDate } from '../../helpers';
-import { DELETED_USERNAME } from '../../constants';
+import { DELETED_USERNAME, CURRENT_TIMESTAMP } from '../../constants';
 import './styles.scss';
 
 export default class Messages extends React.Component {
@@ -51,8 +51,21 @@ export default class Messages extends React.Component {
     return { __html: html };
   }
 
-  changeInputValue = (name, e) => {
+  changeInputValue = async (name, e) => {
     this.setState({ [name]: e.target.value })
+
+    const data = await api('create_value');
+
+    if (data.error) return;
+    if (data.value) {
+      const lastUpdating = Math.round(new Date(data.value.created_at) / 1000);
+      console.log({lastUpdating});
+      // if (difference < 5) {
+      //   this.setState({ isUserTyping: true })
+      // } else {
+      //   this.setState({ isUserTyping: false })
+      // }
+    }
   }
 
   handleClickMessage = (id) => {
@@ -308,6 +321,30 @@ export default class Messages extends React.Component {
     }
   }
 
+  checkIfUserTyping = async () => {
+    const data = await api('create_value');
+
+    if (data.error) return;
+    if (data.value) {
+      let lastUpdating = Math.round(new Date(data.value.created_at) / 1000);
+      let difference = eval(CURRENT_TIMESTAMP - lastUpdating);
+      console.log(difference);
+      if (difference < 5) {
+        this.setState({ isUserTyping: true })
+      } else {
+        this.setState({ isUserTyping: false })
+      }
+    }
+    // if (condition) {
+    //   return (
+        // <div className="user-is-typing">
+        //   <i className="fas fa-pen-fancy"></i>
+        //   <span>user is typing...</span>
+        // </div>
+    //   )
+    // }
+  }
+
   renderUserTyping = (condition) => {
     if (condition) {
       return (
@@ -389,11 +426,6 @@ export default class Messages extends React.Component {
 
                 {(message.user === currentUser.id) && (
                   <div className="my-message" style={textALign, flexDirection} onClick={() => this.handleClickMessage(message.id)}>
-                    {/* <div>
-                      <span className="edited">{message.updated_at ? 'Edited' : ''}</span>
-                      <span className="message-data-my-name">{user.name}</span>
-                      <span className="message-data-time">{formatDate(message.created_at)}</span>
-                    </div> */}
                     {this.renderMessageReply(users, message)}
                     {this.renderMessageForward(users, message)}
                     <div className="message-data">
@@ -409,16 +441,6 @@ export default class Messages extends React.Component {
 
                 {(message.user !== currentUser.id) && (
                   <div className="other-message" style={textALign, flexDirection} onClick={() => this.handleClickMessage(message.id)}>
-                    {/* <div>
-                      {this.renderStatus(user)}
-                      {users.find((u) => u.id === user.id)
-                        ? (
-                            <span className="message-data-name" onClick={() => this.handleClickName(user.id)}>{user.name}</span>
-                        )
-                        : (
-                          <span className="message-data-name" >{DELETED_USERNAME}</span>
-                        )}
-                    </div> */}
                     {this.renderMessageReply(users, message)}
                     {this.renderMessageForward(users, message)}
                     <div className="message-data">
@@ -433,14 +455,13 @@ export default class Messages extends React.Component {
 
                 {(message.id === messageWithFeatures) &&
                 this.renderEditMessageFeatures()}
-                {/* {this.renderEditMessageFeatures(isMsgMenuActive, isCurrentUsersMessage, message)} */}
               </li>
             )
           })}
         </ul>
 
         <div style={{ display: 'block' }}>
-          {this.renderUserTyping(true)}
+          {this.renderUserTyping(this.props.app.state.isUserTyping)}
           {this.renderInputMessageToReply(users, messageToReply)}
 
           <div className="input-wrapper" style={{ display: 'flex' }}>

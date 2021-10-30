@@ -63,6 +63,7 @@ export default class App extends React.Component {
       isStatusVisible: true,
       isMsgMenuActive: false,
       isSearch: false,
+      isUserTyping: false,
       popUp: null,
       messageToForward: null,
       foundMessage: null,
@@ -191,6 +192,9 @@ export default class App extends React.Component {
 
         case 'delete_chat':
           return this.setState({ chats: chats.filter((c) => c.id !== payload.id) });
+
+        case 'create_value':
+          return this.setState({ isUserTyping: true });
       }
     }
   }
@@ -285,6 +289,7 @@ export default class App extends React.Component {
   }
 
   render() {
+    console.log({typ: this.state.isUserTyping});
     return (
       <div className={`chat theme ${this.state.theme}`}>
         {this.renderHeader()}
