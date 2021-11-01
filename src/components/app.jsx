@@ -59,7 +59,7 @@ export default class App extends React.Component {
       currentUser: currentUser,
 
       theme: theme,
-
+      isSelectMode: false,
       isStatusVisible: true,
       isMsgMenuActive: false,
       isSearch: false,

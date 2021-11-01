@@ -87,7 +87,8 @@ export default class Header extends React.Component {
 
   renderMessagesHeader = () => {
     const currentPage = this.props.app.getPage();
-    const { isMsgMenuActive, currentUser, users = [], chats = [] } = this.props.app.state;
+    const { isSelectMode, isMsgMenuActive, currentUser, users = [], chats = [] } = this.props.app.state;
+    if (isSelectMode) return;
     if (!chats) return;
     const currentChat = +window.location.pathname.split('/')[2];
     if (!currentChat) return;

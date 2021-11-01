@@ -16,7 +16,8 @@ export default class Messages extends React.Component {
       inputMessage: '',
       messageWithFeatures: null,
       messageToEdit: null,
-      messageToReply: null
+      messageToReply: null,
+      selectedMessages: []
     };
   }
 
@@ -68,15 +69,71 @@ export default class Messages extends React.Component {
     }
   }
 
-  handleClickMessage = (id) => {
-    const { messageWithFeatures } = this.state;
+  handleClickMessage = async (id) => {
+    const { messageWithFeatures, selectedMessages } = this.state;
+    const { isSelectMode, messages } = this.props.app.state;
 
-    if (messageWithFeatures === id) {
-      this.setState({ messageWithFeatures: null })
+    if (!isSelectMode) {
+      if (messageWithFeatures === id) {
+        this.setState({ messageWithFeatures: null })
+      }
+
+      if (messageWithFeatures !== id || !messageWithFeatures) {
+        this.setState({ messageWithFeatures: id });
+      }
     }
 
-    if (messageWithFeatures !== id || !messageWithFeatures) {
-      this.setState({ messageWithFeatures: id });
+    if (isSelectMode) {
+      const msg = messages.find((m) => m.id === id);
+      const $message = document.getElementById(`m-${id}`);
+      const isSelected = selectedMessages.includes(msg.id);
+      if (isSelected) {
+        $message.classList.remove('selected');
+        const filteredSelectedMessages = selectedMessages.filter((id) => id !== msg.id);
+        this.setState({ selectedMessages: filteredSelectedMessages })
+      }
+
+      if (!isSelected) {
+        $message.classList.add('selected');
+        this.setState({ selectedMessages: selectedMessages.concat(msg.id) })
+      }
+    }
+  }
+
+  handleClickTurnOffSelectMode = () => {
+    this.props.app.setState({ isSelectMode: false })
+    this.setState({ selectedMessages: [] })
+  }
+
+  handleDeleteSelectedMessages = () => {
+    const { selectedMessages } = this.state;
+    this.props.app.handleOpenPopUp({
+      message: `Do you want to delete ${selectedMessages.length} messages?`,
+      onConfirm: () => this.handleConfirmDeleteSelectedMessages()
+    })
+  }
+
+  handleConfirmDeleteSelectedMessages = async () => {
+    const { messages } = this.props.app.state;
+    const { selectedMessages } = this.state;
+
+    for (let i = 0; i < selectedMessages.length; i++) {
+      const message = messages.find((m) => m.id === selectedMessages[i]);
+      const data = await api('delete_message', message);
+      if (data.error) {
+        this.props.app.handleOpenPopUp({
+          message: data.error.description,
+        });
+      }
+
+      if (data.deleted) {
+        this.setState({ selectedMessages: [] })
+        const newMessages = this.props.app.state.messages.filter((m) => m.id !== selectedMessages[i]);
+        this.props.app.setState({
+          messages: newMessages,
+          isSelectMode: false
+        })
+      }
     }
   }
 
@@ -364,14 +421,32 @@ export default class Messages extends React.Component {
           <i className="fas fa-search"></i>
           <span>Search</span>
         </div>
-        <div className="submenu-messages-item">item</div>
+        <div className="submenu-messages-item" onClick={() => this.props.app.setState({ isSelectMode: true, isMsgMenuActive: false })}>
+          <i className="fas fa-check-circle"></i>
+          <span>Select messages</span>
+        </div>
         <div className="submenu-messages-item">item</div>
       </div>
     )
   }
 
+  renderSelectModeHeader = () => {
+    const { isSelectMode } = this.props.app.state;
+
+    if (!isSelectMode) return;
+    if (isSelectMode) {
+      return (
+        <div className="header-info-wrapper btns">
+          <div className="cancel-select-msgs" onClick={() => this.handleClickTurnOffSelectMode()}>Cancel</div>
+          <div className="frwrd">Forward</div>
+          <div className="dlt" onClick={() => this.handleDeleteSelectedMessages()}>Delete</div>
+        </div>
+      )
+    }
+  }
+
   render () {
-    const { inputSearch, inputMessage, messageToReply, messageToEdit, messageWithFeatures } = this.state;
+    const { inputSearch, inputMessage, messageToReply, messageToEdit, messageWithFeatures, selectedMessages } = this.state;
     const {
       chats,
       users,
@@ -380,8 +455,10 @@ export default class Messages extends React.Component {
       isStatusVisible,
       isSearch,
       messages,
-      foundMessage
+      foundMessage,
+      isSelectMode
     } = this.props.app.state;
+    console.log({selectedMessages});
     const chatId = Number(this.props.params.chatId);
 
     let foundMessages = [];
@@ -398,6 +475,7 @@ export default class Messages extends React.Component {
     return (
       <div className="content messages">
         {this.renderMessagesMenu()}
+        {this.renderSelectModeHeader()}
         {isSearch && (
           <InputSearch
             value={inputSearch}
@@ -423,6 +501,12 @@ export default class Messages extends React.Component {
 
             return (
               <li key={message.id} className="message-item" style={textALign} id={`m-${message.id}`}>
+                {isSelectMode && (message.user === currentUser.id) && (
+                  <div className="select">
+                    <i className="far fa-circle"></i>
+                    <i className="fas fa-circle"></i>
+                  </div>
+                  )}
 
                 {(message.user === currentUser.id) && (
                   <div className="my-message" style={textALign, flexDirection} onClick={() => this.handleClickMessage(message.id)}>
@@ -452,6 +536,12 @@ export default class Messages extends React.Component {
                     </div>
                   </div>
                 )}
+                {isSelectMode && (message.user !== currentUser.id) && (
+                  <div className="select">
+                    <i className="far fa-circle"></i>
+                    <i className="fas fa-circle"></i>
+                  </div>
+                  )}
 
                 {(message.id === messageWithFeatures) &&
                 this.renderEditMessageFeatures()}

@@ -1,3 +1,10 @@
+.header-info-wrapper.btns {
+  div {
+    font-size: 16px;
+    cursor: pointer;
+  }
+}
+
 .submenu-messages {
   height: 0;
   width: 50%;
@@ -60,6 +67,31 @@
     list-style: none;
     font: 14px/22px "Lato", Arial, sans-serif;
     margin: 15px;
+
+    .select {
+      display: inline-block;
+      margin: 0 10px;
+
+      i {
+        display: inline-block;
+
+        &.fas {
+          display: none;
+        }
+      }
+    }
+
+    &.selected {
+      .select {
+        .fas {
+          display: inline-block;
+        }
+
+        .far {
+          display: none;
+        }
+      }
+    }
   }
 
   .other-message,
