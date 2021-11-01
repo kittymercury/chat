@@ -359,13 +359,13 @@ export default class Messages extends React.Component {
   renderMessagesMenu = () => {
     const { isMsgMenuActive } = this.props.app.state;
     return (
-      <div className={`submenu ${isMsgMenuActive ? 'active' : ''}`}>
-        <div className="submenu-item" onClick={() => this.props.app.setState({ isSearch: true, isMsgMenuActive: false })}>
+      <div className={`submenu-messages ${isMsgMenuActive ? 'active' : ''}`}>
+        <div className="submenu-messages-item" onClick={() => this.props.app.setState({ isSearch: true, isMsgMenuActive: false })}>
           <i className="fas fa-search"></i>
           <span>Search</span>
         </div>
-        <div className="submenu-item">item</div>
-        <div className="submenu-item">item</div>
+        <div className="submenu-messages-item">item</div>
+        <div className="submenu-messages-item">item</div>
       </div>
     )
   }

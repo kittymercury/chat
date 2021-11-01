@@ -14,10 +14,10 @@ export default class Footer extends React.Component {
     return (
       <div className="footer">
         <button onClick={() => browserHistory.push('/contacts')}>
-          <i className="far fa-address-book"></i>
+          <i className="fas fa-user-friends"></i>
         </button>
         <button onClick={() => browserHistory.push('/chats')}>
-          <i className="far fa-comments"></i>
+          <i className="far fa-comment"></i>
         </button>
         <button onClick={() => browserHistory.push('/settings')}>
           <i className="fas fa-cog"></i>

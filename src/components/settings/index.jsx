@@ -114,7 +114,7 @@ export default class Settings extends React.Component {
         <div className={`avatar-menu ${this.state.activeMenuItem === 'avatar-menu' ? 'active' : ''}`}>
           <div className="menu-name" onClick={() => this.handleClickMenuItem('avatar-menu')}>Change avatar</div>
           <div className="submenu">
-            <div className="input-avatar" onClick={this.handleClickLoadAvatar}>Load avatar</div>
+            <button className="input-avatar" onClick={this.handleClickLoadAvatar}>Load avatar</button>
             <button onClick={this.handleClickRemoveAvatar}>Remove avatar</button>
           </div>
         </div>
@@ -185,7 +185,9 @@ export default class Settings extends React.Component {
     } else {
       return (
         <div className="edit-btn-settings">
-          <span onClick={this.handleClickEditProfile}>Edit</span>
+          <span onClick={this.handleClickEditProfile}>
+            <i className="fas fa-pen"></i>
+          </span>
         </div>
       )
     }

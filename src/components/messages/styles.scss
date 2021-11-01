@@ -1,6 +1,6 @@
-.submenu {
+.submenu-messages {
   height: 0;
-  width: 150px;
+  width: 50%;
   overflow: hidden;
   transition: height 0.2s;
   position: fixed;
@@ -10,7 +10,7 @@
   flex-direction: column;
 }
 
-.submenu.active {
+.submenu-messages.active {
   height: 100px;
   background-color: #000000;
   overflow: visible;
@@ -19,7 +19,7 @@
   cursor: pointer;
 }
 
-.submenu-item {
+.submenu-messages-item {
   height: 100%;
   padding-left: 15px;
   padding-bottom: 5px;

@@ -96,14 +96,17 @@ export default class ContactInfo extends React.Component {
 
     return (
       <div className="content contact-info">
+        {currentUser.contacts.includes(user.id)
+          ? (
+            <div className="contact-info-buttons">
+              <span onClick={() => browserHistory.goBack()}>
+                <i className="fas fa-long-arrow-alt-left"></i>
+              </span>
+              <span onClick={() => this.handleClickRemoveContact(user)}>Remove</span>
+            </div>
+          )
+          : ''}
         <div className="info-wrapper">
-          {currentUser.contacts.includes(user.id)
-            ? (
-              <div className="remove-from-contacts">
-                <span onClick={() => this.handleClickRemoveContact(user)}>Remove</span>
-              </div>
-            )
-            : ''}
           <div>
             <img className="user-avatar-image" src={getImg(user.avatar)} />
             {this.renderStatus(user)}

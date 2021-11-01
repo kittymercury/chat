@@ -54,7 +54,7 @@ export default class Header extends React.Component {
               <i className="fas fa-plus"></i>
             </button>
           : ''}
-        {(currentPage.includes('contact-info') || currentPage === 'registration') && (
+        {currentPage === 'registration' && (
           <button onClick={() => browserHistory.goBack()}>
             <i className="fas fa-long-arrow-alt-left"></i>
           </button>
@@ -136,6 +136,8 @@ export default class Header extends React.Component {
     if (condition) return;
     if (!condition) {
       const currentPage = this.props.app.getPage();
+      if (currentPage.includes('contact-info')) return;
+
       if (currentPage.includes('messages')) {
         return this.renderMessagesHeader()
       } else {
