@@ -125,13 +125,16 @@ export default class Chats extends React.Component {
 
     return (
       <li key={chat.id}>
-        <div className="img-wrapper" onClick={onClick}>
-          {this.renderStatus(user)}
-          <img src={getImg(user.avatar)} />
-        </div>
+        {/* <div className="img-wrapper" onClick={onClick}> */}
+          {/* {this.renderStatus(user)} */}
+          <div className="chat-user-img" style={{ backgroundImage: `url(${getImg(user.avatar)})` }}></div>
+        {/* </div> */}
         <div className="chat-data" onClick={onClick}>
           <div className="data">
-            <div className="name">{user.name || DELETED_USERNAME}</div>
+            <div className="name">
+              <span>{user.name || DELETED_USERNAME}</span>
+              {this.renderStatus(user)}
+            </div>
             <span className="time">{message ? formatDate(message.created_at) : ''}</span>
           </div>
             <div className="text">
@@ -149,9 +152,7 @@ export default class Chats extends React.Component {
     if (!message) return;
     return (
       <li key={message.id} onClick={() => this.handleClickFoundMessage(message)}>
-        <div className="img-wrapper">
-          <img src={getImg(user.avatar)} />
-        </div>
+        <div className="chat-user-img" style={{ backgroundImage: `url(${getImg(user.avatar)})` }}></div>
         <div className="chat-data">
           <div className="data">
             <div className="name">{user.name || DELETED_USERNAME}</div>

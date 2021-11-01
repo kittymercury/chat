@@ -115,10 +115,7 @@ export default class Contacts extends React.Component {
                 <li key={user.id}>
                   <div className="img-wrapper">
                     {this.renderStatus(user)}
-                    <img className="avatar"
-                      src={getImg(user.avatar)}
-                      onClick={onClickAvatar}
-                    />
+                    <div className="avatar" onClick={onClickAvatar} style={{ backgroundImage: `url(${getImg(user.avatar)})` }}></div>
                   </div>
                   <span className="user-name" onClick={onClickUserName}>
                     {user.name}

@@ -76,7 +76,7 @@ export default class ContactInfo extends React.Component {
 
   renderStatus = (user) => {
     if (this.props.app.state.isStatusVisible) {
-      return <i className={`fas fa-circle ${user.status}`}></i>
+      return <div className="user-status">{user.status}</div>
     }
   }
 
@@ -98,29 +98,36 @@ export default class ContactInfo extends React.Component {
       <div className="content contact-info">
         {currentUser.contacts.includes(user.id)
           ? (
-            <div className="contact-info-buttons">
-              <span onClick={() => browserHistory.goBack()}>
+            <div className="contact-info-header">
+              <div className="btn-back" onClick={() => browserHistory.goBack()}>
                 <i className="fas fa-long-arrow-alt-left"></i>
-              </span>
-              <span onClick={() => this.handleClickRemoveContact(user)}>Remove</span>
+              </div>
+              <div className="contact-name">
+                <span>{user.name}</span>
+                {this.renderStatus(user)}
+              </div>
+              <div className="btn-back" style={{ color: 'transparent', cursor: 'initial'}}>
+                <i className="fas fa-long-arrow-alt-left"></i>
+              </div>
             </div>
           )
           : ''}
         <div className="info-wrapper">
           <div>
-            <img className="user-avatar-image" src={getImg(user.avatar)} />
-            {this.renderStatus(user)}
+            <div className="user-avatar-image" style={{ backgroundImage: `url(${getImg(user.avatar)})` }}></div>
           </div>
-          <div className="user-name">{user.name}</div>
           <div className="user-login">@{user.login}</div>
         </div>
-        <div className="button-contact-info-wrapper">
+        <div className="buttons-contact-info">
           {currentUser.contacts.includes(user.id)
             ? (
-                <div className="button-contact-info" onClick={() => this.handleClickOpenChat(user)}>Open chat</div>
+              <div>
+                <div className="btn-c-info" onClick={() => this.handleClickOpenChat(user)}>Open chat</div>
+                <div className="btn-c-info" onClick={() => this.handleClickRemoveContact(user)}>Remove from contacts</div>
+              </div>
             )
             : (
-                <div className="button-contact-info" onClick={() => this.handleClickAddToContacts(user)}>Add to contacts</div>
+                <div className="btn-c-info" onClick={() => this.handleClickAddToContacts(user)}>Add to contacts</div>
             )}
         </div>
       </div>

@@ -107,9 +107,7 @@ export default class Header extends React.Component {
             <span className="status">{user.status}</span>
           </div>
         </div>
-        <div onClick={() => this.handleClickAvatar(user.id)}>
-          <img className="user-avatar-small" src={getImg(user.avatar)} />
-        </div>
+        <div className="user-avatar-small" style={{ backgroundImage: `url(${getImg(user.avatar)})` }} onClick={() => this.handleClickAvatar(user.id)}></div>
       </div>
     )
   }

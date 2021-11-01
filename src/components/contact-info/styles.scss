@@ -3,29 +3,41 @@
   flex-direction: column;
   align-items: stretch;
 
-  .contact-info-buttons {
-    font-size: 15px;
-    background-color: var(--wrapper-bg);
+  .contact-info-header {
+    background-color: var(--base-bg);
 
     display: flex;
     justify-content: space-between;
+    align-items: center;
 
-    span {
+    .btn-back {
       padding: 10px;
+      font-size: 19px;
       cursor: pointer;
+    }
 
-      &:first-child {
-        padding-left: 15px;
+    .contact-name {
+      margin-top: 10px;
+      font-weight: bold;
+
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+
+      span {
+        font-size: 20px;
       }
 
-      i {
-        font-size: 19px;
+      .user-status {
+        font-size: 12px;
+        color: gray;
+        padding: 0 0 5px;
       }
     }
   }
 
   .info-wrapper {
-    padding: 15px;
+    padding: 10px;
     background-color: var(--wrapper-bg);
 
     display: flex;
@@ -36,41 +48,31 @@
       position: relative;
 
       .user-avatar-image {
-        height: 150px;
-        width: 150px;
+        height: 200px;
+        width: 200px;
         margin: 10px;
-        border-radius: 83px;
-      }
-
-      .fas.fa-circle {
-        font-size: 10px;
-        position: absolute;
-        bottom: 14px;
-        right: 28px;
+        border-radius: 200px;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: 135%;
       }
     }
 
     .user-login {
-      font-size: 12px;
-    }
-
-    .user-name {
-      font-size: 20px;
-      font-weight: bolder;
+      font-size: 16px;
+      color: gray;
     }
   }
 
-  .button-contact-info-wrapper {
+  .buttons-contact-info {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
 
-    .button-contact-info {
-      margin: 15px;
-      padding: 16px;
+    .btn-c-info {
+      margin: 10px 0;
+      padding: 15px;
       background-color: var(--wrapper-bg);
-      border-radius: 35px;
       cursor: pointer;
-      // width: 115px;
 
       display: flex;
       justify-content: center;

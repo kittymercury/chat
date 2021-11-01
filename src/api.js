@@ -24,13 +24,16 @@ export default async function api(action, payload) {
 
 // export default api
 
+export function getAttachmentUrl(attachment = {}) {
+  if (attachment.id && attachment.file_name) {
+    return `${API_BASE_URL}/api/v1/storage/${attachment.id}/${attachment.file_name}`;
+  }
+}
+
 export function uploadAttachments(model, record, files) {
-  const config = {
-    headers: {
-      'content-type': 'multipart/form-data'
-    }
-  };
+  const config = { headers: { 'content-type': 'multipart/form-data' } };
   const data = new FormData();
+
   files.forEach((file, i) => {
     const blob = window.blobStore.get(file.fileName);
     if (blob) {
@@ -41,7 +44,8 @@ export function uploadAttachments(model, record, files) {
       window.blobStore.remove(file.fileName);
     }
   });
-  return apiInstance.post(`${API_BASE_URL}/api/storage/${model.alias}/${record.id}`, data, config);
+
+  return apiInstance.post(`${API_BASE_URL}/api/v1/storage/${model.alias}/${record.id}`, data, config);
 }
 
 // yaml

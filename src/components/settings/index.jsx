@@ -184,7 +184,8 @@ export default class Settings extends React.Component {
       )
     } else {
       return (
-        <div className="edit-btn-settings">
+        <div className="settings-btns">
+          <span></span>
           <span onClick={this.handleClickEditProfile}>
             <i className="fas fa-pen"></i>
           </span>
@@ -205,7 +206,7 @@ export default class Settings extends React.Component {
       <div className="content settings">
         <div className="info">
           {this.renderButtons(isOptionsVisible)}
-          <img src={getImg(currentUser.avatar)} />
+          <div className="current-user-img" style={{ backgroundImage: `url(${getImg(currentUser.avatar)})` }}></div>
           {this.renderMainOptions(isOptionsVisible)}
         </div>
         {this.renderFeatures(isOptionsVisible)}
