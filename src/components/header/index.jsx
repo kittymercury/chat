@@ -11,7 +11,15 @@ export default class Header extends React.Component {
   }
 
   handleCancelForwarding = () => {
-    this.props.app.setState({ messageToForward: null });
+    const { messageToForward, selectedMessages } = this.props.app.state;
+
+    if (messageToForward) {
+      this.props.app.setState({ messageToForward: null });
+    }
+
+    if (selectedMessages) {
+      browserHistory.goBack();
+    }
   }
 
   handleClickMsgMenu = () => {
@@ -113,6 +121,25 @@ export default class Header extends React.Component {
     )
   }
 
+  renderChatHeaderWithMessagesToForward = () => {
+    const { isSelectMode, messageToForward, selectedMessages } = this.props.app.state;
+
+    if (messageToForward || isSelectMode) {
+      return (
+        <div className="header-info-wrapper">
+          <button onClick={this.handleCancelForwarding}>Cancel</button>
+          {messageToForward && (
+            <div className="forwarded-messages-amount">Forward 1 message</div>
+          )}
+          {isSelectMode && (
+            <div className="forwarded-messages-amount">Forward {selectedMessages.length} {selectedMessages.length > 1 ? 'messages' : 'message'}</div>
+          )}
+          <button style={{ color: 'transparent', cursor: 'initial' }} onClick={this.handleCancelForwarding}>Cancel</button>
+        </div>
+      )
+    }
+  }
+
   renderTitle = () => {
     const currentPage = this.props.app.getPage();
     const titleByPathname = {
@@ -131,10 +158,15 @@ export default class Header extends React.Component {
     )
   }
 
-  renderHeader = (condition) => {
-    if (condition) return;
-    if (!condition) {
-      const currentPage = this.props.app.getPage();
+  renderHeader = () => {
+    const { isSearch, isSelectMode, messageToForward } = this.props.app.state;
+    const currentPage = this.props.app.getPage();
+    if (isSearch) return;
+    if (messageToForward || isSelectMode && currentPage === 'chats') {
+      return this.renderChatHeaderWithMessagesToForward()
+    };
+
+    if (!isSearch || !isSelectMode) {
       if (currentPage.includes('contact-info')) return;
 
       if (currentPage.includes('messages')) {
@@ -154,7 +186,7 @@ export default class Header extends React.Component {
   render () {
     return (
       <div className="header">
-        {this.renderHeader(this.props.app.state.isSearch)}
+        {this.renderHeader()}
       </div>
     )
   }

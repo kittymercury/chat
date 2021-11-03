@@ -17,7 +17,6 @@ export default class Messages extends React.Component {
       messageWithFeatures: null,
       messageToEdit: null,
       messageToReply: null,
-      selectedMessages: []
     };
   }
 
@@ -60,7 +59,6 @@ export default class Messages extends React.Component {
     if (data.error) return;
     if (data.value) {
       const lastUpdating = Math.round(new Date(data.value.created_at) / 1000);
-      console.log({lastUpdating});
       // if (difference < 5) {
       //   this.setState({ isUserTyping: true })
       // } else {
@@ -70,8 +68,8 @@ export default class Messages extends React.Component {
   }
 
   handleClickMessage = async (id) => {
-    const { messageWithFeatures, selectedMessages } = this.state;
-    const { isSelectMode, messages } = this.props.app.state;
+    const { messageWithFeatures } = this.state;
+    const { isSelectMode, messages, selectedMessages } = this.props.app.state;
 
     if (!isSelectMode) {
       if (messageWithFeatures === id) {
@@ -90,32 +88,39 @@ export default class Messages extends React.Component {
       if (isSelected) {
         $message.classList.remove('selected');
         const filteredSelectedMessages = selectedMessages.filter((id) => id !== msg.id);
-        this.setState({ selectedMessages: filteredSelectedMessages })
+        this.props.app.setState({ selectedMessages: filteredSelectedMessages })
       }
 
       if (!isSelected) {
         $message.classList.add('selected');
-        this.setState({ selectedMessages: selectedMessages.concat(msg.id) })
+        this.props.app.setState({ selectedMessages: selectedMessages.concat(msg.id) })
       }
     }
   }
 
   handleClickTurnOffSelectMode = () => {
-    this.props.app.setState({ isSelectMode: false })
-    this.setState({ selectedMessages: [] })
-  }
-
-  handleDeleteSelectedMessages = () => {
-    const { selectedMessages } = this.state;
-    this.props.app.handleOpenPopUp({
-      message: `Do you want to delete ${selectedMessages.length} messages?`,
-      onConfirm: () => this.handleConfirmDeleteSelectedMessages()
+    this.props.app.setState({
+      isSelectMode: false,
+      selectedMessages: []
     })
   }
 
+  interactWithSelectedMessages = (action) => {
+    const { selectedMessages } = this.props.app.state;
+    if (action === 'delete') {
+      this.props.app.handleOpenPopUp({
+        message: `Do you want to delete ${selectedMessages.length} messages?`,
+        onConfirm: () => this.handleConfirmDeleteSelectedMessages()
+      })
+    }
+
+    if (action === 'forward') {
+      browserHistory.push('/chats');
+    }
+  }
+
   handleConfirmDeleteSelectedMessages = async () => {
-    const { messages } = this.props.app.state;
-    const { selectedMessages } = this.state;
+    const { messages, selectedMessages  } = this.props.app.state;
 
     for (let i = 0; i < selectedMessages.length; i++) {
       const message = messages.find((m) => m.id === selectedMessages[i]);
@@ -127,7 +132,7 @@ export default class Messages extends React.Component {
       }
 
       if (data.deleted) {
-        this.setState({ selectedMessages: [] })
+        this.props.app.setState({ selectedMessages: [] })
         const newMessages = this.props.app.state.messages.filter((m) => m.id !== selectedMessages[i]);
         this.props.app.setState({
           messages: newMessages,
@@ -195,16 +200,6 @@ export default class Messages extends React.Component {
     browserHistory.push('/chats');
   }
 
-  handlePressEnter = (e) => {
-    if (e.keyCode === 13) {
-      if (this.state.messageToEdit) {
-        this.handleClickButtonEditOk()
-      } else {
-        this.handleClickButtonSend();
-      }
-    }
-  }
-
   handleClickButtonSend = async () => {
     const { currentUser, messages } = this.props.app.state;
     const { inputMessage, messageToReply } = this.state;
@@ -234,6 +229,16 @@ export default class Messages extends React.Component {
           inputMessage: '',
           messageToReply: null,
         });
+      }
+    }
+  }
+
+  handlePressEnter = (e) => {
+    if (e.keyCode === 13) {
+      if (this.state.messageToEdit) {
+        this.handleClickButtonEditOk()
+      } else {
+        this.handleClickButtonSend();
       }
     }
   }
@@ -385,7 +390,6 @@ export default class Messages extends React.Component {
     if (data.value) {
       let lastUpdating = Math.round(new Date(data.value.created_at) / 1000);
       let difference = eval(CURRENT_TIMESTAMP - lastUpdating);
-      console.log(difference);
       if (difference < 5) {
         this.setState({ isUserTyping: true })
       } else {
@@ -438,15 +442,15 @@ export default class Messages extends React.Component {
       return (
         <div className="header-info-wrapper btns">
           <div className="cancel-select-msgs" onClick={() => this.handleClickTurnOffSelectMode()}>Cancel</div>
-          <div className="frwrd">Forward</div>
-          <div className="dlt" onClick={() => this.handleDeleteSelectedMessages()}>Delete</div>
+          <div className="frwrd" onClick={() => this.interactWithSelectedMessages('forward')}>Forward</div>
+          <div className="dlt" onClick={() => this.interactWithSelectedMessages('delete')}>Delete</div>
         </div>
       )
     }
   }
 
   render () {
-    const { inputSearch, inputMessage, messageToReply, messageToEdit, messageWithFeatures, selectedMessages } = this.state;
+    const { inputSearch, inputMessage, messageToReply, messageToEdit, messageWithFeatures } = this.state;
     const {
       chats,
       users,
@@ -456,9 +460,9 @@ export default class Messages extends React.Component {
       isSearch,
       messages,
       foundMessage,
+      selectedMessages,
       isSelectMode
     } = this.props.app.state;
-    console.log({selectedMessages});
     const chatId = Number(this.props.params.chatId);
 
     let foundMessages = [];

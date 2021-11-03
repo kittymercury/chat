@@ -40,17 +40,17 @@ export default class Chats extends React.Component {
     this.setState({ inputSearch: e.target.value });
   }
 
-  handleClickChat = async (chat) => {
-    const { messageToForward, messages, isMsgMenuActive } = this.props.app.state;
+  forwardMessages = async (message, chat) => {
+    const { currentUser, messages } = this.props.app.state;
 
-    if (messageToForward) {
-      const message = {
-        user: this.props.app.state.currentUser.id,
+    if (message) {
+      const msg = {
+        user: currentUser.id,
         chat: chat.id,
-        forward_to: messageToForward.id
+        forward_to: message.id
       };
 
-      const data = await api('create_message', message);
+      const data = await api('create_message', msg);
 
       if (data.error) {
         this.props.app.handleOpenPopUp({
@@ -60,7 +60,24 @@ export default class Chats extends React.Component {
 
       if (data.message) {
         const newMessages = messages.concat(data.message);
-        this.props.app.setState({ messages: newMessages, messageToForward: null, isMsgMenuActive: false });
+        this.props.app.setState({ messages: newMessages, messageToForward: null, isSelectMode: false, selectedMessages: [] });
+      }
+    }
+  }
+
+  handleClickChat = async (chat) => {
+    const { messageToForward, messages, currentUser, selectedMessages, isSelectMode } = this.props.app.state;
+    console.log({messageToForward});
+    console.log({selectedMessages});
+
+    if (messageToForward) {
+      await this.forwardMessages(messageToForward, chat)
+    }
+
+    if (selectedMessages.length) {
+      for (let i = 0; i < selectedMessages.length; i++) {
+        const message = messages.find((m) => m.id === selectedMessages[i]);
+        await this.forwardMessages(message, chat);
       }
     }
 

@@ -6,46 +6,20 @@ import Header from './header';
 import Footer from './footer';
 import PopUp from './pop-up';
 
-// import cornersImg from './images/corners.jpeg';
-// import jesseImg from './images/jesse.jpg';
-// import walterImg from './images/walter.jpeg';
-// import freddieImg from './images/freddie.jpeg';
-
 // TODO:
-// 2. search among all users and add to contacts +
-// 4. theme to localStorage +
-// 13. click on contact with existed chat +
-// 3. delete from contact list +
-// 14. delete user from contacts +
-// 13. preview of last message +
-// 16. not showing messages from another user +
-// 17. do not load messages because of participants +
-// 16. sort chats by message time +
-// 19. message reply deleted +
-// 20. if chat is empty +
-// 21. cancel editing in settings +
-// 19. click on forwarded message +
-// 22. css for edited in other msg +
-// 18. click on name in Messages +
+//   fix forwarding messages function:
+// 1.
+// /components/chats/index.jsx
+// handleClickChat
+// 2.
+// forward 1 отмеченного сообщения вместо всех отмеченных
+// 3.
+// должно пересылать все выбранные сообщения
 
-// 1. if user deleted , render messages +
-// 2. delete acc +
-// 3. delete deleted user from currentUser.contacts (may be with update_user api) +
-
-// 6. load all info immidiately after opening page +
-// 2. autoscroll in messages +
-// 7. click on forwarded message from another chat +
-// 1. make it possible to load avatar
-// 3. show real status of user
-// 4. show if typing
-// 5. seen / unseen messages
-// 8. show number of unseen messages in chats
-// 9. fix message item width +
-// 10. align left message content +
-// 11. fix forwarding messages
-// 12. fix appearance and logics for EditMessageFeatures +
-// 13. delete msg for me and everybody
-// 14. scrollintoview for features
+// 2. show real status of user
+// 3. show if typing
+// 4. seen / unseen messages
+// 5. show number of unseen messages in chats
 
 export default class App extends React.Component {
   constructor(props) {
@@ -67,6 +41,7 @@ export default class App extends React.Component {
       popUp: null,
       messageToForward: null,
       foundMessage: null,
+      selectedMessages: [],
 
       // users: [
       //   { id: 1, name: 'Cut Corners', status: 'online', avatar: 'corners.jpeg', login: 'cutcorners', password: '1' },
@@ -289,7 +264,6 @@ export default class App extends React.Component {
   }
 
   render() {
-    console.log({typ: this.state.isUserTyping});
     return (
       <div className={`chat theme ${this.state.theme}`}>
         {this.renderHeader()}
