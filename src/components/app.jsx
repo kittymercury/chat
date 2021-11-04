@@ -7,19 +7,14 @@ import Footer from './footer';
 import PopUp from './pop-up';
 
 // TODO:
-//   fix forwarding messages function:
-// 1.
-// /components/chats/index.jsx
-// handleClickChat
-// 2.
-// forward 1 отмеченного сообщения вместо всех отмеченных
-// 3.
-// должно пересылать все выбранные сообщения
-
 // 2. show real status of user
 // 3. show if typing
 // 4. seen / unseen messages
 // 5. show number of unseen messages in chats
+
+// 6. fix delete avatar
+// 7. show avatar after load new image
+
 
 export default class App extends React.Component {
   constructor(props) {
@@ -61,11 +56,11 @@ export default class App extends React.Component {
   }
 
   setWS = () => {
-    const ws = new WebSocket(`wss://beatmeat.plasticine.ml/ws?channels[]=chat`);
-    ws.onopen = this.handleWSOpen;
-    ws.onclose = this.handleWSClose;
-    ws.onerror = this.handleWSError;
-    ws.onmessage = this.handleWSMessage;
+    this.ws = new WebSocket(`wss://beatmeat.plasticine.ml/ws?channels[]=chat`);
+    this.ws.onopen = this.handleWSOpen;
+    this.ws.onclose = this.handleWSClose;
+    this.ws.onerror = this.handleWSError;
+    this.ws.onmessage = this.handleWSMessage;
   }
 
   componentDidUpdate = (prevProps, prevState) => {
@@ -116,6 +111,26 @@ export default class App extends React.Component {
     }
   }
 
+  handleWSClose = async () => {
+    console.log('WS: Close');
+
+    const { currentUser } = this.state;
+
+    if (currentUser) {
+      await api('update_user', {
+        id: currentUser.id,
+        status: 'offline'
+      });
+      const users = this.state.users.map((user) => {
+        return { ...user, status: 'offline' }
+      })
+      this.setState({ users })
+    }
+    setTimeout(() => {
+      this.setWS();
+    }, 1000);
+  }
+
   init = async (user) => {
     const knownUsers = [ ...(user.contacts || []) ];
     const dataChats = await api('get_chats', user);
@@ -152,6 +167,11 @@ export default class App extends React.Component {
     const { users, messages, currentUser, chats } = this.state;
     console.log({ response, payload });
     if (currentUser.id !== response.user) {
+      const user = users.find((u) => u.id === response.user);
+      if (user) {
+        this.updateUsers({ ...user, status: 'online' })
+      }
+
       switch (action) {
         case 'create_message':
           return this.setState({ messages: messages.concat(response.data.message)});
@@ -185,6 +205,21 @@ export default class App extends React.Component {
 
     this.setState({ messages });
   }
+
+
+  updateUsers = (user) => {
+    const users = this.state.users.map((u) => {
+      if (u.id === user.id) {
+        return user;
+      } else {
+        return u;
+      }
+    });
+
+    this.setState({ users });
+  }
+
+
 
   // const data = await api('update_message', {
   //   id: messageToEdit.id,

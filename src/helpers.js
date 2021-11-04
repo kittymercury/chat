@@ -1,10 +1,11 @@
 import lodash from 'lodash';
 
+import noAvatarImage from './images/no-avatar.png';
 import { getAttachmentUrl, uploadAttachments } from './api';
 
 export function getImg(attachment) {
   const url = getAttachmentUrl(attachment);
-  return url || require(`./images/no-avatar.png`);
+  return url || noAvatarImage;
 }
 
 export function formatDate(timestamp) {

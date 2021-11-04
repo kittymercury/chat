@@ -58,6 +58,7 @@ export default class Settings extends React.Component {
   }
 
   handleConfirmLogOut = () => {
+    this.props.app.ws.close();
     this.props.app.setState({ currentUser: null });
     localStorage.removeItem('user');
     browserHistory.push('/authentication');
