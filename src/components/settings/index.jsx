@@ -14,9 +14,9 @@ export default class Settings extends React.Component {
     this.state = {
       errorMessage: '',
       messageColor: 'red',
+      activeMenuItem: null,
 
-      isOptionsVisible: false,
-      activeMenuItem: null
+      isEditProfileMode: false,
     }
 
     if (this.props.app.state.currentUser) {
@@ -26,24 +26,48 @@ export default class Settings extends React.Component {
     }
   }
 
+  renderSettingsHeader = () => {
+    if (this.state.isEditProfileMode) {
+      return (
+        <div className="settings-btns">
+          <span onClick={this.handleClickCancelEditProfile}>Cancel</span>
+          <div className="title">Settings</div>
+          <span style={{ paddingLeft: '23px' }} onClick={this.handleSubmit}>Save</span>
+        </div>
+      )
+    } else {
+      return (
+        <div className="settings-btns">
+          <span style={{ cursor: 'initial', color: 'transparent' }}>
+            <i className="fas fa-pen"></i>
+          </span>
+          <div className="title">Settings</div>
+          <span onClick={this.handleClickEditProfile}>
+            <i className="fas fa-pen"></i>
+          </span>
+        </div>
+      )
+    }
+  }
+
   handleSubmit = () => {
-    this.setState({ isOptionsVisible: false });
+    this.setState({ isEditProfileMode: false });
     this.props.app.handleSubmitUser({
       name: this.state.name,
       login: this.state.login
     })
   }
 
-  handleClickMenuItem = (id) => {
-    this.setState({ activeMenuItem: (id === this.state.activeMenuItem) ? null : id });
-  }
-
   handleClickEditProfile = () => {
-    this.setState({ isOptionsVisible: true });
+    this.setState({ isEditProfileMode: true });
   }
 
   handleClickCancelEditProfile = () => {
-    this.setState({ isOptionsVisible: false });
+    this.setState({ isEditProfileMode: false });
+  }
+
+  handleClickMenuItem = (id) => {
+    this.setState({ activeMenuItem: (id === this.state.activeMenuItem) ? null : id });
   }
 
   // log out
@@ -174,42 +198,22 @@ export default class Settings extends React.Component {
     }
   }
 
-  renderButtons = (condition) => {
-    if (condition) {
-      return (
-        <div className="settings-btns">
-          <span onClick={this.handleClickCancelEditProfile}>Cancel</span>
-          <span onClick={this.handleSubmit}>Save</span>
-        </div>
-      )
-    } else {
-      return (
-        <div className="settings-btns">
-          <span></span>
-          <span onClick={this.handleClickEditProfile}>
-            <i className="fas fa-pen"></i>
-          </span>
-        </div>
-      )
-    }
-  }
-
-
-
   render () {
     const { currentUser } = this.props.app.state;
-    const { isOptionsVisible } = this.state;
+    const { isEditProfileMode } = this.state;
 
     if (!currentUser) return null;
 
     return (
       <div className="content settings">
-        <div className="info">
-          {this.renderButtons(isOptionsVisible)}
-          <div className="current-user-img" style={{ backgroundImage: `url(${getImg(currentUser.avatar)})` }}></div>
-          {this.renderMainOptions(isOptionsVisible)}
+        <div className="header-info-wrapper">
+          {this.renderSettingsHeader()}
         </div>
-        {this.renderFeatures(isOptionsVisible)}
+        <div className="info">
+          <div className="current-user-img" style={{ backgroundImage: `url(${getImg(currentUser.avatar)})` }}></div>
+          {this.renderMainOptions(isEditProfileMode)}
+        </div>
+        {this.renderFeatures(isEditProfileMode)}
       </div>
     )
   }

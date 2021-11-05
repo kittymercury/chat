@@ -144,7 +144,6 @@ export default class Header extends React.Component {
     const currentPage = this.props.app.getPage();
     const titleByPathname = {
       'chats': 'Chats',
-      'settings': 'Settings',
       'contacts': 'Contacts',
     }
     const title = titleByPathname[currentPage];
@@ -161,6 +160,7 @@ export default class Header extends React.Component {
   renderHeader = () => {
     const { isSearch, isSelectMode, messageToForward } = this.props.app.state;
     const currentPage = this.props.app.getPage();
+    if (currentPage === 'settings') return;
     if (isSearch) return;
     if (messageToForward || isSelectMode && currentPage === 'chats') {
       return this.renderChatHeaderWithMessagesToForward()

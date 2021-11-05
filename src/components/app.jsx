@@ -27,20 +27,21 @@ export default class App extends React.Component {
     this.state = {
       currentUser: currentUser,
 
+      users: [],
+      chats: [],
+      messages: [],
       theme: theme,
-      isSelectMode: false,
-      isStatusVisible: true,
-      isMsgMenuActive: false,
-      isSearch: false,
-      isUserTyping: false,
+
       popUp: null,
       messageToForward: null,
       foundMessage: null,
       selectedMessages: [],
 
-      users: [],
-      chats: [],
-      messages: [],
+      isSelectMode: false,
+      isStatusVisible: true,
+      isMsgMenuActive: false,
+      isSearch: false,
+      isUserTyping: false,
     };
   }
 

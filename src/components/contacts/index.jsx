@@ -78,7 +78,7 @@ export default class Contacts extends React.Component {
 
   renderStatus = (user) => {
     if (this.props.app.state.isStatusVisible) {
-      return <i className={`fas fa-circle ${user.status}`}></i>
+      return <span className="user-status">{user.status}</span>
     }
   }
 
@@ -114,12 +114,12 @@ export default class Contacts extends React.Component {
               return (
                 <li key={user.id}>
                   <div className="img-wrapper">
-                    {this.renderStatus(user)}
                     <div className="avatar" onClick={onClickAvatar} style={{ backgroundImage: `url(${getImg(user.avatar)})` }}></div>
                   </div>
-                  <span className="user-name" onClick={onClickUserName}>
-                    {user.name}
-                  </span>
+                  <div className="user-name" onClick={onClickUserName}>
+                    <span>{user.name}</span>
+                    {this.renderStatus(user)}
+                  </div>
                 </li>
               )
             })}

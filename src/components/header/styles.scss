@@ -1,8 +1,12 @@
 .header-info-wrapper {
-  padding: 15px;
+  height: 50px;
+  line-height: 50px;
   font-size: 18px;
   font-weight: 900;
   background: var(--base-bg);
+  position: sticky;
+  top: 0;
+  z-index: 1;
 
   display: flex;
   text-align: center;
@@ -10,7 +14,8 @@
   align-items: center;
 
   &.in-messages {
-    padding: 5px;
+    padding: 0 5px;
+    line-height: 18px;
   }
 
   .forwarded-messages-amount {
