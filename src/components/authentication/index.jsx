@@ -24,28 +24,10 @@ export default class Authentication extends React.Component {
   }
 
   handleClickLogIn = async (state) => {
-    const data = await api('login', {
-      password: this.state.password,
-      login: this.state.login
-    });
-
-    if (data.error) {
-      this.props.app.handleOpenPopUp({
-        message: data.error.description,
-      });
-    }
-
-    if (data.user) {
-      await this.props.app.init(data.user);
-
-      this.props.app.setState({
-        currentUser: data.user,
-      });
-
-      this.setState({ login: '', password: '' });
-      browserHistory.push('/chats');
-      localStorage.setItem('user', JSON.stringify(data.user));
-    }
+    const { login, password } = this.state;
+    await this.props.app.login({ password, login });
+    this.setState({ login: '', password: '' });
+    browserHistory.push('/chats');
   }
 
   changePasswordVisibility = (e) => {

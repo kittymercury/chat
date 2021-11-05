@@ -30,7 +30,6 @@ export default class Settings extends React.Component {
     this.setState({ isOptionsVisible: false });
     this.props.app.handleSubmitUser({
       name: this.state.name,
-      avatar: this.state.avatar,
       login: this.state.login
     })
   }

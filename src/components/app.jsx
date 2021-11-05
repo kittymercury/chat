@@ -38,29 +38,10 @@ export default class App extends React.Component {
       foundMessage: null,
       selectedMessages: [],
 
-      // users: [
-      //   { id: 1, name: 'Cut Corners', status: 'online', avatar: 'corners.jpeg', login: 'cutcorners', password: '1' },
-      //   { id: 7, name: 'Mercury', status: 'online', avatar: 'freddie.jpeg', login: 'mercury', password: '2' },
-      // ],
-      // chats: [
-      //   { id: 1, participants: [ 7, 1 ] },
-      // ],
-      // messages: [
-      //   { id: 1, user: 1, chat: 1, created_at: +new Date('2020', '7', '25', '1', '1'), content: 'I love you <3' },
-      //   { id: 2, user: 7, chat: 1, created_at: +new Date('2020', '6', '25', '1', '2'), content: 'I love you too <3' },
-
       users: [],
       chats: [],
       messages: [],
     };
-  }
-
-  setWS = () => {
-    this.ws = new WebSocket(`wss://beatmeat.plasticine.ml/ws?channels[]=chat`);
-    this.ws.onopen = this.handleWSOpen;
-    this.ws.onclose = this.handleWSClose;
-    this.ws.onerror = this.handleWSError;
-    this.ws.onmessage = this.handleWSMessage;
   }
 
   componentDidUpdate = (prevProps, prevState) => {
@@ -83,6 +64,50 @@ export default class App extends React.Component {
 
   componentDidMount = () => {
     this.setWS();
+  }
+
+  setWS = () => {
+    this.ws = new WebSocket(`wss://beatmeat.plasticine.ml/ws?channels[]=chat`);
+    this.ws.onopen = this.handleWSOpen;
+    this.ws.onclose = this.handleWSClose;
+    this.ws.onerror = this.handleWSError;
+    this.ws.onmessage = this.handleWSMessage;
+  }
+
+  init = async (user) => {
+    const { users = [] } = await api('get_users', { id: user.id });
+    user = users[0];
+    if (!user) {
+      return browserHistory.push('/authentication');
+    };
+    localStorage.setItem('user', JSON.stringify(user));
+    const knownUsers = [ ...(user.contacts || []) ];
+
+    const dataChats = await api('get_chats', user);
+    dataChats.chats.forEach((c) => {
+      c.participants.forEach((id) => {
+        if (id === user.id) return;
+        if (!knownUsers.includes(id)) {
+          knownUsers.push(id)
+        }
+      })
+    });
+    const dataUsers = await api('get_users', { id: knownUsers });
+    const currentUserChats = [];
+
+    dataChats.chats.forEach((c) => {
+      if (c.participants.includes(user.id)) {
+        currentUserChats.push(c.id);
+      }
+    })
+
+    const dataMessages = await api('get_messages', { id: currentUserChats } );
+
+    this.setState({
+      users: dataUsers.users,
+      chats: dataChats.chats,
+      messages: dataMessages.messages,
+    });
   }
 
   getPage = () => {
@@ -129,37 +154,6 @@ export default class App extends React.Component {
     setTimeout(() => {
       this.setWS();
     }, 1000);
-  }
-
-  init = async (user) => {
-    const knownUsers = [ ...(user.contacts || []) ];
-    const dataChats = await api('get_chats', user);
-    dataChats.chats.forEach((c) => {
-      c.participants.forEach((id) => {
-        if (id === user.id) return;
-        if (knownUsers.includes(id)) return;
-        if (!knownUsers.includes(id)) {
-          knownUsers.push(id)
-        }
-      })
-    });
-
-    const dataUsers = await api('get_users', { id: knownUsers });
-    const currentUserChats = [];
-
-    dataChats.chats.forEach((c) => {
-      if (c.participants.includes(user.id)) {
-        currentUserChats.push(c.id);
-      }
-    })
-
-    const dataMessages = await api('get_messages', { id: currentUserChats } );
-
-    this.setState({
-      users: dataUsers.users,
-      chats: dataChats.chats,
-      messages: dataMessages.messages,
-    });
   }
 
   handleWSMessage = async (e = {}) => {
@@ -217,6 +211,26 @@ export default class App extends React.Component {
     });
 
     this.setState({ users });
+  }
+
+  login = async ({ password, login }) => {
+    const data = await api('login', { password, login });
+
+    if (data.error) {
+      this.handleOpenPopUp({
+        message: data.error.description,
+      });
+    }
+
+    if (data.user) {
+      await this.init(data.user);
+
+      this.setState({
+        currentUser: data.user,
+      });
+
+      localStorage.setItem('user', JSON.stringify(data.user));
+    }
   }
 
 
