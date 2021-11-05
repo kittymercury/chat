@@ -5,8 +5,8 @@ import { getAttachmentUrl, uploadAttachments } from './api';
 
 export function getImg(attachment) {
   const url = getAttachmentUrl(attachment);
-  console.log(url);
-  console.log(attachment);
+  // console.log(url);
+  // console.log(attachment);
   return url || noAvatarImage;
 }
 

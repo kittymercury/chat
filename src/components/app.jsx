@@ -12,7 +12,7 @@ import PopUp from './pop-up';
 // 4. seen / unseen messages
 // 5. show number of unseen messages in chats
 
-// 6. fix delete avatar
+// 6. fix delete avatar +
 // 7. show avatar after load new image
 
 
@@ -41,7 +41,7 @@ export default class App extends React.Component {
       isStatusVisible: true,
       isMsgMenuActive: false,
       isSearch: false,
-      isUserTyping: false,
+      typing: {},
     };
   }
 
@@ -183,8 +183,9 @@ export default class App extends React.Component {
         case 'delete_chat':
           return this.setState({ chats: chats.filter((c) => c.id !== payload.id) });
 
-        case 'create_value':
-          return this.setState({ isUserTyping: true });
+        case 'typing':
+          console.log('k');
+          return this.setState({ typing: { user: response.user, chat: payload.chat } });
       }
     }
   }

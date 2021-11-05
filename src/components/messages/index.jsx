@@ -31,9 +31,21 @@ export default class Messages extends React.Component {
     }
   }
 
+  getChat = () => {
+    return this.props.app.state.chats.find((c) => c.id === Number(this.props.params.chatId));
+  }
+
+  getParticipant = () => {
+    const { chats, users, currentUser } = this.props.app.state;
+    const chat = this.getChat();
+    if (!chat) return;
+    const participantId = chat.participants.find((id) => id !== currentUser.id);
+    return users.find((user) => user.id === participantId);
+  }
+
   scrollToMessage = (message) => {
     if (!message) return;
-    const chatId = Number(this.props.params.chatId);
+    const chatId = this.getChat().id;
     if (message.chat !== chatId) return;
     let element = document.getElementById(`m-${message.id}`);
     element.scrollIntoView({ block: "start", behavior: "smooth" });
@@ -54,17 +66,9 @@ export default class Messages extends React.Component {
   changeInputValue = async (name, e) => {
     this.setState({ [name]: e.target.value })
 
-    const data = await api('create_value');
-
-    if (data.error) return;
-    if (data.value) {
-      const lastUpdating = Math.round(new Date(data.value.created_at) / 1000);
-      // if (difference < 5) {
-      //   this.setState({ isUserTyping: true })
-      // } else {
-      //   this.setState({ isUserTyping: false })
-      // }
-    }
+    clearTimeout(this.typingTimeout);
+    await api('typing', { chat: this.getChat().id });
+    this.typingTimeout = setTimeout(() => api('typing', {}), 5000)
   }
 
   handleClickMessage = async (id) => {
@@ -207,7 +211,7 @@ export default class Messages extends React.Component {
     if (inputMessage && inputMessage.trim()) {
       const newMessage = {
         user: currentUser.id,
-        chat: Number(this.props.params.chatId),
+        chat: this.getChat().id,
         content: inputMessage
       };
 
@@ -383,35 +387,20 @@ export default class Messages extends React.Component {
     }
   }
 
-  checkIfUserTyping = async () => {
-    const data = await api('create_value');
+  renderUserTyping = () => {
+    const { typing } = this.props.app.state;
 
-    if (data.error) return;
-    if (data.value) {
-      let lastUpdating = Math.round(new Date(data.value.created_at) / 1000);
-      let difference = eval(CURRENT_TIMESTAMP - lastUpdating);
-      if (difference < 5) {
-        this.setState({ isUserTyping: true })
-      } else {
-        this.setState({ isUserTyping: false })
-      }
-    }
-    // if (condition) {
-    //   return (
-        // <div className="user-is-typing">
-        //   <i className="fas fa-pen-fancy"></i>
-        //   <span>user is typing...</span>
-        // </div>
-    //   )
-    // }
-  }
+    const participant = this.getParticipant();
+    if (!participant) return;
 
-  renderUserTyping = (condition) => {
-    if (condition) {
+    const chat = this.getChat();
+    if (!chat) return;
+
+    if ((participant.id === typing.user) && (chat.id === typing.chat)) {
       return (
         <div className="user-is-typing">
           <i className="fas fa-pen-fancy"></i>
-          <span>user is typing...</span>
+          <span>{participant.name} is typing...</span>
         </div>
       )
     }
@@ -463,17 +452,17 @@ export default class Messages extends React.Component {
       selectedMessages,
       isSelectMode
     } = this.props.app.state;
-    const chatId = Number(this.props.params.chatId);
+    const chat = this.getChat() || {};
 
     let foundMessages = [];
     if (isSearch && inputSearch) {
-      messages.filter((message) => message.chat === chatId).forEach((message) => {
+      messages.filter((message) => message.chat === chat.id).forEach((message) => {
         if (message.content && message.content.toLowerCase().includes(inputSearch.toLowerCase())) {
           foundMessages.push(message);
         }
       });
     } else {
-      foundMessages = messages.filter((message) => message.chat === chatId);
+      foundMessages = messages.filter((message) => message.chat === chat.id);
     }
 
     return (
@@ -555,7 +544,7 @@ export default class Messages extends React.Component {
         </ul>
 
         <div style={{ display: 'block' }}>
-          {this.renderUserTyping(this.props.app.state.isUserTyping)}
+          {this.renderUserTyping()}
           {this.renderInputMessageToReply(users, messageToReply)}
 
           <div className="input-wrapper" style={{ display: 'flex' }}>
