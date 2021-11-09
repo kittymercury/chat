@@ -7,14 +7,7 @@ import Footer from './footer';
 import PopUp from './pop-up';
 
 // TODO:
-// 2. show real status of user
-// 3. show if typing
-// 4. seen / unseen messages
-// 5. show number of unseen messages in chats
-
-// 6. fix delete avatar +
-// 7. show avatar after load new image
-
+// 3. show avatar after load new image
 
 export default class App extends React.Component {
   constructor(props) {
@@ -30,18 +23,19 @@ export default class App extends React.Component {
       users: [],
       chats: [],
       messages: [],
-      theme: theme,
 
-      popUp: null,
+      typing: {},
       messageToForward: null,
       foundMessage: null,
       selectedMessages: [],
+
+      theme: theme,
+      popUp: null,
 
       isSelectMode: false,
       isStatusVisible: true,
       isMsgMenuActive: false,
       isSearch: false,
-      typing: {},
     };
   }
 
@@ -120,6 +114,10 @@ export default class App extends React.Component {
     $messages.scrollTop = $messages.scrollHeight;
   }
 
+  // getNewMessages = (count) => {
+  //   this.setState({ unseenMessages: this.state.unseenMessages.length + count });
+  // }
+
   handleWSOpen = async () => {
     console.log('WS: Open');
 
@@ -169,7 +167,14 @@ export default class App extends React.Component {
 
       switch (action) {
         case 'create_message':
-          return this.setState({ messages: messages.concat(response.data.message)});
+          const message = response.data.message;
+          const currentPage = this.getPage();
+          if (currentPage.includes('messages')) {
+            const chat = currentPage.split('/')[1];
+            api('read_messages', { id: chat });
+            return this.setState({ messages: messages.concat({ ...message, seen: true }) })
+          }
+          return this.setState({ messages: messages.concat(message) });
 
         case 'delete_message':
           return this.setState({ messages: messages.filter((m) => m.id !== payload.id) });
@@ -184,7 +189,6 @@ export default class App extends React.Component {
           return this.setState({ chats: chats.filter((c) => c.id !== payload.id) });
 
         case 'typing':
-          console.log('k');
           return this.setState({ typing: { user: response.user, chat: payload.chat } });
       }
     }
@@ -234,13 +238,6 @@ export default class App extends React.Component {
       localStorage.setItem('user', JSON.stringify(data.user));
     }
   }
-
-
-
-  // const data = await api('update_message', {
-  //   id: messageToEdit.id,
-  //   content: inputMessage
-  // });
 
   handleWSError = (e) => {
     console.log('WS: Error', e);

@@ -16,13 +16,33 @@ export default class Registration extends React.Component {
       login: '',
       password: '',
       name: '',
-      avatar: '',
       isPasswordVisible: false,
       inputType: 'password'
     }
   }
 
   handleClickSignUp = async () => {
+    const { login = '', password = '', name = '' } = this.state;
+    const errors = [];
+
+    if (login.trim().length < 3) {
+      errors.push('Login cannot be shorter than 3 symbols!')
+    }
+
+    if (password.trim().length < 6) {
+      errors.push('Password cannot be shorter than 6 symbols!')
+    }
+
+    if (!name.trim()) {
+      errors.push('Enter your name!')
+    }
+
+    if (errors.length) {
+      return this.props.app.handleOpenPopUp({
+        message: errors.join('\n')
+      })
+    }
+
     const data = await api('sign_up', {
       name: this.state.name,
       login: this.state.login,
@@ -43,36 +63,6 @@ export default class Registration extends React.Component {
         message: data.error.description
       });
     }
-
-
-    // const isName = newUser.name && newUser.name.trim();
-    // const isLogin = newUser.login && newUser.login.trim();
-    // const isPassword = newUser.password && newUser.password.trim();
-    // const isLoginExist = users.find((user) => user.login === state.login);
-    // const isLoginShort = newUser.login.length < 3;
-    //
-    // if (isName && isLogin && isPassword) {
-    //   if (!isLoginExist) {
-    //     if (!isLoginShort) {
-    //       const newUsers = users.concat(newUser);
-    //
-    //       this.changePage('Chats');
-    //       this.setState({ currentUser: newUser, users: newUsers });
-    //     } else {
-    //       this.handleOpenPopUp({
-    //         message: 'Login cannot be shorter than 4 symbols!'
-    //       });
-    //     }
-    //   } else {
-    //     this.handleOpenPopUp({
-    //       message: 'Oops, this name is already taken'
-    //     });
-    //   }
-    // } else {
-    //   this.handleOpenPopUp({
-    //     message: 'Inputs with * cannot be empty!'
-    //   });
-    // }
   }
 
   handleChangeLogin = (e) => {
@@ -83,9 +73,6 @@ export default class Registration extends React.Component {
     }
   }
 
-  handleChangeAvatar = (e) => {
-    this.setState({ avatar: e.target.files[0].name })
-  }
 
   changeInputValue = (name, e) => {
     this.setState({ [name]: e.target.value })
@@ -127,16 +114,6 @@ export default class Registration extends React.Component {
           onChangeShowPassword={this.changePasswordVisibility}
           checked={isPasswordVisible}
         />
-        <input
-          className="sign-up-avatar"
-          id="file"
-          type="file"
-          name="avatar"
-          accept="image/png, image/jpeg, image/jpg"
-          value={this.state.avatar}
-          onChange={this.handleChangeAvatar}
-        />
-        <label htmlFor="file">Load avatar</label>
         <button className="sign-up-button" onClick={this.handleClickSignUp}>Sign up</button>
       </div>
     )

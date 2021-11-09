@@ -21,14 +21,8 @@ export default class Messages extends React.Component {
   }
 
   componentDidMount = () => {
-    const list = document.querySelector('.messages ul');
-    list.style['scroll-behavior'] = 'none';
-    this.props.app.setScroll();
-    const { foundMessage } = this.props.app.state;
-    if (foundMessage) {
-      const foundM = document.getElementById(`m-${foundMessage.id}`);
-      foundM.scrollIntoView({ block: "start", behavior: "smooth" });
-    }
+    this.setScrollBehavior();
+    this.readMessages();
   }
 
   getChat = () => {
@@ -41,6 +35,38 @@ export default class Messages extends React.Component {
     if (!chat) return;
     const participantId = chat.participants.find((id) => id !== currentUser.id);
     return users.find((user) => user.id === participantId);
+  }
+
+  readMessages = async () => {
+    const { messages } = this.props.app.state;
+
+    const data = await api('read_messages', this.getChat());
+
+    if (data.error) {
+      this.props.app.handleOpenPopUp({
+        message: data.error.description,
+      });
+    }
+
+    if (data.messages) {
+      const dataMessagesMap = _.keyBy(data.messages, 'id');
+      const updatedMessages = messages.map((m) => {
+        return dataMessagesMap[m.id] || m
+      })
+
+      this.props.app.setState({ messages: updatedMessages })
+    }
+  }
+
+  setScrollBehavior = () => {
+    const list = document.querySelector('.messages ul');
+    list.style['scroll-behavior'] = 'none';
+    this.props.app.setScroll();
+    const { foundMessage } = this.props.app.state;
+    if (foundMessage) {
+      const foundM = document.getElementById(`m-${foundMessage.id}`);
+      foundM.scrollIntoView({ block: "start", behavior: "smooth" });
+    }
   }
 
   scrollToMessage = (message) => {
@@ -508,7 +534,7 @@ export default class Messages extends React.Component {
                     <div className="message-data">
                       <div className={className} dangerouslySetInnerHTML={this.tryHighlight(message.content)} />
                       <div className="data-wrapper">
-                        <span className="edited">{message.updated_at ? 'Edited' : ''}</span>
+                        <span className="edited">{message.edited ? 'Edited' : ''}</span>
                         <span className="message-data-time">{formatDate(message.created_at)}</span>
                         {this.renderSeenCheck(true)}
                       </div>
@@ -524,7 +550,7 @@ export default class Messages extends React.Component {
                       <div className={className} dangerouslySetInnerHTML={this.tryHighlight(message.content)} />
                       <div className="data-wrapper">
                         <span className="message-data-time">{formatDate(message.created_at)}</span>
-                        <span className="edited">{message.updated_at ? 'Edited' : ''}</span>
+                        <span className="edited">{message.edited ? 'Edited' : ''}</span>
                       </div>
                     </div>
                   </div>
