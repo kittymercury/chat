@@ -5,7 +5,7 @@ import Themes from '../themes';
 import PrivacyAndSecurity from '../privacy-and-security';
 import './styles.scss';
 import './change-avatar-menu.scss';
-import { getImg, openFileDialog } from '../../helpers';
+import { getImg, getFileFormat } from '../../helpers';
 import noAvatar from '../../images/no-avatar.png';
 
 export default class Settings extends React.Component {
@@ -26,35 +26,19 @@ export default class Settings extends React.Component {
     }
   }
 
-  renderSettingsHeader = () => {
-    if (this.state.isEditProfileMode) {
-      return (
-        <div className="settings-btns">
-          <span onClick={this.handleClickCancelEditProfile}>Cancel</span>
-          <div className="title">Settings</div>
-          <span style={{ paddingLeft: '23px' }} onClick={this.handleSubmit}>Save</span>
-        </div>
-      )
-    } else {
-      return (
-        <div className="settings-btns">
-          <span style={{ cursor: 'initial', color: 'transparent' }}>
-            <i className="fas fa-pen"></i>
-          </span>
-          <div className="title">Settings</div>
-          <span onClick={this.handleClickEditProfile}>
-            <i className="fas fa-pen"></i>
-          </span>
-        </div>
-      )
+  getAvatar = () => {
+    if (this.state.avatar && (typeof this.state.avatar === 'object')) {
+      return window.URL.createObjectURL(this.state.avatar);
     }
+    return getImg(this.state.avatar);
   }
 
   handleSubmit = () => {
     this.setState({ isEditProfileMode: false });
     this.props.app.handleSubmitUser({
       name: this.state.name,
-      login: this.state.login
+      login: this.state.login,
+      avatar: this.state.avatar,
     })
   }
 
@@ -114,23 +98,63 @@ export default class Settings extends React.Component {
     }
   }
 
-  handleClickLoadAvatar = () => {
-    openFileDialog({ alias: 'tgc_user' }, this.props.app.state.currentUser);
-  }
+  handleChangeAvatar = (e) => {
+    const file = e.target.files.item(0);
+    if (!file) return;
 
-  handleConfirmRemoveAvatar = () => {
-    this.props.app.handleSubmitUser({ avatar: null });
+    const formats = ['png', 'jpeg', 'jpg'];
+    if (!formats.includes(getFileFormat(file.name))) {
+      return this.props.app.handleOpenPopUp({
+        message: `File format is not allowed. Please use ${formats}`,
+      });
+    }
+
+    const maxSize = 5; // megabytes
+    if ((file.size >> 20) > maxSize) {
+      return this.props.app.handleOpenPopUp({
+        message: `File size is not allowed. Please use less than ${maxSize}mb`,
+      });
+    }
+
+    this.setState({ avatar: file });
   }
 
   handleClickRemoveAvatar = () => {
     this.props.app.handleOpenPopUp({
       message: 'Do you want to remove your avatar?',
-      onConfirm: this.handleConfirmRemoveAvatar,
-      onClose: this.props.app.handleClosePopUp
+      onClose: this.props.app.handleClosePopUp,
+      onConfirm: () => {
+        this.setState({ avatar: null });
+        this.props.app.handleSubmitUser({ avatar: null });
+      },
     });
   }
 
   // --------------------
+
+  renderSettingsHeader = () => {
+    if (this.state.isEditProfileMode) {
+      return (
+        <div className="settings-btns">
+          <span onClick={this.handleClickCancelEditProfile}>Cancel</span>
+          <div className="title">Settings</div>
+          <span style={{ paddingLeft: '23px' }} onClick={this.handleSubmit}>Save</span>
+        </div>
+      )
+    } else {
+      return (
+        <div className="settings-btns">
+          <span style={{ cursor: 'initial', color: 'transparent' }}>
+            <i className="fas fa-pen"></i>
+          </span>
+          <div className="title">Settings</div>
+          <span onClick={this.handleClickEditProfile}>
+            <i className="fas fa-pen"></i>
+          </span>
+        </div>
+      )
+    }
+  }
 
   renderMainOptions = (condition) => {
     if (condition) {
@@ -138,7 +162,10 @@ export default class Settings extends React.Component {
         <div className={`avatar-menu ${this.state.activeMenuItem === 'avatar-menu' ? 'active' : ''}`}>
           <div className="menu-name" onClick={() => this.handleClickMenuItem('avatar-menu')}>Change avatar</div>
           <div className="submenu">
-            <button className="input-avatar" onClick={this.handleClickLoadAvatar}>Load avatar</button>
+            <div className="input-avatar">
+              <label htmlFor="avatar">Load avatar</label>
+              <input type="file" id="avatar" name="avatar" accept=".jpg, .jpeg, .png" onChange={this.handleChangeAvatar} />
+            </div>
             <button onClick={this.handleClickRemoveAvatar}>Remove avatar</button>
           </div>
         </div>
@@ -210,7 +237,7 @@ export default class Settings extends React.Component {
           {this.renderSettingsHeader()}
         </div>
         <div className="info">
-          <div className="current-user-img" style={{ backgroundImage: `url(${getImg(currentUser.avatar)})` }}></div>
+          <div className="current-user-img" style={{ backgroundImage: `url(${this.getAvatar()})` }}></div>
           {this.renderMainOptions(isEditProfileMode)}
         </div>
         {this.renderFeatures(isEditProfileMode)}

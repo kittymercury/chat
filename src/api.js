@@ -10,6 +10,13 @@ export const apiInstance = axios.create({
 });
 
 export default async function api(action, payload) {
+  if (action === 'upload_attachment') {
+    const config = { headers: { 'content-type': 'multipart/form-data' } };
+    const data = new FormData()
+    data.append(`file`, payload.file, payload.name);
+    return apiInstance.post(`${API_BASE_URL}/api/v1/storage/${payload.model}/${payload.record}`, data, config);
+  }
+
   const params = {
     action: action,
     payload: payload
@@ -28,24 +35,6 @@ export function getAttachmentUrl(attachment = {}) {
   if (attachment.id && attachment.file_name) {
     return `${API_BASE_URL}/api/v1/storage/${attachment.id}/${attachment.file_name}`;
   }
-}
-
-export function uploadAttachments(model, record, files) {
-  const config = { headers: { 'content-type': 'multipart/form-data' } };
-  const data = new FormData();
-
-  files.forEach((file, i) => {
-    const blob = window.blobStore.get(file.fileName);
-    if (blob) {
-      if (blob.context && blob.context.field) {
-        data.append(`context[${i}][field]`, blob.context.field.id);
-      }
-      data.append(`files[${i}]`, blob.file, file.fileName);
-      window.blobStore.remove(file.fileName);
-    }
-  });
-
-  return apiInstance.post(`${API_BASE_URL}/api/v1/storage/${model.alias}/${record.id}`, data, config);
 }
 
 // yaml

@@ -1,13 +1,13 @@
 import React from 'react';
 import { browserHistory } from 'react-router';
 
-import api from '../api';
+import api, { getAttachmentUrl } from '../api';
 import Header from './header';
 import Footer from './footer';
 import PopUp from './pop-up';
 
 // TODO:
-// 3. show avatar after load new image
+// 1. improve mobile appearance of all app (font-size, centering etc.)
 
 export default class App extends React.Component {
   constructor(props) {
@@ -246,7 +246,21 @@ export default class App extends React.Component {
   }
 
   handleSubmitUser = async (user) => {
-    const data = await api('update_user', { id: this.state.currentUser.id, ...user });
+    if (user.avatar) {
+      const { data = [] } = await api('upload_attachment', {
+        file: user.avatar,
+        name: 'avatar.jpeg',
+        model: 'tgc_user',
+        record: this.state.currentUser.id,
+      });
+      const [ attachment ] = data;
+      if (attachment) user.avatar = getAttachmentUrl(attachment.attributes);
+    }
+
+    const data = await api('update_user', {
+      id: this.state.currentUser.id,
+      ...user
+    });
 
     if (data.error) {
       this.handleOpenPopUp({
