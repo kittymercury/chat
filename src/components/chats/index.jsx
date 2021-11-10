@@ -87,36 +87,6 @@ export default class Chats extends React.Component {
     browserHistory.push(`/messages/${chat.id}`);
   }
 
-  handleClickDeleteChat = (chat) => {
-    const { users, currentUser } = this.props.app.state;
-    const participant = chat.participants.find((p) => p !== currentUser.id);
-    const user = users.find((u) => u.id === participant);
-    this.props.app.handleOpenPopUp({
-      message: `Do you want to delete chat with ${user.name}? Chat history with will be cleared.`,
-      onConfirm: () => this.handleConfirmDeleteChat(chat)
-    });
-  }
-
-  handleConfirmDeleteChat = async (chat) => {
-    const data = await api('delete_chat', chat);
-
-    if (data.error) {
-      this.props.app.handleOpenPopUp({
-        message: data.error.description,
-      });
-    } else {
-      const { chats } = this.props.app.state;
-      const filteredChats = chats.filter((c) => c.id !== chat.id);
-
-      this.props.app.setState({ chats: filteredChats });
-    }
-
-    const { chats } = this.props.app.state;
-    const filteredChats = chats.filter((c) => c.id !== chat.id);
-
-    this.props.app.setState({ chats: filteredChats });
-  }
-
   renderNumberOfUnseenMessages = (id) => {
     const { messages, currentUser } = this.props.app.state;
 
@@ -166,12 +136,9 @@ export default class Chats extends React.Component {
             </div>
             <span className="time">{message ? formatDate(message.created_at) : ''}</span>
           </div>
-            <div className="text">
-              {this.renderMessagePreview(message)}
-            </div>
-        </div>
-        <div className="delete" onClick={onDelete}>
-          <i className="fas fa-trash-alt"></i>
+          <div className="text">
+            {this.renderMessagePreview(message)}
+          </div>
         </div>
       </li>
     )

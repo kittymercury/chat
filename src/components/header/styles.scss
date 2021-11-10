@@ -15,7 +15,7 @@
 
   .forwarded-messages-amount {
     font-size: 14px;
-    color: gray;
+    color: var(--gray-txt);
   }
 
   button {
@@ -63,7 +63,7 @@
       font-size: var(--header-in-msgs-name);
 
       &.status {
-        color: gray;
+        color: var(--gray-txt);
         font-size: var(--header-in-msgs-status);
       }
     }

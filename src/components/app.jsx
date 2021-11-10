@@ -1,5 +1,6 @@
 import React from 'react';
 import { browserHistory } from 'react-router';
+import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
 
 import api, { getAttachmentUrl } from '../api';
 import Header from './header';
@@ -42,6 +43,9 @@ export default class App extends React.Component {
   }
 
   componentDidUpdate = (prevProps, prevState) => {
+    const scrollableContent = document.querySelector('.content');
+    console.log({scrollableContent});
+    enableBodyScroll(scrollableContent);
     const page = this.getPage();
 
     if (page.includes('messages')) {
@@ -60,6 +64,8 @@ export default class App extends React.Component {
   }
 
   componentDidMount = () => {
+    const app = document.getElementById('app');
+    disableBodyScroll(app);
     this.setWS();
   }
 

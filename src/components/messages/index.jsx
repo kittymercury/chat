@@ -128,6 +128,34 @@ export default class Messages extends React.Component {
     }
   }
 
+  handleClickClearChat = () => {
+    const chat = this.getChat();
+    const participant = this.getParticipant();
+
+    this.props.app.handleOpenPopUp({
+      message: `Do you want to clear chat with ${participant.name}?`,
+      onConfirm: () => this.handleConfirmClearChat(chat)
+    });
+  }
+
+  handleConfirmClearChat = async (chat) => {
+    const data = await api('delete_chat', chat);
+
+    if (data.error) {
+      this.props.app.handleOpenPopUp({
+        message: data.error.description,
+      });
+    }
+
+    if (data.deleted) {
+      const { chats } = this.props.app.state;
+      const filteredChats = chats.filter((c) => c.id !== chat.id);
+
+      this.props.app.setState({ chats: filteredChats });
+      browserHistory.goBack();
+    }
+  }
+
   handleClickTurnOffSelectMode = () => {
     this.props.app.setState({
       isSelectMode: false,
@@ -459,6 +487,10 @@ export default class Messages extends React.Component {
         <div className="submenu-messages-item" onClick={() => this.props.app.setState({ isSelectMode: true, isMsgMenuActive: false })}>
           <i className="fas fa-check-circle"></i>
           <span>Select messages</span>
+        </div>
+        <div className="submenu-messages-item" onClick={() => this.handleClickClearChat()}>
+          <i className="fas fa-trash"></i>
+          <span>Clear chat</span>
         </div>
       </div>
     )

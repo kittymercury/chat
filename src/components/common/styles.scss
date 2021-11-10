@@ -4,9 +4,9 @@
   position: sticky;
   top: 0;
   z-index: 1;
-
   display: flex;
   align-items: center;
+  justify-content: space-between;
 
   div:first-child {
     margin-left: 10px;
@@ -17,7 +17,7 @@
     .fas {
       font-size: 15px;
       margin-right: 5px;
-      color: gray;
+      color: var(--gray-txt);
     }
 
     input {
@@ -30,6 +30,7 @@
   }
 
   .cancel-searching {
+    margin-right: 10px;
     font-size: var(-header-btn);
     font-weight: bold;
     cursor: pointer;

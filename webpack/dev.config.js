@@ -18,6 +18,7 @@ module.exports = merge(BASE_CONFIG, {
   devServer: {
     contentBase: PATHS.src,
     host: '0.0.0.0',
+    port: '8090',
     disableHostCheck: true,
     watchOptions: { poll: 5000, ignored: /node_modules/ },
     historyApiFallback: {
