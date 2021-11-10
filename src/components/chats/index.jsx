@@ -18,29 +18,6 @@ export default class Chats extends React.Component {
     }
   }
 
-  renderNumberOfUnseenMessages = (id) => {
-    const { messages, currentUser } = this.props.app.state;
-
-    const chatMessagesUnseen = _.filter(messages, (message) => {
-      return (message.chat === id)
-        && (message.user !== currentUser.id)
-        && (message.seen === false)
-    });
-
-    if (chatMessagesUnseen.length) {
-      return (
-        <div className="number-of-unseen-msgs">+{chatMessagesUnseen.length}</div>
-      )
-    }
-  }
-
-  handleClickFoundMessage = (message) => {
-    const { chats } = this.props.app.state;
-    const chat = chats.find((chat) => chat.id === message.chat);
-    this.props.app.setState({ foundMessage: message });
-    browserHistory.push(`/messages/${chat.id}`);
-  }
-
   tryHighlight = (content) => {
     let html = content;
     const { inputSearch } = this.state;
@@ -52,8 +29,20 @@ export default class Chats extends React.Component {
     return { __html: html };
   }
 
+  toTimestamp = (strDate) => {
+    var datum = Date.parse(strDate);
+    return datum/1000;
+  }
+
   handleChangeInputSearch = (e) => {
     this.setState({ inputSearch: e.target.value });
+  }
+
+  handleClickFoundMessage = (message) => {
+    const { chats } = this.props.app.state;
+    const chat = chats.find((chat) => chat.id === message.chat);
+    this.props.app.setState({ foundMessage: message });
+    browserHistory.push(`/messages/${chat.id}`);
   }
 
   forwardMessages = async (message, chat) => {
@@ -96,56 +85,7 @@ export default class Chats extends React.Component {
     }
 
     browserHistory.push(`/messages/${chat.id}`);
-
-    // const chatMessages = messages.filter((m) => m.chat === chat.id);
-    // const unseenChatMessages = chatMessages.find((um) => um.unseen);
-    //
-    // if (unseenChatMessages.length) {
-    //   for (let i = 0; i < unseenChatMessages.length; i++) {
-    //     const message = messages.find((m) => m.id === unseenChatMessages[i]);
-    //     const data = await api('read_message', message);
-    //
-    //     if (data.error) {
-    //       this.props.app.handleOpenPopUp({
-    //         message: data.error.description,
-    //       });
-    //     }
-    //
-    //     if (data.message) {
-    //       // const updatedMessages = messages.replace((m) => m.id === selectedMessages[i]);
-    //       // this.props.app.setState({
-    //       //   messages: updatedMessages
-    //       // })
-    //       console.log({data: data.message});
-    //     }
-    //   }
-    // }
-
-    // const chatMessages = messages.filter((m) => m.chat === chat.id);
-    // chatMessages.forEach((m) => {
-    //   m['unseen'] = false;
-    // });
-    //
-    // const updatedMessages = _.union(messages, chatMessages);
-
-    // const data = await api('read_messages')
-
-    //
-    // this.props.app.setState({ messages: updatedMessages })
-
   }
-
-  // readMessages = async () => {
-  //   const { messages } = this.props.app.state;
-  //   const chat = this.getChat();
-  //   const chatMessages = messages.filter((m) => m.chat === chat.id);
-  //   const unseenChatMessages = chatMessages.find((um) => um.unseen);
-  //
-  //   if (unseenChatMessages.length) {
-  //     const data = await api('read_messages', chat.id);
-  //     console.log({data});
-  //   }
-  // }
 
   handleClickDeleteChat = (chat) => {
     const { users, currentUser } = this.props.app.state;
@@ -177,9 +117,20 @@ export default class Chats extends React.Component {
     this.props.app.setState({ chats: filteredChats });
   }
 
-  toTimestamp = (strDate) => {
-    var datum = Date.parse(strDate);
-    return datum/1000;
+  renderNumberOfUnseenMessages = (id) => {
+    const { messages, currentUser } = this.props.app.state;
+
+    const chatMessagesUnseen = _.filter(messages, (message) => {
+      return (message.chat === id)
+        && (message.user !== currentUser.id)
+        && (message.seen === false)
+    });
+
+    if (chatMessagesUnseen.length) {
+      return (
+        <div className="number-of-unseen-msgs">+{chatMessagesUnseen.length}</div>
+      )
+    }
   }
 
   renderMessagePreview = (message) => {

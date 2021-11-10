@@ -1,41 +1,69 @@
 .authentication {
-  padding-top: 70px;
+  padding-bottom: var(--header-footer-height);
   text-align: center;
 
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: space-evenly;
 
   .headline {
     margin-bottom: 10px;
-    font-weight: 600;
+    font-weight: bold;
+    font-size: var(--auth-reg-headline);
+  }
+
+  .inputs {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  button {
+    padding: 5px 20px;
+    cursor: pointer;
+    font-size: var(--content-btn);
   }
 
   input {
     border: none;
     margin: 0 0 10px;
-    padding-left: 20px;
+    padding: var(--input-padding);
+    font-size: var(--input-txt);
     border-radius: 20px;
 
     &[type="password"] {
+      width: 65%;
       margin-bottom: 5px;
+    }
+
+    &[type="text"] {
+      width: 65%;
     }
   }
 
   .checkbox-wrapper {
-    margin: 0;
+    margin: 5px;
+    padding: 10px;
+
+    display: flex;
+    align-items: center;
+
+    input {
+      margin: 0;
+    }
   }
 
-  .buttons-wrapper {
-
-    button {
-      padding: 5px 20px;
-      cursor: pointer;
+  .sign-up-wrapper {
+    div {
+      margin: 10px;
+      font-size: 19px;
+      font-weight: bold;
     }
 
-    div {
-      font-size: 13px;
-      margin: 10px;
+    .link-to-reg {
+      font-size: var(--content-btn);
+      text-decoration: underline;
     }
   }
 }

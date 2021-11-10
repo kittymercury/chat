@@ -182,11 +182,23 @@ export default class Messages extends React.Component {
 
       return (
         <div className="edit-messages-features">
-          <span onClick={() => this.handleClickReply(message)}>Reply</span>
-          <span onClick={() => this.handleClickForward(message)}>Forward</span>
-          <span onClick={() => this.handleClickDeleteMessage(message)}>Delete</span>
+          <div onClick={() => this.handleClickReply(message)}>
+            <span>Reply</span>
+            <i className="fas fa-reply"></i>
+          </div>
+          <div onClick={() => this.handleClickForward(message)}>
+            <span>Forward</span>
+            <i className="fas fa-share-alt"></i>
+          </div>
+          <div onClick={() => this.handleClickDeleteMessage(message)}>
+            <span>Delete</span>
+            <i className="fas fa-ban"></i>
+          </div>
           {(isMsgMine && !message.forward_to) && (
-            <span onClick={() => this.handleClickEditMessage(message)}>Edit</span>
+            <div onClick={() => this.handleClickEditMessage(message)}>
+              <span>Edit</span>
+              <i className="fas fa-pen"></i>
+            </div>
           )}
         </div>
       )
@@ -393,10 +405,14 @@ export default class Messages extends React.Component {
       return (
         <div className="reply-to">
           <div className="cancel-wrapper">
-            <i className="fas fa-reply"></i>
-            <span className="cancel-replying" onClick={this.handleCancelReplying}>Cancel</span>
+            <div>
+              <i className="fas fa-reply"></i>
+              <span>{user.name} </span><br/>
+            </div>
+            <span className="cancel-replying" onClick={this.handleCancelReplying}>
+              <i className="fas fa-times"></i>
+            </span>
           </div>
-          <span>{user.name} </span><br/>
           <span className="message-to-reply-content">{message.content}</span>
         </div>
       )
@@ -444,7 +460,6 @@ export default class Messages extends React.Component {
           <i className="fas fa-check-circle"></i>
           <span>Select messages</span>
         </div>
-        <div className="submenu-messages-item">item</div>
       </div>
     )
   }
@@ -579,7 +594,6 @@ export default class Messages extends React.Component {
               autoComplete="off"
               style={{ flex: 1 }}
               placeholder="Type your message here"
-              autoFocus
               value={inputMessage}
               onKeyUp={this.handlePressEnter}
               onChange={(e) => this.changeInputValue('inputMessage', e)}

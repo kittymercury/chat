@@ -4,7 +4,7 @@
   align-items: stretch;
 
   .contact-info-header {
-    height: 50px;
+    height: var(--header-footer-height);
     background-color: var(--base-bg);
 
     display: flex;
@@ -12,9 +12,14 @@
     align-items: center;
 
     .btn-back {
-      padding: 10px;
-      font-size: 19px;
+      height: 100%;
+      width: var(--header-footer-height);
+      font-size: var(--btn-back-size);
       cursor: pointer;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .contact-name {
@@ -25,11 +30,11 @@
       flex-direction: column;
 
       span {
-        font-size: 18px;
+        font-size: var(--header-in-msgs-name);
       }
 
       .user-status {
-        font-size: 12px;
+        font-size: var(--header-in-msgs-status);
         color: gray;
         padding: 0 0 5px;
       }
@@ -59,7 +64,8 @@
     }
 
     .user-login {
-      font-size: 16px;
+      padding: 10px;
+      font-size: var(--profile-login);
       color: gray;
     }
   }
@@ -70,7 +76,8 @@
 
     .btn-c-info {
       margin: 10px 0;
-      padding: 15px;
+      padding: 17px;
+      font-size: var(--profile-li-option);
       background-color: var(--wrapper-bg);
       cursor: pointer;
 

@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=Lato');
 
-:root{
+:root {
   --base-bg: #060606;
   --base-txt-color: #fff;
   --content-bg: #1e1f25;
@@ -16,23 +16,6 @@
   --my-message-bg: #383942;
   --other-message-bg: #525252;
 }
-
-// :root{
-//   --base-bg: #19403e;
-//   --base-txt-color: #fff;
-//   --content-bg: #0d0d0d;
-//   --button-bg: var(--base-bg);
-//   --button-txt-color: var(--base-txt-color);
-//   --input-txt-color: white;
-//   --input-bg: #444444;
-//   --input-search-bg: #504f4f;
-//   --search-wrapper-bg: var(--input-search-bg);
-//   --wrapper-bg: #3f5a58;
-//   --scrollbar-bg: #3b3b3b;
-//   --scrollbar-thumb-bg: #666666;
-//   --my-message-bg: #3e3e3e;
-//   --other-message-bg: #070708;
-// }
 
 .chat.purple {
   --base-bg: #4c203b;
@@ -80,7 +63,6 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  font-size: 18px;
   color: var(--base-txt-color);
 }
 

@@ -16,14 +16,18 @@ export default class PopUp extends React.Component {
           ? (
             <div>
               <div className="pop-up-content">{message}</div>
-              <button className="button-ok" onClick={onConfirm}>Yes</button>
-              <button className="button-no" onClick={onClose}>Cancel</button>
+              <div className="popup-btns">
+                <button className="button-ok" onClick={onConfirm}>Yes</button>
+                <button className="button-no" onClick={onClose}>Cancel</button>
+              </div>
             </div>
           )
           : (
             <div>
               <div className="pop-up-content">{message}</div>
-              <button className="button-ok" onClick={onClose}>Ok</button>
+              <div className="popup-btns">
+                <button className="button-ok" onClick={onClose}>Ok</button>
+              </div>
             </div>
           )}
       </div>

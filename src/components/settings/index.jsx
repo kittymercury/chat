@@ -136,21 +136,21 @@ export default class Settings extends React.Component {
     if (this.state.isEditProfileMode) {
       return (
         <div className="settings-btns">
-          <span onClick={this.handleClickCancelEditProfile}>Cancel</span>
+          <div style={{ padding: '0 10px' }} onClick={this.handleClickCancelEditProfile}>Cancel</div>
           <div className="title">Settings</div>
-          <span style={{ paddingLeft: '23px' }} onClick={this.handleSubmit}>Save</span>
+          <div style={{ padding: '0 10px' }} onClick={this.handleSubmit}>Save</div>
         </div>
       )
     } else {
       return (
         <div className="settings-btns">
-          <span style={{ cursor: 'initial', color: 'transparent' }}>
+          <div style={{ color: 'transparent', cursor: 'initial' }}>
             <i className="fas fa-pen"></i>
-          </span>
+          </div>
           <div className="title">Settings</div>
-          <span onClick={this.handleClickEditProfile}>
+          <div onClick={this.handleClickEditProfile}>
             <i className="fas fa-pen"></i>
-          </span>
+          </div>
         </div>
       )
     }
@@ -161,12 +161,14 @@ export default class Settings extends React.Component {
       return (
         <div className={`avatar-menu ${this.state.activeMenuItem === 'avatar-menu' ? 'active' : ''}`}>
           <div className="menu-name" onClick={() => this.handleClickMenuItem('avatar-menu')}>Change avatar</div>
-          <div className="submenu">
+          <div className="submenu-avatar">
             <div className="input-avatar">
               <label htmlFor="avatar">Load avatar</label>
               <input type="file" id="avatar" name="avatar" accept=".jpg, .jpeg, .png" onChange={this.handleChangeAvatar} />
             </div>
-            <button onClick={this.handleClickRemoveAvatar}>Remove avatar</button>
+            <div className="input-avatar">
+              <button onClick={this.handleClickRemoveAvatar}>Remove avatar</button>
+            </div>
           </div>
         </div>
       )

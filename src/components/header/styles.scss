@@ -1,7 +1,7 @@
 .header-info-wrapper {
-  height: 50px;
-  line-height: 50px;
-  font-size: 18px;
+  height: var(--header-footer-height);
+  line-height: var(--header-footer-height);
+  font-size: var(--header-txt);
   font-weight: 900;
   background: var(--base-bg);
   position: sticky;
@@ -13,26 +13,42 @@
   justify-content: space-between;
   align-items: center;
 
-  &.in-messages {
-    padding: 0 5px;
-    line-height: 18px;
-  }
-
   .forwarded-messages-amount {
     font-size: 14px;
     color: gray;
   }
 
   button {
-    padding: 2px 10px;
+    width: var(--header-footer-height);
     background-color: inherit;
     border: none;
-    font-size: 17px;
+    font-size: var(--header-btn);
     cursor: pointer;
+
+    &.btn-back {
+      height: 100%;
+      width: var(--header-footer-height);
+      font-size: var(--btn-back-size);
+      cursor: pointer;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+
+  &.in-messages {
+    padding: 0 5px;
+    line-height: 18px;
   }
 
   .msg-menu-button {
-    padding: 10px 15px;
+    height: 100%;
+    width: var(--header-in-msgs-avatar);
+    display: block;
+    padding-left: 15px;
+    float: left;
+    text-align: start;
   }
 
   .title {
@@ -44,19 +60,19 @@
     flex-direction: column;
 
     span {
-      font-size: 15px;
+      font-size: var(--header-in-msgs-name);
 
       &.status {
         color: gray;
-        font-size: 12px;
+        font-size: var(--header-in-msgs-status);
       }
     }
   }
 
   .user-avatar-small {
-    height: 32px;
-    width: 32px;
-    border-radius: 32px;
+    height: var(--header-in-msgs-avatar);
+    width: var(--header-in-msgs-avatar);
+    border-radius: var(--header-in-msgs-avatar);
     cursor: pointer;
     margin-right: 10px;
     background-position: center;

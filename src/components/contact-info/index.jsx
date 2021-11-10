@@ -57,7 +57,6 @@ export default class ContactInfo extends React.Component {
 
   handleClickAddToContacts = (user) => {
     this.props.app.handleSubmitUser({ contacts: this.props.app.state.currentUser.contacts.concat(user.id) });
-    // this.props.app.setState({ users: this.props.app.state.users.concat(user) })
   }
 
   handleClickRemoveContact = (user) => {
@@ -100,7 +99,7 @@ export default class ContactInfo extends React.Component {
           ? (
             <div className="contact-info-header">
               <div className="btn-back" onClick={() => browserHistory.goBack()}>
-                <i className="fas fa-long-arrow-alt-left"></i>
+                <i className="fas fa-angle-left"></i>
               </div>
               <div className="contact-name">
                 <span>{user.name}</span>

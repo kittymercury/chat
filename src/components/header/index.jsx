@@ -63,8 +63,8 @@ export default class Header extends React.Component {
             </button>
           : ''}
         {currentPage === 'registration' && (
-          <button onClick={() => browserHistory.goBack()}>
-            <i className="fas fa-long-arrow-alt-left"></i>
+          <button className="btn-back" onClick={() => browserHistory.goBack()}>
+            <i className="fas fa-angle-left"></i>
           </button>
         )}
           {currentPage === 'contacts'
@@ -88,6 +88,11 @@ export default class Header extends React.Component {
 
     return (
       <div>
+        {currentPage === 'registration' && (
+          <button style={{ color: 'transparent', cursor: 'initial' }}>
+            <i className="fas fa-angle-left"></i>
+          </button>
+        )}
         {['chats', 'contacts'].includes(currentPage) && this.renderSearchButton()}
       </div>
     );
@@ -145,6 +150,8 @@ export default class Header extends React.Component {
     const titleByPathname = {
       'chats': 'Chats',
       'contacts': 'Contacts',
+      'registration': 'Registration',
+      'authentication': 'Welcome'
     }
     const title = titleByPathname[currentPage];
 

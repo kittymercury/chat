@@ -12,14 +12,15 @@
   }
 
   .menu-name {
-    padding: 10px 10px 5px;
+    padding: 10px;
+    font-size: var(--settings-menu-name);
     cursor: pointer;
 
     display: flex;
     align-items: center;
   }
 
-  .submenu {
+  .submenu-avatar {
     height: 0;
     overflow: hidden;
     transition: height 0.2s;
@@ -31,24 +32,30 @@
   }
 }
 
-.avatar-menu.active .submenu {
-  height: 65px;
+.avatar-menu.active .submenu-avatar {
+  height: 80px;
+  width: 100%;
   z-index: 1;
   overflow: visible;
 
+  .input-avatar {
+    height: 40px;
+    display: flex;
+  }
+
   input[type="file"] {
-    margin-top: 10px;
+    margin: 0;
+    padding: 0;
   }
 
   button,
-  #file + label {
+  label {
     display: flex;
-    padding: 2px;
-    font-size: 15px;
+    margin-bottom: 7px;
+    font-size: var(--settings-menu-item);
     background-color: inherit;
     border: none;
     align-items: center;
-    margin: 5px 0 0;
     cursor: pointer;
 
     &:hover {

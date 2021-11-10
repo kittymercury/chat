@@ -1,8 +1,9 @@
 .chats .users-chats,
 .found-messages-chats ul {
   li {
+    height: var(--li-height);
     margin-bottom: 5px;
-    padding: 10px;
+    padding: 0 10px;
 
     display: flex;
     align-items: center;
@@ -19,9 +20,9 @@
     }
 
     .chat-user-img {
-      height: 50px;
-      width: 50px;
-      border-radius: 50px;
+      height: var(--li-avatar-size);
+      width: var(--li-avatar-size);
+      border-radius: var(--li-avatar-size);
       background-position: center;
       background-repeat: no-repeat;
       background-size: 135%;
@@ -42,8 +43,9 @@
   }
 
   .text {
-    max-height: 25px;
-    font-size: 12px;
+    max-height: 30px;
+    max-width: 85%;
+    font-size: var(--msg-preview-txt);
     word-wrap: break-word;
     overflow: hidden;
     display: -webkit-box;
@@ -52,7 +54,7 @@
   }
 
   .name {
-    font-size: 14px;
+    font-size: var(--li-name);
     font-weight: bold;
     flex: 1;
 
@@ -72,7 +74,7 @@
   }
 
   .time {
-    font-size: 10px;
+    font-size: var(--msg-time-chats);
   }
 }
 

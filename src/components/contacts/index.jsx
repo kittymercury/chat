@@ -87,6 +87,7 @@ export default class Contacts extends React.Component {
       return (
         <InputSearch
           onChange={(e) => this.handleChangeInputSearch(e.target.value)}
+          onCancel={() => this.props.app.setState({ isSearch: false })}
         />
       )
     }
@@ -113,9 +114,7 @@ export default class Contacts extends React.Component {
 
               return (
                 <li key={user.id}>
-                  <div className="img-wrapper">
-                    <div className="avatar" onClick={onClickAvatar} style={{ backgroundImage: `url(${getImg(user.avatar)})` }}></div>
-                  </div>
+                  <div className="avatar" onClick={onClickAvatar} style={{ backgroundImage: `url(${getImg(user.avatar)})` }}></div>
                   <div className="user-name" onClick={onClickUserName}>
                     <span>{user.name}</span>
                     {this.renderStatus(user)}

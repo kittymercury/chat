@@ -1,33 +1,27 @@
 .contacts li {
+  height: var(--li-height);
   margin-bottom: 5px;
-  padding: 10px;
+  padding: 0 10px;
   cursor: pointer;
 
   display: flex;
+  align-items: center;
 
   &:hover {
     transition-duration: 1.2s;
   }
 
-  .img-wrapper {
-    height: 50px;
-    width: 50px;
-    padding: 0;
-    position: relative;
-
-    .avatar {
-      height: 50px;
-      width: 50px;
-      border-radius: 50px;
-      background-position: center;
-      background-repeat: no-repeat;
-      background-size: 135%;
-    }
+  .avatar {
+    height: var(--li-avatar-size);
+    width: var(--li-avatar-size);
+    border-radius: var(--li-avatar-size);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 135%;
   }
 
   .user-name {
     margin-left: 12px;
-    font-size: 14px;
     font-weight: bold;
     flex: 1;
 
@@ -36,11 +30,12 @@
     justify-content: center;
 
     span {
+      font-size: var(--li-name);
       padding-bottom: 5px;
     }
 
     .user-status {
-      font-size: 12px;
+      font-size: var(--li-status-txt);
       color: gray;
     }
   }

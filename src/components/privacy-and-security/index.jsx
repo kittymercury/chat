@@ -102,7 +102,8 @@ export default class PrivacyAndSecurity extends React.Component {
           <i className="fas fa-angle-down"></i>
         </div>
         <div className="submenu">
-          <div className="wrapper">Show my status:
+          <div className="wrapper">
+            <span>Show my status:</span>
             <input
               type="checkbox"
               id="checkbox"
@@ -112,7 +113,7 @@ export default class PrivacyAndSecurity extends React.Component {
           </div>
 
           <div className="change-password wrapper">
-            <div style={{ padding: '0 10px 10px' }}>Change password</div>
+            <span>Change password</span>
             <input
               type={inputType}
               value={currentPassword}
@@ -139,8 +140,8 @@ export default class PrivacyAndSecurity extends React.Component {
           </div>
 
           <div className="delete-account wrapper">
-            <div style={{ padding: '0 10px 10px' }}>Delete account</div>
-            <span>Press the button to delete your account: </span>
+            <div>Delete account</div>
+            <div>To delete your account press the button: </div>
             <button onClick={this.handleClickDeleteAccount}>Delete account</button>
           </div>
         </div>

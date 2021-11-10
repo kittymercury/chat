@@ -7,7 +7,9 @@ import Footer from './footer';
 import PopUp from './pop-up';
 
 // TODO:
-// 1. improve mobile appearance of all app (font-size, centering etc.)
+// 2. one click in mob version
+// 4. create icon
+// 6. fix checkbox positioning
 
 export default class App extends React.Component {
   constructor(props) {
@@ -114,10 +116,6 @@ export default class App extends React.Component {
     $messages.scrollTop = $messages.scrollHeight;
   }
 
-  // getNewMessages = (count) => {
-  //   this.setState({ unseenMessages: this.state.unseenMessages.length + count });
-  // }
-
   handleWSOpen = async () => {
     console.log('WS: Open');
 
@@ -126,6 +124,7 @@ export default class App extends React.Component {
 
     if (currentUser) {
       await this.init(currentUser);
+      console.log({currentUser});
 
       if (!currentPage) {
         browserHistory.push('/chats');

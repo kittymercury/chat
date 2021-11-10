@@ -1,29 +1,34 @@
 .pop-up {
   background-color: var(--content-bg);
-  border-top: 20px solid var(--base-bg);
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   padding: 20px;
-  min-width: 300px;
+  min-width: 70%;
   min-height: fit-content;
   z-index: 1;
   text-align: center;
-  border-bottom: 1px solid #80808054;
-  border-right: 1px solid #80808054;
-  border-left: 1px solid #80808054;
+  border: 1px solid #80808054;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .pop-up-content {
-  padding: 5px;
-  margin-bottom: 3px;
+  margin-bottom: 5px;
+  font-size: var(--popup-content);
 }
 
-.pop-up button {
-  background-color: var(--wrapper-bg);
-  color: white;
-  padding: 3px 15px;
-  margin: 5px;
-  cursor: pointer;
+.popup-btns {
+  button {
+    background-color: var(--wrapper-bg);
+    color: white;
+    padding: 2px;
+    margin: 5px;
+    cursor: pointer;
+    font-size: var(--popup-btn);
+    width: 80px;
+  }
 }
