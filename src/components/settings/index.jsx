@@ -238,11 +238,13 @@ export default class Settings extends React.Component {
         <div className="header-info-wrapper">
           {this.renderSettingsHeader()}
         </div>
-        <div className="info">
-          <div className="current-user-img" style={{ backgroundImage: `url(${this.getAvatar()})` }}></div>
-          {this.renderMainOptions(isEditProfileMode)}
+        <div className="info-wrapper-settings">
+          <div className="info">
+            <div className="current-user-img" style={{ backgroundImage: `url(${this.getAvatar()})` }}></div>
+            {this.renderMainOptions(isEditProfileMode)}
+          </div>
+          {this.renderFeatures(isEditProfileMode)}
         </div>
-        {this.renderFeatures(isEditProfileMode)}
       </div>
     )
   }

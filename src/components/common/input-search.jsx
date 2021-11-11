@@ -1,8 +1,13 @@
 import React from 'react';
+import { lock, unlock } from 'tua-body-scroll-lock';
 
 import './styles.scss';
 
 export default class InputSearch extends React.Component {
+  componentDidMount = () => {
+    const searchWrapper = document.querySelector('.search-wrapper');
+    lock(searchWrapper);
+  }
 
   render () {
     const { value, onChange, onCancel } = this.props;

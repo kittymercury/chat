@@ -1,5 +1,8 @@
 .chats .users-chats,
 .found-messages-chats ul {
+  overflow-y: scroll;
+  --webkit-overflow-scrolling: touch;
+
   li {
     height: var(--li-height);
     margin-bottom: 5px;

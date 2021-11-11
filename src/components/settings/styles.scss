@@ -23,6 +23,11 @@
   flex-direction: column;
   justify-content: flex-start;
 
+  .info-wrapper-settings {
+    overflow-y: scroll;
+    --webkit-overflow-scrolling: touch;
+  }
+
   .info {
     padding: 20px;
     background-color: var(--wrapper-bg);
@@ -95,7 +100,7 @@
         padding: 12px;
         background: none;
         font-size: var(--input-txt);
-        color: white;
+        color: var(--input-txt-color);
       }
     }
   }

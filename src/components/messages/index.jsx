@@ -303,16 +303,6 @@ export default class Messages extends React.Component {
     }
   }
 
-  handlePressEnter = (e) => {
-    if (e.keyCode === 13) {
-      if (this.state.messageToEdit) {
-        this.handleClickButtonEditOk()
-      } else {
-        this.handleClickButtonSend();
-      }
-    }
-  }
-
   handleClickEditMessage = (message) => {
     this.setState({
       messageToEdit: message,
@@ -550,7 +540,7 @@ export default class Messages extends React.Component {
           />
         )}
 
-        <ul>
+        <ul id="messages-list">
           {foundMessages.map((message) => {
             let className = "message-data-content";
             if (foundMessage && (message.id === foundMessage.id)) {
@@ -616,7 +606,7 @@ export default class Messages extends React.Component {
           })}
         </ul>
 
-        <div style={{ display: 'block' }}>
+        <div className="input-fixed" style={{ display: 'block' }}>
           {this.renderUserTyping()}
           {this.renderInputMessageToReply(users, messageToReply)}
 

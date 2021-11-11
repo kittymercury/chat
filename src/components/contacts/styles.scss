@@ -1,3 +1,8 @@
+.contacts > ul {
+  overflow-y: scroll;
+  --webkit-overflow-scrolling: touch;
+}
+
 .contacts li {
   height: var(--li-height);
   margin-bottom: 5px;

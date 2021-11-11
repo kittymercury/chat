@@ -1,15 +1,18 @@
 .search-wrapper {
   height: var(--header-footer-height);
   background-color: var(--base-bg);
-  position: sticky;
+
+  position: fixed;
+  width: 100%;
   top: 0;
-  z-index: 1;
+
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  align-content: center;
 
   div:first-child {
-    margin-left: 10px;
+    margin-left: 13px;
+    flex: 1;
 
     display: flex;
     align-items: center;
@@ -21,8 +24,7 @@
     }
 
     input {
-      padding: 2px;
-      margin: 2px;
+      width: 100%;
       background-color: var(--base-bg);
       border: none;
       font-size: var(--input-txt);
@@ -30,11 +32,11 @@
   }
 
   .cancel-searching {
+    height: var(--header-footer-height);
     margin-right: 10px;
-    font-size: var(-header-btn);
+    font-size: var(--header-btn);
     font-weight: bold;
     cursor: pointer;
-    height: var(--header-footer-height);
 
     display: flex;
     align-items: center;

@@ -4,14 +4,15 @@
   font-size: var(--header-txt);
   font-weight: 900;
   background: var(--base-bg);
-  position: sticky;
-  top: 0;
-  z-index: 1;
 
+  top: 0;
   display: flex;
   text-align: center;
   justify-content: space-between;
   align-items: center;
+  z-index: 1;
+  position: fixed;
+  width: 100%;
 
   .forwarded-messages-amount {
     font-size: 14px;

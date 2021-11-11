@@ -29,11 +29,9 @@
   --button-txt-color: var(--base-txt-color);
   --input-txt-color: #fff;
   --input-bg: #3b1a2e;
-  --input-search-bg: #633350;
-  --search-wrapper-bg: var(--input-search-bg);
   --wrapper-bg: #632b4c;
-  --scrollbar-bg: #6d3958;
-  --scrollbar-thumb-bg: #441632;
+  --scrollbar-bg: #441632;
+  --scrollbar-thumb-bg: #6d3958;
   --my-message-bg: #5f345d;
   --other-message-bg: #671246;
   --gray-txt: #cdc4c4;
@@ -43,24 +41,22 @@
 }
 
 .chat.banana {
-  --base-bg: #b7ad37;
-  --base-txt-color: #fff;
-  --content-bg: #7b7821;
-  --wrapper-bg: #54520d;
-  --input-bg: #363200;
-  --input-txt-color: white;
-  --button-bg: #5f5a27;
-  --button-txt-color: #fff;
-  --input-search-bg: #948f00;
-  --search-wrapper-bg: var(--input-search-bg);
-  --scrollbar-bg: #8e8734;
-  --scrollbar-thumb-bg: #c1b630;
-  --my-message-bg: #4e4e1f;
-  --other-message-bg: #4c4a16;
-  --gray-txt: #e0f17d;
+  --base-bg: #f1c801;
+  --base-txt-color: #000;
+  --content-bg: #25241b;
+  --wrapper-bg: #c3a400;
+  --input-bg: #ffec00;
+  --input-txt-color: black;
+  --button-bg: #c19400;
+  --button-txt-color: #000;
+  --scrollbar-bg: #25241b;
+  --scrollbar-thumb-bg: #f1c801;
+  --my-message-bg: #eeee60;
+  --other-message-bg: #bab531;
+  --gray-txt: #1c1c1c;
   --menus-msgs: var(--input-bg);
   --popup-bg: var(--input-bg);
-  --hover-submenu: var(--base-bg);
+  --hover-submenu: #ff0000;
 }
 
 html, body, #app, .chat {
@@ -72,9 +68,15 @@ html, body, #app, .chat {
 
 body {
   background-color: var(--base-bg);
+  overflow-x: hidden;
+}
+
+#app {
+  overflow: hidden;
 }
 
 .chat {
+  overflow-x: hidden;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -87,6 +89,7 @@ body {
 }
 
 .content {
+  margin: 60px 0;
   background-color: var(--content-bg);
   flex: 1;
   overflow: auto;

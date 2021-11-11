@@ -1,8 +1,11 @@
 .footer {
   height: var(--header-footer-height);
-  position: sticky;
-  z-index: 1;
+
+  position: fixed;
   bottom: 0;
+  z-index: 1;
+  width: 100%;
+
 
   display: flex;
 

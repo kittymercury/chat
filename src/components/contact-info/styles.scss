@@ -3,6 +3,8 @@
   flex-direction: column;
   align-items: stretch;
 
+  margin: 0 !important;
+
   .contact-info-header {
     height: var(--header-footer-height);
     background-color: var(--base-bg);

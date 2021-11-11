@@ -1,6 +1,6 @@
 import React from 'react';
 import { browserHistory } from 'react-router';
-import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
+import { lock, unlock } from 'tua-body-scroll-lock';
 
 import api, { getAttachmentUrl } from '../api';
 import Header from './header';
@@ -8,9 +8,9 @@ import Footer from './footer';
 import PopUp from './pop-up';
 
 // TODO:
-// 2. one click in mob version
+// 2. one click in mob version +
 // 4. create icon
-// 6. fix checkbox positioning
+// 6. fix checkbox positioning in login page
 
 export default class App extends React.Component {
   constructor(props) {
@@ -43,9 +43,6 @@ export default class App extends React.Component {
   }
 
   componentDidUpdate = (prevProps, prevState) => {
-    const scrollableContent = document.querySelector('.content');
-    console.log({scrollableContent});
-    enableBodyScroll(scrollableContent);
     const page = this.getPage();
 
     if (page.includes('messages')) {
@@ -64,8 +61,14 @@ export default class App extends React.Component {
   }
 
   componentDidMount = () => {
-    const app = document.getElementById('app');
-    disableBodyScroll(app);
+    const content = this.getElement('.content');
+
+    const page = this.getPage();
+    if (page.includes('messages')) {
+      const list = this.getElement('#messages-list');
+      lock(list);
+    }
+    unlock(content);
     this.setWS();
   }
 
@@ -111,6 +114,10 @@ export default class App extends React.Component {
       chats: dataChats.chats,
       messages: dataMessages.messages,
     });
+  }
+
+  getElement = (el) => {
+    return document.querySelector(el)
   }
 
   getPage = () => {

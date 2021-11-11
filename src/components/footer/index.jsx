@@ -4,6 +4,11 @@ import { browserHistory } from 'react-router';
 import './styles.scss';
 
 export default class Footer extends React.Component {
+  // componentDidMount = () => {
+  //   const footer = document.querySelector('.footer');
+  //   this.props.app.disableScroll(footer);
+  // }
+
   numberOfUnseenMessages = () => {
     const unseenMessages = _.filter(this.props.app.state.messages, (message) => {
       return (message.user !== this.props.app.state.currentUser.id)

@@ -6,6 +6,11 @@ import { DELETED_USERNAME } from '../../constants';
 import './styles.scss';
 
 export default class Header extends React.Component {
+  // componentDidMount = () => {
+  //   const header = document.querySelector('.header');
+  //   this.props.app.disableScroll(header);
+  // }
+
   handleClickSearch = (condition) => {
     this.props.app.setState({ isSearch: condition });
   }
@@ -55,35 +60,22 @@ export default class Header extends React.Component {
 
     return (
       <div>
-        {(currentPage === 'chats')
-          ? messageToForward
-            ? <button onClick={this.handleCancelForwarding}>Cancel</button>
-            : <button onClick={() => browserHistory.push('/contacts')}>
-              <i className="fas fa-plus"></i>
-            </button>
-          : ''}
+        {['chats', 'contacts'].includes(currentPage) && (
+          <button style={{ color: 'transparent', cursor: 'initial' }}>
+            <i className="fas fa-search"></i>
+          </button>
+        )}
         {currentPage === 'registration' && (
           <button className="btn-back" onClick={() => browserHistory.goBack()}>
             <i className="fas fa-angle-left"></i>
           </button>
         )}
-          {currentPage === 'contacts'
-            ? this.props.app.state.isSearch
-              ? (
-                <button style={{ color: 'transparent', cursor: 'initial' }}>Cancel</button>
-              )
-              : (
-                <button>
-                  <i style={{ color: 'transparent', cursor: 'initial' }} className="fas fa-search"></i>
-                </button>
-              )
-            : ''}
       </div>
     );
   }
 
   renderButtonsRight = () => {
-    const { isSearch } = this.props.app.state;
+    const { isSearch, messageToForward } = this.props.app.state;
     const currentPage = this.props.app.getPage();
 
     return (
@@ -132,14 +124,14 @@ export default class Header extends React.Component {
     if (messageToForward || isSelectMode) {
       return (
         <div className="header-info-wrapper">
-          <button onClick={this.handleCancelForwarding}>Cancel</button>
+          <button style={{ color: 'transparent', cursor: 'initial' }} onClick={this.handleCancelForwarding}>Cancel</button>
           {messageToForward && (
             <div className="forwarded-messages-amount">Forward 1 message</div>
           )}
           {isSelectMode && (
             <div className="forwarded-messages-amount">Forward {selectedMessages.length} {selectedMessages.length > 1 ? 'messages' : 'message'}</div>
           )}
-          <button style={{ color: 'transparent', cursor: 'initial' }} onClick={this.handleCancelForwarding}>Cancel</button>
+          <button onClick={this.handleCancelForwarding}>Cancel</button>
         </div>
       )
     }
