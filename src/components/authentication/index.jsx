@@ -27,7 +27,6 @@ export default class Authentication extends React.Component {
     const { login, password } = this.state;
     await this.props.app.login({ password, login });
     this.setState({ login: '', password: '' });
-    browserHistory.push('/chats');
   }
 
   changePasswordVisibility = (e) => {
@@ -62,7 +61,7 @@ export default class Authentication extends React.Component {
             onChangeShowPassword={this.changePasswordVisibility}
             checked={isPasswordVisible}
           />
-          <button onClick={this.handleClickLogIn}>Go</button>
+          <div className="button" onClick={this.handleClickLogIn}>Go</div>
         </div>
         <div className="sign-up-wrapper">
           <div>Don't have an account yet?</div>

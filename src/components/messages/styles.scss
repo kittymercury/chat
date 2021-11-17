@@ -268,21 +268,23 @@
 }
 
 .message-reply {
-  font-size: 12px;
-  color: inherit;
+  font-size: var(--icon-size);
   text-align: left;
 
   .reply-wrapper {
     padding: 0 0 5px 10px;
-    border-left: 2px solid #ffffff21;
+    border-left: 2px solid var(--gray-txt);
     max-width: 200px;
 
     .to-user {
-      font-size: 13px;
+      color: var(--gray-txt);
+
+      span:last-child {
+        font-weight: bold;
+      }
     }
 
     .text-for-replying {
-      font-size: 14px;
       line-height: 16px;
       word-wrap: break-word;
       overflow: hidden;

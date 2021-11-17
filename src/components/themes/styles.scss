@@ -12,7 +12,7 @@
     font-size: var(--settings-menu-name);
     cursor: pointer;
     text-align: center;
-    box-shadow: inset 0 -1px 0 0 #efefef12;
+    box-shadow: inset 0 -1px 0 0 var(--box-shadow);
   }
 
   .submenu {
@@ -32,7 +32,7 @@
       padding: 15px 0;
       cursor: pointer;
       text-align: center;
-      box-shadow: inset 0 -1px 0 0 #efefef12;
+      box-shadow: inset 0 -1px 0 0 var(--box-shadow);
 
       i {
         font-size: var(--icon-size);
@@ -48,7 +48,7 @@
   }
 
   .submenu {
-    height: 156px;
+    height: 104px;
     z-index: 1;
     overflow: visible;
   }

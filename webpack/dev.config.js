@@ -11,14 +11,14 @@ module.exports = merge(BASE_CONFIG, {
   mode: 'development',
   output: {
     path: PATHS.dist,
-    filename: '[name].[chunkhash].js',
+    filename: '[name].[hash].js',
     pathinfo: false,
     publicPath: '/',
   },
   devServer: {
     contentBase: PATHS.src,
     host: '0.0.0.0',
-    port: '8090',
+    port: 3000,
     disableHostCheck: true,
     watchOptions: { poll: 5000, ignored: /node_modules/ },
     historyApiFallback: {

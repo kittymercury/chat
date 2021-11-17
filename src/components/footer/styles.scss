@@ -17,11 +17,11 @@
     flex: 1;
 
     &:first-child {
-      border-right: 1px solid #ffffff3b;
+      border-right: 1px solid var(--box-shadow);
     }
 
     &:nth-child(2) {
-      border-right: 1px solid #ffffff3b;
+      border-right: 1px solid var(--box-shadow);
       position: relative;
 
       .number-of-unseen-messages {

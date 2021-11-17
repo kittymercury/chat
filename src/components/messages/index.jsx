@@ -151,7 +151,7 @@ export default class Messages extends React.Component {
       const { chats } = this.props.app.state;
       const filteredChats = chats.filter((c) => c.id !== chat.id);
 
-      this.props.app.setState({ chats: filteredChats });
+      this.props.app.setState({ chats: filteredChats, isMsgMenuActive: false });
       browserHistory.goBack();
     }
   }
@@ -355,7 +355,7 @@ export default class Messages extends React.Component {
           <div className="message-reply" onDoubleClick={() => this.scrollToMessage(messageReplyTo)}>
               <div className="reply-wrapper">
                 <div className="to-user">
-                  <span style={{ color: '#dbdbdb' }}>Reply to </span>
+                  <span>Reply to </span>
                   <span>{user.name || DELETED_USERNAME}</span>
                 </div>
                 <div className="text-for-replying">{messageReplyTo.content}</div>

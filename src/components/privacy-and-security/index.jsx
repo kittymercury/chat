@@ -136,13 +136,13 @@ export default class PrivacyAndSecurity extends React.Component {
             onChangeShowPassword={this.changePasswordVisibility}
             checked={isPasswordVisible}
             />
-            <button onClick={this.handleConfirmNewPassword}>Confirm</button>
+            <div className="security-button" onClick={this.handleConfirmNewPassword}>Confirm</div>
           </div>
 
           <div className="delete-account wrapper">
-            <div>Delete account</div>
-            <div>To delete your account press the button: </div>
-            <button onClick={this.handleClickDeleteAccount}>Delete account</button>
+            {/* <div>Delete account</div>
+            <div>To delete your account press the button: </div> */}
+            <div onClick={this.handleClickDeleteAccount}>Delete account</div>
           </div>
         </div>
       </div>

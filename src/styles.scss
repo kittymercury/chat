@@ -4,6 +4,7 @@
   --base-bg: #060606;
   --base-txt-color: #fff;
   --content-bg: #1e1f25;
+  --auth-reg-bg: var(--content-bg);
   --button-bg: var(--base-bg);
   --button-txt-color: var(--base-txt-color);
   --input-txt-color: white;
@@ -17,14 +18,20 @@
   --other-message-bg: #525252;
   --gray-txt: gray;
   --menus-msgs: #000000;
+
   --popup-bg: #1a1b20;
+  --popup-btn-bg: #34837a;
+  --popup-wrapper-bg: #3e768682;
+
   --hover-submenu: #89f7f7;
+  --box-shadow: #efefef12;
 }
 
-.chat.purple {
+html.purple {
   --base-bg: #4c203b;
   --base-txt-color: #fff;
   --content-bg: #251124;
+  --auth-reg-bg: var(--content-bg);
   --button-bg: var(--base-bg);
   --button-txt-color: var(--base-txt-color);
   --input-txt-color: #fff;
@@ -36,27 +43,13 @@
   --other-message-bg: #671246;
   --gray-txt: #cdc4c4;
   --menus-msgs: #220821;
-  --popup-bg: var(--input-bg);
-  --hover-submenu: violet;
-}
 
-.chat.banana {
-  --base-bg: #f1c801;
-  --base-txt-color: #000;
-  --content-bg: #25241b;
-  --wrapper-bg: #c3a400;
-  --input-bg: #ffec00;
-  --input-txt-color: black;
-  --button-bg: #c19400;
-  --button-txt-color: #000;
-  --scrollbar-bg: #25241b;
-  --scrollbar-thumb-bg: #f1c801;
-  --my-message-bg: #eeee60;
-  --other-message-bg: #bab531;
-  --gray-txt: #1c1c1c;
-  --menus-msgs: var(--input-bg);
   --popup-bg: var(--input-bg);
-  --hover-submenu: #ff0000;
+  --popup-btn-bg: #2e072a;
+  --popup-wrapper-bg: #000000b0;
+
+  --hover-submenu: violet;
+  --box-shadow: #efefef12;
 }
 
 html, body, #app, .chat {
@@ -66,8 +59,11 @@ html, body, #app, .chat {
   font-family: 'Lato', sans-serif;
 }
 
+html {
+  background-color: var(--content-bg);
+}
+
 body {
-  background-color: var(--base-bg);
   overflow-x: hidden;
 }
 
@@ -89,7 +85,7 @@ body {
 }
 
 .content {
-  margin: 60px 0;
+  padding: 60px 0;
   background-color: var(--content-bg);
   flex: 1;
   overflow: auto;
@@ -158,11 +154,7 @@ ul {
 
 li {
   background-color: var(--wrapper-bg);
-
-  &:hover {
-    background-color: rgba(255,255,255,0.1);
-    transition: 0.3s;
-  }
+  cursor: pointer;
 }
 
 .fas.fa-circle.online {

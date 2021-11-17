@@ -114,7 +114,7 @@ export default class Registration extends React.Component {
           onChangeShowPassword={this.changePasswordVisibility}
           checked={isPasswordVisible}
         />
-        <button className="sign-up-button" onClick={this.handleClickSignUp}>Sign up</button>
+        <div className="sign-up-button" onClick={this.handleClickSignUp}>Sign up</div>
       </div>
     )
   }

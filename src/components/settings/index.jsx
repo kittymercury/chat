@@ -58,7 +58,7 @@ export default class Settings extends React.Component {
 
   handleClickLogOut = () => {
     this.props.app.handleOpenPopUp({
-      message: 'Do you want to sign out?',
+      message: 'Do you want to log out?',
       onConfirm: this.handleConfirmLogOut,
       onClose: this.props.app.handleClosePopUp
     });

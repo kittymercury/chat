@@ -8,9 +8,11 @@ import Footer from './footer';
 import PopUp from './pop-up';
 
 // TODO:
-// 2. one click in mob version +
-// 4. create icon
-// 6. fix checkbox positioning in login page
+// 1. showing status to another users
+
+// 2. create icon
+// 3. link to theemes and privacy and security
+// 4. content bg for html (takes bg only from root theme)
 
 export default class App extends React.Component {
   constructor(props) {
@@ -44,6 +46,14 @@ export default class App extends React.Component {
 
   componentDidUpdate = (prevProps, prevState) => {
     const page = this.getPage();
+    const $content = this.getElement('.content');
+
+    if (this.state.popUp) {
+      const $popUp = this.getElement('.pop-up-wrapper');
+      lock($popUp)
+    } else {
+      unlock($content)
+    }
 
     if (page.includes('messages')) {
       const chat = +page.split('/')[1];
@@ -61,6 +71,9 @@ export default class App extends React.Component {
   }
 
   componentDidMount = () => {
+    var htmlElement = document.getElementsByTagName("html")[0];
+    htmlElement.classList = this.state.theme;
+    window.scrollTo(0,1);
     const content = this.getElement('.content');
 
     const page = this.getPage();
@@ -248,6 +261,7 @@ export default class App extends React.Component {
       });
 
       localStorage.setItem('user', JSON.stringify(data.user));
+      browserHistory.push('/chats');
     }
   }
 
@@ -258,7 +272,8 @@ export default class App extends React.Component {
   }
 
   handleSubmitUser = async (user) => {
-    if (user.avatar) {
+    console.log({av: typeof user.avatar});
+    if (typeof user.avatar === 'object') {
       const { data = [] } = await api('upload_attachment', {
         file: user.avatar,
         name: 'avatar.jpeg',
@@ -339,7 +354,7 @@ export default class App extends React.Component {
 
   render() {
     return (
-      <div className={`chat theme ${this.state.theme}`}>
+      <div className="chat">
         {this.renderHeader()}
         {this.renderContent()}
         {this.renderFooter()}

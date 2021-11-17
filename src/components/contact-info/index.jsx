@@ -95,22 +95,18 @@ export default class ContactInfo extends React.Component {
 
     return (
       <div className="content contact-info">
-        {currentUser.contacts.includes(user.id)
-          ? (
-            <div className="contact-info-header">
-              <div className="btn-back" onClick={() => browserHistory.goBack()}>
-                <i className="fas fa-angle-left"></i>
-              </div>
-              <div className="contact-name">
-                <span>{user.name}</span>
-                {this.renderStatus(user)}
-              </div>
-              <div className="btn-back" style={{ color: 'transparent', cursor: 'initial'}}>
-                <i className="fas fa-long-arrow-alt-left"></i>
-              </div>
-            </div>
-          )
-          : ''}
+        <div className="contact-info-header">
+          <div className="btn-back" onClick={() => browserHistory.goBack()}>
+            <i className="fas fa-angle-left"></i>
+          </div>
+          <div className="contact-name">
+            <span>{user.name}</span>
+            {this.renderStatus(user)}
+          </div>
+          <div className="btn-back" style={{ color: 'transparent', cursor: 'initial'}}>
+            <i className="fas fa-long-arrow-alt-left"></i>
+          </div>
+        </div>
         <div className="info-wrapper">
           <div>
             <div className="user-avatar-image" style={{ backgroundImage: `url(${getImg(user.avatar)})` }}></div>

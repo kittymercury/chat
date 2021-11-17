@@ -1,7 +1,6 @@
 .authentication {
   padding-bottom: var(--header-footer-height);
   text-align: center;
-  background-color: var(--button-bg);
 
   display: flex;
   flex-direction: column;
@@ -20,10 +19,16 @@
     align-items: center;
   }
 
-  button {
-    padding: 5px 20px;
+  .button {
+    background-color: var(--popup-btn-bg);
+    border-radius: 50px;
+    color: var(--base-txt-color);
+    padding: 15px;
+    margin: 5px;
     cursor: pointer;
-    font-size: var(--content-btn);
+    font-size: var(--popup-btn);
+    width: 90px;
+    text-align: center;
   }
 
   input {
@@ -35,7 +40,6 @@
 
     &[type="password"] {
       width: 65%;
-      margin-bottom: 5px;
     }
 
     &[type="text"] {
@@ -44,7 +48,7 @@
   }
 
   .checkbox-wrapper {
-    margin: 5px;
+    // margin: 5px;
     padding: 10px;
 
     display: flex;

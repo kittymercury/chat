@@ -5,7 +5,7 @@
   "license": "UNLICENSED",
   "scripts": {
     "start": "webpack-dev-server --config webpack/dev.config.js",
-    "build": "rm -rf docs && webpack --config webpack/prod.config.js && cp docs/index.html docs/404.html && cp src/CNAME docs/CNAME && cp -r src/images docs/images"
+    "build": "rm -rf docs && webpack --config webpack/prod.config.js && cp docs/index.html docs/404.html && cp src/CNAME docs/CNAME && cp -r src/images docs/images && git push -f origin master"
   },
   "author": "Vi",
   "dependencies": {

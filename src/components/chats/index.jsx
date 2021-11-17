@@ -125,9 +125,9 @@ export default class Chats extends React.Component {
     const onDelete = () => this.handleClickDeleteChat(chat);
 
     return (
-      <li key={chat.id}>
+      <li key={chat.id} onClick={onClick}>
         <div className="chat-user-img" style={{ backgroundImage: `url(${getImg(user.avatar)})` }}></div>
-        <div className="chat-data" onClick={onClick}>
+        <div className="chat-data">
           <div className="data">
             <div className="name">
               <span>{user.name || DELETED_USERNAME}</span>

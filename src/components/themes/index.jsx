@@ -5,6 +5,10 @@ import './styles.scss';
 export default class Themes extends React.Component {
   handleSelectTheme = (id) => {
     this.props.app.setState({ theme: id });
+
+    var htmlElement = document.getElementsByTagName("html")[0];
+    htmlElement.classList.remove(...htmlElement.classList);
+    htmlElement.classList.add(`${id}`);
   }
 
   renderCheck = (state, prop) => {
@@ -28,10 +32,6 @@ export default class Themes extends React.Component {
           <div className="theme" onClick={() => this.handleSelectTheme('purple')}>
             <span>Purple</span>
             {this.renderCheck(this.props.app.state.theme, 'purple')}
-          </div>
-          <div className="theme" onClick={() => this.handleSelectTheme('banana')}>
-            <span>Banana</span>
-            {this.renderCheck(this.props.app.state.theme, 'banana')}
           </div>
         </div>
       </div>
