@@ -7,7 +7,7 @@ import './styles.scss';
 
 import ShowPasswordCheckbox from '../common/show-password-checkbox';
 
-export default class Authentication extends React.Component {
+export default class Login extends React.Component {
   constructor(props) {
     super(props);
 

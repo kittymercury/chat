@@ -211,21 +211,21 @@ export default class Messages extends React.Component {
       return (
         <div className="edit-messages-features">
           <div onClick={() => this.handleClickReply(message)}>
-            <span>Reply</span>
             <i className="fas fa-reply"></i>
+            <span>Reply</span>
           </div>
           <div onClick={() => this.handleClickForward(message)}>
-            <span>Forward</span>
             <i className="fas fa-share-alt"></i>
+            <span>Forward</span>
           </div>
           <div onClick={() => this.handleClickDeleteMessage(message)}>
-            <span>Delete</span>
             <i className="fas fa-ban"></i>
+            <span>Delete</span>
           </div>
           {(isMsgMine && !message.forward_to) && (
             <div onClick={() => this.handleClickEditMessage(message)}>
-              <span>Edit</span>
               <i className="fas fa-pen"></i>
+              <span>Edit</span>
             </div>
           )}
         </div>
@@ -469,18 +469,20 @@ export default class Messages extends React.Component {
   renderMessagesMenu = () => {
     const { isMsgMenuActive } = this.props.app.state;
     return (
-      <div className={`submenu-messages ${isMsgMenuActive ? 'active' : ''}`}>
-        <div className="submenu-messages-item" onClick={() => this.props.app.setState({ isSearch: true, isMsgMenuActive: false })}>
-          <i className="fas fa-search"></i>
-          <span>Search</span>
-        </div>
-        <div className="submenu-messages-item" onClick={() => this.props.app.setState({ isSelectMode: true, isMsgMenuActive: false })}>
-          <i className="fas fa-check-circle"></i>
-          <span>Select messages</span>
-        </div>
-        <div className="submenu-messages-item" onClick={() => this.handleClickClearChat()}>
-          <i className="fas fa-trash"></i>
-          <span>Clear chat</span>
+      <div className={`submenu-messages-wrapper ${isMsgMenuActive ? 'active' : ''}`}>
+        <div className="submenu-messages">
+          <div className="submenu-messages-item" onClick={() => this.props.app.setState({ isSearch: true, isMsgMenuActive: false })}>
+            <i className="fas fa-search"></i>
+            <span>Search</span>
+          </div>
+          <div className="submenu-messages-item" onClick={() => this.props.app.setState({ isSelectMode: true, isMsgMenuActive: false })}>
+            <i className="fas fa-check-circle"></i>
+            <span>Select messages</span>
+          </div>
+          <div className="submenu-messages-item" onClick={() => this.handleClickClearChat()}>
+            <i className="fas fa-trash"></i>
+            <span>Clear chat</span>
+          </div>
         </div>
       </div>
     )

@@ -2,7 +2,8 @@ import React from 'react';
 import { Link, browserHistory } from 'react-router';
 
 import Themes from '../themes';
-import PrivacyAndSecurity from '../privacy-and-security';
+import Languages from '../languages';
+import PrivacyAndSecurity from '../privacyAndSecurity';
 import './styles.scss';
 import './change-avatar-menu.scss';
 import { getImg, getFileFormat } from '../../helpers';
@@ -57,14 +58,17 @@ export default class Settings extends React.Component {
   // log out
 
   handleClickLogOut = () => {
-    this.props.app.handleOpenPopUp({
+    this.props.openPopup({
       message: 'Do you want to log out?',
-      onConfirm: this.handleConfirmLogOut,
-      onClose: this.props.app.handleClosePopUp
+      type: 'confirm',
+      callback: () => this.handleLogOut(),
+      // onConfirm: this.handleConfirmLogOut,
+      // onClose: this.props.app.handleClosePopUp
     });
   }
 
-  handleConfirmLogOut = () => {
+  handleLogOut = () => {
+    console.log('log out');
     this.props.app.ws.close();
     this.props.app.setState({ currentUser: null });
     localStorage.removeItem('user');
@@ -215,6 +219,7 @@ export default class Settings extends React.Component {
               activeMenuItem={this.state.activeMenuItem}
               app={this.props.app}
             />
+            <Languages />
           </div>
         </div>
       )

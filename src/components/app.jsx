@@ -5,14 +5,13 @@ import { lock, unlock } from 'tua-body-scroll-lock';
 import api, { getAttachmentUrl } from '../api';
 import Header from './header';
 import Footer from './footer';
-import PopUp from './pop-up';
+import Popup from '../containers/popup';
 
 // TODO:
 // 1. showing status to another users
-
-// 2. create icon
-// 3. link to theemes and privacy and security
-// 4. content bg for html (takes bg only from root theme)
+// 2. followed message from another user (somebody followed anybody's message to me)
+// 3. forget password case
+// 4. scrolllock menu msgs
 
 export default class App extends React.Component {
   constructor(props) {
@@ -35,7 +34,7 @@ export default class App extends React.Component {
       selectedMessages: [],
 
       theme: theme,
-      popUp: null,
+      // popUp: null,
 
       isSelectMode: false,
       isStatusVisible: true,
@@ -272,7 +271,6 @@ export default class App extends React.Component {
   }
 
   handleSubmitUser = async (user) => {
-    console.log({av: typeof user.avatar});
     if (typeof user.avatar === 'object') {
       const { data = [] } = await api('upload_attachment', {
         file: user.avatar,
@@ -303,14 +301,6 @@ export default class App extends React.Component {
     }
   }
 
-  handleOpenPopUp = (popUp) => {
-    this.setState({ popUp });
-  }
-
-  handleClosePopUp = () => {
-    this.setState({ popUp: null });
-  }
-
   // --------------------------------
 
   renderHeader = () => {
@@ -337,20 +327,20 @@ export default class App extends React.Component {
     )
   }
 
-  renderPopUp = () => {
-    const { popUp } = this.state;
-
-    if (popUp) {
-      return (
-        <PopUp
-          message={popUp.message}
-          type={popUp.type}
-          onClose={popUp.onClose || this.handleClosePopUp}
-          onConfirm={popUp.onConfirm}
-        />
-      )
-    }
-  }
+  // renderPopUp = () => {
+  //   const { popUp } = this.state;
+  //
+  //   if (popUp) {
+  //     return (
+  //       <PopUp
+  //         message={popUp.message}
+  //         type={popUp.type}
+  //         onClose={popUp.onClose || this.handleClosePopUp}
+  //         onConfirm={popUp.onConfirm}
+  //       />
+  //     )
+  //   }
+  // }
 
   render() {
     return (
@@ -359,7 +349,7 @@ export default class App extends React.Component {
         {this.renderContent()}
         {this.renderFooter()}
 
-        {this.renderPopUp()}
+        <Popup />
       </div>
     );
   }
