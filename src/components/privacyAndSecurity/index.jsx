@@ -21,18 +21,19 @@ export default class PrivacyAndSecurity extends React.Component {
   }
 
   handleClickDeleteAccount = () => {
-    this.props.app.handleOpenPopUp({
-      message: 'All your data will be deleted and it won\'t be possible to restore it. Do you want to continue?',
-      onConfirm: this.handleConfirmDeleteAccount
+    this.props.openPopup({
+      message: 'All your data will be deleted and it won\'t be possible to restore it. Do you want to continue??',
+      type: 'confirm',
+      callback: () => this.handleDeleteAccount(),
     });
   }
 
-  handleConfirmDeleteAccount = async () => {
+  handleDeleteAccount = async () => {
     const { currentUser, users, messages, chats } = this.props.app.state;
     const data = await api('delete_user', currentUser);
 
     if (data.error) {
-      this.handleOpenPopUp({
+      this.props.openPopup({
         message: data.error.description
       })
     }
@@ -70,14 +71,14 @@ export default class PrivacyAndSecurity extends React.Component {
 
     if ((password === currentPassword) && (newPassword === repeatNewPassword)) {
       this.props.app.handleSubmitUser({ password: this.state.repeatNewPassword });
-      this.props.app.handleOpenPopUp({ message: 'Password was changed!' });
+      this.props.openPopup({ message: 'Password was changed!' });
       this.setState({
         currentPassword: '',
         newPassword: '',
         repeatNewPassword: ''
       });
     } else {
-      this.props.app.handleOpenPopUp({ message: 'Ooops, wrong credentials! Try again :)' });
+      this.props.openPopup({ message: 'Ooops, wrong credentials! Try again :)' });
       this.setState({
         currentPassword: '',
         newPassword: '',
@@ -97,8 +98,8 @@ export default class PrivacyAndSecurity extends React.Component {
     } = this.state;
 
     return (
-      <div className={`security ${this.props.activeMenuItem === 'privacy-and-security' ? 'active' : ''}`}>
-        <div className="menu-name" onClick={() => this.props.onClick('privacy-and-security')}>Privacy and security
+      <div className={`security ${this.props.activeSubmenu === 'privacyAndSecurity' ? 'active' : ''}`}>
+        <div className="menu-name" onClick={() => this.props.onClick('privacyAndSecurity')}>Privacy and security
           <i className="fas fa-angle-down"></i>
         </div>
         <div className="submenu">

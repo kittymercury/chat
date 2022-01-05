@@ -15,7 +15,7 @@ export default class Settings extends React.Component {
     this.state = {
       errorMessage: '',
       messageColor: 'red',
-      activeMenuItem: null,
+      // activeMenuItem: null,
 
       isEditProfileMode: false,
     }
@@ -52,7 +52,7 @@ export default class Settings extends React.Component {
   }
 
   handleClickMenuItem = (id) => {
-    this.setState({ activeMenuItem: (id === this.state.activeMenuItem) ? null : id });
+    this.props.openSubmenu(id);
   }
 
   // log out
@@ -62,8 +62,6 @@ export default class Settings extends React.Component {
       message: 'Do you want to log out?',
       type: 'confirm',
       callback: () => this.handleLogOut(),
-      // onConfirm: this.handleConfirmLogOut,
-      // onClose: this.props.app.handleClosePopUp
     });
   }
 
@@ -124,10 +122,9 @@ export default class Settings extends React.Component {
   }
 
   handleClickRemoveAvatar = () => {
-    this.props.app.handleOpenPopUp({
+    this.props.openPopup({
       message: 'Do you want to remove your avatar?',
-      onClose: this.props.app.handleClosePopUp,
-      onConfirm: () => {
+      callback: () => {
         this.setState({ avatar: null });
         this.props.app.handleSubmitUser({ avatar: null });
       },
@@ -163,7 +160,7 @@ export default class Settings extends React.Component {
   renderMainOptions = (condition) => {
     if (condition) {
       return (
-        <div className={`avatar-menu ${this.state.activeMenuItem === 'avatar-menu' ? 'active' : ''}`}>
+        <div className={`avatar-menu ${this.props.activeMenuItem === 'avatar-menu' ? 'active' : ''}`}>
           <div className="menu-name" onClick={() => this.handleClickMenuItem('avatar-menu')}>Change avatar</div>
           <div className="submenu-avatar">
             <div className="input-avatar">
@@ -210,16 +207,15 @@ export default class Settings extends React.Component {
           </div>
           <div className="menu">
             <Themes
-              onClick={this.handleClickMenuItem}
-              activeMenuItem={this.state.activeMenuItem}
+              activeSubmenu={this.props.activeSubmenu}
+              onClick={() => this.handleClickMenuItem('themes')}
               app={this.props.app}
             />
             <PrivacyAndSecurity
-              onClick={this.handleClickMenuItem}
-              activeMenuItem={this.state.activeMenuItem}
+              activeSubmenu={this.props.activeSubmenu}
+              onClick={() => this.handleClickMenuItem('privacyAndSecurity')}
               app={this.props.app}
             />
-            <Languages />
           </div>
         </div>
       )

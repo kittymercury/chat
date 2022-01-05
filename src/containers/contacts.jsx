@@ -2,20 +2,19 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import PopupComponent from '../components/popup';
+import ContactsComponent from '../components/contacts';
 import * as ActionCreators from '../actions/actionCreators';
 
 const mapStateToProps = (state) => {
-  return state.popup;
+  return { users: state.users }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    openPopup: bindActionCreators(ActionCreators.openPopup, dispatch),
-    closePopup: bindActionCreators(ActionCreators.closePopup, dispatch),
+    openContactInfo: bindActionCreators(ActionCreators.openContactInfo, dispatch),
   }
 }
 
 const connectComponent = connect(mapStateToProps, mapDispatchToProps);
 
-export default connectComponent(PopupComponent);
+export default connectComponent(ContactsComponent);

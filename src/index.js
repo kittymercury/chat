@@ -7,11 +7,13 @@ import ReactDOM from 'react-dom';
 import { Router, Route, browserHistory } from 'react-router';
 import { Provider } from 'react-redux';
 
+// containers
+import Settings from './containers/settings';
+
+// components
 import App from './components/app';
 import Registration from './components/registration';
 import Login from './components/login';
-import Settings from './containers/settings';
-import PrivacyAndSecurity from './components/privacyAndSecurity';
 import Contacts from './components/contacts';
 import ContactInfo from './components/contactInfo';
 import Messages from './components/messages';

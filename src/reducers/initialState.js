@@ -1,6 +1,11 @@
 export default {
   chats: [],
-  settings: {},
+  users: [],
+
+  settings: {
+    activeSubmenu: null,
+  },
+  privacyAndSecurity: {},
 
   popup: {
     visible: false,

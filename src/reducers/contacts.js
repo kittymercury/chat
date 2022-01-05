@@ -1,7 +1,7 @@
 import * as Types from '../actions/types';
 import initialState from './initialState';
 
-export default (state = initialState.chats, action) => {
+export default (state = initialState.users, action) => {
   switch (action.type) {
     case Types.OPEN_CHAT:
       return browserHistory.push(`/messages/${payload.id}`);

@@ -1,4 +1,4 @@
-import * as Types from '../actions/popup/types';
+import * as Types from '../actions/types';
 import initialState from './initialState';
 
 export default (state = initialState.popup, action) => {

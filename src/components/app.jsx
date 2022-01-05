@@ -8,10 +8,10 @@ import Footer from './footer';
 import Popup from '../containers/popup';
 
 // TODO:
-// 1. showing status to another users
-// 2. followed message from another user (somebody followed anybody's message to me)
-// 3. forget password case
-// 4. scrolllock menu msgs
+// 1. privacyAndSecurity container. what kind of state in mapstatetoprops?
+// 2. try bulma for chat
+// 3. continue create redux for contacts (remove)
+// 4. openSubmenu in settings
 
 export default class App extends React.Component {
   constructor(props) {

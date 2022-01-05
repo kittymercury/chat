@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import ChatComponent from '../components/chats';
-import * as ActionCreators from '../actions/chats/actionCreators';
+import * as ActionCreators from '../actions/actionCreators';
 
 const mapStateToProps = (state) => {
   return { chats: state.chats }
