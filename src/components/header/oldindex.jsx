@@ -1,10 +1,9 @@
 import React from 'react';
 import { browserHistory } from 'react-router';
-import { Navbar, Heading, Icon } from 'react-bulma-components';
 
 import { getImg } from '../../helpers';
 import { DELETED_USERNAME } from '../../constants';
-// import './styles.scss';
+import './styles.scss';
 
 export default class Header extends React.Component {
   // componentDidMount = () => {
@@ -51,13 +50,35 @@ export default class Header extends React.Component {
 
     const currentPage = this.props.app.getPage();
 
-    if (['chats', 'contacts'].includes(currentPage)) {
-      return (
-        <Navbar.Item onClick={() => this.handleClickSearch(true)}>
-          <i className="fas fa-search"></i>
-        </Navbar.Item>
-      )
-    }
+    return (
+      <div>
+        {['chats', 'contacts'].includes(currentPage) && (
+          <div className="navbar-item" onClick={() => this.handleClickSearch(true)}>
+            <i className="fas fa-search"></i>
+          </div>
+        )}
+        {currentPage === 'registration' && (
+          <div className="btn-back navbar-item" onClick={() => browserHistory.goBack()}>
+            <i className="fas fa-angle-left"></i>
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  renderButtonsRight = () => {
+    const { isSearch, messageToForward } = this.props.app.state;
+    const currentPage = this.props.app.getPage();
+
+    return (
+      <div>
+        {currentPage === 'registration' && (
+          <button style={{ color: 'transparent', cursor: 'initial' }}>
+            <i className="fas fa-angle-left"></i>
+          </button>
+        )}
+      </div>
+    );
   }
 
   renderMessagesHeader = () => {
@@ -111,16 +132,17 @@ export default class Header extends React.Component {
     const currentPage = this.props.app.getPage();
     const titleByPathname = {
       'chats': 'Chats',
-      'contacts': 'Contacts'
+      'contacts': 'Contacts',
+      'registration': 'Registration'
     }
     const title = titleByPathname[currentPage];
 
     return (
-      <Navbar.Item>
+      <div className="navbar-item">
         {Object.keys(titleByPathname).includes(currentPage) && (
-          <Heading size="4">{title}</Heading>
+          <div className="title is-5">{title}</div>
         )}
-      </Navbar.Item>
+      </div>
     )
   }
 
@@ -141,12 +163,14 @@ export default class Header extends React.Component {
         return this.renderMessagesHeader()
       } else {
         return (
-          <Navbar renderAs="nav" fixed="top">
-            <Navbar.Brand>
+          <div className="navbar is-fixed-top">
+            <div className="navbar-brand">
               {this.renderButtonsLeft()}
+              <div className="divider"></div>
               {this.renderTitle()}
-            </Navbar.Brand>
-          </Navbar>
+            </div>
+            {this.renderButtonsRight()}
+          </div>
         )
       }
     }

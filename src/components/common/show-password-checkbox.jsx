@@ -1,19 +1,19 @@
 import React from 'react';
+import { Container, Form, Section, Heading, Icon } from 'react-bulma-components';
 
-import './styles.scss';
+// import './styles.scss';
 
 export default class ShowPasswordCheckbox extends React.Component {
   render () {
     return (
-      <div className="checkbox-wrapper">
-        <input
-          type="checkbox"
-          id="checkbox"
-          onChange={this.props.onChangeShowPassword}
-          checked={this.props.isPasswordVisible}
-        />
-        <span className="show-password">Show password</span>
-      </div>
+      <Form.Field>
+        <Form.Control>
+          <Form.Checkbox onChange={this.props.onChangeShowPassword}
+          checked={this.props.isPasswordVisible}>
+            Show password
+          </Form.Checkbox>
+        </Form.Control>
+      </Form.Field>
     )
   }
 }

@@ -8,9 +8,9 @@ import { Router, Route, browserHistory } from 'react-router';
 import { Provider } from 'react-redux';
 
 // containers
-import Settings from './containers/settings';
 
 // components
+import Settings from './components/settings';
 import App from './components/app';
 import Registration from './components/registration';
 import Login from './components/login';

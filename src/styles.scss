@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Lato');
-
+//
 :root {
   --base-bg: #060606;
   --base-txt-color: #fff;
@@ -11,7 +11,8 @@
   --input-bg: #444444;
   --input-search-bg: #504f4f;
   --search-wrapper-bg: var(--input-search-bg);
-  --wrapper-bg: #121317;
+  // --wrapper-bg: #121317;
+  --wrapper-bg: #0000003d;
   --scrollbar-bg: #3b3b3b;
   --scrollbar-thumb-bg: #666666;
   --my-message-bg: #383942;
@@ -27,134 +28,32 @@
   --box-shadow: #efefef12;
 }
 
-html.purple {
-  --base-bg: #4c203b;
-  --base-txt-color: #fff;
-  --content-bg: #251124;
-  --auth-reg-bg: var(--content-bg);
-  --button-bg: var(--base-bg);
-  --button-txt-color: var(--base-txt-color);
-  --input-txt-color: #fff;
-  --input-bg: #3b1a2e;
-  --wrapper-bg: #632b4c;
-  --scrollbar-bg: #441632;
-  --scrollbar-thumb-bg: #6d3958;
-  --my-message-bg: #5f345d;
-  --other-message-bg: #502840;
-  --gray-txt: #cdc4c4;
-  --menus-msgs: #72345a;
-
-  --popup-bg: var(--input-bg);
-  --popup-btn-bg: #2e072a;
-  --popup-wrapper-bg: #000000b0;
-
-  --hover-submenu: #512541;
-  --box-shadow: #efefef12;
-}
-
-html, body, #app, .chat {
-  margin: 0;
-  height: 100%;
-  width: 100%;
-  font-family: 'Lato', sans-serif;
-}
-
 html {
   background-color: var(--content-bg);
 }
 
-body {
-  overflow-x: hidden;
-}
+.navbar {
+  background: var(--content-bg);
 
-#app {
-  overflow: hidden;
-}
+  a.navbar-item {
+    color: white;
 
-.chat {
-  overflow-x: hidden;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  color: var(--base-txt-color);
-}
-
-.header, .footer {
-  background-color: var(--base-bg);
-}
-
-.content {
-  padding: 60px 0;
-  background-color: var(--content-bg);
-  flex: 1;
-  overflow: auto;
-}
-
-button {
-  background-color: var(--button-bg);
-  color: var(--button-txt-color);
-  font-family: inherit !important;
-}
-
-input {
-  padding: 10px;
-  border: none;
-  border-radius: 20px;
-  background-color: var(--input-bg);
-  color: var(--input-txt-color);
-  outline: none;
-  position: relative;
-
-  #checkbox {
-    cursor: pointer;
+    &:focus, &:hover {
+      color: white;
+      background: none;
+    }
   }
-}
-
-input[type="file"] {
-  width: 0.1px;
-  height: 0.1px;
-  opacity: 0;
-  overflow: hidden;
-  position: absolute;
-  z-index: -1;
-  cursor: pointer;
-
-  label {
-    font-size: 14px;
-    font-weight: 700;
-    color: var(--button-txt-color);
-    background-color: var(--button-bg);
-    display: inline-block;
-    cursor: pointer;
-  }
-}
-
-#file + label {
-  cursor: pointer;
-  padding: 3px;
-  font-size: 14px;
-  margin-left: 15px;
-  border-width: 2px;
-  border-style: outset;
-  border-color: gray black black gray;
-  border-image: initial;
-}
-
-a {
-  color: inherit;
-  text-decoration: inherit;
 }
 
 ul {
   margin: 0;
   padding: 0;
   list-style: none;
-}
 
-li {
-  background-color: var(--wrapper-bg);
-  cursor: pointer;
+  li {
+    background-color: var(--wrapper-bg);
+    cursor: pointer;
+  }
 }
 
 .fas.fa-circle.online {
@@ -164,12 +63,130 @@ li {
 .fas.fa-circle.offline {
   color: #ce5e5e;
 }
-
-*::-webkit-scrollbar {
-  width: 5px;
-  background-color: var(--scrollbar-bg);
+//
+// html.purple {
+//   --base-bg: #4c203b;
+//   --base-txt-color: #fff;
+//   --content-bg: #251124;
+//   --auth-reg-bg: var(--content-bg);
+//   --button-bg: var(--base-bg);
+//   --button-txt-color: var(--base-txt-color);
+//   --input-txt-color: #fff;
+//   --input-bg: #3b1a2e;
+//   --wrapper-bg: #632b4c;
+//   --scrollbar-bg: #441632;
+//   --scrollbar-thumb-bg: #6d3958;
+//   --my-message-bg: #5f345d;
+//   --other-message-bg: #502840;
+//   --gray-txt: #cdc4c4;
+//   --menus-msgs: #72345a;
+//
+//   --popup-bg: var(--input-bg);
+//   --popup-btn-bg: #2e072a;
+//   --popup-wrapper-bg: #000000b0;
+//
+//   --hover-submenu: #512541;
+//   --box-shadow: #efefef12;
+// }
+//
+html, body, #app, .chat {
+  margin: 0;
+  height: 100%;
+  width: 100%;
+  font-family: 'Lato', sans-serif;
 }
-
-*::-webkit-scrollbar-thumb {
-  background-color: var(--scrollbar-thumb-bg);
-}
+//
+//
+// body {
+//   overflow-x: hidden;
+// }
+//
+// #app {
+//   overflow: hidden;
+// }
+//
+// .chat {
+//   overflow-x: hidden;
+//   position: relative;
+//   display: flex;
+//   flex-direction: column;
+//   justify-content: space-between;
+//   color: var(--base-txt-color);
+// }
+//
+// .header, .footer {
+//   background-color: var(--base-bg);
+// }
+//
+// .content {
+//   padding: 60px 0;
+//   background-color: var(--content-bg);
+//   flex: 1;
+//   overflow: auto;
+// }
+//
+// button {
+//   background-color: var(--button-bg);
+//   color: var(--button-txt-color);
+//   font-family: inherit !important;
+// }
+//
+// input {
+//   padding: 10px;
+//   border: none;
+//   border-radius: 20px;
+//   background-color: var(--input-bg);
+//   color: var(--input-txt-color);
+//   outline: none;
+//   position: relative;
+//
+//   #checkbox {
+//     cursor: pointer;
+//   }
+// }
+//
+// input[type="file"] {
+//   width: 0.1px;
+//   height: 0.1px;
+//   opacity: 0;
+//   overflow: hidden;
+//   position: absolute;
+//   z-index: -1;
+//   cursor: pointer;
+//
+//   label {
+//     font-size: 14px;
+//     font-weight: 700;
+//     color: var(--button-txt-color);
+//     background-color: var(--button-bg);
+//     display: inline-block;
+//     cursor: pointer;
+//   }
+// }
+//
+// #file + label {
+//   cursor: pointer;
+//   padding: 3px;
+//   font-size: 14px;
+//   margin-left: 15px;
+//   border-width: 2px;
+//   border-style: outset;
+//   border-color: gray black black gray;
+//   border-image: initial;
+// }
+//
+// a {
+//   color: inherit;
+//   text-decoration: inherit;
+// }
+//
+//
+//
+// *::-webkit-scrollbar {
+//   width: 5px;
+//   background-color: var(--scrollbar-bg);
+// }
+//
+// *::-webkit-scrollbar-thumb {
+//   background-color: var(--scrollbar-thumb-bg);
+// }

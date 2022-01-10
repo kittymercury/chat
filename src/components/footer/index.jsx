@@ -1,5 +1,6 @@
 import React from 'react';
 import { browserHistory } from 'react-router';
+import { Tabs, Icon } from 'react-bulma-components';
 
 import './styles.scss';
 
@@ -25,18 +26,38 @@ export default class Footer extends React.Component {
     }
 
     return (
-      <div className="footer">
-        <button onClick={() => browserHistory.push('/contacts')}>
-          <i className="fas fa-user-friends"></i>
-        </button>
-        <button onClick={() => browserHistory.push('/chats')}>
-          <i className="far fa-comment"></i>
-          {this.numberOfUnseenMessages()}
-        </button>
-        <button onClick={() => browserHistory.push('/settings')}>
-          <i className="fas fa-cog"></i>
-        </button>
-      </div>
+      <Tabs align="center" fixed="bottom" fullwidth="true" size="large">
+        <Tabs.Tab textColor={currentPage === '/contacts' ? 'primary' : 'text'} onClick={() => browserHistory.push('/contacts')}>
+          <Icon>
+            <i className="fas fa-user-friends"></i>
+          </Icon>
+        </Tabs.Tab >
+        <Tabs.Tab textColor={currentPage === '/chats' ? 'primary' : 'text'} onClick={() => browserHistory.push('/chats')}>
+          <Icon>
+            <i className="fas fa-comment"></i>
+            {this.numberOfUnseenMessages()}
+          </Icon>
+        </Tabs.Tab>
+        <Tabs.Tab textColor={currentPage === '/settings' ? 'primary' : 'text'} onClick={() => browserHistory.push('/settings')}>
+          <Icon>
+            <i className="fas fa-cog"></i>
+          </Icon>
+        </Tabs.Tab>
+      </Tabs>
+      // <div className="tabs is-centered is-toggle is-medium is-fullwidth">
+      //   <ul>
+      //     <li onClick={() => browserHistory.push('/contacts')}>
+      //       <i className="fas fa-user-friends"></i>
+      //     </li>
+      //     <li onClick={() => browserHistory.push('/chats')}>
+      //       <i className="far fa-comment"></i>
+      //       {this.numberOfUnseenMessages()}
+      //     </li>
+      //     <li onClick={() => browserHistory.push('/settings')}>
+      //       <i className="fas fa-cog"></i>
+      //     </li>
+      //   </ul>
+      // </div>
     )
   }
 }

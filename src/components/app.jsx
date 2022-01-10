@@ -94,6 +94,7 @@ export default class App extends React.Component {
 
   init = async (user) => {
     const { users = [] } = await api('get_users', { id: user.id });
+    console.log({users});
     user = users[0];
     if (!user) {
       return browserHistory.push('/authentication');

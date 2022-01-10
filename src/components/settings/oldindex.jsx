@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link, browserHistory } from 'react-router';
-import { Modal, Container, Section, Block, Navbar, Heading, Icon, Form } from 'react-bulma-components';
-
+import { Navbar, Heading, Icon } from 'react-bulma-components';
 
 import Themes from '../themes';
 import Languages from '../languages';
@@ -17,7 +16,7 @@ export default class Settings extends React.Component {
     this.state = {
       errorMessage: '',
       messageColor: 'red',
-      activeMenuItem: null,
+      // activeMenuItem: null,
 
       isEditProfileMode: false,
     }
@@ -53,9 +52,9 @@ export default class Settings extends React.Component {
     this.setState({ isEditProfileMode: false });
   }
 
-  // handleClickMenuItem = (id) => {
-  //   this.props.openSubmenu(id);
-  // }
+  handleClickMenuItem = (id) => {
+    this.props.openSubmenu(id);
+  }
 
   // log out
 
@@ -138,59 +137,49 @@ export default class Settings extends React.Component {
   renderSettingsHeader = () => {
     if (this.state.isEditProfileMode) {
       return (
-        <Navbar className="nav-settings-edit-mode" renderAs="nav" fixed="top">
-          <Navbar.Item onClick={this.handleClickCancelEditProfile}>Cancel</Navbar.Item>
-          <Navbar.Item onClick={this.handleSubmit}>Save</Navbar.Item>
-        </Navbar>
+        <div className="settings-btns">
+          <div style={{ padding: '0 10px' }} onClick={this.handleClickCancelEditProfile}>Cancel</div>
+          <div className="title">Settings</div>
+          <div style={{ padding: '0 10px' }} onClick={this.handleSubmit}>Save</div>
+        </div>
       )
     } else {
       return (
-        <Navbar className="nav-settings" renderAs="nav" fixed="top">
-          <Navbar.Brand>
-            <Navbar.Item onClick={this.handleClickEditProfile}>
-              <i className="fas fa-pen"></i>
-            </Navbar.Item>
-            <Navbar.Item textSize="4" textWeight="bold">Settings</Navbar.Item>
-          </Navbar.Brand>
-        </Navbar>
+        <div className="settings-btns">
+          <div style={{ color: 'transparent', cursor: 'initial' }}>
+            <i className="fas fa-pen"></i>
+          </div>
+          <div className="title">Settings</div>
+          <div onClick={this.handleClickEditProfile}>
+            <i className="fas fa-pen"></i>
+          </div>
+        </div>
       )
     }
-  }
-
-  renderChangeAvatarModal = () => {
-    return (
-      <Modal onClose={() => this.setState({ activeMenuItem: null })} show={this.state.activeMenuItem === 'avatar-menu'}>
-        <Modal.Content>
-          <Form.Field className="input-avatar">
-            <Form.Control>
-              <Form.InputFile
-                label="Load avatar"
-                type="file"
-                id="avatar"
-                name="avatar"
-                accept=".jpg, .jpeg, .png"
-                onChange={this.handleChangeAvatar}
-              />
-            </Form.Control>
-          </Form.Field>
-          <Block className="input-avatar" onClick={this.handleClickRemoveAvatar}>Remove</Block>
-        </Modal.Content>
-      </Modal>
-    )
   }
 
   renderMainOptions = (condition) => {
     if (condition) {
       return (
-        <Block className="menu-name" onClick={() => this.setState({ activeMenuItem: 'avatar-menu'})}>Change avatar</Block>
-        /* <Block className="menu-name" onClick={() => this.setState({ activeMenuItem: 'avatar-menu' })}>Change avatar</Block> */
+        <div className={`avatar-menu ${this.props.activeMenuItem === 'avatar-menu' ? 'active' : ''}`}>
+          <div className="menu-name" onClick={() => this.handleClickMenuItem('avatar-menu')}>Change avatar</div>
+          <div className="submenu-avatar">
+            <div className="input-avatar">
+              <label htmlFor="avatar">Load avatar</label>
+              <input type="file" id="avatar" name="avatar" accept=".jpg, .jpeg, .png" onChange={this.handleChangeAvatar} />
+            </div>
+            <div className="input-avatar">
+              <button onClick={this.handleClickRemoveAvatar}>Remove avatar</button>
+            </div>
+          </div>
+        </div>
       )
     } else {
       return (
-        <Block>
+        <div className="data-wrapper">
           <div className="name">{this.props.app.state.currentUser.name}</div>
           <div className="login">@{this.props.app.state.currentUser.login}</div>
-        </Block>
+        </div>
       )
     }
   }
@@ -200,46 +189,42 @@ export default class Settings extends React.Component {
       return (
         <div className="options">
           <div className="input-menu">
-            <Form.Field>
-              <Form.Control>
-                <Form.Input
-                  type="text"
-                  value={this.state.name}
-                  onChange={this.handleChangeName}
-                />
-              </Form.Control>
-            </Form.Field>
-            <Form.Field>
-              <Form.Control>
-                <Form.Input
-                  type="text"
-                  value={this.state.login}
-                  placeholder={`@${this.props.app.state.currentUser.login}`}
-                  onChange={this.handleChangeLogin}
-                />
-              </Form.Control>
-              <Form.Help style={{ color: this.state.messageColor, fontSize: '10px', paddingLeft: '8px' }}>{this.state.errorMessage}</Form.Help>
-            </Form.Field>
+            <div>
+              <input
+                type="text"
+                value={this.state.name}
+                onChange={this.handleChangeName}
+              />
+            </div>
+            <div>
+              <input
+                type="text"
+                value={this.state.login}
+                placeholder={`@${this.props.app.state.currentUser.login}`}
+                onChange={this.handleChangeLogin}
+              />
+              <span style={{ color: this.state.messageColor, fontSize: '10px', paddingLeft: '8px' }}>{this.state.errorMessage}</span>
+            </div>
+          </div>
+          <div className="menu">
+            <Themes
+              activeSubmenu={this.props.activeSubmenu}
+              onClick={() => this.handleClickMenuItem('themes')}
+              app={this.props.app}
+            />
+            <PrivacyAndSecurity
+              activeSubmenu={this.props.activeSubmenu}
+              onClick={() => this.handleClickMenuItem('privacyAndSecurity')}
+              app={this.props.app}
+            />
           </div>
         </div>
       )
     } else {
       return (
-        <div>
-          <Themes
-            activeMenuItem={this.props.activeMenuItem}
-            onClick={() => this.setState({ activeMenuItem: 'themes' })}
-            app={this.props.app}
-          />
-          <PrivacyAndSecurity
-            activeMenuItem={this.props.activeMenuItem}
-            onClick={() => this.setState({ activeMenuItem: 'privacyAndSecurity'} )}
-            app={this.props.app}
-          />
+        <div className="log-out" onClick={this.handleClickLogOut}>
+          Log out
         </div>
-        // {/* <Block className="log-out" onClick={this.handleClickLogOut}>
-        //   Log out
-        // </Block> */}
       )
     }
   }
@@ -249,22 +234,20 @@ export default class Settings extends React.Component {
     const { isEditProfileMode } = this.state;
 
     if (!currentUser) return null;
-    console.log({state: this.state});
 
     return (
-      <Container className="settings">
-        {this.renderSettingsHeader()}
-        <Section>
-          <Block className="current-user-img" style={{ backgroundImage: `url(${this.getAvatar()})` }}></Block>
-          {this.renderMainOptions(isEditProfileMode)}
-        </Section>
-        {this.renderFeatures(isEditProfileMode)}
-        {/* <div className="info-wrapper-settings">
+      <div className="content settings">
+        <div className="header-info-wrapper">
+          {this.renderSettingsHeader()}
+        </div>
+        <div className="info-wrapper-settings">
           <div className="info">
+            <div className="current-user-img" style={{ backgroundImage: `url(${this.getAvatar()})` }}></div>
+            {this.renderMainOptions(isEditProfileMode)}
           </div>
-        </div> */}
-        {this.renderChangeAvatarModal()}
-      </Container>
+          {this.renderFeatures(isEditProfileMode)}
+        </div>
+      </div>
     )
   }
 }

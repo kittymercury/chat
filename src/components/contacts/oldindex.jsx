@@ -1,6 +1,5 @@
 import React from 'react';
 import { browserHistory } from 'react-router';
-import { Container } from 'react-bulma-components';
 
 import api from '../../api';
 import { getImg } from '../../helpers';
@@ -106,7 +105,7 @@ export default class Contacts extends React.Component {
 
 
     return (
-        <Container className="contacts">
+        <div className="content contacts">
           {this.renderInputSearch()}
           <ul>
             {filteredUsers.map((user) => {
@@ -124,7 +123,7 @@ export default class Contacts extends React.Component {
               )
             })}
           </ul>
-        </Container>
+        </div>
     )
   }
 }

@@ -5,7 +5,7 @@
 
   li {
     height: var(--li-height);
-    margin-bottom: 5px;
+    margin-bottom: 1px;
     padding: 0 10px;
 
     display: flex;
@@ -46,6 +46,7 @@
   }
 
   .name {
+    color: white;
     font-size: var(--li-name);
     font-weight: bold;
     flex: 1;

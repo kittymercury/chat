@@ -1,4 +1,5 @@
 import React from 'react';
+import { Dropdown, Icon } from 'react-bulma-components';
 
 import './styles.scss';
 
@@ -19,22 +20,11 @@ export default class Themes extends React.Component {
 
   render() {
     return (
-      <div className={`change-theme ${this.props.activeMenuItem === 'change-theme' ? 'active' : ''}`}>
-        <div className="headline" onClick={() => this.props.onClick('change-theme')}>
-          <span>Themes</span>
-          <i className="fas fa-angle-down"></i>
-        </div>
-        <div className="submenu">
-          <div className="theme" onClick={() => this.handleSelectTheme('dark')}>
-            <span>Dark</span>
-            {this.renderCheck(this.props.app.state.theme, 'dark')}
-          </div>
-          <div className="theme" onClick={() => this.handleSelectTheme('purple')}>
-            <span>Purple</span>
-            {this.renderCheck(this.props.app.state.theme, 'purple')}
-          </div>
-        </div>
-      </div>
+      <Dropdown closeOnSelect={false} icon={<Icon><i aria-hidden="true" className="fas fa-angle-down"/></Icon>} label="Themes" active={this.props.activeMenuItem === 'change-theme' ? 'true' : 'false'}>
+        <Dropdown.Item value="dark">Dark</Dropdown.Item>
+        <Dropdown.Divider></Dropdown.Divider>
+        <Dropdown.Item value="purple">Purple</Dropdown.Item>
+      </Dropdown>
     )
   }
 }

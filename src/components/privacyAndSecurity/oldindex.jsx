@@ -1,6 +1,5 @@
 import React from 'react';
 import { browserHistory } from 'react-router';
-import { Dropdown, Icon } from 'react-bulma-components';
 
 import api from '../../api';
 import ShowPasswordCheckbox from '../common/show-password-checkbox';
@@ -99,50 +98,7 @@ export default class PrivacyAndSecurity extends React.Component {
     } = this.state;
 
     return (
-      <Dropdown closeOnSelect={false} icon={<Icon><i aria-hidden="true" className="fas fa-angle-down"/></Icon>} label="Privacy and security" active={this.props.activeMenuItem === 'privacyAndSecurity' ? 'true' : 'false'}>
-        <Dropdown.Item className="wrapper" value="show-my-password">
-          <span>Show my status:</span>
-          <input
-            type="checkbox"
-            id="checkbox"
-            onChange={this.handleChangeInputCheckbox}
-            checked={this.props.app.state.isStatusVisible}
-          />
-        </Dropdown.Item>
-        <Dropdown.Divider></Dropdown.Divider>
-        <Dropdown.Item value="change-password-wrapper">
-          <span>Change password</span>
-          <input
-            type={inputType}
-            value={currentPassword}
-            placeholder='Old password'
-            onChange={(e) => this.handleChangePassword('currentPassword', e)}
-          />
-          <input
-            type={inputType}
-            value={newPassword}
-            placeholder='New password'
-            onChange={(e) => this.handleChangePassword('newPassword', e)}
-          />
-          <input
-            type={inputType}
-            value={repeatNewPassword}
-            placeholder='Repeat new password'
-            onChange={(e) => this.handleChangePassword('repeatNewPassword', e)}
-          />
-          <ShowPasswordCheckbox
-          onChangeShowPassword={this.changePasswordVisibility}
-          checked={isPasswordVisible}
-          />
-          <div className="security-button" onClick={this.handleConfirmNewPassword}>Confirm</div>
-        </Dropdown.Item>
-        <Dropdown.Divider></Dropdown.Divider>
-        <Dropdown.Item value="delete-account" className="delete-account wrapper">
-          <div>To delete your account press the button: </div>
-          <div onClick={this.handleClickDeleteAccount}>Delete account</div>
-        </Dropdown.Item>
-      </Dropdown>
-      /* <div className={`security ${this.props.activeMenuItem === 'privacyAndSecurity' ? 'active' : ''}`}>
+      <div className={`security ${this.props.activeMenuItem === 'privacyAndSecurity' ? 'active' : ''}`}>
         <div className="menu-name" onClick={() => this.props.onClick('privacyAndSecurity')}>Privacy and security
           <i className="fas fa-angle-down"></i>
         </div>
@@ -186,11 +142,11 @@ export default class PrivacyAndSecurity extends React.Component {
 
           <div className="delete-account wrapper">
             {/* <div>Delete account</div>
-            <div>To delete your account press the button: </div> */
-      //       <div onClick={this.handleClickDeleteAccount}>Delete account</div>
-      //     </div>
-      //   </div>
-      // </div> */}
+            <div>To delete your account press the button: </div> */}
+            <div onClick={this.handleClickDeleteAccount}>Delete account</div>
+          </div>
+        </div>
+      </div>
     )
   }
 }

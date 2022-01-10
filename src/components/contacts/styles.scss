@@ -5,7 +5,7 @@
 
 .contacts li {
   height: var(--li-height);
-  margin-bottom: 5px;
+  margin-bottom: 1px;
   padding: 0 10px;
   cursor: pointer;
 
@@ -31,6 +31,7 @@
     justify-content: center;
 
     span {
+      color: white;
       font-size: var(--li-name);
       padding-bottom: 5px;
     }

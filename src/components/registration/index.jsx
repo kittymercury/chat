@@ -1,9 +1,10 @@
 import React from 'react';
 import { browserHistory } from 'react-router';
+import { Container, Form, Section, Heading, Icon, Box, Hero, Message, Button, Block, Navbar } from 'react-bulma-components';
 
 import api from '../../api';
 
-import './styles.scss';
+// import './styles.scss';
 
 import noAvatar from '../../images/no-avatar.png';
 import ShowPasswordCheckbox from '../common/show-password-checkbox';
@@ -86,36 +87,103 @@ export default class Registration extends React.Component {
     }
   }
 
+  renderNav = () => {
+    return (
+      <Navbar renderAs="nav" fixed="top" color="primary">
+        <Navbar.Brand>
+          <Navbar.Item onClick={() => browserHistory.goBack()}>
+            <Icon>
+              <i className="fas fa-angle-left"></i>
+            </Icon>
+            Back
+          </Navbar.Item>
+        </Navbar.Brand>
+      </Navbar>
+    )
+  }
+
   render () {
     const { isPasswordVisible, inputType } = this.state;
 
     return (
-      <div className="content registration">
-        <div className="headline">Sign up</div>
-        <input
-          type="text"
-          placeholder="Your name*"
-          value={this.state.name}
-          onChange={(e) => this.changeInputValue('name', e)}
-        />
-        <input
-          type="text"
-          placeholder="Login*"
-          value={this.state.login}
-          onChange={this.handleChangeLogin}
-        />
-        <input
-          type={inputType}
-          placeholder="Password*"
-          value={this.state.password}
-          onChange={(e) => this.changeInputValue('password', e)}
-        />
-        <ShowPasswordCheckbox
-          onChangeShowPassword={this.changePasswordVisibility}
-          checked={isPasswordVisible}
-        />
-        <div className="sign-up-button" onClick={this.handleClickSignUp}>Sign up</div>
-      </div>
+      <Container breakpoint="mobile">
+        {this.renderNav()}
+      {/* <StyledSection>  */}
+        <Hero>
+          <Hero.Body>
+            <Heading>Registration</Heading>
+          </Hero.Body>
+        </Hero>
+        <Section>
+          <form>
+            <Form.Field>
+              <Form.Label>Login</Form.Label>
+              <Form.Control>
+                <Form.Input
+                  color="success"
+                  type="text"
+                  placeholder="Your login*"
+                  value={this.state.name}
+                  onChange={(e) => this.changeInputValue('name', e)}
+                />
+                {/* <Form.Help color="danger">This email is invalid</Form.Help> */}
+                <Icon align="left" size="small">
+                  <i className="fas fa-user" />
+                </Icon>
+                {/* <Icon align="right" size="small">
+                  <i className="fas fa-check" />
+                </Icon> */}
+              </Form.Control>
+            </Form.Field>
+            <Form.Field>
+              <Form.Label>Password</Form.Label>
+              <Form.Control>
+                <Form.Input
+                  color="success"
+                  type={inputType}
+                  placeholder="Password*"
+                  value={this.state.password}
+                  onChange={(e) => this.changeInputValue('password', e)}
+                />
+                <Icon align="left" size="small">
+                  <i className="fas fa-lock" />
+                </Icon>
+              </Form.Control>
+            </Form.Field>
+            <ShowPasswordCheckbox
+              onChangeShowPassword={this.changePasswordVisibility}
+              checked={isPasswordVisible}
+            />
+            <Button color="success" onClick={this.handleClickSignUp}>Sign up</Button>
+          </form>
+        </Section>
+      </Container>
+      // <div className="content registration">
+      //   <div className="headline">Sign up</div>
+      //   <input
+      //     type="text"
+      //     placeholder="Your name*"
+      //     value={this.state.name}
+      //     onChange={(e) => this.changeInputValue('name', e)}
+      //   />
+      //   <input
+      //     type="text"
+      //     placeholder="Login*"
+      //     value={this.state.login}
+      //     onChange={this.handleChangeLogin}
+      //   />
+      //   <input
+      //     type={inputType}
+          // placeholder="Password*"
+          // value={this.state.password}
+          // onChange={(e) => this.changeInputValue('password', e)}
+      //   />
+        // <ShowPasswordCheckbox
+        //   onChangeShowPassword={this.changePasswordVisibility}
+        //   checked={isPasswordVisible}
+        // />
+      //   <div className="sign-up-button" onClick={this.handleClickSignUp}>Sign up</div>
+      // </div>
     )
   }
 }

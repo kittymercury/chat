@@ -1,7 +1,6 @@
 import React from 'react';
 import lodash from 'lodash';
 import { browserHistory } from 'react-router';
-import { Container } from 'react-bulma-components';
 
 import api from '../../api';
 import InputSearch from '../common/input-search';
@@ -229,7 +228,7 @@ export default class Chats extends React.Component {
     });
 
     return (
-      <Container className="chats">
+      <div className="content chats">
         {isSearch && (
           <InputSearch
             value={inputSearch}
@@ -264,7 +263,7 @@ export default class Chats extends React.Component {
           )
           : ''
         }
-      </Container>
+      </div>
     )
   }
 }
