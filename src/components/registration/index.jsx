@@ -10,88 +10,82 @@ import noAvatar from '../../images/no-avatar.png';
 import ShowPasswordCheckbox from '../common/show-password-checkbox';
 
 export default class Registration extends React.Component {
-  constructor(props) {
-    super(props);
+  // handleClickSignUp = async () => {
+  //   const { login = '', password = '', name = '' } = this.state;
+  //   const errors = [];
+  //
+  //   if (login.trim().length < 3) {
+  //     errors.push('Login cannot be shorter than 3 symbols!')
+  //   }
+  //
+  //   if (password.trim().length < 6) {
+  //     errors.push('Password cannot be shorter than 6 symbols!')
+  //   }
+  //
+  //   if (!name.trim()) {
+  //     errors.push('Enter your name!')
+  //   }
+  //
+  //   if (errors.length) {
+  //     return this.props.app.handleOpenPopUp({
+  //       message: errors.join('\n')
+  //     })
+  //   }
+  //
+  //   const data = await api('sign_up', {
+  //     name: this.state.name,
+  //     login: this.state.login,
+  //     password: this.state.password
+  //   });
+  //
+  //   if (data.user) {
+  //     const usersData = await api('get_users');
+  //
+  //     this.props.app.setState({ currentUser: data.user, users: usersData.users });
+  //
+  //     localStorage.setItem('user', JSON.stringify(data.user));
+  //     browserHistory.push('/settings');
+  //   }
+  //
+  //   if (data.error) {
+  //     this.props.app.handleOpenPopUp({
+  //       message: data.error.description
+  //     });
+  //   }
+  // }
+  //
+  // handleChangeLogin = (e) => {
+  //   const allowedSymbols = /^[0-9a-z]+$/;
+  //
+  //   if (e.target.value === '' || allowedSymbols.test(e.target.value)) {
+  //     this.setState({ login: e.target.value });
+  //   }
+  // }
 
-    this.state = {
-      login: '',
-      password: '',
-      name: '',
-      isPasswordVisible: false,
-      inputType: 'password'
-    }
+
+  changeInputValue = (type) => (e) => {
+    this.props.changeInputValue({ type, value: e.target.value });
   }
 
-  handleClickSignUp = async () => {
-    const { login = '', password = '', name = '' } = this.state;
-    const errors = [];
-
-    if (login.trim().length < 3) {
-      errors.push('Login cannot be shorter than 3 symbols!')
-    }
-
-    if (password.trim().length < 6) {
-      errors.push('Password cannot be shorter than 6 symbols!')
-    }
-
-    if (!name.trim()) {
-      errors.push('Enter your name!')
-    }
-
-    if (errors.length) {
-      return this.props.app.handleOpenPopUp({
-        message: errors.join('\n')
-      })
-    }
-
-    const data = await api('sign_up', {
-      name: this.state.name,
-      login: this.state.login,
-      password: this.state.password
-    });
-
-    if (data.user) {
-      const usersData = await api('get_users');
-
-      this.props.app.setState({ currentUser: data.user, users: usersData.users });
-
-      localStorage.setItem('user', JSON.stringify(data.user));
-      browserHistory.push('/settings');
-    }
-
-    if (data.error) {
-      this.props.app.handleOpenPopUp({
-        message: data.error.description
-      });
-    }
-  }
-
-  handleChangeLogin = (e) => {
-    const allowedSymbols = /^[0-9a-z]+$/;
-
-    if (e.target.value === '' || allowedSymbols.test(e.target.value)) {
-      this.setState({ login: e.target.value });
-    }
-  }
-
-
-  changeInputValue = (name, e) => {
-    this.setState({ [name]: e.target.value })
-  }
 
   changePasswordVisibility = (e) => {
     if (e.target.checked) {
-      this.setState({ isPasswordVisible: true, inputType: 'text' })
+      this.props.changePasswordVisibility({ reg_inputType: 'text' });
     } else {
-      this.setState({ isPasswordVisible: false, inputType: 'password' })
+      this.props.changePasswordVisibility({ reg_inputType: 'password' });
     }
+  }
+
+  handleClickBack = () => {
+    this.props.backToLoginPage();
+    browserHistory.goBack();
   }
 
   renderNav = () => {
     return (
       <Navbar renderAs="nav" fixed="top" color="primary">
         <Navbar.Brand>
-          <Navbar.Item onClick={() => browserHistory.goBack()}>
+          <Navbar.Item onClick={this.handleClickBack}>
             <Icon>
               <i className="fas fa-angle-left"></i>
             </Icon>
@@ -103,7 +97,8 @@ export default class Registration extends React.Component {
   }
 
   render () {
-    const { isPasswordVisible, inputType } = this.state;
+    console.log({reg: this.props});
+    const { reg_name, reg_login, reg_password, reg_inputType } = this.props;
 
     return (
       <Container breakpoint="mobile">
@@ -117,22 +112,34 @@ export default class Registration extends React.Component {
         <Section>
           <form>
             <Form.Field>
+              <Form.Label>Username</Form.Label>
+              <Form.Control>
+                <Form.Input
+                  color="success"
+                  type="text"
+                  placeholder="Username*"
+                  value={reg_name}
+                  onChange={this.changeInputValue('reg_name')}
+                />
+                <Icon align="left" size="small">
+                  <i className="fas fa-user" />
+                </Icon>
+              </Form.Control>
+            </Form.Field>
+            <Form.Field>
               <Form.Label>Login</Form.Label>
               <Form.Control>
                 <Form.Input
                   color="success"
                   type="text"
                   placeholder="Your login*"
-                  value={this.state.name}
-                  onChange={(e) => this.changeInputValue('name', e)}
+                  value={reg_login}
+                  onChange={this.changeInputValue('reg_login')}
                 />
-                {/* <Form.Help color="danger">This email is invalid</Form.Help> */}
+                <Form.Help color="text">Your login should contain only numbers and letters</Form.Help>
                 <Icon align="left" size="small">
-                  <i className="fas fa-user" />
+                  <i className="fas fa-at"></i>
                 </Icon>
-                {/* <Icon align="right" size="small">
-                  <i className="fas fa-check" />
-                </Icon> */}
               </Form.Control>
             </Form.Field>
             <Form.Field>
@@ -140,19 +147,24 @@ export default class Registration extends React.Component {
               <Form.Control>
                 <Form.Input
                   color="success"
-                  type={inputType}
+                  type={reg_inputType}
                   placeholder="Password*"
-                  value={this.state.password}
-                  onChange={(e) => this.changeInputValue('password', e)}
+                  value={reg_password}
+                  onChange={this.changeInputValue('reg_password')}
                 />
                 <Icon align="left" size="small">
                   <i className="fas fa-lock" />
+                </Icon>
+                <Icon align="right" size="small">
+                  {reg_inputType === "text"
+                    ? <i className="fas fa-eye"></i>
+                    : <i className="fas fa-eye-slash"></i>
+                  }
                 </Icon>
               </Form.Control>
             </Form.Field>
             <ShowPasswordCheckbox
               onChangeShowPassword={this.changePasswordVisibility}
-              checked={isPasswordVisible}
             />
             <Button color="success" onClick={this.handleClickSignUp}>Sign up</Button>
           </form>

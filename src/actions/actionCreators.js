@@ -1,8 +1,12 @@
 import * as Types from './types';
 
-// input value
+// input
 export const changeInputValue = (payload) => {
   return { type: Types.CHANGE_INPUT_VALUE, payload }
+}
+
+export const changePasswordVisibility = (payload) => {
+  return { type: Types.CHANGE_PASSWORD_VISIBILITY, payload }
 }
 
 // Chats

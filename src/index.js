@@ -8,13 +8,13 @@ import { Router, Route, browserHistory } from 'react-router';
 import { Provider } from 'react-redux';
 
 // containers
-import Settings from './containers/settings';
+import Login from './containers/login';
+import Registration from './containers/registration';
 import Chats from './containers/chats';
+import Settings from './containers/settings';
 
 // components
 import App from './components/app';
-import Registration from './components/registration';
-import Login from './containers/login';
 import Contacts from './components/contacts';
 import ContactInfo from './components/contactInfo';
 import Messages from './components/messages';

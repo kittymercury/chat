@@ -11,15 +11,24 @@ export default {
     chats: {},
 
     contacts: {},
+
     contactInfo: {},
 
     login: {
-      login: '',
-      password: '',
+      log_login: '',
+      log_password: '',
+      log_inputType: 'password'
     },
 
     messages: {},
-    registration: {},
+
+    registration: {
+      reg_name: '',
+      reg_login: '',
+      reg_password: '',
+      reg_inputType: 'password'
+    },
+
     settings: {},
   },
 

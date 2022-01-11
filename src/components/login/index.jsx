@@ -9,43 +9,30 @@ import './styles.scss';
 import ShowPasswordCheckbox from '../common/show-password-checkbox';
 
 export default class Login extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      // login: '',
-      // password: '',
-      inputType: 'password',
-      isPasswordVisible: false
-    }
-  }
-
   changeInputValue = (type) => (e) => {
-    // this.setState({ [name]: e.target.value })
     this.props.changeInputValue({ type, value: e.target.value });
   }
 
-  handleClickLogIn = async () => {
-    // const { login, password } = this.state;
-    // console.log({login, password});
-    const { login, password } = this.props;
-    // this.props.onLogin({ login, password });
-    await this.props.app.login({ password, login });
-    // this.setState({ login: '', password: '' });
-  }
-
   changePasswordVisibility = (e) => {
-    console.log(e.target.checked);
     if (e.target.checked) {
-      this.setState({ isPasswordVisible: true, inputType: 'text' })
+      this.props.changePasswordVisibility({ log_inputType: 'text' });
     } else {
-      this.setState({ isPasswordVisible: false, inputType: 'password' })
+      this.props.changePasswordVisibility({ log_inputType: 'password' });
     }
   }
 
+  handleClickLogIn = async () => {
+    const { log_login, log_password } = this.props;
+    // this.props.onLogin({ login, password });
+    await this.props.app.login({ log_password, log_login });
+  }
+
+  handleClickRegistrateHere = () => {
+    this.props.goToRegistrationPage();
+  }
+
   render () {
-    const { inputType, isPasswordVisible } = this.state;
-    const { login, password } = this.props;
+    const { log_login, log_password, log_inputType } = this.props;
     console.log({login: this.props});
 
     return (
@@ -63,8 +50,8 @@ export default class Login extends React.Component {
                 color="success"
                 type="text"
                 placeholder="Your login"
-                value={login}
-                onChange={this.changeInputValue('login')}
+                value={log_login}
+                onChange={this.changeInputValue('log_login')}
               />
               <Icon align="left" size="small">
                 <i className="fas fa-user" />
@@ -80,25 +67,30 @@ export default class Login extends React.Component {
             <Form.Control>
               <Form.Input
                 color="success"
-                type={inputType}
+                type={log_inputType}
                 placeholder="Your password"
-                value={password}
-                onChange={this.changeInputValue('password')}
+                value={log_password}
+                onChange={this.changeInputValue('log_password')}
               />
               <Icon align="left" size="small">
                 <i className="fas fa-lock" />
+              </Icon>
+              <Icon align="right" size="small">
+                {log_inputType === "text"
+                  ? <i className="fas fa-eye"></i>
+                  : <i className="fas fa-eye-slash"></i>
+                }
               </Icon>
             </Form.Control>
           </Form.Field>
             <ShowPasswordCheckbox
               onChangeShowPassword={this.changePasswordVisibility}
-              checked={isPasswordVisible}
             />
           <Button color="success" onClick={this.handleClickLogIn}>Go</Button>
         </Section>
         <Section>
           <Heading subtitle>Don't have an account yet?</Heading>
-          <Heading size="4">
+          <Heading size="4" onClick={this.handleClickRegistrateHere}>
             <Link to="registration">Registrate here</Link>
           </Heading>
         </Section>

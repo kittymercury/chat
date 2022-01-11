@@ -1,5 +1,6 @@
-// for all
+// for all inputs
 export const CHANGE_INPUT_VALUE = 'CHANGE_INPUT_VALUE';
+export const CHANGE_PASSWORD_VISIBILITY = 'CHANGE_PASSWORD_VISIBILITY';
 
 // Chats
 export const DELETE_CHAT = 'DELETE_CHAT';
