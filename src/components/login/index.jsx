@@ -13,22 +13,25 @@ export default class Login extends React.Component {
     super(props);
 
     this.state = {
-      login: '',
-      password: '',
+      // login: '',
+      // password: '',
       inputType: 'password',
       isPasswordVisible: false
     }
   }
 
-  changeInputValue = (name, e) => {
-    this.setState({ [name]: e.target.value })
+  changeInputValue = (type) => (e) => {
+    // this.setState({ [name]: e.target.value })
+    this.props.changeInputValue({ type, value: e.target.value });
   }
 
   handleClickLogIn = async () => {
-    const { login, password } = this.state;
-    console.log({login, password});
+    // const { login, password } = this.state;
+    // console.log({login, password});
+    const { login, password } = this.props;
+    // this.props.onLogin({ login, password });
     await this.props.app.login({ password, login });
-    this.setState({ login: '', password: '' });
+    // this.setState({ login: '', password: '' });
   }
 
   changePasswordVisibility = (e) => {
@@ -41,7 +44,9 @@ export default class Login extends React.Component {
   }
 
   render () {
-    const { login, inputType, password, isPasswordVisible } = this.state;
+    const { inputType, isPasswordVisible } = this.state;
+    const { login, password } = this.props;
+    console.log({login: this.props});
 
     return (
       <Container breakpoint="mobile">
@@ -59,7 +64,7 @@ export default class Login extends React.Component {
                 type="text"
                 placeholder="Your login"
                 value={login}
-                onChange={(e) => this.changeInputValue('login', e)}
+                onChange={this.changeInputValue('login')}
               />
               <Icon align="left" size="small">
                 <i className="fas fa-user" />
@@ -78,7 +83,7 @@ export default class Login extends React.Component {
                 type={inputType}
                 placeholder="Your password"
                 value={password}
-                onChange={(e) => this.changeInputValue('password', e)}
+                onChange={this.changeInputValue('password')}
               />
               <Icon align="left" size="small">
                 <i className="fas fa-lock" />

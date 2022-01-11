@@ -17,9 +17,6 @@ export default class Settings extends React.Component {
     this.state = {
       errorMessage: '',
       messageColor: 'red',
-      activeMenuItem: null,
-
-      isEditProfileMode: false,
     }
 
     if (this.props.app.state.currentUser) {
@@ -37,25 +34,13 @@ export default class Settings extends React.Component {
   }
 
   handleSubmit = () => {
-    this.setState({ isEditProfileMode: false });
+    this.props.toggleEditMode(false);
     this.props.app.handleSubmitUser({
       name: this.state.name,
       login: this.state.login,
       avatar: this.state.avatar,
     })
   }
-
-  handleClickEditProfile = () => {
-    this.setState({ isEditProfileMode: true });
-  }
-
-  handleClickCancelEditProfile = () => {
-    this.setState({ isEditProfileMode: false });
-  }
-
-  // handleClickMenuItem = (id) => {
-  //   this.props.openSubmenu(id);
-  // }
 
   // log out
 
@@ -108,14 +93,14 @@ export default class Settings extends React.Component {
 
     const formats = ['png', 'jpeg', 'jpg'];
     if (!formats.includes(getFileFormat(file.name))) {
-      return this.props.app.handleOpenPopUp({
+      return this.props.openPopup({
         message: `File format is not allowed. Please use ${formats}`,
       });
     }
 
     const maxSize = 5; // megabytes
     if ((file.size >> 20) > maxSize) {
-      return this.props.app.handleOpenPopUp({
+      return this.props.openPopup({
         message: `File size is not allowed. Please use less than ${maxSize}mb`,
       });
     }
@@ -136,10 +121,10 @@ export default class Settings extends React.Component {
   // --------------------
 
   renderSettingsHeader = () => {
-    if (this.state.isEditProfileMode) {
+    if (this.props.isEditMode) {
       return (
         <Navbar className="nav-settings-edit-mode" renderAs="nav" fixed="top">
-          <Navbar.Item onClick={this.handleClickCancelEditProfile}>Cancel</Navbar.Item>
+          <Navbar.Item onClick={() => this.props.toggleEditMode(false)}>Cancel</Navbar.Item>
           <Navbar.Item onClick={this.handleSubmit}>Save</Navbar.Item>
         </Navbar>
       )
@@ -147,7 +132,7 @@ export default class Settings extends React.Component {
       return (
         <Navbar className="nav-settings" renderAs="nav" fixed="top">
           <Navbar.Brand>
-            <Navbar.Item onClick={this.handleClickEditProfile}>
+            <Navbar.Item onClick={() => this.props.toggleEditMode(true)}>
               <i className="fas fa-pen"></i>
             </Navbar.Item>
             <Navbar.Item textSize="4" textWeight="bold">Settings</Navbar.Item>
@@ -179,11 +164,10 @@ export default class Settings extends React.Component {
     )
   }
 
-  renderMainOptions = (condition) => {
-    if (condition) {
+  renderMainOptions = () => {
+    if (this.props.isEditMode) {
       return (
         <Block className="menu-name" onClick={() => this.setState({ activeMenuItem: 'avatar-menu'})}>Change avatar</Block>
-        /* <Block className="menu-name" onClick={() => this.setState({ activeMenuItem: 'avatar-menu' })}>Change avatar</Block> */
       )
     } else {
       return (
@@ -195,8 +179,8 @@ export default class Settings extends React.Component {
     }
   }
 
-  renderFeatures = (condition) => {
-    if (condition) {
+  renderFeatures = () => {
+    if (this.props.isEditMode) {
       return (
         <div className="options">
           <div className="input-menu">
@@ -227,13 +211,9 @@ export default class Settings extends React.Component {
       return (
         <div>
           <Themes
-            activeMenuItem={this.props.activeMenuItem}
-            onClick={() => this.setState({ activeMenuItem: 'themes' })}
             app={this.props.app}
           />
           <PrivacyAndSecurity
-            activeMenuItem={this.props.activeMenuItem}
-            onClick={() => this.setState({ activeMenuItem: 'privacyAndSecurity'} )}
             app={this.props.app}
           />
         </div>
@@ -246,19 +226,18 @@ export default class Settings extends React.Component {
 
   render () {
     const { currentUser } = this.props.app.state;
-    const { isEditProfileMode } = this.state;
+    // const { isEditProfileMode } = this.state;
 
     if (!currentUser) return null;
-    console.log({state: this.state});
 
     return (
       <Container className="settings">
         {this.renderSettingsHeader()}
         <Section>
           <Block className="current-user-img" style={{ backgroundImage: `url(${this.getAvatar()})` }}></Block>
-          {this.renderMainOptions(isEditProfileMode)}
+          {this.renderMainOptions()}
         </Section>
-        {this.renderFeatures(isEditProfileMode)}
+        {this.renderFeatures()}
         {/* <div className="info-wrapper-settings">
           <div className="info">
           </div>

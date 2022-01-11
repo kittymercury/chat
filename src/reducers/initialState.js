@@ -1,10 +1,32 @@
 export default {
   chats: [],
   users: [],
+  messages: [],
+
+  header: {
+    visible: true,
+  },
+
+  pages: {
+    chats: {},
+
+    contacts: {},
+    contactInfo: {},
+
+    login: {
+      login: '',
+      password: '',
+    },
+
+    messages: {},
+    registration: {},
+    settings: {},
+  },
 
   settings: {
-    activeSubmenu: null,
+    isEditMode: false,
   },
+
   privacyAndSecurity: {},
 
   popup: {
@@ -12,6 +34,11 @@ export default {
     message: '',
     type: ''
   },
+
+  search: {
+    visible: false,
+    value: ''
+  }
 }
 
 // this.state = {

@@ -10,7 +10,9 @@ export default class InputSearch extends React.Component {
   }
 
   render () {
-    const { value, onChange, onCancel } = this.props;
+    const { value, visible, changeSearchValue, closeSearch } = this.props;
+    console.log({searh: this.props});
+    if (!visible) return null;
 
     return (
       <div className="search-wrapper">
@@ -22,10 +24,10 @@ export default class InputSearch extends React.Component {
             type="text"
             placeholder="Search"
             value={value}
-            onChange={onChange}
+            onChange={(e) => changeSearchValue(e.target.value)}
           />
         </div>
-        <div className="cancel-searching" onClick={onCancel}>Cancel</div>
+        <div className="cancel-searching" onClick={closeSearch}>Cancel</div>
       </div>
     )
   }

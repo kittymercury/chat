@@ -2,7 +2,7 @@ import React from 'react';
 import { browserHistory } from 'react-router';
 
 import api from '../../api';
-import InputSearch from '../common/input-search';
+import InputSearch from '../common/search';
 import { formatDate } from '../../helpers';
 import { DELETED_USERNAME, CURRENT_TIMESTAMP } from '../../constants';
 import './styles.scss';

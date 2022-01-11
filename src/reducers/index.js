@@ -1,7 +1,15 @@
 import { combineReducers } from 'redux';
 
-import chats from './chats';
+import pages from './pages';
 import popup from './popup';
-import contacts from './contacts';
+import settings from './settings';
+import header from './header';
+import search from './search';
 
-export default combineReducers({ chats, popup });
+export default combineReducers({
+  pages,
+  popup,
+  settings,
+  header,
+  search
+});

@@ -2,20 +2,19 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import SettingsComponent from '../components/settings';
+import Component from '../components/header';
 import * as ActionCreators from '../actions/actionCreators';
 
 const mapStateToProps = (state) => {
-  return state.settings;
+  return state.header;
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    openPopup: bindActionCreators(ActionCreators.openPopup, dispatch),
-    toggleEditMode: bindActionCreators(ActionCreators.toggleEditMode, dispatch),
+    openSearch: bindActionCreators(ActionCreators.openSearch, dispatch),
   }
 }
 
 const connectComponent = connect(mapStateToProps, mapDispatchToProps);
 
-export default connectComponent(SettingsComponent);
+export default connectComponent(Component);

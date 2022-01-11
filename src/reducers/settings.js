@@ -1,12 +1,10 @@
-// import * as Types from '../actions/settings/types';
+import * as Types from '../actions/types';
 import initialState from './initialState';
 
 export default (state = initialState.settings, action) => {
   switch (action.type) {
-    case Types.OPEN_SUBMENU:
-      return {
-        ...state,
-        activeSubmenu: (action.payload === state.activeSubmenu) ? null : action.payload } };
+    case Types.TOGGLE_EDIT_MODE:
+      return { ...state, isEditMode: action.payload };
   }
 
   return state;

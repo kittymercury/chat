@@ -4,28 +4,19 @@ import { browserHistory } from 'react-router';
 import { Container } from 'react-bulma-components';
 
 import api from '../../api';
-import InputSearch from '../common/input-search';
 import { getImg, formatDate } from '../../helpers';
 import { DELETED_USERNAME } from '../../constants';
 
 import './styles.scss';
 
 export default class Chats extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      inputSearch: ''
-    }
-  }
-
   tryHighlight = (content) => {
     let html = content;
-    const { inputSearch } = this.state;
-    const re = new RegExp(inputSearch, 'gi');
+    const value = this.props.search.value;
+    const re = new RegExp(value, 'gi');
 
-    if (inputSearch) {
-      html = html.replace(re, `<span style="background-color: #ffff0038">${inputSearch}</span>`)
+    if (value) {
+      html = html.replace(re, `<span style="background-color: #ffff0038">${value}</span>`)
     }
     return { __html: html };
   }
@@ -33,10 +24,6 @@ export default class Chats extends React.Component {
   toTimestamp = (strDate) => {
     var datum = Date.parse(strDate);
     return datum/1000;
-  }
-
-  handleChangeInputSearch = (e) => {
-    this.setState({ inputSearch: e.target.value });
   }
 
   handleClickFoundMessage = (message) => {
@@ -164,11 +151,11 @@ export default class Chats extends React.Component {
   }
 
   render () {
-    const { inputSearch } = this.state;
+    const { search } = this.props;
+    console.log({ ch: this.props });
     const {
       users,
       currentUser,
-      isSearch,
       isStatusVisible,
       messages,
       chats
@@ -179,12 +166,12 @@ export default class Chats extends React.Component {
     });
 
     let foundChats = [];
-    if (isSearch && inputSearch) {
+    if (search.visible && search.value) {
       currentUsersChats.forEach((chat) => {
         const participant = chat.participants.find((id) => id !== currentUser.id);
         const user = users.find((u) => u.id === participant) || {};
 
-        if (user.name.toLowerCase().includes(inputSearch.toLowerCase())) {
+        if (user.name.toLowerCase().includes(search.value.toLowerCase())) {
           foundChats.push(chat);
         }
       });
@@ -198,10 +185,10 @@ export default class Chats extends React.Component {
 
     let foundMessages = [];
 
-    if (isSearch && inputSearch) {
+    if (search.visible && search.value) {
       currentUsersChatMessages.forEach((m) => {
         m.forEach((message) => {
-          if (message.content && message.content.toLowerCase().includes(inputSearch.toLowerCase())) {
+          if (message.content && message.content.toLowerCase().includes(search.value.toLowerCase())) {
             foundMessages.push(message);
           }
         })
@@ -230,14 +217,6 @@ export default class Chats extends React.Component {
 
     return (
       <Container className="chats">
-        {isSearch && (
-          <InputSearch
-            value={inputSearch}
-            onChange={this.handleChangeInputSearch}
-            onCancel={() => this.props.app.setState({ isSearch: false })}
-          />
-        )}
-
         <ul className="users-chats">
           {sortedChats.map((chat) => {
             const participant = users.find((user) => user.id === chat.participants.find((id) => id !== currentUser.id));

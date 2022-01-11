@@ -4,7 +4,7 @@ import { Container } from 'react-bulma-components';
 
 import api from '../../api';
 import { getImg } from '../../helpers';
-import InputSearch from '../common/input-search';
+import InputSearch from '../common/search';
 import './styles.scss';
 
 export default class Contacts extends React.Component {

@@ -3,9 +3,10 @@ import { browserHistory } from 'react-router';
 import { lock, unlock } from 'tua-body-scroll-lock';
 
 import api, { getAttachmentUrl } from '../api';
-import Header from './header';
+import Header from '../containers/header';
 import Footer from './footer';
 import Popup from '../containers/popup';
+import Search from '../containers/search';
 
 // TODO:
 // 1. privacyAndSecurity container. what kind of state in mapstatetoprops?
@@ -347,6 +348,7 @@ export default class App extends React.Component {
     return (
       <div className="chat">
         {this.renderHeader()}
+        <Search />
         {this.renderContent()}
         {this.renderFooter()}
 

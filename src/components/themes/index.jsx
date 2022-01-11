@@ -20,7 +20,7 @@ export default class Themes extends React.Component {
 
   render() {
     return (
-      <Dropdown closeOnSelect={false} icon={<Icon><i aria-hidden="true" className="fas fa-angle-down"/></Icon>} label="Themes" active={this.props.activeMenuItem === 'change-theme' ? 'true' : 'false'}>
+      <Dropdown closeOnSelect={false} icon={<Icon><i className="fas fa-angle-down"/></Icon>} label="Themes">
         <Dropdown.Item value="dark">Dark</Dropdown.Item>
         <Dropdown.Divider></Dropdown.Divider>
         <Dropdown.Item value="purple">Purple</Dropdown.Item>

@@ -12,8 +12,10 @@ export default class Header extends React.Component {
   //   this.props.app.disableScroll(header);
   // }
 
-  handleClickSearch = (condition) => {
-    this.props.app.setState({ isSearch: condition });
+  handleClickSearch = () => {
+    const currentPage = this.props.app.getPage();
+
+    this.props.openSearch({ page: currentPage });
   }
 
   handleCancelForwarding = () => {
@@ -53,7 +55,7 @@ export default class Header extends React.Component {
 
     if (['chats', 'contacts'].includes(currentPage)) {
       return (
-        <Navbar.Item onClick={() => this.handleClickSearch(true)}>
+        <Navbar.Item onClick={this.handleClickSearch}>
           <i className="fas fa-search"></i>
         </Navbar.Item>
       )
@@ -124,17 +126,19 @@ export default class Header extends React.Component {
     )
   }
 
-  renderHeader = () => {
-    const { isSearch, isSelectMode, messageToForward } = this.props.app.state;
+  render() {
+    console.log({header: this.props});
+    if (!this.props.visible) return null;
+
+    const { isSelectMode, messageToForward } = this.props.app.state;
     const currentPage = this.props.app.getPage();
     if (currentPage === 'settings') return null;
     if (currentPage === 'authentication') return null;
-    if (isSearch) return;
     if (messageToForward || isSelectMode && currentPage === 'chats') {
       return this.renderChatHeaderWithMessagesToForward()
     };
 
-    if (!isSearch || !isSelectMode) {
+    if (!isSelectMode) {
       if (currentPage.includes('contact-info')) return null;
 
       if (currentPage.includes('messages')) {
@@ -150,9 +154,5 @@ export default class Header extends React.Component {
         )
       }
     }
-  }
-
-  render () {
-    return this.renderHeader();
   }
 }

@@ -99,7 +99,7 @@ export default class PrivacyAndSecurity extends React.Component {
     } = this.state;
 
     return (
-      <Dropdown closeOnSelect={false} icon={<Icon><i aria-hidden="true" className="fas fa-angle-down"/></Icon>} label="Privacy and security" active={this.props.activeMenuItem === 'privacyAndSecurity' ? 'true' : 'false'}>
+      <Dropdown closeOnSelect={false} icon={<Icon><i aria-hidden="true" className="fas fa-angle-down"/></Icon>} label="Privacy and security">
         <Dropdown.Item className="wrapper" value="show-my-password">
           <span>Show my status:</span>
           <input
