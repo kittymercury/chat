@@ -9,6 +9,11 @@ export const changePasswordVisibility = (payload) => {
   return { type: Types.CHANGE_PASSWORD_VISIBILITY, payload }
 }
 
+// header
+export const changeHeaderVisibility = (page) => {
+  return { type: Types.CHANGE_HEADER_VISIBILITY, payload: page }
+}
+
 // Chats
 export const openChat = (chat) => {
   return { type: Types.OPEN_CHAT, payload: chat }
@@ -34,7 +39,11 @@ export const closePopup = (popup) => {
 
 // Settings
 export const toggleEditMode = (bool) => {
-  return { type: Types.TOGGLE_EDIT_MODE, payload: bool }
+  return { type: Types.TOGGLE_EDIT_PROFILE_MODE, payload: bool }
+}
+
+export const toggleSettingsNavActivity = (bool) => {
+  return { type: Types.TOGGLE_SETTINGS_NAV_ACTIVITY, payload: bool }
 }
 
 // InputSearch

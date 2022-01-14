@@ -2,20 +2,6 @@ import * as Types from './types';
 
 import api from '../../api';
 
-// export const loginChangeInput = (payload) => {
-//   return {
-//     type: Types.LOGIN__CHANGE_INPUT,
-//     payload
-//   }
-// }
-//
-// export const loginChangePasswordVisibility = (inputType) => {
-//   return {
-//     type: Types.LOGIN__CHANGE_PASSWORD_VISIBILITY,
-//     payload: inputType
-//   }
-// }
-
 export const goToRegistrationPage = (payload) => {
   return { type: Types.GO_TO_REGISTRATION_PAGE, payload };
 }

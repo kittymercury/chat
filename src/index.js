@@ -12,12 +12,12 @@ import Login from './containers/login';
 import Registration from './containers/registration';
 import Chats from './containers/chats';
 import Settings from './containers/settings';
+import Messages from './containers/messages';
 
 // components
 import App from './components/app';
 import Contacts from './components/contacts';
 import ContactInfo from './components/contactInfo';
-import Messages from './components/messages';
 import Themes from './components/themes';
 
 import store from './store/redux';

@@ -1,12 +1,22 @@
-.tabs {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  background: var(--content-bg);
+.navbar.is-fixed-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
 
-  .tab.active {
-    color: green;
+  .navbar-item .icon i {
+    font-size: 20px;
   }
+}
+
+// .tabs {
+//   position: fixed;
+//   bottom: 0;
+//   width: 100%;
+//
+//   li {
+//     display: flex;
+//     justify-content: center;
+//   }
 
   // li {
   //   display: flex;
@@ -14,7 +24,7 @@
   //   align-items: center;
   //   padding: 15px;
   // }
-}
+// }
 
 // .footer {
 //   height: var(--header-footer-height);

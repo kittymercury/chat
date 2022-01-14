@@ -1,6 +1,6 @@
 .search-wrapper {
-  height: var(--header-footer-height);
-  background-color: var(--base-bg);
+  // height: var(--header-footer-height);
+  background-color: var(--content-bg);
 
   position: fixed;
   z-index: 100;
@@ -12,7 +12,6 @@
   align-content: center;
 
   div:first-child {
-    margin-left: 13px;
     flex: 1;
 
     display: flex;
@@ -26,10 +25,15 @@
 
     input {
       width: 100%;
-      background-color: var(--base-bg);
+      background-color: inherit;
+      // background-color: var(--base-bg);
       border: none;
       font-size: var(--input-txt);
       color: white;
+
+      &:focus, &:active {
+        box-shadow: none;
+      }
     }
   }
 
@@ -39,6 +43,7 @@
     font-size: var(--header-btn);
     font-weight: bold;
     cursor: pointer;
+    color: white;
 
     display: flex;
     align-items: center;

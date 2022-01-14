@@ -1,4 +1,10 @@
-.modal.is-active {
+.navbar.nav-settings {
+  .navbar-brand {
+    width: 100%;
+  }
+}
+
+modal.is-active {
   display: flex;
   justify-content: flex-end;
 

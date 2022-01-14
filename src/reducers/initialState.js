@@ -20,7 +20,12 @@ export default {
       log_inputType: 'password'
     },
 
-    messages: {},
+    messages: {
+      inputMessage: '',
+      messageWithFeatures: null,
+      messageToEdit: null,
+      messageToReply: null,
+    },
 
     registration: {
       reg_name: '',
@@ -29,14 +34,11 @@ export default {
       reg_inputType: 'password'
     },
 
-    settings: {},
+    settings: {
+      isEditMode: false,
+      isNavActive: false,
+    },
   },
-
-  settings: {
-    isEditMode: false,
-  },
-
-  privacyAndSecurity: {},
 
   popup: {
     visible: false,
@@ -49,24 +51,3 @@ export default {
     value: ''
   }
 }
-
-// this.state = {
-//   currentUser: currentUser,
-//
-//   users: [],
-//   chats: [],
-//   messages: [],
-//
-//   typing: {},
-//   messageToForward: null,
-//   foundMessage: null,
-//   selectedMessages: [],
-//
-//   theme: theme,
-//   popUp: null,
-//
-//   isSelectMode: false,
-//   isStatusVisible: true,
-//   isMsgMenuActive: false,
-//   isSearch: false,
-// };

@@ -118,6 +118,14 @@ export default class Settings extends React.Component {
     });
   }
 
+  handleClickBurger = () => {
+    if (this.props.isNavActive) {
+      this.props.toggleSettingsNavActivity('false');
+    } else {
+      this.props.toggleSettingsNavActivity('true');
+    }
+  }
+
   // --------------------
 
   renderSettingsHeader = () => {
@@ -130,13 +138,38 @@ export default class Settings extends React.Component {
       )
     } else {
       return (
-        <Navbar className="nav-settings" renderAs="nav" fixed="top">
-          <Navbar.Brand>
-            <Navbar.Item onClick={() => this.props.toggleEditMode(true)}>
+        <Navbar className="nav-settings" renderAs="nav" fixed="top" active={this.props.isNavActive ? 'true' : 'false'}>
+          {/* <Navbar.Brand> */}
+            {/* <Navbar.Item onClick={() => this.props.toggleEditMode(true)}>
               <i className="fas fa-pen"></i>
-            </Navbar.Item>
+            </Navbar.Item> */}
+            <Navbar.Item></Navbar.Item>
             <Navbar.Item textSize="4" textWeight="bold">Settings</Navbar.Item>
-          </Navbar.Brand>
+            <Navbar.Item>
+              <Navbar.Burger active={this.props.isNavActive ? 'true' : 'false'} onClick={this.handleClickBurger}></Navbar.Burger>
+              <Navbar.Dropdown>
+                <Navbar.Item onClick={() => this.props.toggleEditMode(true)}>
+                  <i className="fas fa-pen"></i>
+                </Navbar.Item>
+                <Navbar.Divider></Navbar.Divider>
+                <Navbar.Item onClick={this.handleClickLogOut}>Log out</Navbar.Item>
+              </Navbar.Dropdown>
+            </Navbar.Item>
+            {/* <Navbar.Burger active={this.props.isNavActive ? 'true' : 'false'} onClick={this.handleClickBurger}></Navbar.Burger> */}
+          {/* </Navbar.Brand> */}
+          {/* <Navbar.Menu active={this.props.isNavActive ? 'true' : 'false'}> */}
+            <Navbar.Container>
+              <Navbar.Item active={this.props.isNavActive}>
+                <Navbar.Dropdown>
+                  <Navbar.Item onClick={() => this.props.toggleEditMode(true)}>
+                    <i className="fas fa-pen"></i>
+                  </Navbar.Item>
+                  <Navbar.Divider></Navbar.Divider>
+                  <Navbar.Item onClick={this.handleClickLogOut}>Log out</Navbar.Item>
+                </Navbar.Dropdown>
+              </Navbar.Item>
+            </Navbar.Container>
+          {/* </Navbar.Menu> */}
         </Navbar>
       )
     }
@@ -226,12 +259,17 @@ export default class Settings extends React.Component {
 
   render () {
     const { currentUser } = this.props.app.state;
+    console.log({settingsRedux: this.props});
     // const { isEditProfileMode } = this.state;
 
     if (!currentUser) return null;
 
     return (
-      <Container className="settings">
+      <Container
+        fullhd={{ display: 'contents' }}
+        breakpoint="fullhd"
+        className="settings"
+      >
         {this.renderSettingsHeader()}
         <Section>
           <Block className="current-user-img" style={{ backgroundImage: `url(${this.getAvatar()})` }}></Block>

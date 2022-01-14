@@ -152,7 +152,6 @@ export default class Chats extends React.Component {
 
   render () {
     const { search } = this.props;
-    console.log({ ch: this.props });
     const {
       users,
       currentUser,
@@ -216,7 +215,10 @@ export default class Chats extends React.Component {
     });
 
     return (
-      <Container className="chats">
+      <Container className="chats"
+        fullhd={{ display: 'contents' }}
+        breakpoint="fullhd"
+      >
         <ul className="users-chats">
           {sortedChats.map((chat) => {
             const participant = users.find((user) => user.id === chat.participants.find((id) => id !== currentUser.id));

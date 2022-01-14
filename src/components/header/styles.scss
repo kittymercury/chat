@@ -1,9 +1,13 @@
 .navbar {
-  background: var(--base-bg);
+  background: var(--content-bg);
+  display: flex;
+  align-items: center;
 
-  .navbar-brand {
-    align-items: center;
+  a.navbar-item.search {
+    display: flex;
+    justify-content: flex-start;
   }
+
 }
 
 

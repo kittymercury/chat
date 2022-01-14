@@ -139,7 +139,7 @@ export default class App extends React.Component {
   }
 
   setScroll = () => {
-    const $messages = document.querySelector("#app > div > div.content.messages > ul");
+    const $messages = document.querySelector("#app > div > div.container.messages > ul");
     $messages.scrollTop = $messages.scrollHeight;
   }
 

@@ -33,7 +33,6 @@ export default class Login extends React.Component {
 
   render () {
     const { log_login, log_password, log_inputType } = this.props;
-    console.log({login: this.props});
 
     return (
       <Container breakpoint="mobile">

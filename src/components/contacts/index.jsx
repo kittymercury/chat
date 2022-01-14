@@ -106,7 +106,11 @@ export default class Contacts extends React.Component {
 
 
     return (
-        <Container className="contacts">
+        <Container
+          className="contacts"
+          fullhd={{ display: 'contents' }}
+          breakpoint="fullhd"
+        >
           {this.renderInputSearch()}
           <ul>
             {filteredUsers.map((user) => {

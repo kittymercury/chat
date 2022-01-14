@@ -97,7 +97,6 @@ export default class Registration extends React.Component {
   }
 
   render () {
-    console.log({reg: this.props});
     const { reg_name, reg_login, reg_password, reg_inputType } = this.props;
 
     return (

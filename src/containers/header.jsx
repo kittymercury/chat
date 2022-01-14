@@ -12,6 +12,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     openSearch: bindActionCreators(ActionCreators.openSearch, dispatch),
+    changeHeaderVisibility: bindActionCreators(ActionCreators.changeHeaderVisibility, dispatch),
   }
 }
 
