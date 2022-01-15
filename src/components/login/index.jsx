@@ -4,27 +4,22 @@ import { Container, Form, Section, Heading, Icon, Box, Hero, Message, Button, Bl
 import api from '../../api';
 
 import './styles.scss';
-// import { StyledSection } from './styles.js';
 
 import ShowPasswordCheckbox from '../common/show-password-checkbox';
 
 export default class Login extends React.Component {
   changeInputValue = (type) => (e) => {
-    this.props.changeInputValue({ type, value: e.target.value });
+    this.props.changeInputValue({ type, page: 'login', value: e.target.value });
   }
 
   changePasswordVisibility = (e) => {
-    if (e.target.checked) {
-      this.props.changePasswordVisibility({ log_inputType: 'text' });
-    } else {
-      this.props.changePasswordVisibility({ log_inputType: 'password' });
-    }
+    this.props.changePasswordVisibility(e.target.checked);
   }
 
   handleClickLogIn = async () => {
-    const { log_login, log_password } = this.props;
+    const { login, password } = this.props;
     // this.props.onLogin({ login, password });
-    await this.props.app.login({ log_password, log_login });
+    await this.props.app.login({ password, login });
   }
 
   handleClickRegistrateHere = () => {
@@ -32,7 +27,7 @@ export default class Login extends React.Component {
   }
 
   render () {
-    const { log_login, log_password, log_inputType } = this.props;
+    const { login, password, isPasswordVisible } = this.props;
 
     return (
       <Container breakpoint="mobile">
@@ -49,8 +44,8 @@ export default class Login extends React.Component {
                 color="success"
                 type="text"
                 placeholder="Your login"
-                value={log_login}
-                onChange={this.changeInputValue('log_login')}
+                value={login}
+                onChange={this.changeInputValue('login')}
               />
               <Icon align="left" size="small">
                 <i className="fas fa-user" />
@@ -66,16 +61,16 @@ export default class Login extends React.Component {
             <Form.Control>
               <Form.Input
                 color="success"
-                type={log_inputType}
+                type={isPasswordVisible ? 'text' : 'password'}
                 placeholder="Your password"
-                value={log_password}
-                onChange={this.changeInputValue('log_password')}
+                value={password}
+                onChange={this.changeInputValue('password')}
               />
               <Icon align="left" size="small">
                 <i className="fas fa-lock" />
               </Icon>
               <Icon align="right" size="small">
-                {log_inputType === "text"
+                {isPasswordVisible
                   ? <i className="fas fa-eye"></i>
                   : <i className="fas fa-eye-slash"></i>
                 }

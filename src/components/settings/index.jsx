@@ -152,7 +152,7 @@ export default class Settings extends React.Component {
                   <i className="fas fa-pen"></i>
                 </Navbar.Item>
                 <Navbar.Divider></Navbar.Divider>
-                <Navbar.Item onClick={this.handleClickLogOut}>Log out</Navbar.Item>
+                {/* <Navbar.Item onClick={this.handleClickLogOut}>Log out</Navbar.Item> */}
               </Navbar.Dropdown>
             </Navbar.Item>
             {/* <Navbar.Burger active={this.props.isNavActive ? 'true' : 'false'} onClick={this.handleClickBurger}></Navbar.Burger> */}
@@ -249,10 +249,10 @@ export default class Settings extends React.Component {
           <PrivacyAndSecurity
             app={this.props.app}
           />
+          <Block className="log-out" onClick={this.handleClickLogOut}>
+            Log out
+          </Block>
         </div>
-        // {/* <Block className="log-out" onClick={this.handleClickLogOut}>
-        //   Log out
-        // </Block> */}
       )
     }
   }

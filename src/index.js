@@ -13,9 +13,9 @@ import Registration from './containers/registration';
 import Chats from './containers/chats';
 import Settings from './containers/settings';
 import Messages from './containers/messages';
+import App from './containers/app';
 
 // components
-import App from './components/app';
 import Contacts from './components/contacts';
 import ContactInfo from './components/contactInfo';
 import Themes from './components/themes';

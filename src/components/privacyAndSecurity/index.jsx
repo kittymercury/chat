@@ -1,6 +1,6 @@
 import React from 'react';
 import { browserHistory } from 'react-router';
-import { Dropdown, Icon } from 'react-bulma-components';
+import { Dropdown, Icon, Form, Heading } from 'react-bulma-components';
 
 import api from '../../api';
 import ShowPasswordCheckbox from '../common/show-password-checkbox';
@@ -101,35 +101,52 @@ export default class PrivacyAndSecurity extends React.Component {
     return (
       <Dropdown closeOnSelect={false} icon={<Icon><i aria-hidden="true" className="fas fa-angle-down"/></Icon>} label="Privacy and security">
         <Dropdown.Item className="wrapper" value="show-my-password">
-          <span>Show my status:</span>
-          <input
-            type="checkbox"
-            id="checkbox"
-            onChange={this.handleChangeInputCheckbox}
-            checked={this.props.app.state.isStatusVisible}
-          />
+          <Heading size="4">Status visibility:</Heading>
+          <Form.Field>
+            <Form.Control>
+              <Form.Checkbox
+                onChange={this.handleChangeInputCheckbox}
+                checked={this.props.app.state.isStatusVisible}
+              >
+              Share my status with other users
+            </Form.Checkbox>
+              <Form.Help>If you choose to hide your status from other users, you couldn't see their status as well</Form.Help>
+            </Form.Control>
+          </Form.Field>
         </Dropdown.Item>
         <Dropdown.Divider></Dropdown.Divider>
         <Dropdown.Item value="change-password-wrapper">
-          <span>Change password</span>
-          <input
-            type={inputType}
-            value={currentPassword}
-            placeholder='Old password'
-            onChange={(e) => this.handleChangePassword('currentPassword', e)}
-          />
-          <input
-            type={inputType}
-            value={newPassword}
-            placeholder='New password'
-            onChange={(e) => this.handleChangePassword('newPassword', e)}
-          />
-          <input
-            type={inputType}
-            value={repeatNewPassword}
-            placeholder='Repeat new password'
-            onChange={(e) => this.handleChangePassword('repeatNewPassword', e)}
-          />
+          <Heading size="4">Change password</Heading>
+          <Form.Field>
+            <Form.Control>
+              <Form.Input
+                type={inputType}
+                value={currentPassword}
+                placeholder='Old password'
+                onChange={(e) => this.handleChangePassword('currentPassword', e)}
+              />
+            </Form.Control>
+          </Form.Field>
+          <Form.Field>
+            <Form.Control>
+              <Form.Input
+                type={inputType}
+                value={newPassword}
+                placeholder='New password'
+                onChange={(e) => this.handleChangePassword('newPassword', e)}
+              />
+            </Form.Control>
+          </Form.Field>
+          <Form.Field>
+            <Form.Control>
+              <Form.Input
+                type={inputType}
+                value={repeatNewPassword}
+                placeholder='Repeat new password'
+                onChange={(e) => this.handleChangePassword('repeatNewPassword', e)}
+              />
+            </Form.Control>
+          </Form.Field>
           <ShowPasswordCheckbox
           onChangeShowPassword={this.changePasswordVisibility}
           checked={isPasswordVisible}

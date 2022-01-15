@@ -12,16 +12,16 @@ export default class Header extends React.Component {
     // this.props.app.disableScroll(header);
     // const currentPage = this.props.app.getPage();
     // console.log({page: currentPage, headerVisible: this.props.visible});
-    //
+
     // this.props.changeHeaderVisibility({ page: currentPage });
   }
 
   componentDidUpdate = () => {
-    // const header = document.querySelector('.header');
-    // this.props.app.disableScroll(header);
-    const currentPage = this.props.app.getPage();
-
-    this.props.changeHeaderVisibility({ page: currentPage });
+    const header = document.querySelector('.header');
+    this.props.app.disableScroll(header);
+    // const currentPage = this.props.app.getPage();
+    //
+    // this.props.changeHeaderVisibility({ page: currentPage });
   }
 
   handleClickSearch = () => {
@@ -49,13 +49,6 @@ export default class Header extends React.Component {
         : true
     });
   }
-
-  // handleClickAvatar = (id) => {
-  //   const user = this.props.app.state.users.find((u) => u.id === id);
-  //   if (user) {
-  //     browserHistory.push(`/contact-info/${user.id}`);
-  //   }
-  // }
 
   renderButtonsLeft = () => {
     const {

@@ -5,15 +5,17 @@ import initialState from '../initialState';
 export default (state = initialState.pages.login, action) => {
   switch (action.type) {
     case CommonTypes.CHANGE_INPUT_VALUE:
-      if ([ 'log_login', 'log_password' ].includes(action.payload.type)) {
-        return { ...state, [action.payload.type]: action.payload.value };
-      };
+      if (action.payload.page === 'login') {
+        if ([ 'login', 'password' ].includes(action.payload.type)) {
+          return { ...state, [action.payload.type]: action.payload.value };
+        }
+      }
     case CommonTypes.CHANGE_PASSWORD_VISIBILITY:
-      return { ...state, log_inputType: action.payload.log_inputType };
+      return { ...state, isPasswordVisible: action.payload };
     case LoginTypes.LOGIN:
-      return { ...state, log_login: '', log_password: '', log_inputType: 'password' };
+      return { ...state, login: '', password: '' };
     case LoginTypes.GO_TO_REGISTRATION_PAGE:
-      return { ...state, log_login: '', log_password: '', log_inputType: 'password' };
+      return { ...state, login: '', password: '' };
   }
 
   return state;

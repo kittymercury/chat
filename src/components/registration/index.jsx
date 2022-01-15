@@ -64,16 +64,12 @@ export default class Registration extends React.Component {
 
 
   changeInputValue = (type) => (e) => {
-    this.props.changeInputValue({ type, value: e.target.value });
+    this.props.changeInputValue({ type, page: 'registration', value: e.target.value });
   }
 
 
   changePasswordVisibility = (e) => {
-    if (e.target.checked) {
-      this.props.changePasswordVisibility({ reg_inputType: 'text' });
-    } else {
-      this.props.changePasswordVisibility({ reg_inputType: 'password' });
-    }
+    this.props.changePasswordVisibility(e.target.checked);
   }
 
   handleClickBack = () => {
@@ -97,7 +93,7 @@ export default class Registration extends React.Component {
   }
 
   render () {
-    const { reg_name, reg_login, reg_password, reg_inputType } = this.props;
+    const { name, login, password, isPasswordVisible } = this.props;
 
     return (
       <Container breakpoint="mobile">
@@ -117,8 +113,8 @@ export default class Registration extends React.Component {
                   color="success"
                   type="text"
                   placeholder="Username*"
-                  value={reg_name}
-                  onChange={this.changeInputValue('reg_name')}
+                  value={name}
+                  onChange={this.changeInputValue('name')}
                 />
                 <Icon align="left" size="small">
                   <i className="fas fa-user" />
@@ -132,8 +128,8 @@ export default class Registration extends React.Component {
                   color="success"
                   type="text"
                   placeholder="Your login*"
-                  value={reg_login}
-                  onChange={this.changeInputValue('reg_login')}
+                  value={login}
+                  onChange={this.changeInputValue('login')}
                 />
                 <Form.Help color="text">Your login should contain only numbers and letters</Form.Help>
                 <Icon align="left" size="small">
@@ -146,16 +142,16 @@ export default class Registration extends React.Component {
               <Form.Control>
                 <Form.Input
                   color="success"
-                  type={reg_inputType}
+                  type={isPasswordVisible ? 'text' : 'password'}
                   placeholder="Password*"
-                  value={reg_password}
-                  onChange={this.changeInputValue('reg_password')}
+                  value={password}
+                  onChange={this.changeInputValue('password')}
                 />
                 <Icon align="left" size="small">
                   <i className="fas fa-lock" />
                 </Icon>
                 <Icon align="right" size="small">
-                  {reg_inputType === "text"
+                  {isPasswordVisible
                     ? <i className="fas fa-eye"></i>
                     : <i className="fas fa-eye-slash"></i>
                   }
@@ -169,32 +165,6 @@ export default class Registration extends React.Component {
           </form>
         </Section>
       </Container>
-      // <div className="content registration">
-      //   <div className="headline">Sign up</div>
-      //   <input
-      //     type="text"
-      //     placeholder="Your name*"
-      //     value={this.state.name}
-      //     onChange={(e) => this.changeInputValue('name', e)}
-      //   />
-      //   <input
-      //     type="text"
-      //     placeholder="Login*"
-      //     value={this.state.login}
-      //     onChange={this.handleChangeLogin}
-      //   />
-      //   <input
-      //     type={inputType}
-          // placeholder="Password*"
-          // value={this.state.password}
-          // onChange={(e) => this.changeInputValue('password', e)}
-      //   />
-        // <ShowPasswordCheckbox
-        //   onChangeShowPassword={this.changePasswordVisibility}
-        //   checked={isPasswordVisible}
-        // />
-      //   <div className="sign-up-button" onClick={this.handleClickSignUp}>Sign up</div>
-      // </div>
     )
   }
 }

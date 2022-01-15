@@ -15,9 +15,9 @@ export default {
     contactInfo: {},
 
     login: {
-      log_login: '',
-      log_password: '',
-      log_inputType: 'password'
+      login: '',
+      password: '',
+      isPasswordVisible: false
     },
 
     messages: {
@@ -28,10 +28,10 @@ export default {
     },
 
     registration: {
-      reg_name: '',
-      reg_login: '',
-      reg_password: '',
-      reg_inputType: 'password'
+      name: '',
+      login: '',
+      password: '',
+      isPasswordVisible: false
     },
 
     settings: {
