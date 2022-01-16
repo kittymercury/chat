@@ -1,4 +1,7 @@
-.navbar.nav-settings {
+.navbar.nav-settings,
+.navbar.nav-settings-edit-mode {
+  top: 0;
+
   .navbar-item {
     padding: 0;
   }

@@ -67,63 +67,6 @@ export default class Header extends React.Component {
     }
   }
 
-  // renderMessagesHeader = () => {
-  //   const currentPage = this.props.app.getPage();
-  //   const { isSelectMode, isMsgMenuActive, currentUser, users = [], chats = [] } = this.props.app.state;
-  //   if (isSelectMode) return null;
-  //   if (!chats) return null;
-  //   const currentChat = +window.location.pathname.split('/')[2];
-  //   if (!currentChat) return null;
-  //   const chat = chats.find((c) => c.id === currentChat);
-  //   if (!chat) return null;
-  //   const participant = chat.participants.find((id) => id !== currentUser.id);
-  //   const user = users.find((u) => u.id === participant) || {};
-  //
-  //   return (
-  //     <Navbar renderAs="nav" fixed="top">
-  //       <Navbar.Item onClick={() => this.props.app.setState({ isMsgMenuActive: isMsgMenuActive ? false : true })}>
-  //         <i className="fas fa-ellipsis-v"></i>
-  //       </Navbar.Item>
-  //       <Navbar.Item>
-  //         <span>{user.name || DELETED_USERNAME}</span>
-  //         <span className="status">{user.status}</span>
-  //       </Navbar.Item>
-  //       <Navbar.Item>
-  //         <div className="user-avatar-small" style={{ backgroundImage: `url(${getImg(user.avatar)})` }} onClick={() => this.handleClickAvatar(user.id)}></div>
-  //       </Navbar.Item>
-  //       <button className="msg-menu-button" onClick={() => this.props.app.setState({ isMsgMenuActive: isMsgMenuActive ? false : true })}>
-  //         <i className="fas fa-ellipsis-v"></i>
-  //       </button>
-  //       <div className="title">
-  //         <div className="user-data-header">
-  //           <span>{user.name || DELETED_USERNAME}</span>
-  //           <span className="status">{user.status}</span>
-  //         </div>
-  //       </div>
-  //       <div className="user-avatar-small" style={{ backgroundImage: `url(${getImg(user.avatar)})` }} onClick={() => this.handleClickAvatar(user.id)}></div>
-  //     </Navbar>
-  //   )
-  // }
-
-  // renderChatHeaderWithMessagesToForward = () => {
-  //   const { isSelectMode, messageToForward, selectedMessages } = this.props.app.state;
-  //
-  //   if (messageToForward || isSelectMode) {
-  //     return (
-  //       <div className="header-info-wrapper">
-  //         <button style={{ color: 'transparent', cursor: 'initial' }} onClick={this.handleCancelForwarding}>Cancel</button>
-  //         {messageToForward && (
-  //           <div className="forwarded-messages-amount">Forward 1 message</div>
-  //         )}
-  //         {isSelectMode && (
-  //           <div className="forwarded-messages-amount">Forward {selectedMessages.length} {selectedMessages.length > 1 ? 'messages' : 'message'}</div>
-  //         )}
-  //         <button onClick={this.handleCancelForwarding}>Cancel</button>
-  //       </div>
-  //     )
-  //   }
-  // }
-
   renderTitle = () => {
     const currentPage = this.props.app.getPage();
     const titleByPathname = {

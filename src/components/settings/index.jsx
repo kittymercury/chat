@@ -131,14 +131,14 @@ export default class Settings extends React.Component {
   renderSettingsHeader = () => {
     if (this.props.isEditMode) {
       return (
-        <Navbar className="nav-settings-edit-mode" renderAs="nav" fixed="top">
+        <Navbar className="nav-settings-edit-mode" renderAs="nav">
           <Navbar.Item onClick={() => this.props.toggleEditMode(false)}>Cancel</Navbar.Item>
           <Navbar.Item onClick={this.handleSubmit}>Save</Navbar.Item>
         </Navbar>
       )
     } else {
       return (
-        <Navbar className="nav-settings" renderAs="nav" fixed="top" active={this.props.isNavActive ? 'true' : 'false'}>
+        <Navbar className="nav-settings" renderAs="nav" active={this.props.isNavActive ? 'true' : 'false'}>
           <Navbar.Item></Navbar.Item>
           <Navbar.Item textSize="4" textWeight="bold">Settings</Navbar.Item>
           <Navbar.Item renderAs="div">
@@ -243,23 +243,21 @@ export default class Settings extends React.Component {
     if (!currentUser) return null;
 
     return (
-      <Container
-        fullhd={{ display: 'contents' }}
-        breakpoint="fullhd"
-        className="settings"
-      >
+      <div>
         {this.renderSettingsHeader()}
-        <Section>
-          <Block className="current-user-img" style={{ backgroundImage: `url(${this.getAvatar()})` }}></Block>
-          {this.renderMainOptions()}
-        </Section>
-        {this.renderFeatures()}
-        {/* <div className="info-wrapper-settings">
-          <div className="info">
-          </div>
-        </div> */}
-        {this.renderChangeAvatarModal()}
-      </Container>
+        <Container
+          fullhd={{ display: 'contents' }}
+          breakpoint="fullhd"
+          className="settings"
+        >
+          <Section>
+            <Block className="current-user-img" style={{ backgroundImage: `url(${this.getAvatar()})` }}></Block>
+            {this.renderMainOptions()}
+          </Section>
+          {this.renderFeatures()}
+          {this.renderChangeAvatarModal()}
+        </Container>
+      </div>
     )
   }
 }

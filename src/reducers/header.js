@@ -17,7 +17,7 @@ export default (state = initialState.header, action) => {
       if (([ '/login', '/registration' ]).includes(action.payload.pathname)) {
         return { ...state, visible: false };
       }
-      if (action.payload.pathname.includes('messages')) {
+      if (action.payload.pathname === '/settings') {
         return { ...state, visible: false };
       }
 

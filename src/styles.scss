@@ -36,11 +36,17 @@ html {
   }
 }
 
+.chat {
+  display: flex;
+  flex-direction: column;
+}
+
 .title, .subtitle {
   word-break: inherit;
 }
 
 .container {
+  width: 100%;
   height: calc(100% - 6.25rem);
   overflow-y: scroll;
   --webkit-overflow-scrolling: touch;
@@ -49,9 +55,9 @@ html {
 }
 
 .navbar {
-  position: fixed;
+  position: relative;
   width: 100%;
-  z-index: 20;
+  // z-index: 20;
   height: 3.25rem;
   background: var(--content-bg);
 
