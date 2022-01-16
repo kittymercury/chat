@@ -334,19 +334,15 @@ export default class Messages extends React.Component {
             align="right"
             label={<div className="user-avatar-small" style={{ backgroundImage: `url(${getImg(user.avatar)})` }}/>}
           >
-            <Dropdown.Item value="1">To profile</Dropdown.Item>
-            <Dropdown.Divider></Dropdown.Divider>
-            <Dropdown.Item value="2" onClick={() => this.props.app.setState({ isSearch: true, isMsgMenuActive: false })}>
+            <Dropdown.Item value="to-profile">To profile</Dropdown.Item>
+            <Dropdown.Item value="search" onClick={() => this.props.app.setState({ isSearch: true, isMsgMenuActive: false })}>
               <span>Search</span>
-              <i className="fas fa-search"></i>
             </Dropdown.Item>
-            <Dropdown.Item value="5">
+            <Dropdown.Item value="select">
               <span>Select messages</span>
-              <i className="fas fa-check-circle"></i>
             </Dropdown.Item>
-            <Dropdown.Item value="4" onClick={() => this.handleClickClearChat()}>
+            <Dropdown.Item value="clear-chat" onClick={() => this.handleClickClearChat()}>
               <span>Clear chat</span>
-              <i className="fas fa-trash"></i>
             </Dropdown.Item>
           </Dropdown>
         </Navbar.Item>
@@ -568,11 +564,7 @@ export default class Messages extends React.Component {
 
 
     return (
-      <Container
-        className="messages"
-        fullhd={{ display: 'contents' }}
-        breakpoint="fullhd"
-      >
+      <div>
         {this.renderNav()}
         {this.renderSelectModeHeader()}
         {isSearch && (
@@ -582,58 +574,63 @@ export default class Messages extends React.Component {
             onCancel={() => this.props.app.setState({ isSearch: false })}
           />
         )}
+        <Container
+          className="messages"
+          fullhd={{ display: 'contents' }}
+          breakpoint="fullhd"
+        >
+          <ul id="messages-list">
+            {foundMessages.map((message) => {
+              let className = "message-data-content";
+              if (foundMessage && (message.id === foundMessage.id)) {
+                className = "message-data-content highlight";
+              };
 
-        <ul id="messages-list">
-          {foundMessages.map((message) => {
-            let className = "message-data-content";
-            if (foundMessage && (message.id === foundMessage.id)) {
-              className = "message-data-content highlight";
-            };
+              const user = currentUser.id === message.user
+                ? currentUser
+                : users.find((user) => user.id === message.user) || {};
+              const isCurrentUsersMessage = message.user === currentUser.id;
 
-            const user = currentUser.id === message.user
-              ? currentUser
-              : users.find((user) => user.id === message.user) || {};
-            const isCurrentUsersMessage = message.user === currentUser.id;
-
-            return (
-              <StyledLi key={message.id} user={isCurrentUsersMessage ? 'me' : 'other'} id={`m-${message.id}`}>
-                <StyledCloud user={isCurrentUsersMessage ? 'me' : 'other'} onClick={() => this.handleClickMessage(message.id)}>
-                  {this.renderMessageReply(users, message)}
-                  {this.renderMessageForward(users, message)}
-                  <div className="message-data">
-                    <div className={className} dangerouslySetInnerHTML={this.tryHighlight(message.content)} />
-                    <div className="data-wrapper">
-                      <span className="edited">{message.edited ? 'Edited' : ''}</span>
-                      <span className="message-data-time">{formatDate(message.created_at)}</span>
-                      {this.renderSeenCheck(true)}
+              return (
+                <StyledLi key={message.id} user={isCurrentUsersMessage ? 'me' : 'other'} id={`m-${message.id}`}>
+                  <StyledCloud user={isCurrentUsersMessage ? 'me' : 'other'} onClick={() => this.handleClickMessage(message.id)}>
+                    {this.renderMessageReply(users, message)}
+                    {this.renderMessageForward(users, message)}
+                    <div className="message-data">
+                      <div className={className} dangerouslySetInnerHTML={this.tryHighlight(message.content)} />
+                      <div className="data-wrapper">
+                        <span className="edited">{message.edited ? 'Edited' : ''}</span>
+                        <span className="message-data-time">{formatDate(message.created_at)}</span>
+                        {this.renderSeenCheck(true)}
+                      </div>
                     </div>
-                  </div>
-                </StyledCloud>
-                {this.renderEditMessageFeatures(message.id)}
-              </StyledLi>
-            )
-          })}
-        </ul>
+                  </StyledCloud>
+                  {this.renderEditMessageFeatures(message.id)}
+                </StyledLi>
+              )
+            })}
+          </ul>
 
-        {this.renderUserTyping()}
-        {this.renderInputMessageToReply()}
-        <div className="input-fixed" style={{ display: 'block' }}>
-          <Form.Field>
-            <Form.Control className="input-wrapper">
-              <Form.Input
-                className="input-messages"
-                rounded
-                autoComplete="off"
-                style={{ flex: 1 }}
-                placeholder="Type your message here"
-                value={inputMessage}
-                onChange={this.changeInputMessages}
-              />
-            </Form.Control>
-            {this.renderInputButton(messageToEdit)}
-          </Form.Field>
-        </div>
-      </Container>
+          {this.renderUserTyping()}
+          {this.renderInputMessageToReply()}
+          <div className="input-fixed" style={{ display: 'block' }}>
+            <Form.Field>
+              <Form.Control className="input-wrapper">
+                <Form.Input
+                  className="input-messages"
+                  rounded
+                  autoComplete="off"
+                  style={{ flex: 1 }}
+                  placeholder="Type your message here"
+                  value={inputMessage}
+                  onChange={this.changeInputMessages}
+                />
+              </Form.Control>
+              {this.renderInputButton(messageToEdit)}
+            </Form.Field>
+          </div>
+        </Container>
+      </div>
     )
   }
 }

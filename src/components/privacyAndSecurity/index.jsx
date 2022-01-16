@@ -1,11 +1,14 @@
 import React from 'react';
 import { browserHistory } from 'react-router';
-import { Dropdown, Icon, Form, Heading } from 'react-bulma-components';
+import { Dropdown, Icon, Form, Heading, Button, Block } from 'react-bulma-components';
+import styled from 'styled-components';
 
 import api from '../../api';
 import ShowPasswordCheckbox from '../common/show-password-checkbox';
 
-import './styles.scss';
+const StyledDropdownItem = styled(Dropdown.Item)`
+  margin-bottom: 10px;
+`;
 
 export default class PrivacyAndSecurity extends React.Component {
   constructor(props) {
@@ -100,7 +103,7 @@ export default class PrivacyAndSecurity extends React.Component {
 
     return (
       <Dropdown closeOnSelect={false} icon={<Icon><i aria-hidden="true" className="fas fa-angle-down"/></Icon>} label="Privacy and security">
-        <Dropdown.Item className="wrapper" value="show-my-password">
+        <StyledDropdownItem className="wrapper section" value="show-my-password">
           <Heading size="4">Status visibility:</Heading>
           <Form.Field>
             <Form.Control>
@@ -113,9 +116,8 @@ export default class PrivacyAndSecurity extends React.Component {
               <Form.Help>If you choose to hide your status from other users, you couldn't see their status as well</Form.Help>
             </Form.Control>
           </Form.Field>
-        </Dropdown.Item>
-        <Dropdown.Divider></Dropdown.Divider>
-        <Dropdown.Item value="change-password-wrapper">
+        </StyledDropdownItem>
+        <StyledDropdownItem className="section" value="change-password">
           <Heading size="4">Change password</Heading>
           <Form.Field>
             <Form.Control>
@@ -151,13 +153,13 @@ export default class PrivacyAndSecurity extends React.Component {
           onChangeShowPassword={this.changePasswordVisibility}
           checked={isPasswordVisible}
           />
-          <div className="security-button" onClick={this.handleConfirmNewPassword}>Confirm</div>
-        </Dropdown.Item>
-        <Dropdown.Divider></Dropdown.Divider>
-        <Dropdown.Item value="delete-account" className="delete-account wrapper">
-          <div>To delete your account press the button: </div>
-          <div onClick={this.handleClickDeleteAccount}>Delete account</div>
-        </Dropdown.Item>
+          <Button color="primary" className="security-button" onClick={this.handleConfirmNewPassword}>Confirm</Button>
+        </StyledDropdownItem>
+        <StyledDropdownItem value="delete-account" className="section">
+          <Heading size="4">Deleting account</Heading>
+            <Block>To delete your account press the button:</Block>
+            <Button color="danger" onClick={this.handleClickDeleteAccount}>Delete account</Button>
+        </StyledDropdownItem>
       </Dropdown>
       /* <div className={`security ${this.props.activeMenuItem === 'privacyAndSecurity' ? 'active' : ''}`}>
         <div className="menu-name" onClick={() => this.props.onClick('privacyAndSecurity')}>Privacy and security

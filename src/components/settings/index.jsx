@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, browserHistory } from 'react-router';
-import { Modal, Container, Section, Block, Navbar, Heading, Icon, Form } from 'react-bulma-components';
+import { Modal, Container, Section, Block, Navbar, Heading, Icon, Form, Dropdown } from 'react-bulma-components';
 
 
 import Themes from '../themes';
@@ -139,37 +139,18 @@ export default class Settings extends React.Component {
     } else {
       return (
         <Navbar className="nav-settings" renderAs="nav" fixed="top" active={this.props.isNavActive ? 'true' : 'false'}>
-          {/* <Navbar.Brand> */}
-            {/* <Navbar.Item onClick={() => this.props.toggleEditMode(true)}>
-              <i className="fas fa-pen"></i>
-            </Navbar.Item> */}
-            <Navbar.Item></Navbar.Item>
-            <Navbar.Item textSize="4" textWeight="bold">Settings</Navbar.Item>
-            <Navbar.Item>
-              <Navbar.Burger active={this.props.isNavActive ? 'true' : 'false'} onClick={this.handleClickBurger}></Navbar.Burger>
-              <Navbar.Dropdown>
-                <Navbar.Item onClick={() => this.props.toggleEditMode(true)}>
-                  <i className="fas fa-pen"></i>
-                </Navbar.Item>
-                <Navbar.Divider></Navbar.Divider>
-                {/* <Navbar.Item onClick={this.handleClickLogOut}>Log out</Navbar.Item> */}
-              </Navbar.Dropdown>
-            </Navbar.Item>
-            {/* <Navbar.Burger active={this.props.isNavActive ? 'true' : 'false'} onClick={this.handleClickBurger}></Navbar.Burger> */}
-          {/* </Navbar.Brand> */}
-          {/* <Navbar.Menu active={this.props.isNavActive ? 'true' : 'false'}> */}
-            <Navbar.Container>
-              <Navbar.Item active={this.props.isNavActive}>
-                <Navbar.Dropdown>
-                  <Navbar.Item onClick={() => this.props.toggleEditMode(true)}>
-                    <i className="fas fa-pen"></i>
-                  </Navbar.Item>
-                  <Navbar.Divider></Navbar.Divider>
-                  <Navbar.Item onClick={this.handleClickLogOut}>Log out</Navbar.Item>
-                </Navbar.Dropdown>
-              </Navbar.Item>
-            </Navbar.Container>
-          {/* </Navbar.Menu> */}
+          <Navbar.Item></Navbar.Item>
+          <Navbar.Item textSize="4" textWeight="bold">Settings</Navbar.Item>
+          <Navbar.Item renderAs="div">
+            <Dropdown
+              closeOnSelect="true"
+              align="right"
+              label={<i className="fas fa-ellipsis-v"></i>}
+            >
+              <Dropdown.Item value="edit-profile" onClick={() => this.props.toggleEditMode(true)}>Edit profile</Dropdown.Item>
+              <Dropdown.Item value="log-out" onClick={this.handleClickLogOut}>Log out</Dropdown.Item>
+            </Dropdown>
+          </Navbar.Item>
         </Navbar>
       )
     }
@@ -242,16 +223,13 @@ export default class Settings extends React.Component {
       )
     } else {
       return (
-        <div>
+        <div className="settings-dropdowns">
           <Themes
             app={this.props.app}
           />
           <PrivacyAndSecurity
             app={this.props.app}
           />
-          <Block className="log-out" onClick={this.handleClickLogOut}>
-            Log out
-          </Block>
         </div>
       )
     }

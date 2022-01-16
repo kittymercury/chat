@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Lato');
-//
+
 :root {
   --base-bg: #060606;
   --base-txt-color: #fff;
@@ -41,12 +41,17 @@ html {
 }
 
 .container {
-  height: 100%;
+  height: calc(100% - 6.25rem);
   overflow-y: scroll;
   --webkit-overflow-scrolling: touch;
+  // padding: 3.25rem 0;
+  flex: 1;
 }
 
 .navbar {
+  position: fixed;
+  width: 100%;
+  z-index: 20;
   height: 3.25rem;
   background: var(--content-bg);
 

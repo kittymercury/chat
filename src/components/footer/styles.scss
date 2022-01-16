@@ -1,10 +1,20 @@
-.navbar.is-fixed-bottom {
+.navbar.footer-nav {
   display: flex;
   align-items: center;
   justify-content: space-around;
 
-  .navbar-item .icon i {
-    font-size: 20px;
+  .navbar-item {
+    position: relative;
+
+    .icon i {
+      font-size: 20px;
+    }
+
+    .number-of-unseen-messages {
+      position: absolute;
+      top: 5%;
+      right: 25%;
+    }
   }
 }
 

@@ -6,12 +6,12 @@ import Component from '../components/app';
 import * as CommonActionCreators from '../actions/actionCreators';
 
 const mapStateToProps = (state) => {
-  return state;
+  return { state };
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    
+
   }
 }
 

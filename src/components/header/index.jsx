@@ -17,8 +17,8 @@ export default class Header extends React.Component {
   }
 
   componentDidUpdate = () => {
-    const header = document.querySelector('.header');
-    this.props.app.disableScroll(header);
+    // const header = document.querySelector('.header');
+    // this.props.app.disableScroll(header);
     // const currentPage = this.props.app.getPage();
     //
     // this.props.changeHeaderVisibility({ page: currentPage });
@@ -143,14 +143,14 @@ export default class Header extends React.Component {
 
   render() {
     // const currentPage = this.props.app.getPage();
-    const currentPage = window.location.pathname;
-    if (!this.props.visible) return null;
+    // const currentPage = window.location.pathname;
+    // if (!this.props.visible) return null;
     // if (currentPage.includes('messages')) {
     //   return this.renderMessagesHeader()
     // }
 
     return (
-      <Navbar renderAs="nav" fixed="top">
+      <Navbar className="header" renderAs="nav" style={{ top: 0 }}>
         {this.renderButtonsLeft()}
         {this.renderTitle()}
       </Navbar>

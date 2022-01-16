@@ -6041,6 +6041,11 @@
     "loose-envify" "^1.1.0"
     "prop-types" "^15.6.0"
 
+"react-router-redux@^4.0.8":
+  "integrity" "sha1-InQDWWtRUeGCN32rg1tdRfD4BU4="
+  "resolved" "https://registry.npmjs.org/react-router-redux/-/react-router-redux-4.0.8.tgz"
+  "version" "4.0.8"
+
 "react-router@^3.2.5":
   "integrity" "sha512-nlxtQE8B22hb/JxdaslI1tfZacxFU8x8BJryXOnR2RxB4vc01zuHYAHAIgmBkdk1kzXaA25hZxK6KAH/+CXArw=="
   "resolved" "https://registry.npmjs.org/react-router/-/react-router-3.2.6.tgz"

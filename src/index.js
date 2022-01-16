@@ -5,6 +5,7 @@ import './sizes.scss';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, Route, browserHistory } from 'react-router';
+import { syncHistoryWithStore } from 'react-router-redux'
 import { Provider } from 'react-redux';
 
 // containers
@@ -23,11 +24,12 @@ import Themes from './components/themes';
 import store from './store/redux';
 import BlobStore from './store/blob'
 
+const history = syncHistoryWithStore(browserHistory, store);
 window.blobStore = new BlobStore();
 
 ReactDOM.render(
   <Provider store={store}>
-    <Router history={browserHistory}>
+    <Router history={history}>
       <Route path="/" component={App}>
         <Route path="/registration" component={Registration} />
         <Route path="/authentication" component={Login} />

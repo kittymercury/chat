@@ -3,8 +3,11 @@ export default {
   users: [],
   messages: [],
 
+  location: '',
+
   header: {
-    visible: true,
+    title: '',
+    visible: false
   },
 
   pages: {

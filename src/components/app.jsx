@@ -8,9 +8,6 @@ import Footer from './footer';
 import Popup from '../containers/popup';
 import Search from '../containers/search';
 
-// !!!!!!
-// login doesn't work
-
 // TODO:
 // 1. privacyAndSecurity container. what kind of state in mapstatetoprops?
 // 2. try bulma for chat
@@ -142,7 +139,7 @@ export default class App extends React.Component {
   }
 
   setScroll = () => {
-    const $messages = document.querySelector("#app > div > div.container.messages > ul");
+    const $messages = document.querySelector("#app > div > div > div.container.messages > ul");
     $messages.scrollTop = $messages.scrollHeight;
   }
 
@@ -309,10 +306,6 @@ export default class App extends React.Component {
   // --------------------------------
 
   renderHeader = () => {
-    const page = this.getPage();
-    if (page === 'authentication') return;
-    if (page === 'registration') return;
-
     return (
       <Header app={this} />
     )
@@ -352,6 +345,7 @@ export default class App extends React.Component {
   // }
 
   render() {
+    console.log({reduxstaterouting: this.props.state.location});
     return (
       <div className="chat">
         {this.renderHeader()}
