@@ -1,7 +1,9 @@
 import React from 'react';
 import { Link, browserHistory } from 'react-router';
 import { Container, Form, Section, Heading, Icon, Box, Hero, Message, Button, Block } from 'react-bulma-components';
+
 import api from '../../api';
+import * as ActionHelpers from '../../actions/helpers';
 
 import './styles.scss';
 
@@ -18,8 +20,21 @@ export default class Login extends React.Component {
 
   handleClickLogIn = async () => {
     const { login, password } = this.props;
-    // this.props.onLogin({ login, password });
-    await this.props.app.login({ password, login });
+    const data = await api('login', { password, login });
+    if (data.error) {
+      this.props.openPopup({
+        message: data.error.description,
+      });
+    }
+
+    if (data.user) {
+      this.props.onLogin(data.user);
+
+      const records = await ActionHelpers.getRecords(data.user);
+      this.props.init(records);
+
+      browserHistory.push('/chats');
+    }
   }
 
   handleClickRegistrateHere = () => {

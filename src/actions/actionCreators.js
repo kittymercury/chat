@@ -1,5 +1,13 @@
 import * as Types from './types';
 
+export const updateCurrentUser = (payload) => {
+  return { type: Types.UPDATE_CURRENT_USER, payload }
+}
+
+export const init = (payload) => {
+  return { type: Types.INIT, payload }
+}
+
 // input
 export const changeInputValue = (payload) => {
   return { type: Types.CHANGE_INPUT_VALUE, payload }
@@ -7,11 +15,6 @@ export const changeInputValue = (payload) => {
 
 export const changePasswordVisibility = (payload) => {
   return { type: Types.CHANGE_PASSWORD_VISIBILITY, payload }
-}
-
-// header
-export const changeHeaderVisibility = (page) => {
-  return { type: Types.CHANGE_HEADER_VISIBILITY, payload: page }
 }
 
 // Chats
@@ -38,12 +41,12 @@ export const closePopup = (popup) => {
 }
 
 // Settings
-export const toggleEditMode = (bool) => {
-  return { type: Types.TOGGLE_EDIT_PROFILE_MODE, payload: bool }
+export const editProfile = () => {
+  return { type: Types.EDIT_PROFILE }
 }
 
-export const toggleSettingsNavActivity = (bool) => {
-  return { type: Types.TOGGLE_SETTINGS_NAV_ACTIVITY, payload: bool }
+export const cancelEditProfile = (payload) => {
+  return { type: Types.CANCEL_EDIT_PROFILE, payload }
 }
 
 // InputSearch

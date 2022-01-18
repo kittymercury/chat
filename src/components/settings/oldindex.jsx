@@ -3,7 +3,6 @@ import { Link, browserHistory } from 'react-router';
 import { Navbar, Heading, Icon } from 'react-bulma-components';
 
 import Themes from '../themes';
-import Languages from '../languages';
 import PrivacyAndSecurity from '../privacyAndSecurity';
 import './styles.scss';
 import './change-avatar-menu.scss';
@@ -67,7 +66,6 @@ export default class Settings extends React.Component {
   }
 
   handleLogOut = () => {
-    console.log('log out');
     this.props.app.ws.close();
     this.props.app.setState({ currentUser: null });
     localStorage.removeItem('user');

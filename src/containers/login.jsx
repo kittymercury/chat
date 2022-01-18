@@ -13,9 +13,11 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     changeInputValue: bindActionCreators(CommonActionCreators.changeInputValue, dispatch),
+    openPopup: bindActionCreators(CommonActionCreators.openPopup, dispatch),
     changePasswordVisibility: bindActionCreators(CommonActionCreators.changePasswordVisibility, dispatch),
-    onLogin: bindActionCreators(LoginActionCreators.login, dispatch),
     goToRegistrationPage: bindActionCreators(LoginActionCreators.goToRegistrationPage, dispatch),
+    init: bindActionCreators(CommonActionCreators.init, dispatch),
+    onLogin: bindActionCreators(LoginActionCreators.onLogin, dispatch),
   }
 }
 

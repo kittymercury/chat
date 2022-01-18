@@ -54,29 +54,6 @@ html {
   flex: 1;
 }
 
-.navbar {
-  position: relative;
-  width: 100%;
-  // z-index: 20;
-  height: 3.25rem;
-  background: var(--content-bg);
-
-  .navbar-item {
-    width: calc(100% / 3);
-    display: flex;
-    justify-content: center;
-  }
-
-  a.navbar-item {
-    color: white;
-
-    &:focus, &:hover {
-      color: white;
-      background: none;
-    }
-  }
-}
-
 ul {
   margin: 0;
   padding: 0;

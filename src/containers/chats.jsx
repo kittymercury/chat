@@ -3,19 +3,21 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import ChatComponent from '../components/chats';
-import * as ActionCreators from '../actions/chats/actionCreators';
+import * as CommonActionCreators from '../actions/actionCreators';
+import * as RecordsActionCreators from '../actions/records/actionCreators';
 
 const mapStateToProps = (state) => {
-  console.log({containerch: state});
   return {
-    chats: state.chats,
+    records: state.records,
+    currentUser: state.currentUser,
     search: state.search
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    // changeSearchValue: bindActionCreators(ActionCreators.changeSearchValue, dispatch),
+    openPopup: bindActionCreators(CommonActionCreators.openPopup, dispatch),
+    updateRecords: bindActionCreators(RecordsActionCreators.updateRecords, dispatch),
   }
 }
 

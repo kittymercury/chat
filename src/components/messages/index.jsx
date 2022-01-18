@@ -535,7 +535,6 @@ export default class Messages extends React.Component {
   }
 
   render () {
-    console.log({propsMessages: this.props});
     const { inputSearch, inputMessage, messageToReply, messageToEdit, messageWithFeatures } = this.state;
     const {
       chats,
@@ -564,16 +563,15 @@ export default class Messages extends React.Component {
 
 
     return (
-      <div>
-        {this.renderNav()}
-        {this.renderSelectModeHeader()}
-        {isSearch && (
-          <InputSearch
-            value={inputSearch}
-            onChange={(e) => this.changeInputValue('inputSearch', e)}
-            onCancel={() => this.props.app.setState({ isSearch: false })}
-          />
-        )}
+        // {/* {this.renderNav()} */}
+        // {/* {this.renderSelectModeHeader()} */}
+        // {/* {isSearch && (
+        //   <InputSearch
+        //     value={inputSearch}
+        //     onChange={(e) => this.changeInputValue('inputSearch', e)}
+        //     onCancel={() => this.props.app.setState({ isSearch: false })}
+        //   />
+        // )} */}
         <Container
           className="messages"
           fullhd={{ display: 'contents' }}
@@ -593,7 +591,7 @@ export default class Messages extends React.Component {
 
               return (
                 <StyledLi key={message.id} user={isCurrentUsersMessage ? 'me' : 'other'} id={`m-${message.id}`}>
-                  <StyledCloud user={isCurrentUsersMessage ? 'me' : 'other'} onClick={() => this.handleClickMessage(message.id)}>
+                  <Block onClick={() => this.handleClickMessage(message.id)}>
                     {this.renderMessageReply(users, message)}
                     {this.renderMessageForward(users, message)}
                     <div className="message-data">
@@ -604,7 +602,7 @@ export default class Messages extends React.Component {
                         {this.renderSeenCheck(true)}
                       </div>
                     </div>
-                  </StyledCloud>
+                  </Block>
                   {this.renderEditMessageFeatures(message.id)}
                 </StyledLi>
               )
@@ -630,7 +628,6 @@ export default class Messages extends React.Component {
             </Form.Field>
           </div>
         </Container>
-      </div>
     )
   }
 }

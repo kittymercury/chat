@@ -15,11 +15,12 @@ import Chats from './containers/chats';
 import Settings from './containers/settings';
 import Messages from './containers/messages';
 import App from './containers/app';
+import ContactInfo from './containers/contactInfo';
 
 // components
 import Contacts from './components/contacts';
-import ContactInfo from './components/contactInfo';
 import Themes from './components/themes';
+import Profile from './components/profile';
 
 import store from './store/redux';
 import BlobStore from './store/blob'
@@ -36,6 +37,7 @@ ReactDOM.render(
         <Route path="/settings" component={Settings} />
         <Route path="/contacts" component={Contacts} />
         <Route path="/contact-info/:userId" component={ContactInfo} />
+        <Route path="/profile" component={Profile} />
         <Route path="/messages/:chatId" component={Messages} />
         <Route path="/chats" component={Chats} />
       </Route>

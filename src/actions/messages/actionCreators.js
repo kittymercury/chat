@@ -75,7 +75,6 @@ export const changeInputMessages = (value) => {
 //
 //   handleClickMessage = (id) => {
 //     this.props.clickMessage(id);
-//     console.log({msgwithfeatures: this.props.messageWithFeatures});
 //
 //     // add for select mode
 //   }

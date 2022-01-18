@@ -26,13 +26,11 @@ export default class Login extends React.Component {
 
   handleClickLogIn = async () => {
     const { login, password } = this.state;
-    console.log({login, password});
     await this.props.app.login({ password, login });
     this.setState({ login: '', password: '' });
   }
 
   changePasswordVisibility = (e) => {
-    console.log(e.target.checked);
     if (e.target.checked) {
       this.setState({ isPasswordVisible: true, inputType: 'text' })
     } else {

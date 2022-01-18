@@ -1,13 +1,22 @@
 export default {
-  chats: [],
-  users: [],
-  messages: [],
+  currentUser: '',
 
-  location: '',
+  records: {
+    chats: [],
+    users: [],
+    messages: [],
+  },
+
+  location: {},
 
   header: {
     title: '',
-    visible: false
+    subtitle: '',
+    visible: false,
+    buttons: {
+      left: [],
+      right: []
+    }
   },
 
   pages: {
@@ -15,7 +24,15 @@ export default {
 
     contacts: {},
 
-    contactInfo: {},
+    contactInfo: {
+      user: {}
+    },
+
+    profile: {
+      name: '',
+      login: '',
+      avatar: ''
+    },
 
     login: {
       login: '',
@@ -39,7 +56,6 @@ export default {
 
     settings: {
       isEditMode: false,
-      isNavActive: false,
     },
   },
 

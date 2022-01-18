@@ -6,13 +6,17 @@ import Component from '../components/header';
 import * as ActionCreators from '../actions/actionCreators';
 
 const mapStateToProps = (state) => {
-  return state.header;
+  return {
+    ...state.header,
+    location: state.location
+  }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    openPopup: bindActionCreators(ActionCreators.openPopup, dispatch),
     openSearch: bindActionCreators(ActionCreators.openSearch, dispatch),
-    changeHeaderVisibility: bindActionCreators(ActionCreators.changeHeaderVisibility, dispatch),
+    editProfile: bindActionCreators(ActionCreators.editProfile, dispatch),
   }
 }
 

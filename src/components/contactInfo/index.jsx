@@ -1,8 +1,10 @@
 import React from 'react';
 import { browserHistory } from 'react-router';
+import { Container, Section, Block, Button, Heading, Hero } from 'react-bulma-components';
 
 import api from '../../api';
 import { getImg } from '../../helpers';
+import error from '../../images/error.jpeg';
 import './styles.scss';
 
 export default class ContactInfo extends React.Component {
@@ -60,9 +62,10 @@ export default class ContactInfo extends React.Component {
   }
 
   handleClickRemoveContact = (user) => {
-    this.props.app.handleOpenPopUp({
+    this.props.openPopup({
       message: `Do you want to remove ${this.state.user.name} from your Contacts?`,
-      onConfirm: () => this.handleConfirmRemoveContact(user)
+      type: 'confirm',
+      callback: () => this.handleConfirmRemoveContact(user)
     });
   }
 
@@ -70,13 +73,6 @@ export default class ContactInfo extends React.Component {
     const contacts = this.props.app.state.currentUser.contacts.filter((id) => id !== user.id)
 
     this.props.app.handleSubmitUser({ contacts });
-    this.props.app.setState({ popUp: null });
-  }
-
-  renderStatus = (user) => {
-    if (this.props.app.state.isStatusVisible) {
-      return <div className="user-status">{user.status}</div>
-    }
   }
 
   render () {
@@ -87,45 +83,35 @@ export default class ContactInfo extends React.Component {
 
     if (!user) {
       return (
-        <div className="content contact-info">
-          user not found
-        </div>
+        <Container className="contact-info">
+          <Section style={{ textAlign: 'center' }}>
+            <Heading subtitle>user not found</Heading>
+            {/* <Block className="error-image" style={{ backgroundImage: `url(${getImg(error)})` }}></Block> */}
+          </Section>
+        </Container>
       )
     }
 
     return (
-      <div className="content contact-info">
-        <div className="contact-info-header">
-          <div className="btn-back" onClick={() => browserHistory.goBack()}>
-            <i className="fas fa-angle-left"></i>
-          </div>
-          <div className="contact-name">
-            <span>{user.name}</span>
-            {this.renderStatus(user)}
-          </div>
-          <div className="btn-back" style={{ color: 'transparent', cursor: 'initial'}}>
-            <i className="fas fa-long-arrow-alt-left"></i>
-          </div>
-        </div>
-        <div className="info-wrapper">
-          <div>
-            <div className="user-avatar-image" style={{ backgroundImage: `url(${getImg(user.avatar)})` }}></div>
-          </div>
-          <div className="user-login">@{user.login}</div>
-        </div>
-        <div className="buttons-contact-info">
-          {currentUser.contacts.includes(user.id)
-            ? (
-              <div>
-                <div className="btn-c-info" onClick={() => this.handleClickOpenChat(user)}>Open chat</div>
-                <div className="btn-c-info" onClick={() => this.handleClickRemoveContact(user)}>Remove from contacts</div>
-              </div>
-            )
-            : (
-                <div className="btn-c-info" onClick={() => this.handleClickAddToContacts(user)}>Add to contacts</div>
-            )}
-        </div>
-      </div>
+      <Container
+        fullhd={{ display: 'contents' }}
+        breakpoint="fullhd"
+        className="contact-info"
+      >
+        <Section className="info-wrapper">
+          <Block className="user-avatar-image" style={{ backgroundImage: `url(${getImg(user.avatar)})` }}></Block>
+          <Block className="user-login">@{user.login}</Block>
+        </Section>
+        {currentUser.contacts.includes(user.id)
+          ? (
+            <Block>
+              <Button onClick={() => this.handleClickOpenChat(user)}>Open chat</Button>
+              <Button onClick={() => this.handleClickRemoveContact(user)}>Remove from contacts</Button>
+            </Block>
+          )
+          : <Button onClick={() => this.handleClickAddToContacts(user)}>Add to contacts</Button>
+        }
+      </Container>
     )
   }
 }

@@ -1,12 +1,11 @@
 .navbar.footer-nav {
+  background: var(--content-bg);
   bottom: 0;
   display: flex;
   align-items: center;
   justify-content: space-around;
 
   .navbar-item {
-    position: relative;
-
     .icon i {
       font-size: 20px;
     }
@@ -18,59 +17,3 @@
     }
   }
 }
-
-// .tabs {
-//   position: fixed;
-//   bottom: 0;
-//   width: 100%;
-//
-//   li {
-//     display: flex;
-//     justify-content: center;
-//   }
-
-  // li {
-  //   display: flex;
-  //   justify-content: center;
-  //   align-items: center;
-  //   padding: 15px;
-  // }
-// }
-
-// .footer {
-//   height: var(--header-footer-height);
-//
-//   position: fixed;
-//   bottom: 0;
-//   z-index: 1;
-//   width: 100%;
-//
-//
-//   display: flex;
-//
-//   button {
-//     background-color: inherit;
-//     font-size: var(--footer-btn);
-//     cursor: pointer;
-//     border: none;
-//     flex: 1;
-//
-//     &:first-child {
-//       border-right: 1px solid var(--box-shadow);
-//     }
-//
-//     &:nth-child(2) {
-//       border-right: 1px solid var(--box-shadow);
-//       position: relative;
-//
-//       .number-of-unseen-messages {
-//         color: green;
-//         font-size: 16px;
-//         font-weight: bold;
-//         position: absolute;
-//         top: 4px;
-//         right: 10px;
-//       }
-//     }
-//   }
-// }

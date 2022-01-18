@@ -1,33 +1,20 @@
 import React from 'react';
 import { browserHistory } from 'react-router';
 import { Navbar, Heading, Icon } from 'react-bulma-components';
+import lodash from 'lodash';
+
+import DropdownSettings from '../../containers/dropdownSettings';
+import DropdownMessages from '../dropdownMessages';
 
 import { getImg } from '../../helpers';
 import { DELETED_USERNAME } from '../../constants';
 import './styles.scss';
 
 export default class Header extends React.Component {
-  componentDidMount = () => {
-    // const header = document.querySelector('.header');
-    // this.props.app.disableScroll(header);
-    // const currentPage = this.props.app.getPage();
-    // console.log({page: currentPage, headerVisible: this.props.visible});
-
-    // this.props.changeHeaderVisibility({ page: currentPage });
-  }
-
-  componentDidUpdate = () => {
-    // const header = document.querySelector('.header');
-    // this.props.app.disableScroll(header);
-    // const currentPage = this.props.app.getPage();
-    //
-    // this.props.changeHeaderVisibility({ page: currentPage });
-  }
-
   handleClickSearch = () => {
-    const currentPage = this.props.app.getPage();
+    const page = this.props.location.pathname.split('/')[1];
 
-    this.props.openSearch({ page: currentPage });
+    this.props.openSearch({ page });
   }
 
   handleCancelForwarding = () => {
@@ -42,91 +29,72 @@ export default class Header extends React.Component {
     }
   }
 
-  handleClickMsgMenu = () => {
-    this.props.app.setState({
-      isMsgMenuActive: this.props.app.state.isMsgMenuActive
-        ? false
-        : true
-    });
+  renderButton = (button) => {
+    switch (button.name) {
+      case 'invisible':
+        return <Navbar.Item key={button.name}></Navbar.Item>
+
+      case 'search':
+        return (
+          <Navbar.Item key={button.name} className="search" onClick={this.handleClickSearch}>
+            <i className="fas fa-search"></i>
+          </Navbar.Item>
+        );
+
+      case 'back':
+        return (
+          <Navbar.Item key={button.name} className="back" onClick={() => browserHistory.goBack()}>
+            <i className="fas fa-angle-left"></i>
+            <span>Back</span>
+          </Navbar.Item>
+        );
+
+      case 'settings':
+        return <DropdownSettings key={button.name} />;
+
+      case 'messages':
+        return <DropdownMessages key={button.name} />;
+
+      case 'cancel-profile':
+        // return <Navbar.Item key={button.name} onClick={() => this.props.toggleEditProfileMode({ isEditMode: false })}>Cancel</Navbar.Item>;
+        return <Navbar.Item key={button.name}>Cancel</Navbar.Item>;
+
+      case 'save-profile':
+        // return <Navbar.Item key={button.name} onClick={this.handleSubmit}>Save</Navbar.Item>;
+        return <Navbar.Item key={button.name}>Save</Navbar.Item>;
+    }
   }
 
   renderButtonsLeft = () => {
-    const {
-      messageToForward,
-      isMsgMenuActive
-    } = this.props.app.state;
+    return this.props.buttons.left.map((button) => {
+      return this.renderButton(button);
+    })
+  }
 
-    const currentPage = this.props.app.getPage();
-
-    if (['chats', 'contacts'].includes(currentPage)) {
-      return (
-        <Navbar.Item className="search" onClick={this.handleClickSearch}>
-          <i className="fas fa-search"></i>
-        </Navbar.Item>
-      )
-    }
+  renderButtonsRight = () => {
+    return this.props.buttons.right.map((button) => {
+      return this.renderButton(button);
+    })
   }
 
   renderTitle = () => {
-    const currentPage = this.props.app.getPage();
-    const titleByPathname = {
-      'chats': 'Chats',
-      'contacts': 'Contacts'
-    }
-    const title = titleByPathname[currentPage];
-
     return (
       <Navbar.Item className="page-title" fullhd={{ display: 'flex', alignItems: 'center' }}>
-        {Object.keys(titleByPathname).includes(currentPage) && (
-          <Heading size="4">{title}</Heading>
-        )}
+        <Heading size="4">{this.props.title}</Heading>
       </Navbar.Item>
     )
   }
 
   render() {
-    // const currentPage = this.props.app.getPage();
-    // const currentPage = window.location.pathname;
-    // if (!this.props.visible) return null;
-    // if (currentPage.includes('messages')) {
-    //   return this.renderMessagesHeader()
-    // }
+    console.log({ headerProps: this.props });
+    if (!this.props.visible) return null;
 
     return (
       <Navbar className="header" renderAs="nav" style={{ top: 0 }}>
         {this.renderButtonsLeft()}
         {this.renderTitle()}
+        {this.renderButtonsRight()}
       </Navbar>
     )
   }
-
-  // render() {
-  //   console.log({header: this.props});
-  //   // if (!this.props.visible) return null;
-  //
-  //   const { isSelectMode, messageToForward } = this.props.app.state;
-  //   const currentPage = this.props.app.getPage();
-  //   if (currentPage === 'settings') return null;
-  //   if (currentPage === 'authentication') return null;
-  //   if (messageToForward || isSelectMode && currentPage === 'chats') {
-  //     return this.renderChatHeaderWithMessagesToForward()
-  //   };
-  //
-  //   if (!isSelectMode) {
-  //     if (currentPage.includes('contact-info')) return null;
-  //
-  //     if (currentPage.includes('messages')) {
-  //       return this.renderMessagesHeader()
-  //     } else {
-  //       return (
-  //         <Navbar renderAs="nav" fixed="top">
-  //           <Navbar.Brand>
-  //             {this.renderButtonsLeft()}
-  //             {this.renderTitle()}
-  //           </Navbar.Brand>
-  //         </Navbar>
-  //       )
-  //     }
-  //   }
-  // }
 }

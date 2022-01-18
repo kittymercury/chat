@@ -27,14 +27,15 @@ export default class Chats extends React.Component {
   }
 
   handleClickFoundMessage = (message) => {
-    const { chats } = this.props.app.state;
+    const chats = this.props.records.chats;
     const chat = chats.find((chat) => chat.id === message.chat);
     this.props.app.setState({ foundMessage: message });
     browserHistory.push(`/messages/${chat.id}`);
   }
 
   forwardMessages = async (message, chat) => {
-    const { currentUser, messages } = this.props.app.state;
+    const { currentUser } = this.props;
+    const messages = this.props.records.messages;
 
     if (message) {
       const msg = {
@@ -46,20 +47,22 @@ export default class Chats extends React.Component {
       const data = await api('create_message', msg);
 
       if (data.error) {
-        this.props.app.handleOpenPopUp({
+        this.props.openPopup({
           message: data.error.description,
         });
       }
 
       if (data.message) {
-        const newMessages = messages.concat(data.message);
-        this.props.app.setState({ messages: newMessages, messageToForward: null, isSelectMode: false, selectedMessages: [] });
+        this.props.updateRecords('messages', data.message, this.props);
+        this.props.app.setState({ messageToForward: null, isSelectMode: false, selectedMessages: [] });
       }
     }
   }
 
   handleClickChat = async (chat) => {
-    const { messageToForward, messages, currentUser, selectedMessages, isSelectMode } = this.props.app.state;
+    const { messageToForward, selectedMessages, isSelectMode } = this.props.app.state;
+    const { currentUser } = this.props;
+    const messages = this.props.records.messages;
 
     if (messageToForward) {
       await this.forwardMessages(messageToForward, chat)
@@ -76,7 +79,8 @@ export default class Chats extends React.Component {
   }
 
   renderNumberOfUnseenMessages = (id) => {
-    const { messages, currentUser } = this.props.app.state;
+    const { currentUser } = this.props;
+    const messages = this.props.records.messages;
 
     const chatMessagesUnseen = _.filter(messages, (message) => {
       return (message.chat === id)
@@ -152,13 +156,11 @@ export default class Chats extends React.Component {
 
   render () {
     const { search } = this.props;
-    const {
-      users,
-      currentUser,
-      isStatusVisible,
-      messages,
-      chats
-    } = this.props.app.state;
+    const { currentUser } = this.props;
+    const { messages, users, chats } = this.props.records;
+    console.log(this.props);
+
+    const { isStatusVisible } = this.props.app.state;
 
     const currentUsersChats = chats.filter((chat) => {
       return chat.participants.includes(currentUser.id);

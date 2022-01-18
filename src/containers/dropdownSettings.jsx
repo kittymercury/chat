@@ -2,17 +2,17 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import Component from '../components/settings';
+import Component from '../components/dropdownSettings';
 import * as ActionCreators from '../actions/actionCreators';
 
 const mapStateToProps = (state) => {
-  return state.pages.settings;
+  return state.header;
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    openPopup: bindActionCreators(ActionCreators.openPopup, dispatch),
     editProfile: bindActionCreators(ActionCreators.editProfile, dispatch),
+    openPopup: bindActionCreators(ActionCreators.openPopup, dispatch),
   }
 }
 

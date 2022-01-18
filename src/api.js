@@ -21,7 +21,8 @@ export default async function api(action, payload) {
     action: action,
     payload: payload
   }
-  const user = localStorage.getItem('user');
+  const user = localStorage.getItem('reduxPersist:currentUser');
+
   if (user) {
     params.user = JSON.parse(user).id;
   }

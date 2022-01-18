@@ -30,7 +30,6 @@
 .navbar.messages-nav {
   .navbar-item {
     height: 100%;
-    // width: calc(100% / 4);
 
     &.back {
       display: flex;
@@ -176,16 +175,16 @@
   //   }
   //
   //   &:after {
-  //     content: "";
-  //     width: 0px;
-  //     height: 0px;
-  //     position: absolute;
-  //     border-right: 8px solid var(--content-bg);
-  //     border-left: 5px solid var(--my-message-bg);
-  //     border-top: 11px solid var(--my-message-bg);
-  //     right: 0;
-  //     bottom: 0;
-  //     transform: rotate(62deg);
+      // content: "";
+      // width: 0px;
+      // height: 0px;
+      // position: absolute;
+      // border-right: 8px solid var(--content-bg);
+      // border-left: 5px solid var(--my-message-bg);
+      // border-top: 11px solid var(--my-message-bg);
+      // right: 0;
+      // bottom: 0;
+      // transform: rotate(62deg);
   //   }
   // }
 //
@@ -281,7 +280,6 @@
 .input-fixed {
   position: fixed;
   width: 100%;
-  bottom: 50px;
 
   .field {
     display: flex;
