@@ -8,8 +8,9 @@ import './styles.scss';
 
 export default class Footer extends React.Component {
   numberOfUnseenMessages = () => {
-    const unseenMessages = _.filter(this.props.app.state.messages, (message) => {
-      return (message.user !== this.props.app.state.currentUser.id)
+    const { messages, currentUser } = this.props;
+    const unseenMessages = _.filter(messages, (message) => {
+      return (message.user !== currentUser.id)
         && (message.seen === false)
     });
 
@@ -21,7 +22,7 @@ export default class Footer extends React.Component {
   }
 
   render () {
-    const currentPage = window.location.pathname;
+    const currentPage = this.props.location.pathname.split('/')[1];
 
     //  || currentPage.includes('/messages')
 

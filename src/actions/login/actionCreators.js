@@ -7,6 +7,5 @@ export const goToRegistrationPage = (payload) => {
 }
 
 export const onLogin = (payload) => {
-  console.log({onlogin: payload});
   return { type: Types.LOGIN, payload }
 }

@@ -21,6 +21,7 @@ export default class Login extends React.Component {
   handleClickLogIn = async () => {
     const { login, password } = this.props;
     const data = await api('login', { password, login });
+
     if (data.error) {
       this.props.openPopup({
         message: data.error.description,

@@ -8,38 +8,31 @@ import InputSearch from '../common/search';
 import './styles.scss';
 
 export default class Contacts extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      users: []
-    }
-  }
-
   handleChangeInputSearch = async (value) => {
     const data = await api('get_users', { login: value });
 
     if (data.error) {
-      this.props.app.handleOpenPopUp({
+      this.props.openPopup({
         message: data.error.description,
       });
     }
 
     if (data.users) {
-      this.setState({ users: data.users });
+      this.props.updateRecords('users', data.users, this.props);
     }
   }
 
   handleClickOpenContactInfo = (user) => {
-    this.props.app.setState({ isSearch: false })
+    this.props.closeSearch();
     browserHistory.push(`/contact-info/${user.id}`);
   }
 
   handleClickContact = async (user) => {
-    const { chats, users, currentUser, isSearch } = this.props.app.state;
+    const { chats, users } = this.props.records;
+    const { currentUser, search } = this.props;
 
-    if (isSearch) {
-      this.props.app.setState({ isSearch: false })
+    if (search.visible) {
+      this.props.closeSearch();
       return browserHistory.push(`/contact-info/${user.id}`)
     }
 
@@ -51,7 +44,6 @@ export default class Contacts extends React.Component {
       }
     })
 
-    // if (isChatExist) return;
     if (isChatExist) {
       const chatId = chats.find((chat) => (chat.participants.includes(user.id) && chat.participants.includes(currentUser.id))).id;
 
@@ -65,12 +57,12 @@ export default class Contacts extends React.Component {
       const data = await api('create_chat', newChat);
 
       if (data.chat) {
-        this.props.app.setState({ chats: this.props.app.state.chats.concat(data.chat) });
+        this.props.createRecords('chats', data.chat, this.props);
         return browserHistory.push(`/messages/${data.chat.id}`);
       }
 
       if (data.error) {
-        this.props.app.handleOpenPopUp({
+        this.props.openPopup({
           message: data.error.description,
         });
       }
@@ -78,32 +70,32 @@ export default class Contacts extends React.Component {
   }
 
   renderStatus = (user) => {
-    if (this.props.app.state.isStatusVisible) {
+    if (this.props.isStatusVisible) {
       return <span className="user-status">{user.status}</span>
     }
   }
 
   renderInputSearch = () => {
-    if (this.props.app.state.isSearch) {
+    if (this.props.search.visible) {
       return (
         <InputSearch
           onChange={(e) => this.handleChangeInputSearch(e.target.value)}
-          onCancel={() => this.props.app.setState({ isSearch: false })}
+          onCancel={() => this.props.closeSearch()}
         />
       )
     }
   }
 
   render () {
-    const { currentUser, isSearch } = this.props.app.state;
-    const contacts = this.props.app.state.users.filter((user) => {
+    const { currentUser, search } = this.props;
+
+    const contacts = this.props.records.users.filter((user) => {
       return currentUser.contacts.includes(user.id);
     });
-    const users = isSearch
-      ? this.state.users
+    const users = search.visible
+      ? this.props.records.users
       : contacts;
     const filteredUsers = users.filter((user) => user.id !== currentUser.id);
-
 
     return (
         <Container
@@ -111,7 +103,7 @@ export default class Contacts extends React.Component {
           fullhd={{ display: 'contents' }}
           breakpoint="fullhd"
         >
-          {this.renderInputSearch()}
+          {/* {this.renderInputSearch()} */}
           <ul>
             {filteredUsers.map((user) => {
               const onClickUserName = () => this.handleClickContact(user);

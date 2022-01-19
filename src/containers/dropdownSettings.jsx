@@ -6,7 +6,10 @@ import Component from '../components/dropdownSettings';
 import * as ActionCreators from '../actions/actionCreators';
 
 const mapStateToProps = (state) => {
-  return state.header;
+  return {
+    header: state.header,
+    theme: state.theme
+  }
 }
 
 const mapDispatchToProps = (dispatch) => {

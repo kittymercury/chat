@@ -13,6 +13,14 @@ export default (state = initialState.popup, action) => {
       };
     case Types.CLOSE_POPUP:
       return { ...state, visible: false };
+    case Types.UPDATE_CURRENT_USER:
+      if (action.payload.error) {
+        return {
+          ...state,
+          visible: true,
+          message: action.payload.error.description,
+        };
+      }
   }
 
   return state;

@@ -8,29 +8,23 @@ import error from '../../images/error.jpeg';
 import './styles.scss';
 
 export default class ContactInfo extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = { user: null, loaded: false }
-  }
-
   componentDidMount = async () => {
-    const userId = Number(this.props.params.userId);
+    const userId = this.props.location.pathname.split('/')[2];
     const data = await api('get_users', { id: userId });
 
     if (data.error) {
-      this.props.app.handleOpenPopUp({
+      this.props.openPopup({
         message: data.error.description,
       });
     }
 
     if (data.users) {
-      this.setState({ user: data.users[0], loaded: true })
+      this.props.getContactInfo(data.users[0]);
     }
   }
 
   handleClickOpenChat = async (user) => {
-    const { chats } = this.props.app.state;
+    const { chats } = this.props.records;
     const chat = chats.find((chat) => chat.participants.includes(user.id));
 
     if (chat) {
@@ -38,19 +32,19 @@ export default class ContactInfo extends React.Component {
     }
 
     if (!chat) {
-      const { currentUser } = this.props.app.state;
+      const { currentUser } = this.props;
       const newChat = {
         participants: [ currentUser.id, user.id ]
       }
       const data = await api('create_chat', newChat);
 
       if (data.chat) {
-        this.props.app.setState({ chats: this.props.app.state.chats.concat(data.chat) });
+        this.props.createRecords('chats', data.chat, this.props)
         return browserHistory.push(`/messages/${data.chat.id}`);
       }
 
       if (data.error) {
-        this.props.app.handleOpenPopUp({
+        this.props.openPopup({
           message: data.error.description,
         });
       }
@@ -58,7 +52,7 @@ export default class ContactInfo extends React.Component {
   }
 
   handleClickAddToContacts = (user) => {
-    this.props.app.handleSubmitUser({ contacts: this.props.app.state.currentUser.contacts.concat(user.id) });
+    this.props.updateCurrentUser(this.props.currentUser.contacts.concat(user.id));
   }
 
   handleClickRemoveContact = (user) => {
@@ -70,16 +64,12 @@ export default class ContactInfo extends React.Component {
   }
 
   handleConfirmRemoveContact = (user) => {
-    const contacts = this.props.app.state.currentUser.contacts.filter((id) => id !== user.id)
-
-    this.props.app.handleSubmitUser({ contacts });
+    const contacts = this.props.currentUser.contacts.filter((id) => id !== user.id);
+    this.props.handleSubmitUser({ contacts });
   }
 
   render () {
-    const user = this.state.user;
-    const currentUser = this.props.app.state.currentUser;
-
-    if (!this.state.loaded) return null;
+    const { user, currentUser } = this.props;
 
     if (!user) {
       return (

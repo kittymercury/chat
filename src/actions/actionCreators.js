@@ -1,7 +1,39 @@
 import * as Types from './types';
 
-export const updateCurrentUser = (payload) => {
-  return { type: Types.UPDATE_CURRENT_USER, payload }
+//
+export const updateCurrentUser = (user) => {
+  return { type: Types.UPDATE_CURRENT_USER, payload: user }
+}
+
+// profile
+export const confirmNewPassword = () => {
+  return { type: Types.CONFIRM_NEW_PASSWORD }
+}
+
+export const openAvatarMenu = () => {
+  return { type: Types.OPEN_AVATAR_MENU }
+}
+
+export const closeAvatarMenu = () => {
+  return { type: Types.CLOSE_AVATAR_MENU }
+}
+
+export const changeHelpMessage = (message) => {
+  return { type: Types.CHANGE_HELP_MESSAGE, payload: message }
+}
+
+//
+
+export const cancelForwardMessage = () => {
+  return { type: Types.CANCEL_FORWARD_MESSAGE }
+}
+
+export const logOut = () => {
+  return { type: Types.LOG_OUT }
+}
+
+export const getContactInfo = (payload) => {
+  return { type: Types.GET_CONTACT_INFO, payload }
 }
 
 export const init = (payload) => {
@@ -15,20 +47,6 @@ export const changeInputValue = (payload) => {
 
 export const changePasswordVisibility = (payload) => {
   return { type: Types.CHANGE_PASSWORD_VISIBILITY, payload }
-}
-
-// Chats
-export const openChat = (chat) => {
-  return { type: Types.OPEN_CHAT, payload: chat }
-}
-
-export const deleteChat = (chat) => {
-  return { type: Types.DELETE_CHAT, payload: chat }
-}
-
-// Contacts
-export const openContactInfo = (user) => {
-  return { type: Types.OPEN_CONTACT_INFO, payload: user }
 }
 
 // Popup

@@ -54,13 +54,13 @@ export default class Chats extends React.Component {
 
       if (data.message) {
         this.props.updateRecords('messages', data.message, this.props);
-        this.props.app.setState({ messageToForward: null, isSelectMode: false, selectedMessages: [] });
+        // this.props.app.setState({ messageToForward: null, isSelectMode: false, selectedMessages: [] });
       }
     }
   }
 
   handleClickChat = async (chat) => {
-    const { messageToForward, selectedMessages, isSelectMode } = this.props.app.state;
+    const { messageToForward, selectedMessages, isSelectMode } = this.props;
     const { currentUser } = this.props;
     const messages = this.props.records.messages;
 
@@ -107,7 +107,8 @@ export default class Chats extends React.Component {
   }
 
   renderStatus = (user = {}) => {
-    if (this.props.app.state.isStatusVisible) {
+    console.log({renderstatus: this.props.isStatusVisible});
+    if (this.props.isStatusVisible) {
       return <i className={`fas fa-circle ${user.status || 'offline'}`}></i>
     }
   }
@@ -155,12 +156,9 @@ export default class Chats extends React.Component {
   }
 
   render () {
-    const { search } = this.props;
-    const { currentUser } = this.props;
+    const { search, currentUser, isStatusVisible } = this.props;
     const { messages, users, chats } = this.props.records;
-    console.log(this.props);
-
-    const { isStatusVisible } = this.props.app.state;
+    console.log({propsChats: this.props});
 
     const currentUsersChats = chats.filter((chat) => {
       return chat.participants.includes(currentUser.id);

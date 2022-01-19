@@ -7,7 +7,9 @@ export default (state = initialState.currentUser, action) => {
     case LoginTypes.LOGIN:
       return action.payload;
     case CommonTypes.UPDATE_CURRENT_USER:
-      return { ...state, ...action.payload };
+      if (!action.payload.error) {
+        return { ...state, ...action.payload.user };
+      }
   }
 
   return state;

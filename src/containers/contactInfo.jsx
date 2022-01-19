@@ -3,15 +3,25 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import Component from '../components/contactInfo';
-import * as ActionCreators from '../actions/actionCreators';
+import * as CommonActionCreators from '../actions/actionCreators';
+import * as RecordsActionCreators from '../actions/records/actionCreators';
 
 const mapStateToProps = (state) => {
-  return state.pages.contactInfo;
+  return {
+    user: state.pages.contactInfo.user,
+    records: state.records,
+    currentUser: state.currentUser,
+    location: state.location,
+    theme: state.theme
+  }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    openPopup: bindActionCreators(ActionCreators.openPopup, dispatch),
+    openPopup: bindActionCreators(CommonActionCreators.openPopup, dispatch),
+    updateCurrentUser: bindActionCreators(CommonActionCreators.updateCurrentUser, dispatch),
+    getContactInfo: bindActionCreators(CommonActionCreators.getContactInfo, dispatch),
+    createRecords: bindActionCreators(RecordsActionCreators.createRecords, dispatch),
   }
 }
 

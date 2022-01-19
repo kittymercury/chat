@@ -11,19 +11,6 @@ const StyledDropdownItem = styled(Dropdown.Item)`
 `;
 
 export default class PrivacyAndSecurity extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      password: props.app.state.currentUser.password,
-      currentPassword: '',
-      newPassword: '',
-      repeatNewPassword: '',
-      isPasswordVisible: false,
-      inputType: 'password'
-    }
-  }
-
   handleClickDeleteAccount = () => {
     this.props.openPopup({
       message: 'All your data will be deleted and it won\'t be possible to restore it. Do you want to continue??',
@@ -33,7 +20,9 @@ export default class PrivacyAndSecurity extends React.Component {
   }
 
   handleDeleteAccount = async () => {
-    const { currentUser, users, messages, chats } = this.props.app.state;
+    // const { currentUser, users, messages, chats } = this.props.app.state;
+    const { currentUser } = this.props;
+    const { users, chats, messages } = this.props.records;
     const data = await api('delete_user', currentUser);
 
     if (data.error) {
@@ -43,8 +32,8 @@ export default class PrivacyAndSecurity extends React.Component {
     }
 
     if (data.deleted) {
-      this.props.app.setState({ currentUser: null });
-      localStorage.removeItem('user');
+      // this.props.app.setState({ currentUser: null });
+      // localStorage.removeItem('user');
       browserHistory.push('/authentication');
     }
   }
@@ -53,53 +42,47 @@ export default class PrivacyAndSecurity extends React.Component {
     this.props.app.setState({ isStatusVisible: e.target.checked });
   }
 
-  handleChangePassword = (name, e) => {
-    this.setState({ [name]: e.target.value })
+  changePasswordVisibility = (e) => {
+    this.props.changePasswordVisibility(e.target.checked);
   }
 
-  changePasswordVisibility = (e) => {
-    if (e.target.checked) {
-      this.setState({ isPasswordVisible: true, inputType: 'text' })
-    } else {
-      this.setState({ isPasswordVisible: false, inputType: 'password' })
-    }
+  changeInputValue = (type) => (e) => {
+    this.props.changeInputValue({ type, page: 'settings', value: e.target.value });
   }
 
   handleConfirmNewPassword = () => {
-    const {
-      password,
-      currentPassword,
-      newPassword,
-      repeatNewPassword
-    } = this.state;
+    const password = this.props.currentUser.password;
+    const { currentPassword, newPassword, repeatNewPassword } = this.props;
 
     if ((password === currentPassword) && (newPassword === repeatNewPassword)) {
-      this.props.app.handleSubmitUser({ password: this.state.repeatNewPassword });
+      // this.props.app.handleSubmitUser({ password: this.state.repeatNewPassword });
+      // this.props.updateCurrentUser();
       this.props.openPopup({ message: 'Password was changed!' });
-      this.setState({
-        currentPassword: '',
-        newPassword: '',
-        repeatNewPassword: ''
-      });
+      // this.setState({
+      //   currentPassword: '',
+      //   newPassword: '',
+      //   repeatNewPassword: ''
+      // });
     } else {
       this.props.openPopup({ message: 'Ooops, wrong credentials! Try again :)' });
-      this.setState({
-        currentPassword: '',
-        newPassword: '',
-        repeatNewPassword: ''
-      })
+      // this.setState({
+      //   currentPassword: '',
+      //   newPassword: '',
+      //   repeatNewPassword: ''
+      // })                       // anyway inputs are cleared in the same way
     }
+
+    this.props.confirmNewPassword();
   }
 
   render () {
+    const { password } = this.props.currentUser;
     const {
-      isPasswordVisible,
-      password,
       currentPassword,
       newPassword,
       repeatNewPassword,
-      inputType
-    } = this.state;
+      isPasswordVisible,
+    } = this.props;
 
     return (
       <Dropdown closeOnSelect={false} icon={<Icon><i aria-hidden="true" className="fas fa-angle-down"/></Icon>} label="Privacy and security">
@@ -109,7 +92,7 @@ export default class PrivacyAndSecurity extends React.Component {
             <Form.Control>
               <Form.Checkbox
                 onChange={this.handleChangeInputCheckbox}
-                checked={this.props.app.state.isStatusVisible}
+                // checked={this.props.app.state.isStatusVisible}
               >
               Share my status with other users
             </Form.Checkbox>
@@ -122,36 +105,36 @@ export default class PrivacyAndSecurity extends React.Component {
           <Form.Field>
             <Form.Control>
               <Form.Input
-                type={inputType}
+                type={isPasswordVisible ? 'text' : 'password'}
                 value={currentPassword}
                 placeholder='Old password'
-                onChange={(e) => this.handleChangePassword('currentPassword', e)}
+                onChange={this.changeInputValue('currentPassword')}
               />
             </Form.Control>
           </Form.Field>
           <Form.Field>
             <Form.Control>
               <Form.Input
-                type={inputType}
+                type={isPasswordVisible ? 'text' : 'password'}
                 value={newPassword}
                 placeholder='New password'
-                onChange={(e) => this.handleChangePassword('newPassword', e)}
+                onChange={this.changeInputValue('newPassword')}
               />
             </Form.Control>
           </Form.Field>
           <Form.Field>
             <Form.Control>
               <Form.Input
-                type={inputType}
+                type={isPasswordVisible ? 'text' : 'password'}
                 value={repeatNewPassword}
                 placeholder='Repeat new password'
-                onChange={(e) => this.handleChangePassword('repeatNewPassword', e)}
+                onChange={this.changeInputValue('repeatNewPassword')}
               />
             </Form.Control>
           </Form.Field>
           <ShowPasswordCheckbox
           onChangeShowPassword={this.changePasswordVisibility}
-          checked={isPasswordVisible}
+          // checked={isPasswordVisible}
           />
           <Button color="primary" className="security-button" onClick={this.handleConfirmNewPassword}>Confirm</Button>
         </StyledDropdownItem>
@@ -161,55 +144,6 @@ export default class PrivacyAndSecurity extends React.Component {
             <Button color="danger" onClick={this.handleClickDeleteAccount}>Delete account</Button>
         </StyledDropdownItem>
       </Dropdown>
-      /* <div className={`security ${this.props.activeMenuItem === 'privacyAndSecurity' ? 'active' : ''}`}>
-        <div className="menu-name" onClick={() => this.props.onClick('privacyAndSecurity')}>Privacy and security
-          <i className="fas fa-angle-down"></i>
-        </div>
-        <div className="submenu">
-          <div className="wrapper">
-            <span>Show my status:</span>
-            <input
-              type="checkbox"
-              id="checkbox"
-              onChange={this.handleChangeInputCheckbox}
-              checked={this.props.app.state.isStatusVisible}
-            />
-          </div>
-
-          <div className="change-password wrapper">
-            <span>Change password</span>
-            <input
-              type={inputType}
-              value={currentPassword}
-              placeholder='Old password'
-              onChange={(e) => this.handleChangePassword('currentPassword', e)}
-            />
-            <input
-              type={inputType}
-              value={newPassword}
-              placeholder='New password'
-              onChange={(e) => this.handleChangePassword('newPassword', e)}
-            />
-            <input
-              type={inputType}
-              value={repeatNewPassword}
-              placeholder='Repeat new password'
-              onChange={(e) => this.handleChangePassword('repeatNewPassword', e)}
-            />
-            <ShowPasswordCheckbox
-            onChangeShowPassword={this.changePasswordVisibility}
-            checked={isPasswordVisible}
-            />
-            <div className="security-button" onClick={this.handleConfirmNewPassword}>Confirm</div>
-          </div>
-
-          <div className="delete-account wrapper">
-            {/* <div>Delete account</div>
-            <div>To delete your account press the button: </div> */
-      //       <div onClick={this.handleClickDeleteAccount}>Delete account</div>
-      //     </div>
-      //   </div>
-      // </div> */}
     )
   }
 }

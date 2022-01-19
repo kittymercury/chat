@@ -7,7 +7,6 @@ import noAvatar from '../images/no-avatar.png';
 
 export default class DropdownSettings extends React.Component {
   handleClickLogOut = () => {
-    console.log('what');
     this.props.openPopup({
       message: 'Do you want to log out?',
       type: 'confirm',
@@ -40,7 +39,6 @@ export default class DropdownSettings extends React.Component {
   // }
 
   render () {
-    console.log({dropdown: this.props});
     return (
       <Navbar.Item key={this.props.key}>
         <Dropdown

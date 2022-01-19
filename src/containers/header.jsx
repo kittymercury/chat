@@ -7,8 +7,14 @@ import * as ActionCreators from '../actions/actionCreators';
 
 const mapStateToProps = (state) => {
   return {
-    ...state.header,
-    location: state.location
+    header: state.header,
+    location: state.location,
+    profile: state.pages.profile,
+    currentUser: state.currentUser,
+    theme: state.theme,
+    messageToForward: state.messageToForward,
+    selectedMessages: state.selectedMessages
+    // records: state.records
   }
 }
 
@@ -17,6 +23,8 @@ const mapDispatchToProps = (dispatch) => {
     openPopup: bindActionCreators(ActionCreators.openPopup, dispatch),
     openSearch: bindActionCreators(ActionCreators.openSearch, dispatch),
     editProfile: bindActionCreators(ActionCreators.editProfile, dispatch),
+    cancelForwardMessage: bindActionCreators(ActionCreators.cancelForwardMessage, dispatch),
+    updateCurrentUser: bindActionCreators(ActionCreators.updateCurrentUser, dispatch),
   }
 }
 

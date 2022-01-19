@@ -6,7 +6,10 @@ import PopupComponent from '../components/popup';
 import * as ActionCreators from '../actions/actionCreators';
 
 const mapStateToProps = (state) => {
-  return state.popup;
+  return {
+    popup: state.popup,
+    theme: state.theme
+  };
 }
 
 const mapDispatchToProps = (dispatch) => {

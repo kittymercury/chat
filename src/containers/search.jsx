@@ -6,7 +6,10 @@ import Component from '../components/common/search';
 import * as ActionCreators from '../actions/actionCreators';
 
 const mapStateToProps = (state) => {
-  return state.search;
+  return {
+    search: state.search,
+    theme: state.theme
+  }
 }
 
 const mapDispatchToProps = (dispatch) => {

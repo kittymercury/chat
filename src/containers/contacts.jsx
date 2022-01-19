@@ -2,19 +2,29 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import ContactsComponent from '../components/contacts';
-import * as ActionCreators from '../actions/actionCreators';
+import Component from '../components/contacts';
+import * as RecordsActionCreators from '../actions/records/actionCreators';
+import * as CommonActionCreators from '../actions/actionCreators';
 
 const mapStateToProps = (state) => {
-  return { users: state.users }
+  return {
+    records: state.records,
+    currentUser: state.currentUser,
+    search: state.search,
+    theme: state.theme,
+    isStatusVisible: state.isStatusVisible,
+  }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    openContactInfo: bindActionCreators(ActionCreators.openContactInfo, dispatch),
+    openPopup: bindActionCreators(CommonActionCreators.openPopup, dispatch),
+    closeSearch: bindActionCreators(CommonActionCreators.closeSearch, dispatch),
+    createRecords: bindActionCreators(RecordsActionCreators.createRecords, dispatch),
+    updateRecords: bindActionCreators(RecordsActionCreators.updateRecords, dispatch),
   }
 }
 
 const connectComponent = connect(mapStateToProps, mapDispatchToProps);
 
-export default connectComponent(ContactsComponent);
+export default connectComponent(Component);

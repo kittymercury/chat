@@ -11,7 +11,7 @@ export default class InputSearch extends React.Component {
   }
 
   render () {
-    const { value, visible, changeSearchValue, closeSearch } = this.props;
+    const { value, visible } = this.props.search;
     if (!visible) return null;
 
     return (
@@ -24,13 +24,13 @@ export default class InputSearch extends React.Component {
               type="text"
               placeholder="Search"
               value={value}
-              onChange={(e) => changeSearchValue(e.target.value)}
+              onChange={(e) => this.props.changeSearchValue(e.target.value)}
             />
             <Icon align="left" size="small">
               <i className="fas fa-search"></i>
             </Icon>
           </Form.Control>
-          <div className="cancel-searching" onClick={closeSearch}>Cancel</div>
+          <div className="cancel-searching" onClick={this.props.closeSearch}>Cancel</div>
         </Form.Field>
       </Navbar>
     )

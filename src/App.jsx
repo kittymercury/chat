@@ -5,60 +5,55 @@ import { lock, unlock } from 'tua-body-scroll-lock';
 import api, { getAttachmentUrl } from './api';
 import * as ActionHelpers from './actions/helpers';
 import Header from './containers/header';
-import Footer from './components/footer';
+import Footer from './containers/footer';
 import Popup from './containers/popup';
 import Search from './containers/search';
 
-// TODO: из-за того, что header рендерит контент исходя из pathname
-// не получается скрыть его при открытии search (search открывается,
-// но header не пропадает, а смещается)
+// TODO: create container for themes
 
-// TODO: не получается достучаться до кнопок в dropdownSettings.
-// 'log out' и 'edit profile' не делают того, что нужно:
-// edit-profile не меняет state.pages.settings.isEditMode
-// log-out не открывает попап
+// TODO: separate checkbox onchange (isStatusVisible and isPasswordVisible)
+// TODO: get user data to render in header contactinfo and messages
+// TODO: fix header title in chats while forwarding message
 
+// TODO: lodash to all components and may be reducers
+
+// !!! check if messages forward works
+// TODO: may be move messageToForward state to pages.chats.state
+// TODO: !!!!! check if records actions work properly with third argument.
+// may be this.props should be changed to this props records
+
+// TODO: мб сделать get user в контакт инфо и сеттингс
+// TODO: будет ли работать InputSearch если не импортить его прямо в компоненты
+// TODO: privacyAndSecurity delete user
+// TODO: updateCurrentUser in profile, privacy and security and so on.
+// what arguments should i insert in this action?
+
+// TODO: big handleChangeLogin in profile component.
+// TODO: may be unite reducers for changeLoginInput with changeHelpMesage
+// TODO: changeAvatar in redux ?
+// TODO: scroll to found message and highlight it without classlist add (messages)
 
 export default class App extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      typing: {},
-      messageToForward: null,
-      foundMessage: null,
-      selectedMessages: [],
-
-      theme: 'default',
-
-      isSelectMode: false,
-      isStatusVisible: true,
-      isMsgMenuActive: false,
-      isSearch: false,
-    };
-  }
-
   componentDidUpdate = (prevProps, prevState) => {
-    const page = this.props.state.location.pathname;
-    const $content = this.getElement('.content');
-
-    if (page.includes('messages')) {
-      const chat = +page.split('/')[2];
-      const chatMessages = this.props.state.records.messages.filter((m) => m.chat === chat);
-      const prevChatMessages = prevState.messages.filter((m) => m.chat === chat);
-
-      if (chatMessages.length > prevChatMessages.length) {
-        const list = document.querySelector('.messages ul');
-        list.style['scroll-behavior'] = 'smooth';
-        this.setScroll();
-      }
-    }
-
+    // const page = this.props.state.location.pathname;
+    // const $content = this.getElement('.content');
+    //
+    // if (page.includes('messages')) {
+    //   const chat = +page.split('/')[2];
+    //   const chatMessages = this.props.state.records.messages.filter((m) => m.chat === chat);
+    //   const prevChatMessages = prevState.messages.filter((m) => m.chat === chat);
+    //
+    //   if (chatMessages.length > prevChatMessages.length) {
+    //     const list = document.querySelector('.messages ul');
+    //     list.style['scroll-behavior'] = 'smooth';
+    //     this.setScroll();
+    //   }
+    // }
   }
 
   componentDidMount = () => {
     var htmlElement = document.getElementsByTagName("html")[0];
-    htmlElement.classList = this.state.theme;
+    htmlElement.classList = this.props.state.theme;
     window.scrollTo(0,1);
     const content = this.getElement('.content');
 
@@ -83,10 +78,6 @@ export default class App extends React.Component {
     return document.querySelector(el)
   }
 
-  getPage = () => {
-    return window.location.pathname.slice(1);
-  }
-
   setScroll = () => {
     const $messages = document.querySelector("#app > div > div.container.messages > ul");
     $messages.scrollTop = $messages.scrollHeight;
@@ -98,17 +89,17 @@ export default class App extends React.Component {
     const { currentUser } = this.props.state;
     console.log({currentUser});
 
-
     if (currentUser) {
       const records = await ActionHelpers.getRecords(currentUser);
       this.props.init(records);
-      console.log({currentUser});
       const currentPage = this.props.state.location.pathname;
 
       if (currentPage === '/') {
         browserHistory.push('/chats');
       }
-    } else {
+    }
+
+    if (!currentUser) {
       browserHistory.push('/authentication');
     }
   }
@@ -116,9 +107,7 @@ export default class App extends React.Component {
   handleWSClose = async () => {
     console.log('WS: Close');
 
-    const { currentUser } = this.props.state;
-
-    if (currentUser) {
+    if (this.props.currentUser) {
       await api('update_user', {
         id: currentUser.id,
         status: 'offline'
@@ -163,7 +152,7 @@ export default class App extends React.Component {
           return this.props.deleteRecords('chats', payload, this.props.state);
 
         case 'typing':
-          return this.setState({ typing: { user: response.user, chat: payload.chat } });
+          // return this.setState({ typing: { user: response.user, chat: payload.chat } });
       }
     }
   }
@@ -174,33 +163,33 @@ export default class App extends React.Component {
     setTimeout(this.setWS, 10000);
   }
 
-  handleSubmitUser = async (user) => {
-    if (typeof user.avatar === 'object') {
-      const { data = [] } = await api('upload_attachment', {
-        file: user.avatar,
-        name: 'avatar.jpeg',
-        model: 'tgc_user',
-        record: this.props.state.currentUser.id,
-      });
-      const [ attachment ] = data;
-      if (attachment) user.avatar = getAttachmentUrl(attachment.attributes);
-    }
-
-    const data = await api('update_user', {
-      id: this.props.state.currentUser.id,
-      ...user
-    });
-
-    if (data.error) {
-      this.props.openPopup({
-        message: data.error.description
-      })
-    }
-
-    if (data.user) {
-      this.props.updateCurrentUser(data.user);
-    }
-  }
+  // handleSubmitUser = async (user) => {
+  //   if (typeof user.avatar === 'object') {
+  //     const { data = [] } = await api('upload_attachment', {
+  //       file: user.avatar,
+  //       name: 'avatar.jpeg',
+  //       model: 'tgc_user',
+  //       record: this.props.state.currentUser.id,
+  //     });
+  //     const [ attachment ] = data;
+  //     if (attachment) user.avatar = getAttachmentUrl(attachment.attributes);
+  //   }
+  //
+  //   const data = await api('update_user', {
+  //     id: this.props.state.currentUser.id,
+  //     ...user
+  //   });
+  //
+  //   if (data.error) {
+  //     this.props.openPopup({
+  //       message: data.error.description
+  //     })
+  //   }
+  //
+  //   if (data.user) {
+  //     this.props.updateCurrentUser(data.user);
+  //   }
+  // }
 
   // --------------------------------
 
@@ -235,7 +224,6 @@ export default class App extends React.Component {
         <Search />
         {this.renderContent()}
         {this.renderFooter()}
-
         <Popup />
       </div>
     );

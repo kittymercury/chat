@@ -1,4 +1,4 @@
-export const ON_MESSAGE = 'ON_MESSAGE';
+export const CLICK_MESSAGE = 'CLICK_MESSAGE';
 export const REPLY = 'REPLY';
 export const FORWARD = 'FORWARD';
 export const EDIT_MESSAGE = 'EDIT_MESSAGE';

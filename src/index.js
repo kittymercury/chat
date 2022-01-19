@@ -9,18 +9,18 @@ import { syncHistoryWithStore } from 'react-router-redux'
 import { Provider } from 'react-redux';
 
 // containers
+import App from './containers/app';
 import Login from './containers/login';
 import Registration from './containers/registration';
 import Chats from './containers/chats';
-import Settings from './containers/settings';
+import Contacts from './containers/contacts';
 import Messages from './containers/messages';
-import App from './containers/app';
 import ContactInfo from './containers/contactInfo';
+import Settings from './containers/settings';
+import Profile from './containers/profile';
 
 // components
-import Contacts from './components/contacts';
 import Themes from './components/themes';
-import Profile from './components/profile';
 
 import store from './store/redux';
 import BlobStore from './store/blob'

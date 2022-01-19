@@ -54,11 +54,9 @@
      margin: 0;
 
     .dropdown-menu {
-      background: #09ad94f5;
-      border-top-left-radius: 35px;
-      border-bottom-right-radius: 35px;
+      background: #818181;
       margin-right: 5px;
-      margin-top: 2px;
+      margin-top: 5px;
 
       .dropdown-content {
         background: none;
@@ -67,7 +65,7 @@
           display: flex;
 
           &:first-child {
-            box-shadow: inset 0px -1px 1px #1e1f25;
+            box-shadow: inset 0px -1px 1px #1b1f3952;
           }
         }
       }

@@ -1,3 +1,16 @@
+// profile
+export const OPEN_AVATAR_MENU = 'OPEN_AVATAR_MENU';
+export const CLOSE_AVATAR_MENU = 'CLOSE_AVATAR_MENU';
+export const CONFIRM_NEW_PASSWORD = 'CONFIRM_NEW_PASSWORD';
+export const CHANGE_HELP_MESSAGE = 'CHANGE_HELP_MESSAGE';
+
+// contactInfo
+export const GET_CONTACT_INFO = 'GET_CONTACT_INFO';
+
+//
+export const CANCEL_FORWARD_MESSAGE = 'CANCEL_FORWARD_MESSAGE';
+
+//
 export const UPDATE_CURRENT_USER = 'UPDATE_CURRENT_USER';
 export const INIT = 'INIT';
 

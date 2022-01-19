@@ -8,6 +8,10 @@ import search from './search';
 import location from './location';
 import currentUser from './currentUser';
 import records from './records';
+import messageToForward from './messageToForward';
+import selectedMessages from './selectedMessages';
+import isStatusVisible from './isStatusVisible';
+import isSelectMode from './isSelectMode';
 
 export default combineReducers({
   pages,
@@ -17,5 +21,9 @@ export default combineReducers({
   routing,
   location,
   currentUser,
-  records
+  records,
+  messageToForward,
+  selectedMessages,
+  isStatusVisible,
+  isSelectMode
 });

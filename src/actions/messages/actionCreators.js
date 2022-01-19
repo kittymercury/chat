@@ -1,7 +1,7 @@
 import * as Types from './types';
 
-export const onMessage = (id) => {
-  return { type: Types.ON_MESSAGE, payload: id }
+export const clickMessage = (id) => {
+  return { type: Types.CLICK_MESSAGE, payload: id }
 }
 
 export const reply = (message) => {

@@ -1,6 +1,9 @@
 export default {
   currentUser: '',
 
+  theme: 'default',
+  isStatusVisible: true,
+
   records: {
     chats: [],
     users: [],
@@ -8,6 +11,23 @@ export default {
   },
 
   location: {},
+
+  foundMessage: null,
+  messageToForward: null,
+  selectedMessages: [],
+  isSelectMode: false,
+  typing: {},
+
+  popup: {
+    visible: false,
+    message: '',
+    type: ''
+  },
+
+  search: {
+    visible: false,
+    value: ''
+  },
 
   header: {
     title: '',
@@ -25,13 +45,18 @@ export default {
     contacts: {},
 
     contactInfo: {
-      user: {}
+      user: null
     },
 
     profile: {
       name: '',
       login: '',
-      avatar: ''
+      avatar: null,
+      isAvatarMenuVisible: false,
+      helpMessage: {
+        color: '',
+        message: ''
+      }
     },
 
     login: {
@@ -41,7 +66,7 @@ export default {
     },
 
     messages: {
-      inputMessage: '',
+      inputValue: '',
       messageWithFeatures: null,
       messageToEdit: null,
       messageToReply: null,
@@ -55,18 +80,12 @@ export default {
     },
 
     settings: {
-      isEditMode: false,
+      privacyAndSecurity: {
+        currentPassword: '',
+        newPassword: '',
+        repeatNewPassword: '',
+        isPasswordVisible: false
+      }
     },
-  },
-
-  popup: {
-    visible: false,
-    message: '',
-    type: ''
-  },
-
-  search: {
-    visible: false,
-    value: ''
   }
 }

@@ -1,6 +1,6 @@
 import { browserHistory } from 'react-router';
 
-import api from '../api';
+import api, { getAttachmentUrl } from '../api';
 
 export const getRecords = async (user) => {
   const { users = [] } = await api('get_users', { id: user.id });
@@ -34,4 +34,25 @@ export const getRecords = async (user) => {
     chats: dataChats.chats,
     messages: dataMessages.messages,
   };
+}
+
+// moved from app
+
+export const updateCurrentUser = async (user, id) => {
+  if (typeof user.avatar === 'object') {
+    const { data = [] } = await api('upload_attachment', {
+      file: user.avatar,
+      name: 'avatar.jpeg',
+      model: 'tgc_user',
+      record: id,
+    });
+    const [ attachment ] = data;
+    if (attachment) {
+      user.avatar = getAttachmentUrl(attachment.attributes);
+    }
+  }
+
+  const data =  await api('update_user', { id: id, ...user });
+
+  return data;
 }

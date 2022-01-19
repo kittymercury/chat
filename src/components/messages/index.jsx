@@ -3,7 +3,7 @@ import { browserHistory } from 'react-router';
 import { Navbar, Container, Dropdown, Block, Icon, Form, Button, Card } from 'react-bulma-components';
 
 import api from '../../api';
-import InputSearch from '../common/search';
+// import InputSearch from '../common/search';
 import { formatDate, getImg } from '../../helpers';
 import { DELETED_USERNAME, CURRENT_TIMESTAMP } from '../../constants';
 import './styles.scss';
@@ -11,29 +11,20 @@ import './styles.scss';
 import { StyledLi, StyledCloud } from './styles.js';
 
 export default class Messages extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      inputSearch: '',
-      inputMessage: '',
-      messageWithFeatures: null,
-      messageToEdit: null,
-      messageToReply: null,
-    };
-  }
-
   componentDidMount = () => {
     this.setScrollBehavior();
     this.readMessages();
   }
 
   getChat = () => {
-    return this.props.app.state.chats.find((c) => c.id === Number(this.props.params.chatId));
+    const chatId = this.props.location.pathname.split('/')[2];
+    return this.props.records.chats.find((chat) => chat.id === chatId);
+    // return this.props.app.state.chats.find((c) => c.id === Number(this.props.params.chatId));
   }
 
   getParticipant = () => {
-    const { chats, users, currentUser } = this.props.app.state;
+    const { chats, users } = this.props.records;
+    const { currentUser } = this.props;
     const chat = this.getChat();
     if (!chat) return;
     const participantId = chat.participants.find((id) => id !== currentUser.id);
@@ -41,23 +32,22 @@ export default class Messages extends React.Component {
   }
 
   readMessages = async () => {
-    const { messages } = this.props.app.state;
+    const { messages } = this.props.records;
 
     const data = await api('read_messages', this.getChat());
 
     if (data.error) {
-      this.props.openPopup({
-        message: data.error.description,
-      });
+      this.props.openPopup({ message: data.error.description });
     }
 
     if (data.messages) {
       const dataMessagesMap = _.keyBy(data.messages, 'id');
       const updatedMessages = messages.map((m) => {
         return dataMessagesMap[m.id] || m
-      })
+      });
 
-      this.props.app.setState({ messages: updatedMessages })
+      // this.props.app.setState({ messages: updatedMessages })
+      this.props.updateRecords('messages', updatedMessages, this.props);
     }
   }
 
@@ -65,7 +55,7 @@ export default class Messages extends React.Component {
     const list = document.querySelector('.messages ul');
     list.style['scroll-behavior'] = 'none';
     this.props.app.setScroll();
-    const { foundMessage } = this.props.app.state;
+    const { foundMessage } = this.props;
     if (foundMessage) {
       const foundM = document.getElementById(`m-${foundMessage.id}`);
       foundM.scrollIntoView({ block: "start", behavior: "smooth" });
@@ -83,21 +73,29 @@ export default class Messages extends React.Component {
 
   tryHighlight = (content) => {
     let html = content;
-    const { inputSearch } = this.state;
-    const re = new RegExp(inputSearch, 'gi');
+    const { search } = this.props;
+    const re = new RegExp(search.value, 'gi');
 
-    if (inputSearch) {
-      html = html.replace(re, `<span style="background-color: #ffff0038">${inputSearch}</span>`)
+    if (search.value) {
+      html = html.replace(re, `<span style="background-color: #ffff0038">${search.value}</span>`)
     }
     return { __html: html };
   }
 
-  changeInputMessages = async (e) => {
-    this.props.changeInputMessages({ value: e.target.value });
+  // changeInputValue = async (e) => {
+  //   this.props.changeInputValue({ type: 'messages', page: 'messages', value: e.target.value });
+  //   clearTimeout(this.typingTimeout);
+  //   await api('typing', { chat: this.getChat().id });
+  //   this.typingTimeout = setTimeout(() => api('typing', {}), 5000)
+  // }
+
+  changeInputValue = (type) => async (e) => {
+    this.props.changeInputValue({ type, page: 'messages', value: e.target.value });
     clearTimeout(this.typingTimeout);
     await api('typing', { chat: this.getChat().id });
     this.typingTimeout = setTimeout(() => api('typing', {}), 5000)
   }
+
 
   // handleClickAvatar = (id) => {
     // const user = this.props.app.state.users.find((u) => u.id === id);
@@ -109,7 +107,7 @@ export default class Messages extends React.Component {
   // }
 
   handleClickMessage = (id) => {
-    this.props.onMessage(id);
+    this.props.clickMessage(id);
 
     // const message = messages.find((m) => m.id === id);
   }
@@ -146,7 +144,6 @@ export default class Messages extends React.Component {
 
   handleClickForward = (message) => {
     this.props.forward(message);
-    this.props.app.setState({ messageToForward: message });
     browserHistory.push('/chats');
   }
 
@@ -169,29 +166,30 @@ export default class Messages extends React.Component {
     const data = await api('delete_chat', chat);
 
     if (data.error) {
-      this.props.openPopup({
-        message: data.error.description,
-      });
+      this.props.openPopup({ message: data.error.description });
     }
 
     if (data.deleted) {
-      const { chats } = this.props.app.state;
-      const filteredChats = chats.filter((c) => c.id !== chat.id);
+      // const { chats } = this.props.records;
+      // const filteredChats = chats.filter((c) => c.id !== chat.id);
 
-      this.props.app.setState({ chats: filteredChats, isMsgMenuActive: false });
-      browserHistory.goBack();
+      // this.props.app.setState({ chats: filteredChats, isMsgMenuActive: false });
+      this.props.deleteRecords('chats', data.deleted, this.props);
+      browserHistory.push('/chats');
     }
   }
 
-  handleClickTurnOffSelectMode = () => {
-    this.props.app.setState({
-      isSelectMode: false,
-      selectedMessages: []
-    })
-  }
+  // MOVE TO HEADER
+
+  // handleClickTurnOffSelectMode = () => {
+  //   this.props.app.setState({
+  //     isSelectMode: false,
+  //     selectedMessages: []
+  //   })
+  // }
 
   interactWithSelectedMessages = (action) => {
-    const { selectedMessages } = this.props.app.state;
+    const { selectedMessages } = this.props;
     if (action === 'delete') {
       this.props.openPopup({
         message: `Do you want to delete ${selectedMessages.length} messages?`,
@@ -206,24 +204,24 @@ export default class Messages extends React.Component {
   }
 
   handleConfirmDeleteSelectedMessages = async () => {
-    const { messages, selectedMessages  } = this.props.app.state;
+    const { messages } = this.props.records;
+    const { selectedMessages } = this.props;
 
     for (let i = 0; i < selectedMessages.length; i++) {
       const message = messages.find((m) => m.id === selectedMessages[i]);
       const data = await api('delete_message', message);
       if (data.error) {
-        this.props.openPopup({
-          message: data.error.description,
-        });
+        this.props.openPopup({ message: data.error.description });
       }
 
       if (data.deleted) {
-        this.props.app.setState({ selectedMessages: [] })
-        const newMessages = this.props.app.state.messages.filter((m) => m.id !== selectedMessages[i]);
-        this.props.app.setState({
-          messages: newMessages,
-          isSelectMode: false
-        })
+        this.props.deleteRecords('messages', data.deleted, this.props);
+        // this.props.app.setState({ selectedMessages: [] })
+        // const newMessages = this.props.app.state.messages.filter((m) => m.id !== selectedMessages[i]);
+        // this.props.app.setState({
+        //   messages: newMessages,
+        //   isSelectMode: false
+        // })
       }
     }
   }
@@ -238,28 +236,31 @@ export default class Messages extends React.Component {
 
   handleConfirmDeleteMessage = async (message) => {
     const data = await api('delete_message', message);
+
     if (data.error) {
-      this.props.openPopup({
-        message: data.error.description,
-      });
+      this.props.openPopup({ message: data.error.description });
     }
 
     if (data.deleted) {
-      this.setState({ messageWithFeatures: null })
-      const newMessages = this.props.app.state.messages.filter((m) => m.id !== message.id);
-      this.props.app.setState({ messages: newMessages })
+      // this.setState({ messageWithFeatures: null })
+      // const newMessages = this.props.app.state.messages.filter((m) => m.id !== message.id);
+      // this.props.app.setState({ messages: newMessages });
+      this.props.deleteRecords('messages', data.deleted, this.props);
     }
   }
 
-  handleClickButtonSend = async () => {
-    const { currentUser, messages } = this.props.app.state;
-    const { inputMessage, messageToReply } = this.state;
+  handleSendMessage = async () => {
+    // const { currentUser, messages } = this.props.app.state;
+    // const { inputMessage, messageToReply } = this.state;
+    const { currentUser } = this.props;
+    const { messages } = this.props.records;
+    const { inputValue, messageToReply } = this.props.messagesPage;
 
-    if (inputMessage && inputMessage.trim()) {
+    if (inputValue && inputValue.trim()) {
       const newMessage = {
         user: currentUser.id,
         chat: this.getChat().id,
-        content: inputMessage
+        content: inputValue
       };
 
       if (messageToReply) {
@@ -269,90 +270,48 @@ export default class Messages extends React.Component {
       const data = await api('create_message', newMessage);
 
       if (data.error) {
-        this.props.openPopup({
-          message: data.error.description,
-        });
-      } else {
-        const newMessages = messages.concat(data.message);
+        this.props.openPopup({ message: data.error.description });
+      }
 
-        this.props.app.setState({ messages: newMessages })
-        this.setState({
-          inputMessage: '',
-          messageToReply: null,
-        });
+      if (data.message) {
+        // const newMessages = messages.concat(data.message);
+        //
+        // this.props.app.setState({ messages: newMessages })
+        // this.setState({
+        //   inputValue: '',
+        //   messageToReply: null,
+        // });
+        this.props.createRecords('messages', data.message, this.props);
       }
     }
   }
 
-  handleClickButtonEditOk = async () => {
-    const { inputMessage, messageToEdit } = this.state;
+  handleSubmitEditedMessage = async () => {
+    // const { inputMessage, messageToEdit } = this.state;
+    const { inputValue, messageToEdit } = this.props.messagesPage;
 
-    if (messageToEdit.content === inputMessage) return;
+    if (messageToEdit.content === inputValue) return;
 
     const data = await api('update_message', {
       id: messageToEdit.id,
-      content: inputMessage
+      content: inputValue
     });
 
     if (data.error) {
-      this.props.openPopup({
-        message: data.error.description,
-      });
+      this.props.openPopup({ message: data.error.description });
     }
 
     if (data.message) {
-      this.props.app.updateMessages(data.message);
-      this.setState({ inputMessage: '', messageToEdit: null });
+      // this.props.app.updateMessages(data.message);
+      // this.setState({ inputValue: '', messageToEdit: null });
+      this.props.updateRecords('messages', data.message, this.props);
     }
   }
 
-  renderNav = () => {
-    const currentPage = this.props.app.getPage();
-    const { isSelectMode, isMsgMenuActive, currentUser, users = [], chats = [] } = this.props.app.state;
-    if (isSelectMode) return null;
-    if (!chats) return null;
-    const currentChat = +window.location.pathname.split('/')[2];
-    if (!currentChat) return null;
-    const chat = chats.find((c) => c.id === currentChat);
-    if (!chat) return null;
-    const participant = chat.participants.find((id) => id !== currentUser.id);
-    const user = users.find((u) => u.id === participant) || {};
-
-    return (
-      <Navbar renderAs="nav" fixed="top" className="messages-nav">
-        <Navbar.Item className="back" onClick={() => browserHistory.goBack()}>
-          <i className="fas fa-angle-left"></i>
-          <span>Back</span>
-        </Navbar.Item>
-        <Navbar.Item renderAs="div" className="user-name">
-          <span>{user.name || DELETED_USERNAME}</span>
-          <span className="status">{user.status}</span>
-        </Navbar.Item>
-        <Navbar.Item renderAs="div" className="avatar-in-msgs">
-          <Dropdown
-            closeOnSelect="true"
-            align="right"
-            label={<div className="user-avatar-small" style={{ backgroundImage: `url(${getImg(user.avatar)})` }}/>}
-          >
-            <Dropdown.Item value="to-profile">To profile</Dropdown.Item>
-            <Dropdown.Item value="search" onClick={() => this.props.app.setState({ isSearch: true, isMsgMenuActive: false })}>
-              <span>Search</span>
-            </Dropdown.Item>
-            <Dropdown.Item value="select">
-              <span>Select messages</span>
-            </Dropdown.Item>
-            <Dropdown.Item value="clear-chat" onClick={() => this.handleClickClearChat()}>
-              <span>Clear chat</span>
-            </Dropdown.Item>
-          </Dropdown>
-        </Navbar.Item>
-      </Navbar>
-    )
-  }
-
   renderEditMessageFeatures = (id) => {
-    const { messages, currentUser } = this.props.app.state;
-    const { messageWithFeatures } = this.props;
+    const { currentUser } = this.props;
+    const { messageWithFeatures } = this.props.messagesPage;
+    const { messages } = this.props.records;
 
     if (messageWithFeatures === id) {
       const message = messages.find((m) => m.id === messageWithFeatures);
@@ -372,18 +331,20 @@ export default class Messages extends React.Component {
   }
 
   renderStatus = (user = {}) => {
-    if (this.props.app.state.isStatusVisible) {
+    if (this.props.isStatusVisible) {
       return <i className={`fas fa-circle ${user.status || 'offline'}`}></i>
     }
   }
 
-  renderMessageReply = (users, message) => {
+  renderMessageReply = (message) => {
+    const { messages, users } = this.props.records;
+    const { currentUser } = this.props;
     if (message.reply_to) {
-      const messageReplyTo = this.props.app.state.messages.find((m) => m.id === message.reply_to);
+      const messageReplyTo = messages.find((m) => m.id === message.reply_to);
 
       if (messageReplyTo) {
-        const user = this.props.app.state.currentUser.id === messageReplyTo.user
-          ? this.props.app.state.currentUser
+        const user = currentUser.id === messageReplyTo.user
+          ? currentUser
           : users.find((user) => user.id === messageReplyTo.user) || {};
         return (
           <div className="message-reply" onDoubleClick={() => this.scrollToMessage(messageReplyTo)}>
@@ -408,13 +369,16 @@ export default class Messages extends React.Component {
     }
   }
 
-  renderMessageForward = (users, message) => {
+  renderMessageForward = (message) => {
+    const { users, messages } = this.props.records;
+    const { currentUser } = this.props;
+
     if (message.forward_to) {
-      const forwardedMessage = this.props.app.state.messages.find((m) => m.id === message.forward_to);
+      const forwardedMessage = messages.find((m) => m.id === message.forward_to);
 
       if (forwardedMessage) {
-        const user = this.props.app.state.currentUser.id === forwardedMessage.user
-          ? this.props.app.state.currentUser
+        const user = currentUser.id === forwardedMessage.user
+          ? currentUser
           : users.find((user) => user.id === forwardedMessage.user) || {};
         return (
           <div className="message-forward" onDoubleClick={() => this.scrollToMessage(forwardedMessage)}>
@@ -432,25 +396,28 @@ export default class Messages extends React.Component {
     }
   }
 
-  renderInputButton = (condition) => {
-    if (condition) {
+  renderInputButton = () => {
+    const { messageToEdit } = this.props.messagesPage;
+
+    if (messageToEdit) {
       return (
-        <Button rounded color="primary" className="input-button" onClick={this.handleClickButtonEditOk}>
+        <Button rounded color="primary" className="input-button" onClick={this.handleSubmitEditedMessage}>
           <i className="fas fa-check"></i>
         </Button>
       )
-    } else {
-      return (
-        <Button rounded color="primary" className="input-button" onClick={this.handleClickButtonSend}>
-          <i className="far fa-paper-plane"></i>
-        </Button>
-      )
     }
+
+    return (
+      <Button rounded color="primary" className="input-button" onClick={this.handleSendMessage}>
+        <i className="far fa-paper-plane"></i>
+      </Button>
+    )
   }
 
   renderInputMessageToReply = () => {
-    const { messageToReply } = this.props;
-    const { users, currentUser } = this.props.app.state;
+    const { messageToReply } = this.props.messagesPage;
+    const { currentUser } = this.props;
+    const { users } = this.props.records;
 
     if (messageToReply) {
       const user = currentUser.id === messageToReply.user
@@ -501,7 +468,7 @@ export default class Messages extends React.Component {
   }
 
   renderUserTyping = () => {
-    const { typing } = this.props.app.state;
+    const { typing } = this.props;
 
     const participant = this.getParticipant();
     if (!participant) return;
@@ -518,42 +485,47 @@ export default class Messages extends React.Component {
       )
     }
   }
-
-  renderSelectModeHeader = () => {
-    const { isSelectMode } = this.props.app.state;
-
-    if (!isSelectMode) return;
-    if (isSelectMode) {
-      return (
-        <div className="header-info-wrapper btns">
-          <div className="cancel-select-msgs" onClick={() => this.handleClickTurnOffSelectMode()}>Cancel</div>
-          <div className="frwrd" onClick={() => this.interactWithSelectedMessages('forward')}>Forward</div>
-          <div className="dlt" onClick={() => this.interactWithSelectedMessages('delete')}>Delete</div>
-        </div>
-      )
-    }
-  }
+// move to header
+  // renderSelectModeHeader = () => {
+  //   const { isSelectMode } = this.props.app.state;
+  //
+  //   if (!isSelectMode) return;
+  //   if (isSelectMode) {
+  //     return (
+  //       <div className="header-info-wrapper btns">
+  //         <div className="cancel-select-msgs" onClick={() => this.handleClickTurnOffSelectMode()}>Cancel</div>
+  //         <div className="frwrd" onClick={() => this.interactWithSelectedMessages('forward')}>Forward</div>
+  //         <div className="dlt" onClick={() => this.interactWithSelectedMessages('delete')}>Delete</div>
+  //       </div>
+  //     )
+  //   }
+  // }
 
   render () {
-    const { inputSearch, inputMessage, messageToReply, messageToEdit, messageWithFeatures } = this.state;
+    const { users, chats, messages } = this.props.records;
     const {
-      chats,
-      users,
+      inputValue,
+      messageWithFeatures,
+      messageToEdit,
+      messageToReply
+    } = this.props.messagesPage;
+
+    const {
       currentUser,
-      isMsgMenuActive,
-      isStatusVisible,
-      isSearch,
-      messages,
+      search,
+      typing,
       foundMessage,
       selectedMessages,
+      isStatusVisible,
       isSelectMode
-    } = this.props.app.state;
+    } = this.props;
+
     const chat = this.getChat() || {};
 
     let foundMessages = [];
-    if (isSearch && inputSearch) {
+    if (search.visible && search.value) {
       messages.filter((message) => message.chat === chat.id).forEach((message) => {
-        if (message.content && message.content.toLowerCase().includes(inputSearch.toLowerCase())) {
+        if (message.content && message.content.toLowerCase().includes(search.value.toLowerCase())) {
           foundMessages.push(message);
         }
       });
@@ -563,71 +535,62 @@ export default class Messages extends React.Component {
 
 
     return (
-        // {/* {this.renderNav()} */}
-        // {/* {this.renderSelectModeHeader()} */}
-        // {/* {isSearch && (
-        //   <InputSearch
-        //     value={inputSearch}
-        //     onChange={(e) => this.changeInputValue('inputSearch', e)}
-        //     onCancel={() => this.props.app.setState({ isSearch: false })}
-        //   />
-        // )} */}
-        <Container
-          className="messages"
-          fullhd={{ display: 'contents' }}
-          breakpoint="fullhd"
-        >
-          <ul id="messages-list">
-            {foundMessages.map((message) => {
-              let className = "message-data-content";
-              if (foundMessage && (message.id === foundMessage.id)) {
-                className = "message-data-content highlight";
-              };
+      <Container
+        className="messages"
+        fullhd={{ display: 'contents' }}
+        breakpoint="fullhd"
+      >
+        <ul id="messages-list">
+          {foundMessages.map((message) => {
+            let className = "message-data-content";
+            if (foundMessage && (message.id === foundMessage.id)) {
+              className = "message-data-content highlight";
+            };
 
-              const user = currentUser.id === message.user
-                ? currentUser
-                : users.find((user) => user.id === message.user) || {};
-              const isCurrentUsersMessage = message.user === currentUser.id;
+            const user = currentUser.id === message.user
+              ? currentUser
+              : users.find((user) => user.id === message.user) || {};
+            const isCurrentUsersMessage = message.user === currentUser.id;
 
-              return (
-                <StyledLi key={message.id} user={isCurrentUsersMessage ? 'me' : 'other'} id={`m-${message.id}`}>
-                  <Block onClick={() => this.handleClickMessage(message.id)}>
-                    {this.renderMessageReply(users, message)}
-                    {this.renderMessageForward(users, message)}
-                    <div className="message-data">
-                      <div className={className} dangerouslySetInnerHTML={this.tryHighlight(message.content)} />
-                      <div className="data-wrapper">
-                        <span className="edited">{message.edited ? 'Edited' : ''}</span>
-                        <span className="message-data-time">{formatDate(message.created_at)}</span>
-                        {this.renderSeenCheck(true)}
-                      </div>
+            return (
+              <StyledLi key={message.id} user={isCurrentUsersMessage ? 'me' : 'other'} id={`m-${message.id}`}>
+                <Block onClick={() => this.handleClickMessage(message.id)}>
+                  {this.renderMessageReply(users, message)}
+                  {this.renderMessageForward(users, message)}
+                  <div className="message-data">
+                    <div className={className} dangerouslySetInnerHTML={this.tryHighlight(message.content)} />
+                    <div className="data-wrapper">
+                      <span className="edited">{message.edited ? 'Edited' : ''}</span>
+                      <span className="message-data-time">{formatDate(message.created_at)}</span>
+                      {this.renderSeenCheck(true)}
                     </div>
-                  </Block>
-                  {this.renderEditMessageFeatures(message.id)}
-                </StyledLi>
-              )
-            })}
-          </ul>
+                  </div>
+                </Block>
+                {this.renderEditMessageFeatures(message.id)}
+              </StyledLi>
+            )
+          })}
+        </ul>
 
-          {this.renderUserTyping()}
-          {this.renderInputMessageToReply()}
-          <div className="input-fixed" style={{ display: 'block' }}>
-            <Form.Field>
-              <Form.Control className="input-wrapper">
-                <Form.Input
-                  className="input-messages"
-                  rounded
-                  autoComplete="off"
-                  style={{ flex: 1 }}
-                  placeholder="Type your message here"
-                  value={inputMessage}
-                  onChange={this.changeInputMessages}
-                />
-              </Form.Control>
-              {this.renderInputButton(messageToEdit)}
-            </Form.Field>
-          </div>
-        </Container>
+        {this.renderUserTyping()}
+        {this.renderInputMessageToReply()}
+        <div className="input-fixed" style={{ display: 'block' }}>
+          <Form.Field>
+            <Form.Control className="input-wrapper">
+              <Form.Input
+                className="input-messages"
+                rounded
+                autoComplete="off"
+                style={{ flex: 1 }}
+                placeholder="Type your message here"
+                value={inputValue}
+                onChange={this.changeInputValue}
+              />
+            </Form.Control>
+            {this.renderInputButton()}
+          </Form.Field>
+        </div>
+      </Container>
     )
   }
 }

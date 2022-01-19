@@ -45,6 +45,10 @@ html {
   word-break: inherit;
 }
 
+.checkbox:hover {
+  color: white;
+}
+
 .container {
   width: 100%;
   height: calc(100% - 6.25rem);
