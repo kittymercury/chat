@@ -1,13 +1,11 @@
 import React from 'react';
 import { Link, browserHistory } from 'react-router';
-import { Container, Form, Section, Heading, Icon, Box, Hero, Message, Button, Block } from 'react-bulma-components';
+import { Container, Form, Section, Block, Heading, Icon, Button } from 'react-bulma-components';
 
-import api from '../../api';
-import * as ActionHelpers from '../../actions/helpers';
+import api from '../api';
+import * as ActionHelpers from '../actions/helpers';
 
-import './styles.scss';
-
-import ShowPasswordCheckbox from '../common/show-password-checkbox';
+import ShowPasswordCheckbox from './common/show-password-checkbox';
 
 export default class Login extends React.Component {
   changeInputValue = (type) => (e) => {
@@ -46,13 +44,11 @@ export default class Login extends React.Component {
     const { login, password, isPasswordVisible } = this.props;
 
     return (
-      <Container breakpoint="mobile">
-        <Hero>
-          <Hero.Body>
-            <Heading>Log in</Heading>
-          </Hero.Body>
-        </Hero>
-        <Section>
+      <Container className="login">
+        <Block style={{ textAlign: 'center' }}>
+          <Heading>Log in</Heading>
+        </Block>
+        <Section style={{ padding: '1.5rem 2.5rem' }}>
           <Form.Field>
             <Form.Label>Login</Form.Label>
             <Form.Control>
@@ -98,10 +94,10 @@ export default class Login extends React.Component {
             />
           <Button color="success" onClick={this.handleClickLogIn}>Go</Button>
         </Section>
-        <Section>
+        <Section style={{ padding: '1.5rem 2.5rem' }}>
           <Heading subtitle>Don't have an account yet?</Heading>
           <Heading size="4" onClick={this.handleClickRegistrateHere}>
-            <Link to="registration">Registrate here</Link>
+            <Link to="/registration">Registrate here</Link>
           </Heading>
         </Section>
       </Container>

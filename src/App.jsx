@@ -4,12 +4,33 @@ import { lock, unlock } from 'tua-body-scroll-lock';
 
 import api, { getAttachmentUrl } from './api';
 import * as ActionHelpers from './actions/helpers';
+import ThemeManager from './containers/themeManager';
 import Header from './containers/header';
 import Footer from './containers/footer';
 import Popup from './containers/popup';
 import Search from './containers/search';
 
+// TODO: pass themes values to messages component and catch them in styles.js 
+
+//// TODO: check how to refactor api CRUD records in actions/records
+
+// TODO: why header and footer is visible in login page
+// TODO: pass avatar to header
+// TODO: if status isn't visible header shouldn't render it
+
+// scss cases:
+// display none for navbars in reg and login, no paddings for container login
+// why registration page doesnt render
+
+// active navbar-item footer has different highlight color according to theme
+// ^ the same with message cloud
+
+
+// TODO: container for footer (not show in login page. messages, registr)
+
 // TODO: create container for themes
+// TODO: profile save changes. fix data that render
+// in inputs login and name after profile page initialize
 
 // TODO: separate checkbox onchange (isStatusVisible and isPasswordVisible)
 // TODO: get user data to render in header contactinfo and messages
@@ -18,11 +39,9 @@ import Search from './containers/search';
 // TODO: lodash to all components and may be reducers
 
 // !!! check if messages forward works
-// TODO: may be move messageToForward state to pages.chats.state
 // TODO: !!!!! check if records actions work properly with third argument.
 // may be this.props should be changed to this props records
 
-// TODO: мб сделать get user в контакт инфо и сеттингс
 // TODO: будет ли работать InputSearch если не импортить его прямо в компоненты
 // TODO: privacyAndSecurity delete user
 // TODO: updateCurrentUser in profile, privacy and security and so on.
@@ -79,7 +98,7 @@ export default class App extends React.Component {
   }
 
   setScroll = () => {
-    const $messages = document.querySelector("#app > div > div.container.messages > ul");
+    // const $messages = document.querySelector("#app > div > div.container.messages > ul");
     $messages.scrollTop = $messages.scrollHeight;
   }
 
@@ -87,8 +106,6 @@ export default class App extends React.Component {
     console.log('WS: Open');
 
     const { currentUser } = this.props.state;
-    console.log({currentUser});
-
     if (currentUser) {
       const records = await ActionHelpers.getRecords(currentUser);
       this.props.init(records);
@@ -121,7 +138,7 @@ export default class App extends React.Component {
   handleWSMessage = async (e = {}) => {
     const { action, payload, response } = JSON.parse(e.data).payload;
     const { users, messages, currentUser, chats } = this.props.state;
-    console.log({ response, payload });
+    // console.log({ response, payload });
     if (currentUser.id !== response.user) {
       const user = users.find((u) => u.id === response.user);
       if (user) {
@@ -163,46 +180,6 @@ export default class App extends React.Component {
     setTimeout(this.setWS, 10000);
   }
 
-  // handleSubmitUser = async (user) => {
-  //   if (typeof user.avatar === 'object') {
-  //     const { data = [] } = await api('upload_attachment', {
-  //       file: user.avatar,
-  //       name: 'avatar.jpeg',
-  //       model: 'tgc_user',
-  //       record: this.props.state.currentUser.id,
-  //     });
-  //     const [ attachment ] = data;
-  //     if (attachment) user.avatar = getAttachmentUrl(attachment.attributes);
-  //   }
-  //
-  //   const data = await api('update_user', {
-  //     id: this.props.state.currentUser.id,
-  //     ...user
-  //   });
-  //
-  //   if (data.error) {
-  //     this.props.openPopup({
-  //       message: data.error.description
-  //     })
-  //   }
-  //
-  //   if (data.user) {
-  //     this.props.updateCurrentUser(data.user);
-  //   }
-  // }
-
-  // --------------------------------
-
-  renderHeader = () => {
-    return (
-      <Header app={this} />
-    )
-  }
-
-  renderFooter = () => {
-    return <Footer app={this} />
-  }
-
   renderContent = () => {
     return (
       React.Children.map(this.props.children, (child) => {
@@ -218,14 +195,18 @@ export default class App extends React.Component {
   }
 
   render() {
+    // console.log(this.props);
+
     return (
-      <div className="chat">
-        {this.renderHeader()}
-        <Search />
-        {this.renderContent()}
-        {this.renderFooter()}
-        <Popup />
-      </div>
+      <ThemeManager>
+        <div className="chat">
+          <Header />
+          <Search />
+          {this.renderContent()}
+          <Popup />
+          <Footer />
+        </div>
+      </ThemeManager>
     );
   }
 };

@@ -1,5 +1,17 @@
 import * as Types from './types';
 
+export const selectMessage = (message) => {
+  return { type: Types.SELECT_MESSAGE, payload: message }
+}
+
+export const turnOnSelectMode = () => {
+  return { type: Types.TURN_ON_SELECT_MODE }
+}
+
+export const turnOffSelectMode = () => {
+  return { type: Types.TURN_OFF_SELECT_MODE }
+}
+
 export const clickMessage = (id) => {
   return { type: Types.CLICK_MESSAGE, payload: id }
 }
@@ -12,8 +24,12 @@ export const cancelReplying = (message) => {
   return { type: Types.REPLY, payload: message }
 }
 
-export const forward = (message) => {
-  return { type: Types.FORWARD, payload: message }
+export const forward = (messages) => {
+  return { type: Types.FORWARD, payload: messages }
+}
+
+export const cancelForward = () => {
+  return { type: Types.CANCEL_FORWARD }
 }
 
 export const editMessage = (message) => {
@@ -245,7 +261,7 @@ export const changeInputMessages = (value) => {
 //
 //   handleClickForward = (message) => {
 //     this.props.app.setState({
-//       messageToForward: message,
+//       messagesToForward: message,
 //       messageWithFeatures: null
 //     });
 //     browserHistory.push('/chats');

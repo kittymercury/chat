@@ -12,6 +12,7 @@ const StyledModal = styled(Modal)`
     max-width: 70%;
     min-height: 30%;
     border-radius: 10px;
+    z-index: 100;
 
     section.modal-card-body {
       text-align: center;
@@ -21,23 +22,28 @@ const StyledModal = styled(Modal)`
 
     footer.modal-card-foot {
       justify-content: space-evenly;
+
+      button.button {
+        font-size: 1.2rem;
+        font-weight: bold;
+      }
     }
   }
 `;
 
 export default class PopUp extends React.Component {
   handleClickConfirm = () => {
-    this.props.callback();
+    this.props.popup.callback();
     this.props.closePopup();
   }
 
   renderPlainPopup = () => {
-    if (!this.props.type) {
+    if (!this.props.popup.type) {
       return (
         <Modal.Card>
-          <Modal.Card.Body>{this.props.message}</Modal.Card.Body>
+          <Modal.Card.Body>{this.props.popup.message}</Modal.Card.Body>
           <Modal.Card.Footer>
-            <Button onClick={this.props.closePopup}>Ok</Button>
+            <Button onClick={() => this.props.closePopup()}>Ok</Button>
           </Modal.Card.Footer>
         </Modal.Card>
       )
@@ -45,10 +51,10 @@ export default class PopUp extends React.Component {
   }
 
   renderConfirmPopup = () => {
-    if (this.props.type === 'confirm') {
+    if (this.props.popup.type === 'confirm') {
       return (
         <Modal.Card>
-          <Modal.Card.Body>{this.props.message}</Modal.Card.Body>
+          <Modal.Card.Body>{this.props.popup.message}</Modal.Card.Body>
           <Modal.Card.Footer>
             <Button color="primary" onClick={this.handleClickConfirm}>Yes</Button>
             <Button color="danger" onClick={this.props.closePopup}>Cancel</Button>
@@ -59,10 +65,10 @@ export default class PopUp extends React.Component {
   }
 
   render () {
-    if (!this.props.visible) return null;
+    if (!this.props.popup.visible) return null;
 
     return (
-      <StyledModal className="main" show="true">
+      <StyledModal renderAs="div" isActive={this.props.visible} show="true">
         {this.renderPlainPopup()}
         {this.renderConfirmPopup()}
       </StyledModal>

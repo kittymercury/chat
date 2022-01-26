@@ -1,13 +1,31 @@
 import React from 'react';
 import { browserHistory } from 'react-router';
-import { Container, Form, Section, Heading, Icon, Box, Hero, Message, Button, Block, Navbar } from 'react-bulma-components';
+import { Container, Form, Section, Heading, Icon, Button, Block } from 'react-bulma-components';
+import styled from 'styled-components';
 
-import api from '../../api';
+import api from '../api';
+import noAvatar from '../images/no-avatar.png';
+import ShowPasswordCheckbox from './common/show-password-checkbox';
 
-// import './styles.scss';
+const StyledButton = styled(Button)`
+  background: none;
+  border: none;
+  box-shadow: none;
+  color: white;
+  font-size: 1.1rem;
+  position: fixed;
+  top: 5px;
+  z-index: 1;
 
-import noAvatar from '../../images/no-avatar.png';
-import ShowPasswordCheckbox from '../common/show-password-checkbox';
+  &:hover, &:active, &:focus {
+    color: white;
+    border: none;
+  }
+
+  span {
+    margin-left: 5px;
+  }
+`;
 
 export default class Registration extends React.Component {
   // handleClickSignUp = async () => {
@@ -77,34 +95,20 @@ export default class Registration extends React.Component {
     browserHistory.goBack();
   }
 
-  renderNav = () => {
-    return (
-      <Navbar renderAs="nav" fixed="top" color="primary">
-        <Navbar.Brand>
-          <Navbar.Item onClick={this.handleClickBack}>
-            <Icon>
-              <i className="fas fa-angle-left"></i>
-            </Icon>
-            Back
-          </Navbar.Item>
-        </Navbar.Brand>
-      </Navbar>
-    )
-  }
-
   render () {
     const { name, login, password, isPasswordVisible } = this.props;
 
     return (
-      <Container breakpoint="mobile">
-        {this.renderNav()}
+      <Container className="registration">
+        <StyledButton onClick={this.handleClickBack}>
+          <i className="fas fa-angle-left"></i>
+          <span>Back</span>
+        </StyledButton>
       {/* <StyledSection>  */}
-        <Hero>
-          <Hero.Body>
-            <Heading>Registration</Heading>
-          </Hero.Body>
-        </Hero>
-        <Section>
+        <Block style={{ textAlign: 'center' }}>
+          <Heading>Registration</Heading>
+        </Block>
+        <Section style={{ padding: '1.5rem 2.5rem' }} >
           <form>
             <Form.Field>
               <Form.Label>Username</Form.Label>
@@ -112,7 +116,7 @@ export default class Registration extends React.Component {
                 <Form.Input
                   color="success"
                   type="text"
-                  placeholder="Username*"
+                  placeholder="Username"
                   value={name}
                   onChange={this.changeInputValue('name')}
                 />
@@ -127,7 +131,7 @@ export default class Registration extends React.Component {
                 <Form.Input
                   color="success"
                   type="text"
-                  placeholder="Your login*"
+                  placeholder="Your login"
                   value={login}
                   onChange={this.changeInputValue('login')}
                 />
@@ -143,7 +147,7 @@ export default class Registration extends React.Component {
                 <Form.Input
                   color="success"
                   type={isPasswordVisible ? 'text' : 'password'}
-                  placeholder="Password*"
+                  placeholder="Password"
                   value={password}
                   onChange={this.changeInputValue('password')}
                 />

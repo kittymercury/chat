@@ -5,6 +5,8 @@ import initialState from '../initialState';
 
 export default (state = initialState.pages.messages, action) => {
   switch (action.type) {
+    case MessagesTypes.TURN_ON_SELECT_MODE:
+      return { ...state, messageWithFeatures: null }
     case MessagesTypes.CLICK_MESSAGE: // behavior depends on mode (select or not)
       if (state.messageWithFeatures === action.payload) {
         return { ...state, messageWithFeatures: null }
@@ -13,10 +15,10 @@ export default (state = initialState.pages.messages, action) => {
       }; // continue for select mode
     case MessagesTypes.REPLY:
       return { ...state, messageToReply: action.payload, messageWithFeatures: null };
+    case MessagesTypes.FORWARD:
+      return { ...state, messageWithFeatures: null };
     case MessagesTypes.CANCEL_REPLYING:
       return { ...state, messageToReply: null, inputValue: '' };
-    case MessagesTypes.FORWARD:
-      return { ...state, messageWithFeatures: null }; // add actions for global state
     case MessagesTypes.EDIT_MESSAGE:
       return {
         ...state,
@@ -26,10 +28,28 @@ export default (state = initialState.pages.messages, action) => {
       };
     case CommonTypes.CHANGE_INPUT_VALUE:
       if (action.payload.page === 'messages') {
-        return { ...state, [action.payload.type]: action.payload.value };
+        return { ...state, inputValue: action.payload.value };
       }
     case RecordsTypes.DELETE_RECORDS:
-      return { ...state, isSelectMode: false, messageWithFeatures: null };
+      return {
+        ...state,
+        isSelectMode: false,
+        messageWithFeatures: null,
+      };
+    case RecordsTypes.UPDATE_RECORDS:
+      return {
+        ...state,
+        messageWithFeatures: null,
+        messageToEdit: null,
+        inputValue: ''
+      };
+    case RecordsTypes.CREATE_RECORDS:
+      return {
+        ...state,
+        messageWithFeatures: null,
+        messageToReply: null,
+        inputValue: ''
+      };
   }
 
   return state;

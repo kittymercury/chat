@@ -2,6 +2,7 @@ import React from 'react';
 import { browserHistory } from 'react-router';
 import { Container, Section, Block, Button, Heading, Hero } from 'react-bulma-components';
 
+import * as ActionHelpers from '../../actions/helpers';
 import api from '../../api';
 import { getImg } from '../../helpers';
 import error from '../../images/error.jpeg';
@@ -9,18 +10,9 @@ import './styles.scss';
 
 export default class ContactInfo extends React.Component {
   componentDidMount = async () => {
-    const userId = this.props.location.pathname.split('/')[2];
-    const data = await api('get_users', { id: userId });
-
-    if (data.error) {
-      this.props.openPopup({
-        message: data.error.description,
-      });
-    }
-
-    if (data.users) {
-      this.props.getContactInfo(data.users[0]);
-    }
+    const id = +this.props.location.pathname.split('/')[2];
+    const data = await ActionHelpers.getUserData(id);
+    this.props.getUserData(data);
   }
 
   handleClickOpenChat = async (user) => {
@@ -69,7 +61,7 @@ export default class ContactInfo extends React.Component {
   }
 
   render () {
-    const { user, currentUser } = this.props;
+    const { currentUser, user } = this.props;
 
     if (!user) {
       return (
@@ -94,12 +86,16 @@ export default class ContactInfo extends React.Component {
         </Section>
         {currentUser.contacts.includes(user.id)
           ? (
-            <Block>
+            <Section>
               <Button onClick={() => this.handleClickOpenChat(user)}>Open chat</Button>
               <Button onClick={() => this.handleClickRemoveContact(user)}>Remove from contacts</Button>
-            </Block>
+            </Section>
           )
-          : <Button onClick={() => this.handleClickAddToContacts(user)}>Add to contacts</Button>
+          : (
+            <Section>
+              <Button onClick={() => this.handleClickAddToContacts(user)}>Add to contacts</Button>
+            </Section>
+          )
         }
       </Container>
     )

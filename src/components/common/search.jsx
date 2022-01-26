@@ -15,7 +15,7 @@ export default class InputSearch extends React.Component {
     if (!visible) return null;
 
     return (
-      <Navbar fixed="top" className="search-wrapper">
+      <Navbar className="search-wrapper">
         <Form.Field>
           <Form.Control>
             <Form.Input

@@ -10,7 +10,6 @@ const mapStateToProps = (state) => {
     privacyAndSecurity: state.pages.settings.privacyAndSecurity,
     currentUser: state.currentUser,
     records: state.records,
-    theme: state.theme
   };
 }
 

@@ -29,7 +29,7 @@ export default class Chats extends React.Component {
   handleClickFoundMessage = (message) => {
     const chats = this.props.records.chats;
     const chat = chats.find((chat) => chat.id === message.chat);
-    this.props.app.setState({ foundMessage: message });
+    // this.props.app.setState({ foundMessage: message });
     browserHistory.push(`/messages/${chat.id}`);
   }
 
@@ -54,19 +54,20 @@ export default class Chats extends React.Component {
 
       if (data.message) {
         this.props.updateRecords('messages', data.message, this.props);
-        // this.props.app.setState({ messageToForward: null, isSelectMode: false, selectedMessages: [] });
+        // this.props.app.setState({ messagesToForward: null, isSelectMode: false, selectedMessages: [] });
       }
     }
   }
 
   handleClickChat = async (chat) => {
-    const { messageToForward, selectedMessages, isSelectMode } = this.props;
+    const { selectedMessages, isSelectMode } = this.props.settings;
     const { currentUser } = this.props;
     const messages = this.props.records.messages;
 
-    if (messageToForward) {
-      await this.forwardMessages(messageToForward, chat)
-    }
+    // if (selectedMessages.length) {
+    //   await this.forwardMessages(selectedMessages, chat)
+    // }
+    // it was messageToForward
 
     if (selectedMessages.length) {
       for (let i = 0; i < selectedMessages.length; i++) {
@@ -107,8 +108,7 @@ export default class Chats extends React.Component {
   }
 
   renderStatus = (user = {}) => {
-    console.log({renderstatus: this.props.isStatusVisible});
-    if (this.props.isStatusVisible) {
+    if (this.props.settings.isStatusVisible) {
       return <i className={`fas fa-circle ${user.status || 'offline'}`}></i>
     }
   }
@@ -158,7 +158,6 @@ export default class Chats extends React.Component {
   render () {
     const { search, currentUser, isStatusVisible } = this.props;
     const { messages, users, chats } = this.props.records;
-    console.log({propsChats: this.props});
 
     const currentUsersChats = chats.filter((chat) => {
       return chat.participants.includes(currentUser.id);

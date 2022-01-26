@@ -2,13 +2,12 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import PopupComponent from '../components/popup';
+import Component from '../components/popup';
 import * as ActionCreators from '../actions/actionCreators';
 
 const mapStateToProps = (state) => {
   return {
     popup: state.popup,
-    theme: state.theme
   };
 }
 
@@ -21,4 +20,4 @@ const mapDispatchToProps = (dispatch) => {
 
 const connectComponent = connect(mapStateToProps, mapDispatchToProps);
 
-export default connectComponent(PopupComponent);
+export default connectComponent(Component);

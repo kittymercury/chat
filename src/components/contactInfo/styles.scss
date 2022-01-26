@@ -1,77 +1,25 @@
-// .contact-info {
-//   display: flex;
-//   flex-direction: column;
-//   align-items: stretch;
-//
-//   padding: 0 0 60px;
-//   margin: 0 !important;
-//
-//   .contact-info-header {
-//     height: var(--header-footer-height);
-//     background-color: var(--base-bg);
-//
-//     display: flex;
-//     justify-content: space-between;
-//     align-items: center;
-//
-//     .btn-back {
-//       height: 100%;
-//       width: var(--header-footer-height);
-//       font-size: var(--btn-back-size);
-//       cursor: pointer;
-//
-//       display: flex;
-//       align-items: center;
-//       justify-content: center;
-//     }
-//
-//     .contact-name {
-//       font-weight: bold;
-//
-//       display: flex;
-//       align-items: center;
-//       flex-direction: column;
-//
-//       span {
-//         font-size: var(--header-in-msgs-name);
-//       }
-//
-//       .user-status {
-//         font-size: var(--header-in-msgs-status);
-//         color: var(--gray-txt);
-//         padding: 0 0 5px;
-//       }
-//     }
-//   }
 .container.contact-info {
   section.info-wrapper {
     background-color: var(--wrapper-bg);
-    padding: 1rem;
+    // padding: 0;
+    // padding-bottom: 1rem;
 
     display: flex;
     flex-direction: column;
     align-items: center;
 
-    .block.user-avatar-image {
-      height: 200px;
-      width: 200px;
-      margin: 10px;
-      border-radius: 200px;
-      background-position: center;
-      background-repeat: no-repeat;
-      background-size: 135%;
-    }
-
     .block.user-login {
       padding: 10px;
-      font-size: var(--profile-login);
+      font-size: 1.4rem;
       color: var(--gray-txt);
     }
   }
 
-  .block {
+  .section:nth-child(2) {
+    padding: 0;
+
     .button {
-      margin-top: 20px;
+      margin-top: 0.5rem;
       color: white;
       font-size: 20px;
       border: none;

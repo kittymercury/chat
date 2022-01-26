@@ -15,6 +15,8 @@ export default (state = initialState.pages.settings.privacyAndSecurity, action) 
     //   return { ...state, currentPassword: '', newPassword: '', repeatNewPassword: '' };
     case Types.CONFIRM_NEW_PASSWORD:
       return { ...state, currentPassword: '', newPassword: '', repeatNewPassword: '' };
+    case Types.OPEN_POPUP:
+      // return { ...state, currentPassword: '', newPassword: '', repeatNewPassword: '' };
   }
 
   return state;

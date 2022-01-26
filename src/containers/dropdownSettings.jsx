@@ -8,7 +8,7 @@ import * as ActionCreators from '../actions/actionCreators';
 const mapStateToProps = (state) => {
   return {
     header: state.header,
-    theme: state.theme
+    settings: state.settings,
   }
 }
 
@@ -16,6 +16,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     editProfile: bindActionCreators(ActionCreators.editProfile, dispatch),
     openPopup: bindActionCreators(ActionCreators.openPopup, dispatch),
+    logOut: bindActionCreators(ActionCreators.logOut, dispatch),
   }
 }
 

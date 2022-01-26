@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, browserHistory } from 'react-router';
 import { Container, Section, Block } from 'react-bulma-components';
 
-import Themes from '../themes';
+import Themes from '../../containers/themes';
 import PrivacyAndSecurity from '../../containers/privacyAndSecurity';
 import './styles.scss';
 import { getImg, getFileFormat } from '../../helpers';

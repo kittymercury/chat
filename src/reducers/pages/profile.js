@@ -4,7 +4,6 @@ import initialState from '../initialState';
 export default (state = initialState.pages.profile, action) => {
   switch (action.type) {
     case Types.CHANGE_INPUT_VALUE:
-    console.log(action.payload);
       if (action.payload.page === 'profile') {
         if (action.payload.type === 'name') {
           return { ...state, name: action.payload.value }

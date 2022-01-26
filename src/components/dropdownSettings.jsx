@@ -1,5 +1,5 @@
 import React from 'react';
-import { Navbar, Dropdown } from 'react-bulma-components';
+import { Dropdown } from 'react-bulma-components';
 import { Link, browserHistory } from 'react-router';
 
 import { getImg, getFileFormat } from '../helpers';
@@ -15,11 +15,13 @@ export default class DropdownSettings extends React.Component {
   }
 
   handleLogOut = () => {
-    alert('log out');
+    // alert('log out');
     // this.props.app.ws.close();
+    // this.props.app.handleWSClose();
+    this.props.logOut();
     // this.props.app.setState({ currentUser: null });
     // localStorage.removeItem('user');
-    // browserHistory.push('/login');
+    browserHistory.push('/authentication');
   }
   //
   // getAvatar = () => {
@@ -40,20 +42,19 @@ export default class DropdownSettings extends React.Component {
 
   render () {
     return (
-      <Navbar.Item key={this.props.key}>
-        <Dropdown
-          closeOnSelect="true"
-          align="right"
-          label={<i className="fas fa-ellipsis-v"></i>}
-        >
-          <Dropdown.Item value="edit-profile">
-            <div onClick={() => browserHistory.push('/profile')}>Edit profile</div>
-          </Dropdown.Item>
-          <Dropdown.Item value="log-out">
-            <div onClick={this.handleClickLogOut}>Log out</div>
-          </Dropdown.Item>
-        </Dropdown>
-      </Navbar.Item>
+      <Dropdown
+        className="navbar-dropdown"
+        closeOnSelect="true"
+        align="right"
+        label={<i className="fas fa-ellipsis-v"></i>}
+      >
+        <Dropdown.Item value="edit-profile">
+          <div onClick={() => browserHistory.push('/profile')}>Edit profile</div>
+        </Dropdown.Item>
+        <Dropdown.Item value="log-out">
+          <div onClick={this.handleClickLogOut}>Log out</div>
+        </Dropdown.Item>
+      </Dropdown>
     )
   }
 }

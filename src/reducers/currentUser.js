@@ -10,6 +10,8 @@ export default (state = initialState.currentUser, action) => {
       if (!action.payload.error) {
         return { ...state, ...action.payload.user };
       }
+    case CommonTypes.LOG_OUT:
+      return null;
   }
 
   return state;

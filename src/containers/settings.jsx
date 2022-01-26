@@ -8,7 +8,6 @@ import * as ActionCreators from '../actions/actionCreators';
 const mapStateToProps = (state) => {
   return {
     currentUser: state.currentUser,
-    theme: state.theme
   };
 }
 

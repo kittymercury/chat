@@ -3,8 +3,8 @@ import { browserHistory } from 'react-router';
 import { Dropdown, Icon, Form, Heading, Button, Block } from 'react-bulma-components';
 import styled from 'styled-components';
 
-import api from '../../api';
-import ShowPasswordCheckbox from '../common/show-password-checkbox';
+import api from '../api';
+import ShowPasswordCheckbox from './common/show-password-checkbox';
 
 const StyledDropdownItem = styled(Dropdown.Item)`
   margin-bottom: 10px;
@@ -85,7 +85,7 @@ export default class PrivacyAndSecurity extends React.Component {
     } = this.props;
 
     return (
-      <Dropdown closeOnSelect={false} icon={<Icon><i aria-hidden="true" className="fas fa-angle-down"/></Icon>} label="Privacy and security">
+      <Dropdown className="privacy-and-security" closeOnSelect={false} icon={<Icon><i aria-hidden="true" className="fas fa-angle-down"/></Icon>} label="Privacy and security">
         <StyledDropdownItem className="wrapper section" value="show-my-password">
           <Heading size="4">Status visibility:</Heading>
           <Form.Field>

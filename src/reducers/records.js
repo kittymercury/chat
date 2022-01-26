@@ -6,6 +6,7 @@ export default (state = initialState.records, action) => {
   switch (action.type) {
     case CommonTypes.INIT:
       return {
+        ...state,
         users: action.payload.users,
         chats: action.payload.chats,
         messages: action.payload.messages,

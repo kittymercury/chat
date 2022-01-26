@@ -2,19 +2,19 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import Component from '../components/common/search';
+import Component from '../components/themes';
 import * as ActionCreators from '../actions/actionCreators';
 
 const mapStateToProps = (state) => {
   return {
-    search: state.search,
+    themes: state.themes,
+    currentTheme: state.currentTheme,
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    changeSearchValue: bindActionCreators(ActionCreators.changeSearchValue, dispatch),
-    closeSearch: bindActionCreators(ActionCreators.closeSearch, dispatch),
+    changeTheme: bindActionCreators(ActionCreators.changeTheme, dispatch),
   }
 }
 

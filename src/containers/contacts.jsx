@@ -11,8 +11,7 @@ const mapStateToProps = (state) => {
     records: state.records,
     currentUser: state.currentUser,
     search: state.search,
-    theme: state.theme,
-    isStatusVisible: state.isStatusVisible,
+    isStatusVisible: state.settings.isStatusVisible,
   }
 }
 

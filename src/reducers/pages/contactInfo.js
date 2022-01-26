@@ -3,8 +3,10 @@ import initialState from '../initialState';
 
 export default (state = initialState.pages.contactInfo, action) => {
   switch (action.type) {
-    case Types.GET_CONTACT_INFO:
-      return { user: action.payload };
+    case Types.GET_USER_DATA:
+      if (action.payload.users) {
+        return { user: action.payload.users[0] };
+      }
   }
 
   return state;

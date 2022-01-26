@@ -1,9 +1,10 @@
-import * as Types from '../actions/types';
+import * as CommonTypes from '../actions/types';
+import * as RecordsTypes from '../actions/records/types';
 import initialState from './initialState';
 
 export default (state = initialState.popup, action) => {
   switch (action.type) {
-    case Types.OPEN_POPUP:
+    case CommonTypes.OPEN_POPUP:
       return {
         ...state,
         visible: true,
@@ -11,9 +12,12 @@ export default (state = initialState.popup, action) => {
         type: action.payload.type,
         callback: action.payload.callback
       };
-    case Types.CLOSE_POPUP:
-      return { ...state, visible: false };
-    case Types.UPDATE_CURRENT_USER:
+    case CommonTypes.CLOSE_POPUP:
+      return { ...state, visible: false, message: '', type: '' };
+    case CommonTypes.UPDATE_CURRENT_USER:
+    case CommonTypes.GET_USER_DATA:
+    case RecordsTypes.CREATE_RECORDS:
+    case RecordsTypes.UPDATE_RECORDS:
       if (action.payload.error) {
         return {
           ...state,

@@ -10,7 +10,6 @@ const mapStateToProps = (state) => {
     profile: state.pages.profile,
     currentUser: state.currentUser,
     records: state.records,
-    theme: state.theme
   };
 }
 

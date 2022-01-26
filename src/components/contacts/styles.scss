@@ -1,26 +1,4 @@
-// .contacts > ul {
-//   overflow-y: scroll;
-//   --webkit-overflow-scrolling: touch;
-// }
-
-.contacts li {
-  height: var(--li-height);
-  margin-bottom: 1px;
-  padding: 0 10px;
-  cursor: pointer;
-
-  display: flex;
-  align-items: center;
-
-  .avatar {
-    height: var(--li-avatar-size);
-    width: var(--li-avatar-size);
-    border-radius: var(--li-avatar-size);
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: 135%;
-  }
-
+.container.contacts  ul li {
   .user-name {
     margin-left: 12px;
     font-weight: bold;
@@ -31,14 +9,12 @@
     justify-content: center;
 
     span {
-      color: white;
-      font-size: var(--li-name);
       padding-bottom: 5px;
+      font-size: 1.1rem;
     }
 
     .user-status {
-      font-size: var(--li-status-txt);
-      color: var(--gray-txt);
+      font-size: 1rem;
     }
   }
 }

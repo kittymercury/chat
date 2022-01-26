@@ -4,26 +4,22 @@ import { routerReducer as routing } from 'react-router-redux';
 import pages from './pages';
 import popup from './popup';
 import header from './header';
+import footer from './footer';
 import search from './search';
 import location from './location';
 import currentUser from './currentUser';
 import records from './records';
-import messageToForward from './messageToForward';
-import selectedMessages from './selectedMessages';
-import isStatusVisible from './isStatusVisible';
-import isSelectMode from './isSelectMode';
+import settings from './settings';
 
 export default combineReducers({
   pages,
   popup,
   header,
+  footer,
   search,
   routing,
   location,
   currentUser,
   records,
-  messageToForward,
-  selectedMessages,
-  isStatusVisible,
-  isSelectMode
+  settings
 });

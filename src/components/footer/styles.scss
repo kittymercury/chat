@@ -1,11 +1,13 @@
-.navbar.footer-nav {
-  background: var(--content-bg);
-  bottom: 0;
+.navbar.footer {
+  position: fixed;
+  z-index: 1;
+  padding: 0;
   display: flex;
   align-items: center;
-  justify-content: space-around;
 
   .navbar-item {
+    text-align: center;
+
     .icon i {
       font-size: 20px;
     }

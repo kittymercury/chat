@@ -1,3 +1,6 @@
+export const CHANGE_THEME = 'CHANGE_THEME';
+export const LOG_OUT = 'LOG_OUT';
+
 // profile
 export const OPEN_AVATAR_MENU = 'OPEN_AVATAR_MENU';
 export const CLOSE_AVATAR_MENU = 'CLOSE_AVATAR_MENU';
@@ -5,7 +8,7 @@ export const CONFIRM_NEW_PASSWORD = 'CONFIRM_NEW_PASSWORD';
 export const CHANGE_HELP_MESSAGE = 'CHANGE_HELP_MESSAGE';
 
 // contactInfo
-export const GET_CONTACT_INFO = 'GET_CONTACT_INFO';
+export const GET_USER_DATA = 'GET_USER_DATA';
 
 //
 export const CANCEL_FORWARD_MESSAGE = 'CANCEL_FORWARD_MESSAGE';

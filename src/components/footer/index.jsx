@@ -2,8 +2,6 @@ import React from 'react';
 import { browserHistory } from 'react-router';
 import { Navbar, Icon } from 'react-bulma-components';
 
-import { StyledNavbarItem } from './styles.js';
-
 import './styles.scss';
 
 export default class Footer extends React.Component {
@@ -22,32 +20,43 @@ export default class Footer extends React.Component {
   }
 
   render () {
+    if (!this.props.footer.visible) return null;
     const currentPage = this.props.location.pathname.split('/')[1];
-
-    //  || currentPage.includes('/messages')
-
-    if ([ '/authentication', '/registration' ].includes(currentPage)) {
-      return null;
-    }
+    const theme = this.props.settings.theme;
 
     return (
-      <Navbar className="footer-nav" renderAs="nav" size="large" style={{ bottom: 0 }}>
-        <StyledNavbarItem renderAs="div" active={currentPage === '/contacts'} onClick={() => browserHistory.push('/contacts')}>
+      <Navbar className="footer" renderAs="nav" size="large" style={{ bottom: 0 }}>
+        <Navbar.Item
+          renderAs="div"
+          theme={theme}
+          active={currentPage === 'contacts'}
+          onClick={() => browserHistory.push('/contacts')}
+        >
           <Icon size="medium">
             <i className="fas fa-user-friends"></i>
           </Icon>
-        </StyledNavbarItem>
-        <StyledNavbarItem renderAs="div" active={currentPage === '/chats'} onClick={() => browserHistory.push('/chats')}>
+        </Navbar.Item>
+        <Navbar.Item
+          renderAs="div"
+          theme={theme}
+          active={currentPage === 'chats'}
+          onClick={() => browserHistory.push('/chats')}
+        >
           <Icon size="medium">
             <i className="fas fa-comment"></i>
             {this.numberOfUnseenMessages()}
           </Icon>
-        </StyledNavbarItem>
-        <StyledNavbarItem renderAs="div" active={currentPage === '/settings'} onClick={() => browserHistory.push('/settings')}>
+        </Navbar.Item>
+        <Navbar.Item
+          renderAs="div"
+          theme={theme}
+          active={currentPage === 'settings'}
+          onClick={() => browserHistory.push('/settings')}
+        >
           <Icon size="medium">
             <i className="fas fa-cog"></i>
           </Icon>
-        </StyledNavbarItem>
+        </Navbar.Item>
       </Navbar>
     )
   }

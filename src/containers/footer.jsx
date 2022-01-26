@@ -7,10 +7,11 @@ import * as CommonActionCreators from '../actions/actionCreators';
 
 const mapStateToProps = (state) => {
   return {
+    footer: state.footer,
     messages: state.records.messages,
     currentUser: state.currentUser,
     location: state.location,
-    theme: state.theme
+    settings: state.settings,
   }
 }
 

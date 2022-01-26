@@ -2,6 +2,27 @@ import { browserHistory } from 'react-router';
 
 import api, { getAttachmentUrl } from '../api';
 
+export const createRecords = (model, record) => {
+  switch (model) {
+    case 'message':
+      return api('create_message', record);
+  }
+}
+
+export const updateRecords = (model, record) => {
+  switch (model) {
+    case 'message':
+      return api('update_message', { id: record.id, content: record.content });
+  }
+}
+
+export const deleteRecords = (model, record) => {
+  switch (model) {
+    case 'message':
+      return api('delete_message', record);
+  }
+}
+
 export const getRecords = async (user) => {
   const { users = [] } = await api('get_users', { id: user.id });
   user = users[0];
@@ -36,7 +57,9 @@ export const getRecords = async (user) => {
   };
 }
 
-// moved from app
+export const getUserData = (id) => {
+  return api('get_users', { id });
+}
 
 export const updateCurrentUser = async (user, id) => {
   if (typeof user.avatar === 'object') {
@@ -52,7 +75,7 @@ export const updateCurrentUser = async (user, id) => {
     }
   }
 
-  const data =  await api('update_user', { id: id, ...user });
+  const data = await api('update_user', { id: id, ...user });
 
   return data;
 }

@@ -14,7 +14,6 @@ export default class Profile extends React.Component {
     // }
     // return getImg(currentUser.avatar);
     const { avatar } = this.props.profile;
-    console.log({avatar});
     if (avatar && (typeof avatar === 'object')) {
       return window.URL.createObjectURL(avatar);
     }
@@ -69,12 +68,10 @@ export default class Profile extends React.Component {
 
   handleChangeAvatar = (type) => async (e) => {
     const file = e.target.files.item(0);
-    console.log({file});
     if (!file) return;
 
     const formats = ['png', 'jpeg', 'jpg'];
     if (!formats.includes(getFileFormat(file.name))) {
-      console.log('no format');
       return this.props.openPopup({
         message: `File format is not allowed. Please use ${formats}`,
       });
@@ -82,7 +79,6 @@ export default class Profile extends React.Component {
 
     const maxSize = 5; // megabytes
     if ((file.size >> 20) > maxSize) {
-      console.log('big size');
 
       return this.props.openPopup({
         message: `File size is not allowed. Please use less than ${maxSize}mb`,
@@ -104,7 +100,6 @@ export default class Profile extends React.Component {
   }
 
   // handleClickRemoveAvatar = async () => {
-  //   console.log('remove avatar');
   //   return this.props.openPopup({
   //     message: 'Do you want to remove your avatar?',
   //     type: 'confirm',

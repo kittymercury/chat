@@ -1,5 +1,16 @@
 import * as Types from './types';
 
+export const logOut = () => {
+  return { type: Types.LOG_OUT }
+}
+
+export const changeTheme = (theme) => {
+  return { type: Types.CHANGE_THEME, payload: theme }
+}
+
+export const getUserData = (user) => {
+  return { type: Types.GET_USER_DATA, payload: user }
+}
 //
 export const updateCurrentUser = (user) => {
   return { type: Types.UPDATE_CURRENT_USER, payload: user }
@@ -26,14 +37,6 @@ export const changeHelpMessage = (message) => {
 
 export const cancelForwardMessage = () => {
   return { type: Types.CANCEL_FORWARD_MESSAGE }
-}
-
-export const logOut = () => {
-  return { type: Types.LOG_OUT }
-}
-
-export const getContactInfo = (payload) => {
-  return { type: Types.GET_CONTACT_INFO, payload }
 }
 
 export const init = (payload) => {

@@ -1,73 +1,52 @@
-.chats .users-chats,
-.found-messages-chats ul {
-  // overflow-y: scroll;
-  --webkit-overflow-scrolling: touch;
+.container.chats {
+  li .chat-data {
+    margin-left: 12px;
+    flex: 0.95;
 
-  li {
-    height: var(--li-height);
-    margin-bottom: 1px;
-    padding: 0 10px;
-
-    display: flex;
-    align-items: center;
-
-    .chat-user-img {
-      height: var(--li-avatar-size);
-      width: var(--li-avatar-size);
-      border-radius: var(--li-avatar-size);
-      background-position: center;
-      background-repeat: no-repeat;
-      background-size: 135%;
-    }
-  }
-}
-
-.chat-data {
-  margin-left: 12px;
-  flex: 0.95;
-
-  & > div {
-    padding-bottom: 5px;
-  }
-
-  .data {
-    display: flex;
-  }
-
-  .text {
-    max-height: 30px;
-    max-width: 85%;
-    font-size: var(--msg-preview-txt);
-    word-wrap: break-word;
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-  }
-
-  .name {
-    color: white;
-    font-size: var(--li-name);
-    font-weight: bold;
-    flex: 1;
-
-    display: flex;
-    align-items: center;
-
-    .fas.fa-circle {
-      margin-left: 5px;
-      font-size: 7px;
+    & > div {
+      padding-bottom: 5px;
     }
 
-    .number-of-unseen-msgs {
-      color: #00d1b2;
-      margin-left: 10px;
-      padding: 2px;
+    .data {
+      display: flex;
     }
-  }
 
-  .time {
-    font-size: var(--msg-time-chats);
+    .text {
+      max-height: 30px;
+      max-width: 85%;
+      word-wrap: break-word;
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+
+      div {
+        font-size: 1rem;
+      }
+    }
+
+    .name {
+      font-size: 1.1rem;
+      font-weight: bold;
+      flex: 1;
+
+      display: flex;
+      align-items: center;
+
+      .fas.fa-circle {
+        margin-left: 5px;
+        font-size: 0.5rem;
+      }
+
+      .number-of-unseen-msgs {
+        margin-left: 10px;
+        padding: 2px;
+      }
+    }
+
+    .time {
+      font-size: 0.8rem;
+    }
   }
 }
 

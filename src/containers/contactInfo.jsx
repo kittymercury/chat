@@ -12,7 +12,6 @@ const mapStateToProps = (state) => {
     records: state.records,
     currentUser: state.currentUser,
     location: state.location,
-    theme: state.theme
   }
 }
 
@@ -20,7 +19,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     openPopup: bindActionCreators(CommonActionCreators.openPopup, dispatch),
     updateCurrentUser: bindActionCreators(CommonActionCreators.updateCurrentUser, dispatch),
-    getContactInfo: bindActionCreators(CommonActionCreators.getContactInfo, dispatch),
+    getUserData: bindActionCreators(CommonActionCreators.getUserData, dispatch),
     createRecords: bindActionCreators(RecordsActionCreators.createRecords, dispatch),
   }
 }
