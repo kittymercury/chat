@@ -1,5 +1,13 @@
 import * as Types from './types';
 
+export const searchUsers = (payload) => {
+  return { type: Types.SEARCH_USERS, payload }
+}
+
+export const getCurrentUserData = (payload) => {
+  return { type: Types.GET_CURRENT_USER_DATA, payload }
+}
+
 export const logOut = () => {
   return { type: Types.LOG_OUT }
 }
@@ -29,8 +37,8 @@ export const closeAvatarMenu = () => {
   return { type: Types.CLOSE_AVATAR_MENU }
 }
 
-export const changeHelpMessage = (message) => {
-  return { type: Types.CHANGE_HELP_MESSAGE, payload: message }
+export const changeHelpMessage = (payload) => {
+  return { type: Types.CHANGE_HELP_MESSAGE, payload }
 }
 
 //

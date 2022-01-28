@@ -18,7 +18,7 @@ export default {
         name: 'dark',
         mainBackground: '#1e1f25', // --content-bg
         mainTextColor: 'white',
-        footerIconColor: '#828282',
+        footerIconColor: '#a0a0a0',
         activeFooterIconColor: '#00d1b2',
         inputTextColor: 'black', // differs according to page
         inputBackground: 'white', // the same as ^
@@ -32,7 +32,7 @@ export default {
         navbarDropdownMenuBoxShadow: '-4px 2px 10px #08090c',
         navbarDropdownItemBoxShadow: '0px 1px 4px rgba(0, 0, 0, 0.46)',
         // navbarDropdownItemBoxShadow: '0px 1px 4px #00000075',
-        buttonsBrightColor: '#398463', // footer, sendMessage etc.
+        buttonsBottomSelectedMessages: '#0c0d13', // footer, sendMessage etc.
         dropdownTriggerSettings: '#0000003d',
         activeDropdownTriggerSettings: '#004a3f',
         onlineCircleColor: '#6cad6c',
@@ -44,6 +44,7 @@ export default {
         modalMainFooterBorderTop: '1px solid #595966',
         containerMessagesBackground: '#141519',
         inputButtonBackground: '#00c4a7',
+        buttonBackground: '#18917f',
       },
       {
         name: 'purple',
@@ -66,7 +67,7 @@ export default {
         activeDropdownTriggerSettings: '#521f67',
         onlineCircleColor: 'green',
         offlineCircleColor: 'red',
-        buttonsBrightColor: 'purple', // choose new
+        buttonsBottomSelectedMessages: 'purple', // choose new
         grayTextColor: '#d5d5d5',
         messageOptionsBackground: '#2a2c3e',
         modalMainBackground: '#2d2d36',
@@ -96,7 +97,7 @@ export default {
         activeDropdownTriggerSettings: '#91844a',
         onlineCircleColor: '#87dd95',
         offlineCircleColor: '#d79b9b',
-        buttonsBrightColor: 'purple', // choose new
+        buttonsBottomSelectedMessages: 'purple', // choose new
         grayTextColor: '#4a3d3d',
         messageOptionsBackground: '#a59f86',
         modalMainBackground: '#2d2d36',
@@ -127,7 +128,7 @@ export default {
   header: {
     title: '',
     subtitle: '',
-    visible: false,
+    visible: true,
     buttons: {
       left: [],
       right: []
@@ -143,7 +144,9 @@ export default {
   pages: {
     chats: {},
 
-    contacts: {},
+    contacts: {
+      foundUser: null,
+    },
 
     contactInfo: {
       user: null

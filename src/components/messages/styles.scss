@@ -58,14 +58,12 @@
   align-items: flex-start;
   flex-direction: column;
 
-  width: 45%;
+  width: 40%;
 
   .button {
-    font-size: 1rem !important;
+    height: 2.4rem;
     margin: 0;
-    // background-color: #48625e;
-    color: white;
-    border-color: #1e1f2569;
+    font-size: 1rem !important;
     width: 100%;
     justify-content: flex-start;
 

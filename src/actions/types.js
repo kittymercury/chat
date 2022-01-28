@@ -1,7 +1,9 @@
-export const CHANGE_THEME = 'CHANGE_THEME';
-export const LOG_OUT = 'LOG_OUT';
+export const SEARCH_USERS = 'SEARCH_USERS';
 
+export const LOG_OUT = 'LOG_OUT';
+export const CHANGE_THEME = 'CHANGE_THEME';
 // profile
+export const GET_CURRENT_USER_DATA = 'GET_CURRENT_USER_DATA';
 export const OPEN_AVATAR_MENU = 'OPEN_AVATAR_MENU';
 export const CLOSE_AVATAR_MENU = 'CLOSE_AVATAR_MENU';
 export const CONFIRM_NEW_PASSWORD = 'CONFIRM_NEW_PASSWORD';

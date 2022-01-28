@@ -1,5 +1,11 @@
+.contacts .notification {
+  background: none;
+  text-align: center;
+  font-size: 1.2rem;
+}
+
 .container.contacts  ul li {
-  .user-name {
+  .contact-data {
     margin-left: 12px;
     font-weight: bold;
     flex: 1;
@@ -8,13 +14,30 @@
     flex-direction: column;
     justify-content: center;
 
-    span {
-      padding-bottom: 5px;
-      font-size: 1.1rem;
+    div {
+      display: flex;
+
+    &:last-child {
+      color: gray;
+      font-weight: normal;
     }
 
-    .user-status {
-      font-size: 1rem;
+      span {
+        font-size: 1.1rem;
+      }
+
+      i.fas.fa-circle {
+        // font-size: 1rem;
+        margin-left: 5px;
+        font-size: 0.5rem;
+      }
+
+      i.fas.fa-user-friends {
+        font-size: 1.2rem;
+        margin-left: auto;
+        padding: 0 1rem;
+        color: dimgray;
+      }
     }
   }
 }

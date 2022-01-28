@@ -1,13 +1,16 @@
 import * as CommonTypes from '../actions/types';
 import * as MessagesTypes from '../actions/messages/types';
+import * as LoginTypes from '../actions/login/types';
 import initialState from './initialState';
 
 export default (state = initialState.header, action) => {
   switch (action.type) {
+    case LoginTypes.LOGIN: {
+      return { ...state, visible: true };
+    }
     case MessagesTypes.TURN_ON_SELECT_MODE:
       return {
         ...state,
-        visible: true,
         buttons: { left: [{ name: 'turn-off-select-mode'}], right: [{ name: 'number-of-selected-messages' }] }
       };
     case CommonTypes.OPEN_SEARCH:
@@ -18,7 +21,7 @@ export default (state = initialState.header, action) => {
       return {
         ...state,
         isForwardMode: false,
-        visible: true,
+        // visible: true,
         buttons: { left: [{ name: 'back' }], right: [{ name: 'messages' }] }
       };
     case CommonTypes.GET_USER_DATA:
@@ -34,7 +37,6 @@ export default (state = initialState.header, action) => {
     case CommonTypes.EDIT_PROFILE:
       return {
         ...state,
-        visible: true,
         title: '',
         subtitle: '',
         buttons: { left: [{ name: 'cancel-settings '}], right: [{ name: 'save-settings' }] }
@@ -47,7 +49,6 @@ export default (state = initialState.header, action) => {
     case MessagesTypes.CANCEL_FORWARD:
         return {
           ...state,
-          visible: true,
           isForwardMode: false
         }
     case '@@router/LOCATION_CHANGE':
@@ -61,7 +62,7 @@ export default (state = initialState.header, action) => {
         if (state.isForwardMode) {
           return {
             ...state,
-            title: 'Chats',
+            title: '',
             subtitle: '',
             buttons: {
               left: [{ name: 'cancel-forward'}],
@@ -71,10 +72,9 @@ export default (state = initialState.header, action) => {
         } else {
           return {
             ...state,
-            visible: true,
             title: 'Chats',
             subtitle: '',
-            buttons: { left: [], right: [{ name: 'search' }] }
+            buttons: { left: [{ name: 'invisible' }], right: [{ name: 'search' }] }
           }
         }
       }
@@ -82,7 +82,6 @@ export default (state = initialState.header, action) => {
       if (pathname === '/profile') {
         return {
           ...state,
-          visible: true,
           title: '',
           subtitle: '',
           buttons: { left: [{ name: 'cancel-profile' }], right: [{ name: 'save-profile' }] }
@@ -92,17 +91,15 @@ export default (state = initialState.header, action) => {
       if (pathname === '/contacts') {
         return {
           ...state,
-          visible: true,
           title: 'Contacts',
           subtitle: '',
-          buttons: { left: [], right: [{ name: 'search' }] }
+          buttons: { left: [{ name: 'invisible' }], right: [{ name: 'search' }] }
         }
       }
 
       if (pathname === '/settings') {
         return {
           ...state,
-          visible: true,
           title: 'Settings',
           subtitle: '',
           buttons: { left: [{ name: 'invisible' }], right: [{ name: 'settings' }] }
@@ -123,7 +120,6 @@ export default (state = initialState.header, action) => {
         }
         return {
           ...state,
-          visible: true,
           buttons: { left: [{ name: 'back' }], right: [{ name: 'messages' }] }
         };
       }
@@ -131,7 +127,6 @@ export default (state = initialState.header, action) => {
       if (page === 'contact-info') {
         return {
           ...state,
-          visible: true,
           buttons: { left: [{ name: 'back' }], right: [{ name: 'invisible' }] }
         };
       }

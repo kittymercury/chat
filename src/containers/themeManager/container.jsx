@@ -168,6 +168,15 @@ export default styled.div`
     }
   }
 
+  // Profile
+
+  .container.profile {
+    .section button.button {
+      background: ${themeProp('buttonBackground')};
+      color: ${themeProp('mainTextColor')};
+    }
+  }
+
   // Contact-info
 
   .container.contact-info {
@@ -182,23 +191,31 @@ export default styled.div`
     }
   }
 
+  //
+
   .container.messages {
     li div.buttons.has-addons {
       button {
-        background: ${themeProp('buttonsBrightColor')};
+        background: ${themeProp('messageOptionsBackground')};
+        color: ${themeProp('mainTextColor')};
+        border-color: #1e1f2569;
       }
     }
 
     .buttons.options-selected-messages {
       button.button {
-        background: ${themeProp('buttonsBrightColor')};
+        background: ${themeProp('buttonsBottomSelectedMessages')};
         color: ${themeProp('mainTextColor')};
+
+        &:first-child {
+          border-right: 1px solid ${themeProp('mainBackground')};
+        }
       }
     }
 
     .input-fixed {
-      button.input-button {
-        background: ${themeProp('inputButtonBackground')}
+      button.input-button.button {
+        background: ${themeProp('inputButtonBackground')};
         color: ${themeProp('mainTextColor')};
       }
 

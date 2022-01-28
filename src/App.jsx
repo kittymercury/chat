@@ -10,46 +10,31 @@ import Footer from './containers/footer';
 import Popup from './containers/popup';
 import Search from './containers/search';
 
-// TODO: pass themes values to messages component and catch them in styles.js 
+// TODO: fix input search in contacts
 
-//// TODO: check how to refactor api CRUD records in actions/records
+// TODO: handle click save profile changes triggers input login
+// and logic should check if login is unique among all users
 
-// TODO: why header and footer is visible in login page
-// TODO: pass avatar to header
-// TODO: if status isn't visible header shouldn't render it
+// TODO: pass themes values to messages component and catch them in styles.js
 
-// scss cases:
-// display none for navbars in reg and login, no paddings for container login
-// why registration page doesnt render
+// TODO: check how to refactor api CRUD records in actions/records
 
 // active navbar-item footer has different highlight color according to theme
 // ^ the same with message cloud
 
-
-// TODO: container for footer (not show in login page. messages, registr)
-
-// TODO: create container for themes
-// TODO: profile save changes. fix data that render
-// in inputs login and name after profile page initialize
-
 // TODO: separate checkbox onchange (isStatusVisible and isPasswordVisible)
-// TODO: get user data to render in header contactinfo and messages
-// TODO: fix header title in chats while forwarding message
 
 // TODO: lodash to all components and may be reducers
 
-// !!! check if messages forward works
 // TODO: !!!!! check if records actions work properly with third argument.
 // may be this.props should be changed to this props records
 
-// TODO: будет ли работать InputSearch если не импортить его прямо в компоненты
 // TODO: privacyAndSecurity delete user
 // TODO: updateCurrentUser in profile, privacy and security and so on.
 // what arguments should i insert in this action?
 
 // TODO: big handleChangeLogin in profile component.
 // TODO: may be unite reducers for changeLoginInput with changeHelpMesage
-// TODO: changeAvatar in redux ?
 // TODO: scroll to found message and highlight it without classlist add (messages)
 
 export default class App extends React.Component {

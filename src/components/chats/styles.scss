@@ -3,25 +3,33 @@
     margin-left: 12px;
     flex: 0.95;
 
-    & > div {
-      padding-bottom: 5px;
-    }
-
     .data {
       display: flex;
     }
 
     .text {
-      max-height: 30px;
-      max-width: 85%;
-      word-wrap: break-word;
-      overflow: hidden;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
+      display: flex;
+      justify-content: space-between;
 
       div {
         font-size: 1rem;
+        word-wrap: break-word;
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+        max-width: 80%;
+      }
+
+      .number-of-unseen-msgs {
+        width: 1.7rem;
+        height: 1.7rem;
+        border-radius: 1.7rem;
+        font-size: 0.8rem;
+        background: #64d2b1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
       }
     }
 
@@ -31,7 +39,6 @@
       flex: 1;
 
       display: flex;
-      align-items: center;
 
       .fas.fa-circle {
         margin-left: 5px;

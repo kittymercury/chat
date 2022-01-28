@@ -14,7 +14,12 @@ export default class Footer extends React.Component {
 
     if (unseenMessages.length) {
       return (
-        <div className="number-of-unseen-messages">+{unseenMessages.length}</div>
+        <span className="number-of-unseen-messages">
+          {unseenMessages.length <= 10
+            ? unseenMessages.length
+            : '10+'
+          }
+        </span>
       )
     }
   }

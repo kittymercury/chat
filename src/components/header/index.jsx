@@ -50,7 +50,7 @@ export default class Header extends React.Component {
         const number = this.props.settings.selectedMessages.length;
         return (
           <Navbar.Item style={{ flex: '1' }} key={button.name} className="number-of-selected-messages">
-            {number} {number !== 1 ? 'messages' : 'message'} selected
+            {number} selected
           </Navbar.Item>
         )
       case 'search':
@@ -68,7 +68,7 @@ export default class Header extends React.Component {
         );
       case 'settings':
         return (
-          <Navbar.Item key={button.name}>
+          <Navbar.Item key={button.name} className="dropdown-menu-settings">
             <DropdownSettings />
           </Navbar.Item>
         );
@@ -79,9 +79,9 @@ export default class Header extends React.Component {
           </Navbar.Item>
         );
       case 'cancel-profile':
-        return <Navbar.Item key={button.name} onClick={this.handleCancelProfileChanges}>Cancel</Navbar.Item>;
+        return <Navbar.Item className="cancel-profile-changes" key={button.name} onClick={this.handleCancelProfileChanges}>Cancel</Navbar.Item>;
       case 'save-profile':
-        return <Navbar.Item key={button.name} onClick={this.handleSaveProfileChanges}>Save</Navbar.Item>;
+        return <Navbar.Item className="save-profile" key={button.name} onClick={this.handleSaveProfileChanges}>Save</Navbar.Item>;
       case 'cancel-forward':
         return <Navbar.Item key={button.name} onClick={this.cancelForwardMessage}>Cancel</Navbar.Item>;
       case 'number-of-messages-to-forward':

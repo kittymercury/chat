@@ -1,8 +1,8 @@
 .modal.avatar-menu.is-active {
   .modal-content {
     width: 70%;
-    max-width: 300px;
-    border-radius: 20px;
+    max-width: 15rem;
+    border-radius: 2rem;
     background-color: #3aa18ced;
 
     display: flex;
@@ -11,8 +11,8 @@
 
     .input-avatar {
       width: 100%;
-      height: 65px;
-      font-size: 22px;
+      height: 3.5rem;
+      font-size: 1.2rem;
       font-weight: bold;
       color: white;
       margin: 0;
@@ -27,7 +27,7 @@
     }
 
     .control {
-      font-size: 22px;
+      font-size: 1.2rem;
       font-weight: bold;
     }
 
@@ -50,21 +50,23 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: var(--wrapper-bg);
-    padding: 1rem;
+    padding: 0 0 1rem;
 
     &.options {
       align-items: stretch;
+      padding: 0 2rem;
     }
 
-    .block.menu-name {
-      color: white;
-      font-size: 20px;
+    .button {
+      font-size: 1.1rem;
+      font-weight: bold;
+      border: none;
     }
 
     .current-user-img {
-      height: 250px;
-      width: 250px;
+      height: 17rem;
+      width: 100%;
+      max-width: 22rem;
       margin-bottom: 10px;
       background-position: center;
       background-repeat: no-repeat;

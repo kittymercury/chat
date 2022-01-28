@@ -1,100 +1,74 @@
 import React from 'react';
 import { browserHistory } from 'react-router';
-import { Container } from 'react-bulma-components';
+import { Container, Notification } from 'react-bulma-components';
+import lodash from 'lodash';
 
 import api from '../../api';
 import { getImg } from '../../helpers';
-import InputSearch from '../common/search';
 import './styles.scss';
 
 export default class Contacts extends React.Component {
-  handleChangeInputSearch = async (value) => {
-    const data = await api('get_users', { login: value });
-
-    if (data.error) {
-      this.props.openPopup({
-        message: data.error.description,
-      });
-    }
-
-    if (data.users) {
-      this.props.updateRecords('users', data.users, this.props);
-    }
-  }
-
-  handleClickOpenContactInfo = (user) => {
+  handleClickContact = (user) => {
     this.props.closeSearch();
     browserHistory.push(`/contact-info/${user.id}`);
   }
 
-  handleClickContact = async (user) => {
-    const { chats, users } = this.props.records;
-    const { currentUser, search } = this.props;
-
-    if (search.visible) {
-      this.props.closeSearch();
-      return browserHistory.push(`/contact-info/${user.id}`)
-    }
-
-    const isChatExist = chats.find((chat) => {
-      if (chat.participants.includes(user.id) && chat.participants.includes(currentUser.id)) {
-        return true;
-      } else {
-        return false;
-      }
-    })
-
-    if (isChatExist) {
-      const chatId = chats.find((chat) => (chat.participants.includes(user.id) && chat.participants.includes(currentUser.id))).id;
-
-      return browserHistory.push(`/messages/${chatId}`);
-    }
-
-    if (!isChatExist) {
-      const newChat = {
-        participants: [ currentUser.id, user.id ]
-      }
-      const data = await api('create_chat', newChat);
-
-      if (data.chat) {
-        this.props.createRecords('chats', data.chat, this.props);
-        return browserHistory.push(`/messages/${data.chat.id}`);
-      }
-
-      if (data.error) {
-        this.props.openPopup({
-          message: data.error.description,
-        });
-      }
+  renderStatus = (user = {}) => {
+    if (this.props.settings.isStatusVisible) {
+      return <i className={`fas fa-circle ${user.status || 'offline'}`}></i>
     }
   }
 
-  renderStatus = (user) => {
-    if (this.props.isStatusVisible) {
-      return <span className="user-status">{user.status}</span>
-    }
+  renderIsUserInContactList = (user) => {
+    const currentUser = this.props.currentUser;
+    if (!currentUser.contacts.includes(user.id)) return;
+    return <i className="fas fa-user-friends"></i>
   }
 
-  renderInputSearch = () => {
-    if (this.props.search.visible) {
-      return (
-        <InputSearch
-          onChange={(e) => this.handleChangeInputSearch(e.target.value)}
-          onCancel={() => this.props.closeSearch()}
-        />
-      )
-    }
+  renderNotification = (users) => {
+    const { search } = this.props;
+    if (!search.visible || !search.value) return null;
+    if (search.value && users.length) return null;
+    return (
+      <Notification>
+        <div>No users with such login</div>
+      </Notification>
+    )
   }
 
   render () {
-    const { currentUser, search } = this.props;
-
-    const contacts = this.props.records.users.filter((user) => {
+    const { currentUser, search, foundUser, records } = this.props;
+    const contacts = records.users.filter((user) => {
       return currentUser.contacts.includes(user.id);
     });
-    const users = search.visible
-      ? this.props.records.users
-      : contacts;
+
+    let users = [];
+    if (!search.visible) {
+      users = contacts
+    };
+
+    if (search.visible && !search.value) {
+      const knownUsers = _.uniq([ ...contacts, ...records.users], 'id');
+      users = knownUsers;
+    }
+
+    if (search.value) {
+      records.users.forEach((user) => {
+        if (user.name.toLowerCase().includes(search.value.toLowerCase()) || user.login.toLowerCase().includes(search.value.toLowerCase())) {
+          users.push(user)
+        }
+      })
+
+      if (foundUser) {
+        const isUserKnown = records.users.some((user) => user.id === foundUser.id);
+        if (!isUserKnown) {
+          users.unshift(foundUser)
+        } else {
+          users = users;
+        }
+      }
+    }
+
     const filteredUsers = users.filter((user) => user.id !== currentUser.id);
 
     return (
@@ -103,18 +77,19 @@ export default class Contacts extends React.Component {
           fullhd={{ display: 'contents' }}
           breakpoint="fullhd"
         >
-          {/* {this.renderInputSearch()} */}
+          {this.renderNotification(filteredUsers)}
           <ul>
             {filteredUsers.map((user) => {
-              const onClickUserName = () => this.handleClickContact(user);
-              const onClickAvatar = () => this.handleClickOpenContactInfo(user);
-
               return (
-                <li key={user.id}>
-                  <div className="avatar" onClick={onClickAvatar} style={{ backgroundImage: `url(${getImg(user.avatar)})` }}></div>
-                  <div className="user-name" onClick={onClickUserName}>
-                    <span>{user.name}</span>
-                    {this.renderStatus(user)}
+                <li key={user.id} onClick={() => this.handleClickContact(user)}>
+                  <div className="avatar" style={{ backgroundImage: `url(${getImg(user.avatar)})` }}></div>
+                  <div className="contact-data">
+                    <div>
+                      <span>{user.name}</span>
+                      {this.renderStatus(user)}
+                      {this.renderIsUserInContactList(user)}
+                    </div>
+                    <div>@{user.login}</div>
                   </div>
                 </li>
               )

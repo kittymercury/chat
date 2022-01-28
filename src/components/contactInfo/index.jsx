@@ -43,21 +43,30 @@ export default class ContactInfo extends React.Component {
     }
   }
 
-  handleClickAddToContacts = (user) => {
-    this.props.updateCurrentUser(this.props.currentUser.contacts.concat(user.id));
+  handleClickAddToContacts = async (user) => {
+    const contacts = [ ...this.props.currentUser.contacts, user.id ];
+    const data = await ActionHelpers.updateCurrentUser({
+      id: this.props.currentUser.id,
+      contacts
+    });
+    this.props.updateCurrentUser(data);
   }
 
   handleClickRemoveContact = (user) => {
     this.props.openPopup({
-      message: `Do you want to remove ${this.state.user.name} from your Contacts?`,
+      message: `Do you want to remove ${user.name} from your Contacts?`,
       type: 'confirm',
       callback: () => this.handleConfirmRemoveContact(user)
     });
   }
 
-  handleConfirmRemoveContact = (user) => {
+  handleConfirmRemoveContact = async (user) => {
     const contacts = this.props.currentUser.contacts.filter((id) => id !== user.id);
-    this.props.handleSubmitUser({ contacts });
+    const data = await ActionHelpers.updateCurrentUser({
+      id: this.props.currentUser.id,
+      contacts
+    });
+    this.props.updateCurrentUser(data);
   }
 
   render () {

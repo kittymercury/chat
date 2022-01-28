@@ -6,16 +6,36 @@
   align-items: center;
 
   .navbar-item {
-    text-align: center;
+    height: 100%;
+    padding: 0;
 
-    .icon i {
-      font-size: 20px;
-    }
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-    .number-of-unseen-messages {
-      position: absolute;
-      top: 5%;
-      right: 25%;
+    .icon {
+      height: 100%;
+      width: 5rem;
+      position: relative;
+
+      i {
+        font-size: 1.5rem;
+      }
+
+      .number-of-unseen-messages {
+        position: absolute;
+        top: 10%;
+        right: 5%;
+        background: red;
+        width: 1.2rem;
+        height: 1.2rem;
+        border-radius: 1.2rem;
+        color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 0.7rem;
+      }
     }
   }
 }

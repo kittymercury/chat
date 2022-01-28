@@ -8,6 +8,7 @@ import * as ActionCreators from '../actions/actionCreators';
 const mapStateToProps = (state) => {
   return {
     search: state.search,
+    location: state.location,
   }
 }
 
@@ -15,6 +16,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     changeSearchValue: bindActionCreators(ActionCreators.changeSearchValue, dispatch),
     closeSearch: bindActionCreators(ActionCreators.closeSearch, dispatch),
+    searchUsers: bindActionCreators(ActionCreators.searchUsers, dispatch),
   }
 }
 

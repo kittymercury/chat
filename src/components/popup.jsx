@@ -10,7 +10,6 @@ const StyledModal = styled(Modal)`
 
   .modal-card {
     max-width: 70%;
-    min-height: 30%;
     border-radius: 10px;
     z-index: 100;
 
@@ -18,13 +17,16 @@ const StyledModal = styled(Modal)`
       text-align: center;
       font-size: 20px;
       font-weight: bold;
+      padding: 1rem 0.5rem;
+      flex-grow: 0;
     }
 
     footer.modal-card-foot {
       justify-content: space-evenly;
+      padding: 0.7rem;
 
       button.button {
-        font-size: 1.2rem;
+        font-size: 1rem;
         font-weight: bold;
       }
     }

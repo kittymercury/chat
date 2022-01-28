@@ -1,8 +1,17 @@
 import * as Types from '../../actions/types';
 import initialState from '../initialState';
 
+import * as Constants from '../../constants';
+
 export default (state = initialState.pages.profile, action) => {
   switch (action.type) {
+    case Types.GET_CURRENT_USER_DATA:
+      return {
+        ...state,
+        name: action.payload.name,
+        login: action.payload.login,
+        avatar: action.payload.avatar,
+      }
     case Types.CHANGE_INPUT_VALUE:
       if (action.payload.page === 'profile') {
         if (action.payload.type === 'name') {
@@ -11,11 +20,11 @@ export default (state = initialState.pages.profile, action) => {
         if (action.payload.type === 'avatar') {
           return { ...state, avatar: action.payload.value }
         }
-        // if (action.payload.type === 'login') {
-        //   if (action.payload.value === '' || Constants.ALLOWED_SYMBOLS.test(action.payload.value)) {
-        //     return { ...state, login: action.payload.value };
-        //   }
-        // }
+        if (action.payload.type === 'login') {
+          if (action.payload.value === '' || Constants.ALLOWED_SYMBOLS.test(action.payload.value)) {
+            return { ...state, login: action.payload.value };
+          }
+        }
       };
     case Types.CHANGE_HELP_MESSAGE:
       return {

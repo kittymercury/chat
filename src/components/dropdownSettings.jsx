@@ -23,6 +23,7 @@ export default class DropdownSettings extends React.Component {
     // localStorage.removeItem('user');
     browserHistory.push('/authentication');
   }
+
   //
   // getAvatar = () => {
   //   if (this.state.avatar && (typeof this.state.avatar === 'object')) {

@@ -91,7 +91,12 @@ export default class Chats extends React.Component {
 
     if (chatMessagesUnseen.length) {
       return (
-        <div className="number-of-unseen-msgs">+{chatMessagesUnseen.length}</div>
+        <span className="number-of-unseen-msgs">
+          {chatMessagesUnseen.length <= 10
+            ? chatMessagesUnseen.length
+            : '10+'
+          }
+        </span>
       )
     }
   }
@@ -125,12 +130,12 @@ export default class Chats extends React.Component {
             <div className="name">
               <span>{user.name || DELETED_USERNAME}</span>
               {this.renderStatus(user)}
-              {this.renderNumberOfUnseenMessages(chat.id)}
             </div>
             <span className="time">{message ? formatDate(message.created_at) : ''}</span>
           </div>
           <div className="text">
             {this.renderMessagePreview(message)}
+            {this.renderNumberOfUnseenMessages(chat.id)}
           </div>
         </div>
       </li>
