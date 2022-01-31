@@ -8,7 +8,7 @@ import { formatDate, getImg } from '../../helpers';
 import { DELETED_USERNAME, CURRENT_TIMESTAMP } from '../../constants';
 import './styles.scss';
 
-import { StyledLi, StyledCloud } from './styles.js';
+import { StyledLi, StyledMessageOptions, StyledOverlay } from './styles.js';
 
 export default class Messages extends React.Component {
   componentDidMount = async () => {
@@ -94,8 +94,17 @@ export default class Messages extends React.Component {
 
   handleClickMessage = async (message) => {
     const { isSelectMode, selectedMessages } = this.props.settings;
+    console.log({prps: this.props.page});
 
-    if (!isSelectMode) this.props.clickMessage(message.id);
+    if (!isSelectMode) {
+      let currentMessage = document.getElementById(`m-${message.id}`);
+      if (!currentMessage) return;
+      let bounding = currentMessage.getBoundingClientRect();
+      // console.log(currentMessage);
+      console.log({bounding, message});
+      this.props.clickMessage({ id: message.id, optionsPosition: bounding });
+    }
+
     if (isSelectMode) this.props.selectMessage(message.id);
   }
 
@@ -224,12 +233,13 @@ export default class Messages extends React.Component {
     this.props.updateRecords('messages', data.message, this.props);
   }
 
-  renderEditMessageFeatures = (id) => {
+  renderMessageOptions = (id) => {
     const { currentUser } = this.props;
-    const { messageWithFeatures } = this.props.page;
+    const { messageWithFeatures, optionsPosition } = this.props.page;
     const { messages } = this.props.records;
     const { isSelectMode } = this.props.settings;
 
+    if (!messageWithFeatures) return null;
     if (isSelectMode) return null;
 
     if (messageWithFeatures === id) {
@@ -237,14 +247,21 @@ export default class Messages extends React.Component {
       const isMsgMine = message.user === currentUser.id;
 
       return (
-        <Button.Group hasAddons="true" size="medium">
-          <Button onClick={() => this.props.reply(message)}>Reply</Button>
-          <Button onClick={() => this.handleClickForward(message)}>Forward</Button>
-          <Button onClick={() => this.handleClickDeleteMessage(message)}>Delete</Button>
-          {(isMsgMine && !message.forward_to) && (
-            <Button onClick={() => this.handleClickEditMessage(message)}>Edit</Button>
-          )}
-        </Button.Group>
+        <StyledMessageOptions mine={isMsgMine.toString()}
+          position={optionsPosition.bottom}
+          margin={optionsPosition.height}
+          forwarded={message.forward_to}
+        >
+        {/* <StyledMessageOptions mine={isMsgMine.toString()} bottom={bounding}> */}
+          <Button.Group hasAddons="true" size="medium">
+            <Button onClick={() => this.props.reply(message)}>Reply</Button>
+            <Button onClick={() => this.handleClickForward(message)}>Forward</Button>
+            <Button onClick={() => this.handleClickDeleteMessage(message)}>Delete</Button>
+            {(isMsgMine && !message.forward_to) && (
+              <Button onClick={() => this.handleClickEditMessage(message)}>Edit</Button>
+            )}
+          </Button.Group>
+        </StyledMessageOptions>
       )
     }
   }
@@ -434,11 +451,12 @@ export default class Messages extends React.Component {
   // }
 
   render () {
-    console.log({p: this.props.records.themes});
     const { users, chats, messages } = this.props.records;
     const {
       messageToEdit,
-      messageToReply
+      messageToReply,
+      messageWithFeatures,
+      optionsPosition
     } = this.props.page;
 
     const {
@@ -469,6 +487,7 @@ export default class Messages extends React.Component {
         fullhd={{ display: 'contents' }}
         breakpoint="fullhd"
       >
+        <StyledOverlay show={messageWithFeatures} onClick={() => this.props.clickMessage(messageWithFeatures)}></StyledOverlay>
         <ul id="messages-list">
           {foundMessages.map((message) => {
             let className = "message-data-content";
@@ -481,9 +500,18 @@ export default class Messages extends React.Component {
               : users.find((user) => user.id === message.user) || {};
             const isCurrentUsersMessage = message.user === currentUser.id;
             const isSelected = selectedMessages.includes(message.id);
+            const isOptionsVisible = messageWithFeatures === message.id;
 
             return (
-              <StyledLi key={message.id} theme={theme} selected={isSelected} user={isCurrentUsersMessage ? 'me' : 'other'} id={`m-${message.id}`}>
+              <StyledLi
+                key={message.id}
+                theme={theme}
+                selected={isSelected}
+                user={isCurrentUsersMessage ? 'me' : 'other'}
+                id={`m-${message.id}`}
+                showOptions={isOptionsVisible}
+                position={messageWithFeatures ? optionsPosition.bottom : ''}
+              >
                 <Block onClick={() => this.handleClickMessage(message)}>
                   {this.renderMessageReply(message)}
                   {this.renderMessageForward(message)}
@@ -496,7 +524,7 @@ export default class Messages extends React.Component {
                     </div>
                   </div>
                 </Block>
-                {this.renderEditMessageFeatures(message.id)}
+                {this.renderMessageOptions(message.id)}
               </StyledLi>
             )
           })}

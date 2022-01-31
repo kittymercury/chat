@@ -53,34 +53,6 @@
   }
 }
 
-.buttons.has-addons {
-  display: flex;
-  align-items: flex-start;
-  flex-direction: column;
-
-  width: 40%;
-
-  .button {
-    height: 2.4rem;
-    margin: 0;
-    font-size: 1rem !important;
-    width: 100%;
-    justify-content: flex-start;
-
-    &:first-child {
-      border-radius: 0;
-      border-top-left-radius: 1em;
-      border-top-right-radius: 1em;
-    }
-
-    &:last-child {
-      border-radius: 0;
-      border-bottom-right-radius: 1em;
-      border-bottom-left-radius: 1em;
-    }
-  }
-}
-
 .messages {
   overflow-x: hidden;
   display: flex;

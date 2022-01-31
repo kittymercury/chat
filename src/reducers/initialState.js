@@ -174,6 +174,7 @@ export default {
       messageWithFeatures: null,
       messageToEdit: null,
       messageToReply: null,
+      optionsPosition: {}
     },
 
     registration: {

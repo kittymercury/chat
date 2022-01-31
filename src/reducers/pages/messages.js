@@ -8,10 +8,14 @@ export default (state = initialState.pages.messages, action) => {
     case MessagesTypes.TURN_ON_SELECT_MODE:
       return { ...state, messageWithFeatures: null }
     case MessagesTypes.CLICK_MESSAGE: // behavior depends on mode (select or not)
-      if (state.messageWithFeatures === action.payload) {
+      if (state.messageWithFeatures === action.payload.id) {
         return { ...state, messageWithFeatures: null }
       } else {
-        return { ...state, messageWithFeatures: action.payload }
+        return {
+          ...state,
+          messageWithFeatures: action.payload.id,
+          optionsPosition: action.payload.optionsPosition
+        }
       }; // continue for select mode
     case MessagesTypes.REPLY:
       return { ...state, messageToReply: action.payload, messageWithFeatures: null };

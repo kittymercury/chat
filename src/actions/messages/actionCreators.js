@@ -12,8 +12,8 @@ export const turnOffSelectMode = () => {
   return { type: Types.TURN_OFF_SELECT_MODE }
 }
 
-export const clickMessage = (id) => {
-  return { type: Types.CLICK_MESSAGE, payload: id }
+export const clickMessage = (payload) => {
+  return { type: Types.CLICK_MESSAGE, payload }
 }
 
 export const reply = (message) => {

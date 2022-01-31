@@ -10,7 +10,7 @@ import Footer from './containers/footer';
 import Popup from './containers/popup';
 import Search from './containers/search';
 
-// TODO: fix input search in contacts
+// TODO: continue styles for messageOptions
 
 // TODO: handle click save profile changes triggers input login
 // and logic should check if login is unique among all users
