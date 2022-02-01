@@ -4,6 +4,21 @@
   font-size: 1.2rem;
 }
 
+.contacts .message {
+  background-color: #111114;
+  border-radius: 4px;
+  margin: 1rem;
+
+  .message-body {
+    border-color: #48a5a4;
+    border-radius: 4px;
+    border-style: solid;
+    border-width: 0 0 0 4px;
+    color: #cdcdcd;
+    padding: 1.25em 1.5em;
+  }
+}
+
 .container.contacts  ul li {
   .contact-data {
     margin-left: 12px;

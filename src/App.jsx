@@ -10,14 +10,14 @@ import Footer from './containers/footer';
 import Popup from './containers/popup';
 import Search from './containers/search';
 
-// TODO: continue styles for messageOptions
 
 // TODO: handle click save profile changes triggers input login
 // and logic should check if login is unique among all users
 
 // TODO: pass themes values to messages component and catch them in styles.js
 
-// TODO: check how to refactor api CRUD records in actions/records
+// TODO: is it ok to refactor all create, update, delete actions records with sending only data there
+// it would be nice 
 
 // active navbar-item footer has different highlight color according to theme
 // ^ the same with message cloud

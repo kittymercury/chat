@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import api from '../api';
 import noAvatar from '../images/no-avatar.png';
 import ShowPasswordCheckbox from './common/show-password-checkbox';
+import * as ActionHelpers from '../actions/helpers';
 
 const StyledButton = styled(Button)`
   background: none;
@@ -28,6 +29,23 @@ const StyledButton = styled(Button)`
 `;
 
 export default class Registration extends React.Component {
+  handleClickSignUp = async () => {
+    const { name, login, password } = this.props.registration;
+    const data = await api('sign_up', { name, login, password });
+    alert(data);
+
+    if (data.user) {
+      this.props.signUp(data.user);
+      const recordsData = await ActionHelpers.getRecords(data.user);
+      this.props.init(recordsData);
+      browserHistory.push('/settings');
+    }
+
+    if (data.error) {
+      this.props.openPopup({ message: data.error.description })
+    };
+
+  }
   // handleClickSignUp = async () => {
   //   const { login = '', password = '', name = '' } = this.state;
   //   const errors = [];
@@ -56,14 +74,6 @@ export default class Registration extends React.Component {
   //     password: this.state.password
   //   });
   //
-  //   if (data.user) {
-  //     const usersData = await api('get_users');
-  //
-  //     this.props.app.setState({ currentUser: data.user, users: usersData.users });
-  //
-  //     localStorage.setItem('user', JSON.stringify(data.user));
-  //     browserHistory.push('/settings');
-  //   }
   //
   //   if (data.error) {
   //     this.props.app.handleOpenPopUp({
@@ -71,15 +81,6 @@ export default class Registration extends React.Component {
   //     });
   //   }
   // }
-  //
-  // handleChangeLogin = (e) => {
-  //   const allowedSymbols = /^[0-9a-z]+$/;
-  //
-  //   if (e.target.value === '' || allowedSymbols.test(e.target.value)) {
-  //     this.setState({ login: e.target.value });
-  //   }
-  // }
-
 
   changeInputValue = (type) => (e) => {
     this.props.changeInputValue({ type, page: 'registration', value: e.target.value });
@@ -96,7 +97,8 @@ export default class Registration extends React.Component {
   }
 
   render () {
-    const { name, login, password, isPasswordVisible } = this.props;
+    const { name, login, password, isPasswordVisible } = this.props.registration;
+    console.log({name, login, password});
 
     return (
       <Container className="registration">
@@ -109,64 +111,62 @@ export default class Registration extends React.Component {
           <Heading>Registration</Heading>
         </Block>
         <Section style={{ padding: '1.5rem 2.5rem' }} >
-          <form>
-            <Form.Field>
-              <Form.Label>Username</Form.Label>
-              <Form.Control>
-                <Form.Input
-                  color="success"
-                  type="text"
-                  placeholder="Username"
-                  value={name}
-                  onChange={this.changeInputValue('name')}
-                />
-                <Icon align="left" size="small">
-                  <i className="fas fa-user" />
-                </Icon>
-              </Form.Control>
-            </Form.Field>
-            <Form.Field>
-              <Form.Label>Login</Form.Label>
-              <Form.Control>
-                <Form.Input
-                  color="success"
-                  type="text"
-                  placeholder="Your login"
-                  value={login}
-                  onChange={this.changeInputValue('login')}
-                />
-                <Form.Help color="text">Your login should contain only numbers and letters</Form.Help>
-                <Icon align="left" size="small">
-                  <i className="fas fa-at"></i>
-                </Icon>
-              </Form.Control>
-            </Form.Field>
-            <Form.Field>
-              <Form.Label>Password</Form.Label>
-              <Form.Control>
-                <Form.Input
-                  color="success"
-                  type={isPasswordVisible ? 'text' : 'password'}
-                  placeholder="Password"
-                  value={password}
-                  onChange={this.changeInputValue('password')}
-                />
-                <Icon align="left" size="small">
-                  <i className="fas fa-lock" />
-                </Icon>
-                <Icon align="right" size="small">
-                  {isPasswordVisible
-                    ? <i className="fas fa-eye"></i>
-                    : <i className="fas fa-eye-slash"></i>
-                  }
-                </Icon>
-              </Form.Control>
-            </Form.Field>
-            <ShowPasswordCheckbox
-              onChangeShowPassword={this.changePasswordVisibility}
-            />
-            <Button color="success" onClick={this.handleClickSignUp}>Sign up</Button>
-          </form>
+          <Form.Field>
+            <Form.Label>Username</Form.Label>
+            <Form.Control>
+              <Form.Input
+                color="success"
+                type="text"
+                placeholder="Username"
+                value={name}
+                onChange={this.changeInputValue('name')}
+              />
+              <Icon align="left" size="small">
+                <i className="fas fa-user" />
+              </Icon>
+            </Form.Control>
+          </Form.Field>
+          <Form.Field>
+            <Form.Label>Login</Form.Label>
+            <Form.Control>
+              <Form.Input
+                color="success"
+                type="text"
+                placeholder="Your login"
+                value={login}
+                onChange={this.changeInputValue('login')}
+              />
+              <Form.Help color="text">Your login should contain only numbers and letters</Form.Help>
+              <Icon align="left" size="small">
+                <i className="fas fa-at"></i>
+              </Icon>
+            </Form.Control>
+          </Form.Field>
+          <Form.Field>
+            <Form.Label>Password</Form.Label>
+            <Form.Control>
+              <Form.Input
+                color="success"
+                type={isPasswordVisible ? 'text' : 'password'}
+                placeholder="Password"
+                value={password}
+                onChange={this.changeInputValue('password')}
+              />
+              <Icon align="left" size="small">
+                <i className="fas fa-lock" />
+              </Icon>
+              <Icon align="right" size="small">
+                {isPasswordVisible
+                  ? <i className="fas fa-eye"></i>
+                  : <i className="fas fa-eye-slash"></i>
+                }
+              </Icon>
+            </Form.Control>
+          </Form.Field>
+          <ShowPasswordCheckbox
+            onChangeShowPassword={this.changePasswordVisibility}
+          />
+          <Button color="success" onClick={this.handleClickSignUp}>Sign up</Button>
         </Section>
       </Container>
     )

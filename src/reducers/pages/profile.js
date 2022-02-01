@@ -34,6 +34,30 @@ export default (state = initialState.pages.profile, action) => {
           message: action.payload.message
         }
       };
+    case Types.CHANGE_ERROR_MESSAGE:
+      return {
+        ...state,
+        errors: {
+          ...state.errors,
+          [action.payload.type]: { color: action.payload.color, text: action.payload.text }
+        }
+      };
+    case Types.CLEAR_ERROR_MESSAGE:
+      return {
+        ...state,
+        errors: {
+          ...state.errors,
+          [action.payload.type]: { color: 'none', text: ' ' }
+        }
+      };
+    case Types.CLEAR_HELP_MESSAGE:
+      return {
+        ...state,
+        helpMessage: {
+          color: '',
+          message: ''
+        }
+      };
     case Types.OPEN_AVATAR_MENU:
       return { ...state, isAvatarMenuVisible: true };
     case Types.CLOSE_AVATAR_MENU:

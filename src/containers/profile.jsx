@@ -14,15 +14,17 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = (dispatch) => {
-  console.log(ActionCreators.changeHelpMessage);
   return {
     openPopup: bindActionCreators(ActionCreators.openPopup, dispatch),
     updateCurrentUser: bindActionCreators(ActionCreators.updateCurrentUser, dispatch),
     changeInputValue: bindActionCreators(ActionCreators.changeInputValue, dispatch),
     changeHelpMessage: bindActionCreators(ActionCreators.changeHelpMessage, dispatch),
+    clearHelpMessage: bindActionCreators(ActionCreators.clearHelpMessage, dispatch),
     openAvatarMenu: bindActionCreators(ActionCreators.openAvatarMenu, dispatch),
     closeAvatarMenu: bindActionCreators(ActionCreators.closeAvatarMenu, dispatch),
     getCurrentUserData: bindActionCreators(ActionCreators.getCurrentUserData, dispatch),
+    clearErrorMessage: bindActionCreators(ActionCreators.clearErrorMessage, dispatch),
+    changeErrorMessage: bindActionCreators(ActionCreators.changeErrorMessage, dispatch),
   }
 }
 

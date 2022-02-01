@@ -1,13 +1,15 @@
 import * as CommonTypes from '../actions/types';
 import * as MessagesTypes from '../actions/messages/types';
 import * as LoginTypes from '../actions/login/types';
+import * as RegistrationTypes from '../actions/registration/types';
 import initialState from './initialState';
 
 export default (state = initialState.header, action) => {
   switch (action.type) {
-    case LoginTypes.LOGIN: {
+    case LoginTypes.LOGIN:
+    case RegistrationTypes.SIGN_UP:
       return { ...state, visible: true };
-    }
+
     case MessagesTypes.TURN_ON_SELECT_MODE:
       return {
         ...state,

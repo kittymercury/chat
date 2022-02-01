@@ -1,5 +1,13 @@
 import * as Types from './types';
 
+export const changeErrorMessage = (payload) => {
+  return { type: Types.CHANGE_ERROR_MESSAGE, payload }
+}
+
+export const clearErrorMessage = (type) => {
+  return { type: Types.SEARCH_USERS, payload: type }
+}
+
 export const searchUsers = (payload) => {
   return { type: Types.SEARCH_USERS, payload }
 }
@@ -39,6 +47,10 @@ export const closeAvatarMenu = () => {
 
 export const changeHelpMessage = (payload) => {
   return { type: Types.CHANGE_HELP_MESSAGE, payload }
+}
+
+export const clearHelpMessage = () => {
+  return { type: Types.CLEAR_HELP_MESSAGE }
 }
 
 //

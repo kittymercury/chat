@@ -7,14 +7,18 @@ import * as CommonActionCreators from '../actions/actionCreators';
 import * as RegistrationActionCreators from '../actions/registration/actionCreators';
 
 const mapStateToProps = (state) => {
-  return state.pages.registration;
+  return {
+    registration: state.pages.registration
+  }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
     changeInputValue: bindActionCreators(CommonActionCreators.changeInputValue, dispatch),
+    init: bindActionCreators(CommonActionCreators.init, dispatch),
     changePasswordVisibility: bindActionCreators(CommonActionCreators.changePasswordVisibility, dispatch),
     backToLoginPage: bindActionCreators(RegistrationActionCreators.backToLoginPage, dispatch),
+    signUp: bindActionCreators(RegistrationActionCreators.signUp, dispatch),
   }
 }
 

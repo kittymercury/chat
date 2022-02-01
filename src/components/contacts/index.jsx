@@ -1,6 +1,6 @@
 import React from 'react';
 import { browserHistory } from 'react-router';
-import { Container, Notification } from 'react-bulma-components';
+import { Container, Notification, Message  } from 'react-bulma-components';
 import lodash from 'lodash';
 
 import api from '../../api';
@@ -38,9 +38,7 @@ export default class Contacts extends React.Component {
 
   render () {
     const { currentUser, search, foundUser, records } = this.props;
-    const contacts = records.users.filter((user) => {
-      return currentUser.contacts.includes(user.id);
-    });
+    const contacts = _.filter(records.users, user => currentUser.contacts.includes(user.id));
 
     let users = [];
     if (!search.visible) {
@@ -69,7 +67,7 @@ export default class Contacts extends React.Component {
       }
     }
 
-    const filteredUsers = users.filter((user) => user.id !== currentUser.id);
+    const filteredUsers = _.filter(users, user => user.id !== currentUser.id);
 
     return (
         <Container
@@ -95,6 +93,11 @@ export default class Contacts extends React.Component {
               )
             })}
           </ul>
+          {(!filteredUsers.length && !search.visible) && (
+            <Message size="medium">
+              <Message.Body>Your contact list is empty. Tap on search icon in the left top corner and find your friends</Message.Body>
+            </Message>
+          )}
         </Container>
     )
   }

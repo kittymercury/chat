@@ -1,6 +1,7 @@
 import React from 'react';
 import { browserHistory } from 'react-router';
-import { Container, Section, Block, Button, Heading, Hero } from 'react-bulma-components';
+import { Container, Section, Block, Button, Heading } from 'react-bulma-components';
+import lodash from 'lodash';
 
 import * as ActionHelpers from '../../actions/helpers';
 import api from '../../api';
@@ -17,18 +18,14 @@ export default class ContactInfo extends React.Component {
 
   handleClickOpenChat = async (user) => {
     const { chats } = this.props.records;
-    const chat = chats.find((chat) => chat.participants.includes(user.id));
+    const chat = _.find(chats, chat => chat.participants.includes(user.id));
 
-    if (chat) {
-      browserHistory.push(`/messages/${chat.id}`)
-    }
+    if (chat) browserHistory.push(`/messages/${chat.id}`);
 
     if (!chat) {
       const { currentUser } = this.props;
-      const newChat = {
-        participants: [ currentUser.id, user.id ]
-      }
-      const data = await api('create_chat', newChat);
+      const newChat = { participants: [ currentUser.id, user.id ]};
+      const data = await ActionHelpers.createRecords('chats', newChat);
 
       if (data.chat) {
         this.props.createRecords('chats', data.chat, this.props)

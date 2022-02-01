@@ -43,6 +43,28 @@ export default styled.div`
     }
   }
 
+  .search-wrapper {
+    background: ${themeProp('mainBackground')};
+
+    input {
+      background: ${themeProp('searchBackground')};
+      color: ${themeProp('mainTextColor')};
+    }
+
+    .cancel-searching {
+      color: ${themeProp('mainTextColor')};
+    }
+  }
+
+  article.message {
+    background: ${themeProp('wrapperBackground')};
+
+    .message-body {
+      border-color: ${themeProp('footerIconColor')};
+      color: ${themeProp('mainTextColor')};
+    }
+  }
+
   //-----------------------------------------
   // Navbars
   //-----------------------------------------
@@ -172,7 +194,7 @@ export default styled.div`
 
   .container.profile {
     .section button.button {
-      background: ${themeProp('buttonBackground')};
+      border: 3px solid ${themeProp('buttonBackground')};
       color: ${themeProp('mainTextColor')};
     }
   }

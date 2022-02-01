@@ -45,6 +45,7 @@ export default {
         containerMessagesBackground: '#141519',
         inputButtonBackground: '#00c4a7',
         buttonBackground: '#18917f',
+        searchBackground: '#14151a',
       },
       {
         name: 'purple',
@@ -75,6 +76,7 @@ export default {
         modalMainFooterBorderTop: '1px solid #595966',
         containerMessagesBackground: '#141519',
         inputButtonBackground: '#f23333',
+        searchBackground: '#14151a',
       },
       {
         name: 'light',
@@ -105,6 +107,7 @@ export default {
         modalMainFooterBorderTop: '1px solid #595966',
         containerMessagesBackground: '#141519',
         inputButtonBackground: '#f23333',
+        searchBackground: '#14151a',
       },
     ],
   },
@@ -122,7 +125,8 @@ export default {
 
   search: {
     visible: false,
-    value: ''
+    value: '',
+    placeholder: ''
   },
 
   header: {
@@ -160,6 +164,10 @@ export default {
       helpMessage: {
         color: '',
         message: ''
+      },
+      errors: {
+        name: { color: '', text: '' },
+        login: { color: '', text: '' },
       }
     },
 

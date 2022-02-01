@@ -94,14 +94,11 @@ export default class Messages extends React.Component {
 
   handleClickMessage = async (message) => {
     const { isSelectMode, selectedMessages } = this.props.settings;
-    console.log({prps: this.props.page});
 
     if (!isSelectMode) {
       let currentMessage = document.getElementById(`m-${message.id}`);
       if (!currentMessage) return;
       let bounding = currentMessage.getBoundingClientRect();
-      // console.log(currentMessage);
-      console.log({bounding, message});
       this.props.clickMessage({ id: message.id, optionsPosition: bounding });
     }
 
@@ -217,6 +214,7 @@ export default class Messages extends React.Component {
     }
 
     const data = await ActionHelpers.createRecords('message', newMessage);
+    console.log({data});
     this.props.createRecords('messages', data.message, this.props);
   }
 

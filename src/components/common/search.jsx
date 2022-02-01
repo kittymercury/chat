@@ -22,7 +22,7 @@ export default class InputSearch extends React.Component {
   }
 
   render () {
-    const { value, visible } = this.props.search;
+    const { value, visible, placeholder } = this.props.search;
     if (!visible) return null;
 
     return (
@@ -33,7 +33,7 @@ export default class InputSearch extends React.Component {
               autoFocus
               className="search"
               type="text"
-              placeholder="Search"
+              placeholder={placeholder}
               value={value}
               onChange={this.handleChangeSearch}
             />

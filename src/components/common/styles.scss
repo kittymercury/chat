@@ -1,5 +1,5 @@
 .search-wrapper {
-  background-color: var(--content-bg);
+  padding: 0.7rem 1rem;
 
   position: fixed;
   z-index: 1;
@@ -19,15 +19,12 @@
     .fas {
       font-size: 15px;
       margin-right: 5px;
-      color: var(--gray-txt);
     }
 
     input {
       width: 100%;
-      background-color: inherit;
-      // background-color: var(--base-bg);
       border: none;
-      font-size: var(--input-txt);
+      font-size: 1rem;
       color: white;
 
       &:focus, &:active {
@@ -37,9 +34,7 @@
   }
 
   .cancel-searching {
-    height: var(--header-footer-height);
-    margin-right: 10px;
-    font-size: var(--header-btn);
+    margin-left: 1rem;
     font-weight: bold;
     cursor: pointer;
     color: white;

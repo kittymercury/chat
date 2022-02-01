@@ -46,6 +46,15 @@ body {
   }
 }
 
+article.message {
+  margin: 1rem;
+
+  .message-body {
+    padding: 1.25em 1.5em;
+    border-width: 0 0 0 1px;
+  }
+}
+
 .container.login,
 .container.registration {
   display: flex;

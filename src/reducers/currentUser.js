@@ -1,10 +1,13 @@
 import * as LoginTypes from '../actions/login/types';
+import * as RegistrationTypes from '../actions/registration/types';
 import * as CommonTypes from '../actions/types';
 import initialState from './initialState';
 
 export default (state = initialState.currentUser, action) => {
   switch (action.type) {
     case LoginTypes.LOGIN:
+      return action.payload;
+    case RegistrationTypes.SIGN_UP:
       return action.payload;
     case CommonTypes.UPDATE_CURRENT_USER:
       if (!action.payload.error) {

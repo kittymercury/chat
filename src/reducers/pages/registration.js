@@ -6,6 +6,8 @@ import * as Constants from '../../constants';
 
 export default (state = initialState.pages.registration, action) => {
   switch (action.type) {
+    case RegistrationTypes.SIGN_UP:
+      return { ...state, inputType: 'password', login: '', password: '', name: '' };
     case CommonTypes.CHANGE_INPUT_VALUE:
       if (action.payload.page === 'registration') {
         if (action.payload.type === 'login') {

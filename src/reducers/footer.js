@@ -7,7 +7,7 @@ export default (state = initialState.footer, action) => {
       const pathname = action.payload.pathname;
       const page = pathname.split('/')[1];
 
-      if (([ 'authentication', 'registration', 'messages' ]).includes(page)) {
+      if (([ 'authentication', 'registration', 'messages', 'profile' ]).includes(page)) {
         return { visible: false };
       } else {
         return { visible: true };

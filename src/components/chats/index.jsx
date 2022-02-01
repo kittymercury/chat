@@ -1,11 +1,12 @@
 import React from 'react';
 import lodash from 'lodash';
 import { browserHistory } from 'react-router';
-import { Container } from 'react-bulma-components';
+import { Container, Message } from 'react-bulma-components';
 
 import api from '../../api';
 import { getImg, formatDate } from '../../helpers';
 import { DELETED_USERNAME } from '../../constants';
+import * as ActionHelpers from '../../actions/helpers';
 
 import './styles.scss';
 
@@ -35,7 +36,7 @@ export default class Chats extends React.Component {
 
   forwardMessages = async (message, chat) => {
     const { currentUser } = this.props;
-    const messages = this.props.records.messages;
+    const { messages } = this.props.records;
 
     if (message) {
       const msg = {
@@ -44,7 +45,8 @@ export default class Chats extends React.Component {
         forward_to: message.id
       };
 
-      const data = await api('create_message', msg);
+      // const data = await api('create_message', msg);
+      const data = await ActionHelpers.createRecords('messages', msg);
 
       if (data.error) {
         this.props.openPopup({
@@ -247,7 +249,11 @@ export default class Chats extends React.Component {
               </ul>
             </div>
           )
-          : ''
+          : (
+            <Message size="medium">
+              <Message.Body>No chats</Message.Body>
+            </Message>
+          )
         }
       </Container>
     )

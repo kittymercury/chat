@@ -6,6 +6,8 @@ export const createRecords = (model, record) => {
   switch (model) {
     case 'message':
       return api('create_message', record);
+    case 'chat':
+      return api('create_chat', record);
   }
 }
 
