@@ -1,0 +1,57 @@
+version: "2.2"
+
+services:
+  database:
+    build:
+      context: ./database
+      dockerfile: Dockerfile
+    image: chat/database
+    container_name: database
+    depends_on:
+      - postgres
+    volumes:
+      - ./database:/src/chat/database
+      - database_node_modules:/src/chat/database/node_modules
+    env_file:
+      - database/.env
+
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    image: chat/server
+    container_name: server
+    depends_on:
+      - database
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./server:/src/chat/server
+      - server_node_modules:/src/chat/server/node_modules
+    command: yarn run dev
+    env_file:
+      - server/.env
+
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_USER: postgres
+      POSTGRES_DB: postgres
+
+volumes:
+  database_node_modules:
+    name: chat-database-nm
+  server_node_modules:
+    name: chat-server-nm
+  postgres_data:
+    name: chat-postgres-data
+
+networks:
+  default:
+    name: chat

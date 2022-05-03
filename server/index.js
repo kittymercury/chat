@@ -1,44 +1,25 @@
-const express = require('express');
+import express from 'express'
 
-const records = require('./records.json');
+import db from './db/index.js'
 
-const app = express();
-const port = 8080;
-
+const app = express()
 
 app.get('/', (req, res) => {
-  res.send('Hello World!')
+  res.send('hi')
 })
 
-app.get('/test', (req, res) => {
-  console.log(req.query)
-  res.send({ text: 'test test test' })
-})
-
-app.get('/records', (req, res) => {
-  console.log(req.query)
-  if (req.query.model) {
-    const result = records[req.query.model];
-
-    if (req.query.id) {
-      const record = result.find((r = {}) => r.id === +req.query.id);
-
-      if (record) {
-        res.send(record);
-      } else {
-        res.send(`${req.query.model} not found`)
-      }
-      console.log({record});
-
-      res.send(record);
-    } else {
-      res.send(result);
-    }
-  } else {
-    res.send(records);
+app.get('/api', (req, res) => {
+  const action = req.query.action
+  console.log(action)
+  res.send('dd')
+  if (action === 'get_users') {
+  //   const model = await p.getModel('tgc_user');
+  //   const users = await model.find({ ...payload, deleted: false }).raw();
+  
+  //   return p.response.json({ users });
   }
 })
 
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
+app.listen(8080, () => {
+  console.log('server started on port 8080')
 })
