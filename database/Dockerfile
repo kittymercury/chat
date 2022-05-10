@@ -1,5 +1,5 @@
 FROM node:lts-alpine
-WORKDIR /src/tis/database
+WORKDIR /src/chat/database
 
 COPY . ./
 RUN yarn install

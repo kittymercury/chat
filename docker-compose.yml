@@ -12,6 +12,7 @@ services:
     volumes:
       - ./database:/src/chat/database
       - database_node_modules:/src/chat/database/node_modules
+    command: yarn run dev
     env_file:
       - database/.env
 

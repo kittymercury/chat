@@ -1,0 +1,4 @@
+1. how to handle updated_at column
+2. users.contacts. what type of data? is it better to create separated table?
+3. how to write seeds properly
+4. action === typing

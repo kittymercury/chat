@@ -16,7 +16,9 @@ async function setup() {
   }
 
   await Connections.custom.migrate.latest()
+  console.log('migrated')
   await Connections.custom.seed.run()
+  console.log('seeded')
 }
 
 setup()
